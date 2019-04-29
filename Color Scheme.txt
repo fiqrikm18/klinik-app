@@ -1,0 +1,3 @@
+Gray #303030
+Light Gray #BABABA
+side panel #F4F6F9
