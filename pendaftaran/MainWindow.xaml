@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:pendaftaran"
         mc:Ignorable="d"
-        Title="Klinik Bunda Mulya" Height="600" Width="1200" WindowStartupLocation="CenterScreen" Icon="images/BMicon.ico">
+        Title="Klinik Bunda Mulya" Height="700" Width="1200" WindowStartupLocation="CenterScreen" Icon="images/BMicon.ico">
     <Window.Resources>
         <Style x:Key="MyFocusVisual">
             <Setter Property="Control.Template">
@@ -29,7 +29,7 @@
             <Setter Property="Margin" Value="2"/>
             <Setter Property="FontSize" Value="12px"/>
             <Setter Property="FocusVisualStyle" Value="{StaticResource MyFocusVisual}" />
-            <Setter Property="Background" Value="#F4F6F9" />
+            <Setter Property="Background" Value="#f0f0f0" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -72,7 +72,7 @@
             </Setter>
         </Style>
     </Window.Resources>
-    
+
     <Grid Style="{StaticResource OpenSans}" Background="White">
 
         <Grid Grid.Row="1">
@@ -82,7 +82,7 @@
             </Grid.ColumnDefinitions>
 
             <!-- Menu -->
-            <Grid Grid.Column="0" Background="#F4F6F9">
+            <Grid Grid.Column="0" Background="#f0f0f0">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"></RowDefinition>
@@ -91,13 +91,14 @@
 
                     <Grid Grid.Row="0">
                         <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="15 30 15 10">
-                            <Label Content="Pendaftaran" FontSize="16" Foreground="#303030" FontWeight="Bold"/>
+                            <Label Content="Pendaftaran" FontSize="16" Foreground="#555555" FontWeight="Bold"/>
                         </StackPanel>
                     </Grid>
 
                     <Grid Grid.Row="1">
                         <Grid>
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
                                 <RowDefinition Height="Auto"></RowDefinition>
                                 <RowDefinition Height="Auto"></RowDefinition>
                                 <RowDefinition Height="Auto"></RowDefinition>
@@ -108,9 +109,9 @@
                                     <Button Margin="0 3" HorizontalContentAlignment="Left" Style="{StaticResource SideMenuButton}" Click="daftar_baru">
                                         <StackPanel Orientation="Horizontal" Margin="10 0">
                                             <Canvas VerticalAlignment="Center" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Width="15" Height="15" Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
-                                                <Path Height="15" Width="15" Stretch="Fill" Fill="#303030" Data="F1 M 35,19L 41,19L 41,35L 57,35L 57,41L 41,41L 41,57L 35,57L 35,41L 19,41L 19,35L 35,35L 35,19 Z "/>
+                                                <Path Height="15" Width="15" Stretch="Fill" Fill="#555555" Data="F1 M 35,19L 41,19L 41,35L 57,35L 57,41L 41,41L 41,57L 35,57L 35,41L 19,41L 19,35L 35,35L 35,19 Z "/>
                                             </Canvas>
-                                            <TextBlock VerticalAlignment="Center" Text="Daftar Pasien Baru" Foreground="#303030" Margin="10 0" HorizontalAlignment="Left"/>
+                                            <TextBlock VerticalAlignment="Center" Text="Daftar Pasien Baru" Foreground="#555555" Margin="10 0" HorizontalAlignment="Left"/>
                                         </StackPanel>
                                     </Button>
                                 </StackPanel>
@@ -120,23 +121,36 @@
                                 <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                                     <Button Padding="10" Margin="0 3" HorizontalContentAlignment="Left" Style="{StaticResource SideMenuButton}" Click="daftar_pasien">
                                         <StackPanel Orientation="Horizontal" Margin="10 0">
-                                            <Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Width="15" Height="15" Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
-                                                <Path Width="15" Height="15" Stretch="Fill" Fill="#303030" Data="F1 M 19,23L 27,23L 27,31L 19,31L 19,23 Z M 19,34L 27,34L 27,42L 19,42L 19,34 Z M 31,23L 57,23L 57,31L 31,31L 31,23 Z M 19,45L 27,45L 27,53L 19,53L 19,45 Z M 31,34L 57,34L 57,42L 31,42L 31,34 Z M 31,45L 57,45L 57,53L 31,53L 31,45 Z "/>
+                                            <Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"  Width="15.5597" Height="15.5" Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
+                                                <Path Width="15.5597" Height="15.5" Stretch="Fill" Fill="#555555" Data="F1 M 30.4792,27.3126L 56.6041,27.3126C 57.9158,27.3126 58.9791,27.9801 58.9791,29.2918C 58.9791,30.6034 57.9158,31.2709 56.6041,31.2709L 30.4792,31.2709C 29.1675,31.2709 28.1042,30.6034 28.1042,29.2917C 28.1042,27.98 29.1675,27.3126 30.4792,27.3126 Z M 30.4791,36.8125L 60.9582,36.8126C 62.2699,36.8126 63.3332,37.4801 63.3332,38.7918C 63.3332,40.1035 61.8827,40.6887 60.571,40.6887L 30.092,40.6886C 28.7803,40.6886 28.1041,40.1034 28.1041,38.7917C 28.1041,37.48 29.1675,36.8125 30.4791,36.8125 Z M 30.4792,46.3125L 53.0415,46.3126C 54.3532,46.3126 55.4165,46.9801 55.4165,48.2917C 55.4165,49.6034 54.3532,50.2709 53.0415,50.2709L 30.4792,50.2709C 29.1675,50.2709 28.1042,49.6034 28.1042,48.2917C 28.1042,46.98 29.1675,46.3125 30.4792,46.3125 Z M 16.6122,46.3508L 19.3192,48.7386L 24.1458,42.75L 26.3037,45.1378L 20.2769,52.25L 18.6042,52.25L 14.7735,48.4866L 14.7735,46.3508L 16.6122,46.3508 Z M 16.8293,36.8508L 19.5363,39.2386L 24.3629,33.25L 26.5208,35.6378L 20.494,42.75L 18.8213,42.75L 14.9906,38.9866L 14.9906,36.8508L 16.8293,36.8508 Z M 16.8293,27.3508L 19.5363,29.7385L 24.3629,23.75L 26.5208,26.1378L 20.494,33.25L 18.8213,33.25L 14.9906,29.4866L 14.9906,27.3508L 16.8293,27.3508 Z "/>
                                             </Canvas>
-                                            <TextBlock VerticalAlignment="Center" Text="Daftar Data Pasien" Foreground="#303030" Margin="10 0" HorizontalAlignment="Left"/>
+                                            <TextBlock VerticalAlignment="Center" Text="Daftar Data Pasien" Foreground="#555555" Margin="10 0" HorizontalAlignment="Left"/>
                                         </StackPanel>
                                     </Button>
                                 </StackPanel>
                             </Grid>
 
-                            <Grid Grid.Row="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                                <StackPanel>
+                            <Grid Grid.Row="2">
+                                <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                                     <Button Padding="10" Margin="0 3" HorizontalContentAlignment="Left" Style="{StaticResource SideMenuButton}" Click="daftar_berobat">
                                         <StackPanel Orientation="Horizontal" Margin="10 0">
                                             <Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Width="15" Height="15" Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
-                                                <Path Width="15" Height="15" Stretch="Fill" Fill="#303030" Data="F1 M 19,42L 19,34L 27,34L 27,42L 19,42 Z M 30.9999,42L 30.9999,34L 56.9999,34L 56.9999,42L 30.9999,42 Z M 31,45L 57,45L 57,53L 31,53L 31,45 Z M 32,46L 32,52L 56,52L 56,46L 32,46 Z M 21,44L 25,44L 25,47L 28,47L 28,51L 25,51L 25,54L 21,54L 21,51L 18,51L 18,47L 21,47L 21,44 Z M 22,45L 22,48L 19,48L 19,50L 22,50L 22,53L 24,53L 24,50L 27,50L 27,48L 24,48L 24,45L 22,45 Z M 19.0001,31L 19.0001,23L 27.0001,23L 27.0001,31L 19.0001,31 Z M 31.0001,31L 31.0001,23L 57,23L 57,31L 31.0001,31 Z "/>
+                                                <Path Width="15" Height="15" Stretch="Fill" Fill="#555555" Data="F1 M 19,42L 19,34L 27,34L 27,42L 19,42 Z M 30.9999,42L 30.9999,34L 56.9999,34L 56.9999,42L 30.9999,42 Z M 31,45L 57,45L 57,53L 31,53L 31,45 Z M 32,46L 32,52L 56,52L 56,46L 32,46 Z M 21,44L 25,44L 25,47L 28,47L 28,51L 25,51L 25,54L 21,54L 21,51L 18,51L 18,47L 21,47L 21,44 Z M 22,45L 22,48L 19,48L 19,50L 22,50L 22,53L 24,53L 24,50L 27,50L 27,48L 24,48L 24,45L 22,45 Z M 19.0001,31L 19.0001,23L 27.0001,23L 27.0001,31L 19.0001,31 Z M 31.0001,31L 31.0001,23L 57,23L 57,31L 31.0001,31 Z "/>
                                             </Canvas>
-                                            <TextBlock VerticalAlignment="Center" Text="Daftar Berobat" Foreground="#303030" Margin="10 0" HorizontalAlignment="Left"/>
+                                            <TextBlock VerticalAlignment="Center" Text="Daftar Berobat" Foreground="#555555" Margin="10 0" HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+
+                            <Grid Grid.Row="3">
+                                <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                    <Button Padding="10" Margin="0 3" HorizontalContentAlignment="Left" Style="{StaticResource SideMenuButton}" Click="daftar_berobat">
+                                        <StackPanel Orientation="Horizontal" Margin="10 0">
+                                            <Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Width="15.5597" Height="15.5" Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
+                                                <Path Width="15.5597" Height="15.5" Stretch="Fill" Fill="#555555" Data="F1 M 30.4792,27.3126L 56.6041,27.3126C 57.9158,27.3126 58.9791,27.9801 58.9791,29.2918C 58.9791,30.6034 57.9158,31.2709 56.6041,31.2709L 30.4792,31.2709C 29.1675,31.2709 28.1042,30.6034 28.1042,29.2917C 28.1042,27.98 29.1675,27.3126 30.4792,27.3126 Z M 30.4791,36.8125L 60.9582,36.8126C 62.2699,36.8126 63.3332,37.4801 63.3332,38.7918C 63.3332,40.1035 61.8827,40.6887 60.571,40.6887L 30.092,40.6886C 28.7803,40.6886 28.1041,40.1034 28.1041,38.7917C 28.1041,37.48 29.1675,36.8125 30.4791,36.8125 Z M 30.4792,46.3125L 53.0415,46.3126C 54.3532,46.3126 55.4165,46.9801 55.4165,48.2917C 55.4165,49.6034 54.3532,50.2709 53.0415,50.2709L 30.4792,50.2709C 29.1675,50.2709 28.1042,49.6034 28.1042,48.2917C 28.1042,46.98 29.1675,46.3125 30.4792,46.3125 Z M 16.6122,46.3508L 19.3192,48.7386L 24.1458,42.75L 26.3037,45.1378L 20.2769,52.25L 18.6042,52.25L 14.7735,48.4866L 14.7735,46.3508L 16.6122,46.3508 Z M 16.8293,36.8508L 19.5363,39.2386L 24.3629,33.25L 26.5208,35.6378L 20.494,42.75L 18.8213,42.75L 14.9906,38.9866L 14.9906,36.8508L 16.8293,36.8508 Z M 16.8293,27.3508L 19.5363,29.7385L 24.3629,23.75L 26.5208,26.1378L 20.494,33.25L 18.8213,33.25L 14.9906,29.4866L 14.9906,27.3508L 16.8293,27.3508 Z "/>
+                                            </Canvas>
+                                            <TextBlock VerticalAlignment="Center" Text="Daftar Antrian" Foreground="#555555" Margin="10 0" HorizontalAlignment="Left"/>
                                         </StackPanel>
                                     </Button>
                                 </StackPanel>
@@ -157,6 +171,5 @@
             </Grid>
             <!-- End Content -->
         </Grid>
-
     </Grid>
 </Window>

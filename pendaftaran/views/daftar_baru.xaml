@@ -9,40 +9,89 @@
 
     <Grid Style="{StaticResource OpenSans}">
         <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0">
-            <Label FontSize="16" FontWeight="Bold" Foreground="#303030">Daftar Pasien Baru</Label>
-            <Grid Margin="0 15">
+            <Label FontSize="16" FontWeight="Bold" Foreground="#555555">Daftar Pasien Baru</Label>
+            <Grid>
+                <Grid.CommandBindings>
+                    <CommandBinding Command="New" CanExecute="AddPasien_CanExecute" Executed="AddPasien_Executed"/>
+                </Grid.CommandBindings>
+                
                 <Grid.Resources>
                     <Style TargetType="{x:Type Label}">
-                        <Setter Property="Foreground" Value="#303030"/>
-                        <Setter Property="Padding" Value="0, 15"/>
+                        <Setter Property="Foreground" Value="#555555"/>
+                        <Setter Property="Padding" Value="0 5"/>
+                    </Style>
+
+                    <Style TargetType="{x:Type StackPanel}">
+                        <Setter Property="Margin" Value="1 8"></Setter>
                     </Style>
 
                     <Style TargetType="{x:Type TextBox}">
                         <Setter Property="Margin" Value="0 4"></Setter>
-                        <Setter Property="Width" Value="270"></Setter>
-                        <Setter Property="Padding" Value="0 6"></Setter>
+                        <Setter Property="Width" Value="350"></Setter>
+                        <Setter Property="Background" Value="#F0F0F0"></Setter>
+                        <Setter Property="Padding" Value="10"></Setter>
+                        <Setter Property="Foreground" Value="#555555"></Setter>
                         <Setter Property="HorizontalAlignment" Value="Left"></Setter>
-                        <Setter Property="BorderThickness" Value="0 0 0 1"></Setter>
-                        <Setter Property="BorderBrush" Value="#303030"></Setter>
+                        <Setter Property="BorderThickness" Value="0"></Setter>
+                        <Setter Property="Validation.ErrorTemplate">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <DockPanel LastChildFill="true">
+                                        <Border DockPanel.Dock="Bottom" Margin="5,0,0,0">
+                                            <TextBlock Text="{Binding ElementName=customAdorner, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}" VerticalAlignment="center" HorizontalAlignment="Left" Foreground="#D94452">
+                                            </TextBlock>
+                                        </Border>
+                                        <AdornedElementPlaceholder Name="customAdorner" VerticalAlignment="Center" >
+                                            <Border BorderBrush="#D94452" BorderThickness="0.5" />
+                                        </AdornedElementPlaceholder>
+                                    </DockPanel>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+
+                    <Style TargetType="{x:Type DatePicker}">
+                        <Setter Property="Margin" Value="0 4"></Setter>
+                        <Setter Property="Background" Value="#F0F0F0"></Setter>
+                        <Setter Property="Padding" Value="2"></Setter>
+                        <Setter Property="Foreground" Value="#555555"></Setter>
+                        <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+                        <Setter Property="BorderThickness" Value="{Binding BorderThink}"></Setter>
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                        <Style.Resources>
+                            <Style TargetType="DatePickerTextBox">
+                                <Setter Property="Background" Value="#F0F0F0"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="BorderBrush" Value="#F0F0F0"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                            </Style>
+                            <Border x:Key="BorderThink" BorderThickness="0" BorderBrush="#F0F0F0"></Border>
+                        </Style.Resources>
                     </Style>
 
                     <Style TargetType="{x:Type ComboBox}">
-                        <Setter Property="Width" Value="Auto"></Setter>
+                        <Setter Property="Width" Value="100"></Setter>
+                        <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+                        <Setter Property="BorderThickness" Value="0"></Setter>
+                        <Setter Property="Padding" Value="7"></Setter>
+                        <Setter Property="Margin" Value="0 4"></Setter>
+                        <Setter Property="Foreground" Value="#555555"></Setter>
                         <Setter Property="HorizontalAlignment" Value="Left"></Setter>
                     </Style>
 
                     <Style TargetType="{x:Type Button}">
                         <Setter Property="Margin" Value="0 10 10 0"></Setter>
-                        <Setter Property="Padding" Value="3"></Setter>
+                        <Setter Property="Padding" Value="5"></Setter>
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="Width" Value="100"/>
+                        <Setter Property="Height" Value="30"/>
+                        <Setter Property="Foreground" Value="#555555"></Setter>
                     </Style>
                 </Grid.Resources>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="180"></ColumnDefinition>
-                    <ColumnDefinition Width="280"></ColumnDefinition>
-
-                    <ColumnDefinition Width="100"></ColumnDefinition>
-                    <ColumnDefinition Width="250"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
                 <Grid.RowDefinitions>
@@ -56,37 +105,69 @@
                     <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
 
-                <Label Content="No.Rekam Medis" VerticalAlignment="Center" Grid.Column="0" Grid.Row="0"/>
-                <TextBox x:Name="TxtNoRm" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center"></TextBox>
+                <StackPanel Grid.Column="0" Grid.Row="0">
+                    <Label Content="No.Rekam Medis"/>
+                    <TextBox x:Name="TxtNoRm" MaxLength="10" Validation.Error="Validation_Error" 
+                        Text="{Binding UpdateSourceTrigger=LostFocus,
+                        Path=NoRm, NotifyOnSourceUpdated=True,
+                        ValidatesOnDataErrors=True}" GotKeyboardFocus="TextBoxFocus"></TextBox>
+                </StackPanel>
 
-                <Label Content="No.Identitas (KTP/SIM)" VerticalAlignment="Center" Grid.Column="0" Grid.Row="1"/>
-                <TextBox x:Name="TxtNoIdentitas" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center"></TextBox>
+                <StackPanel Grid.Column="0" Grid.Row="1">
+                    <Label Content="No.Identitas (KTP/SIM/Kartu Pelajar)"/>
+                    <TextBox x:Name="TxtNoIdentitas" MaxLength="20" GotKeyboardFocus="TextBoxFocus"
+                             Text="{Binding UpdateSourceTrigger=LostFocus,
+                        Path=Identitas, NotifyOnSourceUpdated=True,
+                        ValidatesOnDataErrors=True}"></TextBox>
+                </StackPanel>
 
-                <Label Content="Nama Pasien" VerticalAlignment="Center" Grid.Column="0" Grid.Row="2"/>
-                <TextBox x:Name="TxtNamaPasien" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center"></TextBox>
+                <StackPanel Grid.Column="0" Grid.Row="2">
+                    <Label Content="Nama Pasien"/>
+                    <TextBox x:Name="TxtNamaPasien" GotKeyboardFocus="TextBoxFocus"
+                             Text="{Binding UpdateSourceTrigger=LostFocus,
+                        Path=NamaPasien, NotifyOnSourceUpdated=True,
+                        ValidatesOnDataErrors=True}"></TextBox>
+                </StackPanel>
 
-                <Label Content="Tanggal Lahir" VerticalAlignment="Center" Grid.Column="0" Grid.Row="3"/>
-                <DatePicker x:Name="TxtTanggalLahir" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" Width="150" HorizontalAlignment="Left" Margin="0,1"></DatePicker>
+                <StackPanel Grid.Column="0" Grid.Row="3">
+                    <Label Content="No.Telepon"/>
+                    <TextBox x:Name="TxtNoTelp" MaxLength="12" GotKeyboardFocus="TextBoxFocus"
+                             Text="{Binding UpdateSourceTrigger=LostFocus,
+                        Path=NoTelp, NotifyOnSourceUpdated=True,
+                        ValidatesOnDataErrors=True}"></TextBox>
+                </StackPanel>
 
-                <Label Content="Jenis Kelamin" VerticalAlignment="Center" Grid.Column="0" Grid.Row="4"/>
-                <ComboBox x:Name="TxtJenisKelamin" Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" SelectedIndex="0">
-                    <ComboBoxItem Content="Pria"/>
-                    <ComboBoxItem Content="Wanita"/>
-                </ComboBox>
+                <StackPanel Grid.Column="0" Grid.Row="4">
+                    <Label Content="Alamat"/>
+                    <TextBox x:Name="TextAlamat" Height="100" AcceptsReturn="True" TextWrapping="Wrap" GotKeyboardFocus="TextBoxFocus"
+                             Text="{Binding UpdateSourceTrigger=LostFocus,
+                        Path=Alamat, NotifyOnSourceUpdated=True,
+                        ValidatesOnDataErrors=True}"></TextBox>
+                </StackPanel>
 
-                <Label Content="No.Telepon" VerticalAlignment="Center" Grid.Column="0" Grid.Row="5"/>
-                <TextBox x:Name="TxtNoTelp" Grid.Column="1" Grid.Row="5" VerticalAlignment="Center"></TextBox>
+                <StackPanel Grid.Column="1" Grid.Row="0">
+                    <Label Content="Tanggal Lahir"/>
+                    <DatePicker x:Name="dtTanggalLahir" Width="150" HorizontalAlignment="Left" Margin="0,1"/>
+                </StackPanel>
 
-                <Label Content="Alamat" VerticalAlignment="Center" Grid.Column="0" Grid.Row="6"/>
-                <TextBox x:Name="TextAlamat" Grid.Column="1" Grid.Row="6" VerticalAlignment="Center"></TextBox>
+                <StackPanel Grid.Column="1" Grid.Row="1">
+                    <Label Content="Jenis Kelamin"/>
+                    <ComboBox x:Name="cbJenisKelamin" SelectedIndex="0" Background="{x:Null}" BorderBrush="{x:Null}">
+                        <ComboBoxItem Content="Pria"/>
+                        <ComboBoxItem Content="Wanita"/>
+                    </ComboBox>
+                </StackPanel>
 
-                <Label Content="Poliklinik" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="2" Grid.Row="0"/>
-                <ComboBox x:Name="cbPoliklinik" Grid.Column="3" Grid.Row="0" VerticalAlignment="Center" SelectedIndex="0"/>
+                <StackPanel Grid.Column="1" Grid.Row="2">
+                    <Label Content="Poliklinik"/>
+                    <ComboBox x:Name="cbPoliklinik" SelectedIndex="0"/>
+                </StackPanel>
 
-                <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.Column="1" 
-                            HorizontalAlignment="Right" VerticalAlignment="Center">
-                    <Button Content="Daftar"></Button>
-                    <Button Content="Batal"></Button>
+                <StackPanel Grid.Column="0" Grid.Row="6">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <Button x:Name="btnAdd" Content="Daftar" Command="New"></Button>
+                        <Button Content="Batal"></Button>
+                    </StackPanel>
                 </StackPanel>
             </Grid>
         </StackPanel>

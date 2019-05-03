@@ -23,12 +23,12 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left">
-            <TextBlock Text="Data Pasien" FontSize="16" FontWeight="Bold" Foreground="#303030"/>
+            <TextBlock Text="Data Pasien" FontSize="16" FontWeight="Bold" Foreground="#555555"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left">
             <TextBox Width="250" VerticalAlignment="Center" x:Name="TxtSearch" Margin="0,8" Padding="3"/>
-            <Button Content="&#xE11A;" VerticalAlignment="Center" Margin="1,5,10,5" FontFamily="Segoe MDL2 Assets" FontSize="16" BorderBrush="{x:Null}" Padding="4"/>
+            <Button Content="&#xE11A;" VerticalAlignment="Center" Margin="0" FontFamily="Segoe MDL2 Assets" FontSize="16" BorderBrush="{x:Null}" Padding="4"/>
         </StackPanel>
 
         <StackPanel Grid.Row="2">

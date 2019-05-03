@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A63D8D07-B4D0-4EE0-9D72-CB47A75B451F}</ProjectGuid>
+    <ProjectGuid>{56FE6F04-B707-4BBA-9046-458777B6FEF6}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>pendaftaran</RootNamespace>
-    <AssemblyName>pendaftaran</AssemblyName>
+    <RootNamespace>ui_design</RootNamespace>
+    <AssemblyName>ui design</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -34,11 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MySql.Data">
-      <HintPath>..\..\..\Source Script\mysql-connector-net-6.8.8-noinstall\v4.5\MySql.Data.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -58,19 +54,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="models\MDaftarBaru.cs" />
-    <Compile Include="views\antrian.xaml.cs">
-      <DependentUpon>antrian.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="views\daftar_baru.xaml.cs">
-      <DependentUpon>daftar_baru.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="views\daftar_berobat.xaml.cs">
-      <DependentUpon>daftar_berobat.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="views\daftar_ulang.xaml.cs">
-      <DependentUpon>daftar_ulang.xaml</DependentUpon>
-    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -83,25 +66,8 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="views\antrian.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="views\daftar_baru.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="views\daftar_berobat.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="views\daftar_ulang.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="models\ComboboxPairs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -119,8 +85,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Resource Include="fonts\OpenSans-Bold.ttf" />
-    <Resource Include="fonts\OpenSans-Regular.ttf" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -128,12 +92,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\BMicon.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="viewModels\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -17,6 +17,7 @@ using MySql.Data;
 using MySql.Data.MySqlClient;
 using System.Configuration;
 using pendaftaran.models;
+using System.Windows.Controls.Primitives;
 
 namespace pendaftaran.views
 {
@@ -26,12 +27,15 @@ namespace pendaftaran.views
     public partial class daftar_baru : Page
     {
         private static MySqlConnection MsqlConn = null;
+        private int _noOfErrorsOnScreen = 0;
+        private MDaftarBaru _mDaftarBaru = new MDaftarBaru(" ", " ", " ", " ", " ");
 
         public daftar_baru()
         {
             InitializeComponent();
 
             List<ComboboxPairs> cbp = new List<ComboboxPairs>();
+            DataContext = new MDaftarBaru(" ", " ", " ", " ", " ");
 
             try
             {
@@ -70,6 +74,32 @@ namespace pendaftaran.views
             cbPoliklinik.SelectedIndex = 0;
         }
 
+        private void Validation_Error(object sender, ValidationErrorEventArgs e)
+        {
+            if (e.Action == ValidationErrorEventAction.Added)
+                _noOfErrorsOnScreen++;
+            else
+                _noOfErrorsOnScreen--;
+        }
+
+        private void AddPasien_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            if (checkTextBoxValue() && _noOfErrorsOnScreen == 0)
+            {
+                e.CanExecute = _noOfErrorsOnScreen == 0;
+            }
+            else e.CanExecute = _noOfErrorsOnScreen == 1; 
+
+            e.Handled = true;
+        }
+
+        private void AddPasien_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            _mDaftarBaru = new MDaftarBaru(" ", " ", " ", " ", " ");
+            DataContext = _mDaftarBaru;
+            e.Handled = true;
+        }
+
         /// <summary>
         /// create connection to the database
         /// </summary>
@@ -83,6 +113,22 @@ namespace pendaftaran.views
             }
 
             return MsqlConn;
+        }
+
+        private void TextBoxFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            TextBox source = e.Source as TextBox;
+            source.Clear();
+        }
+
+        private bool checkTextBoxValue()
+        {
+            if(TxtNoRm.Text == " " && TxtNoIdentitas.Text == " " && TxtNamaPasien.Text == " " && TxtNoTelp.Text == " ")
+            {
+                return false;
+            }
+
+            return true;
         }
 
         //public void Test(object sender, RoutedEventArgs e)

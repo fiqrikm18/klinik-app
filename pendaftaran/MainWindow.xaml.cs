@@ -34,7 +34,7 @@ namespace pendaftaran
                 if (dbConnection().State.Equals(System.Data.ConnectionState.Closed))
                     dbConnection().Open();
             }
-            catch (MySqlException mse)
+            catch (MySqlException)
             {
                 MessageBox.Show("Periksa kembali koneksi database anda...", "Perhatian", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
@@ -46,7 +46,6 @@ namespace pendaftaran
 
         private void daftar_berobat(object sender, RoutedEventArgs e)
         {
-
         }
 
         /// <summary>
