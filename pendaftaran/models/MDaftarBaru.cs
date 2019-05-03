@@ -6,6 +6,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
+using MySql.Data.MySqlClient;
+
 namespace pendaftaran.models
 {
     class MDaftarBaru : IDataErrorInfo
@@ -35,7 +37,7 @@ namespace pendaftaran.models
             get
             {
                 string result = null;
-
+                
                 if (columnName == "NoRm")
                 {
                     if (string.IsNullOrEmpty(NoRm))

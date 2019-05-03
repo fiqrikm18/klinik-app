@@ -31,8 +31,8 @@ namespace pendaftaran
 
             try
             {
-                if (dbConnection().State.Equals(System.Data.ConnectionState.Closed))
-                    dbConnection().Open();
+                if (DBAccess.DBConnection.dbConnection().State.Equals(System.Data.ConnectionState.Closed))
+                    DBAccess.DBConnection.dbConnection().Open();
             }
             catch (MySqlException)
             {
@@ -46,21 +46,6 @@ namespace pendaftaran
 
         private void daftar_berobat(object sender, RoutedEventArgs e)
         {
-        }
-
-        /// <summary>
-        /// create connection to the database
-        /// </summary>
-        /// <returns></returns>
-        public static MySqlConnection dbConnection()
-        {
-            if (MsqlConn == null)
-            {
-                string connectionString = ConfigurationManager.ConnectionStrings["klinikDatabaseConeection"].ConnectionString;
-                MsqlConn = new MySqlConnection(connectionString);
-            }
-
-            return MsqlConn;
         }
     }
 }
