@@ -94,9 +94,10 @@ namespace pendaftaran.views
         private void AddPasien_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             _mDaftarBaru = new MDaftarBaru(" ", " ", " ", " ", " ");
-
-            if (checkTextBoxValue())
+            
+            if (checkTextBoxValue() && dtTanggalLahir.SelectedDate != null)
             {
+
                 CultureInfo ci = CultureInfo.CreateSpecificCulture(CultureInfo.CurrentCulture.Name);
                 ci.DateTimeFormat.ShortDatePattern = "yyyy-MM-dd";
                 Thread.CurrentThread.CurrentCulture = ci;
@@ -114,16 +115,15 @@ namespace pendaftaran.views
                 string jenisKelamin = cbJenisKelamin.Text.ToString();
                 string poliklinik = policode;
 
-
                 try
                 {
-                    string query = "select count(no_identitas) from pasien where no_identitas = '" + identitas + "';";
+                    string query = "select count(*) from pasien where no_identitas = '" + identitas + "';";
                     MySqlCommand cmd = new MySqlCommand(query, DBAccess.DBConnection.dbConnection());
-                    var idExist = (int)cmd.ExecuteScalar();
+                    int idExist = int.Parse(cmd.ExecuteScalar().ToString());
 
-                    if(idExist >= 1)
+                    if (idExist >= 1)
                     {
-                        MessageBox.Show("No indentitas sudah terdaftar");
+                        MessageBox.Show("No indentitas sudah terdaftar.", "Informasi", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                     else
                     {
@@ -167,21 +167,6 @@ namespace pendaftaran.views
             e.Handled = true;
         }
 
-        /// <summary>
-        /// create connection to the database
-        /// </summary>
-        /// <returns></returns>
-        //public static MySqlConnection DbConnection()
-        //{
-        //    if (MsqlConn == null)
-        //    {
-        //        string connectionString = ConfigurationManager.ConnectionStrings["klinikDatabaseConeection"].ConnectionString;
-        //        MsqlConn = new MySqlConnection(connectionString);
-        //    }
-
-        //    return MsqlConn;
-        //}
-
         private void TextBoxFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             TextBox source = e.Source as TextBox;
@@ -190,21 +175,12 @@ namespace pendaftaran.views
 
         private bool checkTextBoxValue()
         {
-            if(TxtNoRm.Text == " " && TxtNoIdentitas.Text == " " && TxtNamaPasien.Text == " " && TxtNoTelp.Text == " " && TextAlamat.Text == " ")
+            if(TxtNoRm.Text == " " && TxtNoIdentitas.Text == " " && TxtNamaPasien.Text == " " && TxtNoTelp.Text == " " && TextAlamat.Text == " " && dtTanggalLahir.SelectedDate.ToString() == null)
             {
                 return false;
             }
 
             return true;
         }
-
-        //public void Test(object sender, RoutedEventArgs e)
-        //{
-        //    ComboboxPairs cbp = (ComboboxPairs)cbPoliklinik.SelectedItem;
-
-        //    string policode = cbp.nama_poliklinik;
-
-        //    MessageBox.Show(policode.ToString());
-        //}
     }
 }

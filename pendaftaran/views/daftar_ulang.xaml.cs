@@ -24,5 +24,11 @@ namespace pendaftaran.views
         {
             InitializeComponent();
         }
+
+        private void TextBoxFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            TextBox source = e.Source as TextBox;
+            source.Clear();
+        }
     }
 }

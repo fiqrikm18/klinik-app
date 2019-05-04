@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A2C9DE5C-7616-4598-8521-BF2A49893A44}"
 	ProjectSection(SolutionItems) = preProject
 		Color Scheme.txt = Color Scheme.txt
+		style.txt = style.txt
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ui design", "ui design\ui design.csproj", "{56FE6F04-B707-4BBA-9046-458777B6FEF6}"
