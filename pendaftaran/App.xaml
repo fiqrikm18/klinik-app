@@ -46,24 +46,26 @@
             </Setter>
         </Style>
 
-        <!--<Style TargetType="{x:Type DatePicker}">
-                        <Setter Property="Margin" Value="0 4"></Setter>
-                        <Setter Property="Background" Value="#F0F0F0"></Setter>
-                        <Setter Property="Padding" Value="2"></Setter>
-                        <Setter Property="Foreground" Value="#555555"></Setter>
-                        <Setter Property="HorizontalAlignment" Value="Left"></Setter>
-                        <Setter Property="BorderThickness" Value="{Binding BorderThink}"></Setter>
-                        <Setter Property="VerticalContentAlignment" Value="Center"/>
-                        <Style.Resources>
-                            <Style TargetType="DatePickerTextBox">
-                                <Setter Property="Background" Value="#F0F0F0"/>
-                                <Setter Property="BorderThickness" Value="0"/>
-                                <Setter Property="BorderBrush" Value="#F0F0F0"/>
-                                <Setter Property="VerticalAlignment" Value="Center"/>
-                            </Style>
-                            <Border x:Key="BorderThink" BorderThickness="0" BorderBrush="#F0F0F0"></Border>
-                        </Style.Resources>
-                    </Style>-->
+        <!--
+        <Style TargetType="{x:Type DatePicker}">
+            <Setter Property="Margin" Value="0 4"></Setter>
+            <Setter Property="Background" Value="#F0F0F0"></Setter>
+            <Setter Property="Padding" Value="2"></Setter>
+            <Setter Property="Foreground" Value="#555555"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+            <Setter Property="BorderThickness" Value="{Binding BorderThink}"></Setter>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Style.Resources>
+                <Style TargetType="DatePickerTextBox">
+                    <Setter Property="Background" Value="#F0F0F0"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="BorderBrush" Value="#F0F0F0"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+                <Border x:Key="BorderThink" BorderThickness="0" BorderBrush="#F0F0F0"></Border>
+            </Style.Resources>
+        </Style>
+        -->
 
         <Style TargetType="{x:Type DatePicker}">
             <Setter Property="Margin" Value="0 4"></Setter>

@@ -41,11 +41,8 @@ namespace pendaftaran
         }
 
         private void daftar_baru(object sender, RoutedEventArgs e) => MainFrame.Content = new views.daftar_baru();
-
         private void daftar_pasien(object sender, RoutedEventArgs e) => MainFrame.Content = new views.daftar_ulang();
-
-        private void daftar_berobat(object sender, RoutedEventArgs e)
-        {
-        }
+        private void daftar_berobat(object sender, RoutedEventArgs e) => MainFrame.Content = new views.daftar_berobat();
+        private void daftar_antrian(object sender, RoutedEventArgs e) => MainFrame.Content = new views.antrian();
     }
 }

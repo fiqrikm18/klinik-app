@@ -129,14 +129,39 @@ namespace pendaftaran.views
                     {
                         try
                         {
-                            query = "insert into pasien (no_identitas, nama, tanggal_lahir, jenis_kelamin, no_telp, alamat) values('" + identitas + "', '" + namaPasien + "', '" + tglLahir + "', '" + jenisKelamin + "', '" + noTelp + "', '" + alamat + "');";
+                            query = "insert into pasien (no_identitas, no_rekam_medis, nama, tanggal_lahir, jenis_kelamin, no_telp, alamat) values('" + identitas + "', '" + norm + "', '" + namaPasien + "', '" + tglLahir + "', '" + jenisKelamin + "', '" + noTelp + "', '" + alamat + "');";
 
                             MySqlCommand command = new MySqlCommand(query, DBAccess.DBConnection.dbConnection());
                             var res = command.ExecuteNonQuery();
-
+                            
                             if (res == 1)
                             {
-                                MessageBox.Show("Data pasien berhasil ditambahkan.", "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
+                                string last = "";
+                                int a = 0;
+                                //int.TryParse(last, out a);
+                                int no_urut = 0;
+                                string query_last = "select nomor_urut from antrian where poliklinik= '"+ policode +"' and DATE(tanggal_berobat) = '"+ DateTime.Now.ToString("yyyy-MM-dd") + "' ORDER BY nomor_urut desc LIMIT 1;";
+                                //string query_last = "select nomor_urut from antrian where poliklinik= '003' and DATE(tanggal_berobat) = '" + DateTime.Now.ToString("yyyy-MM-dd") + "' ORDER BY nomor_urut desc LIMIT 1;";
+                                command = new MySqlCommand(query_last, DBAccess.DBConnection.dbConnection());
+                                MySqlDataReader reader = command.ExecuteReader();
+                                
+                                if (reader.Read()) a = reader.GetInt32(0);
+
+                                if (last != null || last != "") no_urut = a + 1;
+                                else no_urut = 1;
+
+                                DBAccess.DBConnection.dbConnection().Close();
+                                DBAccess.DBConnection.dbConnection().Open();
+                                query = "insert into antrian(nomor_rm, nomor_urut, poliklinik) values('"+ norm +"','"+ no_urut +"','"+ policode +"');";
+                                command = new MySqlCommand(query, DBAccess.DBConnection.dbConnection());
+
+                                res = command.ExecuteNonQuery();
+
+                                if(res == 1)
+                                    MessageBox.Show("Data pasien berhasil ditambahkan. \nNomor antri: " + no_urut, "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
+                                //MessageBox.Show(last);
+                                else
+                                    MessageBox.Show("Data pasien berhasil ditambahkan. \nGagal menambahakan pasien ke antrian.", "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
                             }
                             else
                             {
