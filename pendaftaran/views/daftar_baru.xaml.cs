@@ -66,9 +66,9 @@ namespace pendaftaran.views
                     }
                 }
             }
-            catch (MySqlException)
+            catch (MySqlException ex)
             {
-                MessageBox.Show("Koneksi ke database gagal, periksa kembali database anda...", "Perhatian", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Koneksi ke database gagal, periksa kembali database anda...\n"+ex.Message, "Perhatian", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
 
             cbPoliklinik.DisplayMemberPath = "kode_poliklinik";
