@@ -5,10 +5,41 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:pendaftaran.views"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
       Title="daftar_berobat">
 
-    <Grid>
-        
+    <Grid Style="{StaticResource OpenSans}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+            <TextBlock Text="Daftar Poliklinik" FontSize="16" FontWeight="Bold" Foreground="#555555"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Orientation="Vertical" Grid.Row="0">
+                    <TextBlock Text="ID Pasien"/>
+                    <TextBox x:Name="txtIdPasien" IsEnabled="False"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" Grid.Row="1">
+                    <TextBlock Text="Poliklink"/>
+                    <ComboBox x:Name="cbPoliklinik"/>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <Button Click="tambah_antrian" Content="Tambah"/>
+            <Button Content="Batal"/>
+        </StackPanel>
     </Grid>
 </Page>
