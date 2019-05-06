@@ -108,11 +108,62 @@
             <Setter Property="Margin" Value="0 10 10 0"></Setter>
             <Setter Property="Padding" Value="5"></Setter>
             <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Width" Value="100"/>
-            <Setter Property="Height" Value="30"/>
+            <Setter Property="MinWidth" Value="100"/>
+            <Setter Property="MinHeight" Value="30"/>
             <Setter Property="Foreground" Value="#555555"></Setter>
         </Style>
 
         <ResourceDictionary x:Key="ColorResources" Source="resources/color.xaml"/>
+
+        <Style TargetType="{x:Type DataGrid}">
+            <Setter Property="ColumnHeaderStyle" Value="{DynamicResource DGCHeaderStyle}"/>
+            <Setter Property="RowStyle" Value="{DynamicResource DGCStyle}"/>
+            <Setter Property="GridLinesVisibility" Value="None"/>
+            <Setter Property="CellStyle" Value="{DynamicResource DGCCellStyle}"/>
+            <Setter Property="AlternatingRowBackground" Value="White"/>
+            <Setter Property="AlternationCount" Value="2"/>
+        </Style>
+
+        <Style x:Key="DGCHeaderStyle" TargetType="DataGridColumnHeader">
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Background" Value="#F0F0F0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground" Value="#555555"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="15 5"/>
+        </Style>
+
+        <Style x:Key="DGCStyle" TargetType="DataGridRow">
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Foreground" Value="#555555"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#E4ECF5"/>
+                    <Setter Property="Foreground" Value="#555555"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Trigger>
+                <Trigger Property="ItemsControl.AlternationIndex" Value="0">
+                    <Setter Property="Background" Value="#E4ECF5"/>
+                    <Setter Property="Foreground" Value="#555555"/>
+                </Trigger>
+                <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                    <Setter Property="Background" Value="white"/>
+                    <Setter Property="Foreground" Value="#555555"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Name="DGCCellStyle" TargetType="DataGridCell">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Margin" Value="15 5"/>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="{x:Null}"/>
+                    <Setter Property="Foreground" Value="#4A88DA"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Application.Resources>
 </Application>

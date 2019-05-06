@@ -1,18 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 using MySql.Data.MySqlClient;
 using pendaftaran.DBAccess;
@@ -24,10 +14,21 @@ namespace pendaftaran.views
     /// </summary>
     public partial class daftar_ulang : Page
     {
+        public string normP;
+        public string noidP;
+        public string namaP;
+        public string jenisK;
+        public string noTelp;
+        public string alamat;
+
         public daftar_ulang()
         {
             InitializeComponent();
+            displayDataPasien();
+        }
 
+        public void displayDataPasien()
+        {
             try
             {
                 if (DBConnection.dbConnection().State.Equals(System.Data.ConnectionState.Closed))
@@ -42,10 +43,12 @@ namespace pendaftaran.views
 
                 adapter.Fill(dt);
                 dtgDataPasien.ItemsSource = dt.DefaultView;
+
+                DBConnection.dbConnection().Close();
             }
-            catch(MySqlException ex)
+            catch (MySqlException ex)
             {
-                MessageBox.Show("Koneksi ke database gagal, periksa kembali database anda...\n"+ex.Message, "Perhatian", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Koneksi ke database gagal, periksa kembali database anda...\n" + ex.Message, "Perhatian", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -57,7 +60,19 @@ namespace pendaftaran.views
 
         private void UbahDataPasien(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Ubah data pasien");
+            //(dtgDataPasien.SelectedCells[0].Column.GetCellContent(this.dtgDataPasien.SelectedItems[i]) as TextBlock).Text
+            for (int i = 0; i < dtgDataPasien.SelectedItems.Count; i++)
+            {
+                normP = (dtgDataPasien.SelectedCells[1].Column.GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock).Text;
+                noidP = (dtgDataPasien.SelectedCells[0].Column.GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock).Text;
+                namaP = (dtgDataPasien.SelectedCells[2].Column.GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock).Text;
+                jenisK = (dtgDataPasien.SelectedCells[3].Column.GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock).Text;
+                noTelp = (dtgDataPasien.SelectedCells[4].Column.GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock).Text;
+                alamat = (dtgDataPasien.SelectedCells[5].Column.GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock).Text;
+            }
+
+            forms.ubah_dataPasien ud = new forms.ubah_dataPasien(normP, noidP, namaP, jenisK, noTelp, alamat, this);
+            ud.Show();
         }
 
         private void TambahPasien(object sender, RoutedEventArgs e)
@@ -72,12 +87,45 @@ namespace pendaftaran.views
             {
                 //object item = dtgDataPasien.SelectedItem;
                 //string id = (dtgDataPasien.SelectedCells[0].Column.GetCellContent(item) as TextBlock).Text.ToString();
-
                 //MessageBox.Show(id);
-                for(int i =0; i < dtgDataPasien.SelectedItems.Count; i++)
+
+                MessageBoxResult a = MessageBox.Show("Anda yakin ingin menghapus data pasien?", "Konfirmasi", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+                if(a == MessageBoxResult.Yes)
                 {
-                    MessageBox.Show((this.dtgDataPasien.SelectedCells[0].Column.GetCellContent(this.dtgDataPasien.SelectedItems[i]) as TextBlock).Text);
+                    string query;
+                    DBConnection.dbConnection().Open();
+                    int res = 1;
+
+                    try
+                    {
+                        for (int i = 0; i < dtgDataPasien.SelectedItems.Count; i++)
+                        {
+                            //MessageBox.Show((this.dtgDataPasien.SelectedCells[0].Column.GetCellContent(this.dtgDataPasien.SelectedItems[i]) as TextBlock).Text);
+                            query = "delete from pasien where no_identitas = '" + (dtgDataPasien.SelectedCells[0].Column.GetCellContent(this.dtgDataPasien.SelectedItems[i]) as TextBlock).Text + "';";
+                            MySqlCommand command = new MySqlCommand(query, DBConnection.dbConnection());
+                            res = command.ExecuteNonQuery();
+                        }
+
+                        if (res == 1)
+                        {
+                            MessageBox.Show("Data pasien berhasil dihapus.", "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
+                        }
+                        else
+                            MessageBox.Show("Data pasien gagal dihapus.", "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }catch(MySqlException ex)
+                    {
+                        MessageBox.Show("Data pasien gagal dihapus.\n" + ex.Message, "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    }
                 }
+
+                displayDataPasien();
+                DBConnection.dbConnection().Close();
+            }
+            else
+            {
+                MessageBox.Show("Pilih data pasien yang akan dihapus.", "Informasi", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

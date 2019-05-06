@@ -23,7 +23,7 @@ namespace pendaftaran
     /// </summary>
     public partial class MainWindow : Window
     {
-        static MySqlConnection MsqlConn = null;
+        //static MySqlConnection MsqlConn = null;
 
         public MainWindow()
         {

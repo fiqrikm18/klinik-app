@@ -59,6 +59,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DBAccess\DBConnection.cs" />
+    <Compile Include="forms\ubah_dataPasien.xaml.cs">
+      <DependentUpon>ubah_dataPasien.xaml</DependentUpon>
+    </Compile>
     <Compile Include="models\MDaftarBaru.cs" />
     <Compile Include="views\antrian.xaml.cs">
       <DependentUpon>antrian.xaml</DependentUpon>
@@ -72,6 +75,10 @@
     <Compile Include="views\daftar_ulang.xaml.cs">
       <DependentUpon>daftar_ulang.xaml</DependentUpon>
     </Compile>
+    <Page Include="forms\ubah_dataPasien.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
