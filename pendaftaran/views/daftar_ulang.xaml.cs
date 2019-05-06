@@ -102,7 +102,7 @@ namespace pendaftaran.views
                         for (int i = 0; i < dtgDataPasien.SelectedItems.Count; i++)
                         {
                             //MessageBox.Show((this.dtgDataPasien.SelectedCells[0].Column.GetCellContent(this.dtgDataPasien.SelectedItems[i]) as TextBlock).Text);
-                            query = "delete from pasien where no_identitas = '" + (dtgDataPasien.SelectedCells[0].Column.GetCellContent(this.dtgDataPasien.SelectedItems[i]) as TextBlock).Text + "';";
+                            query = "delete from antrian where nomor_rm = '" + (dtgDataPasien.SelectedCells[0].Column.GetCellContent(this.dtgDataPasien.SelectedItems[i]) as TextBlock).Text + "';";
                             MySqlCommand command = new MySqlCommand(query, DBConnection.dbConnection());
                             res = command.ExecuteNonQuery();
                         }
