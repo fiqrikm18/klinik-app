@@ -83,7 +83,7 @@ namespace pendaftaran.views
 
         private void HapusDataPasien(object sender, RoutedEventArgs e)
         {
-            if(dtgDataPasien.SelectedCells.Count > 0)
+            if (dtgDataPasien.SelectedCells.Count > 0)
             {
                 //object item = dtgDataPasien.SelectedItem;
                 //string id = (dtgDataPasien.SelectedCells[0].Column.GetCellContent(item) as TextBlock).Text.ToString();
@@ -91,7 +91,7 @@ namespace pendaftaran.views
 
                 MessageBoxResult a = MessageBox.Show("Anda yakin ingin menghapus data pasien?", "Konfirmasi", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
-                if(a == MessageBoxResult.Yes)
+                if (a == MessageBoxResult.Yes)
                 {
                     string query;
                     DBConnection.dbConnection().Open();
@@ -113,7 +113,8 @@ namespace pendaftaran.views
                         }
                         else
                             MessageBox.Show("Data pasien gagal dihapus.", "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
-                    }catch(MySqlException ex)
+                    }
+                    catch (MySqlException ex)
                     {
                         MessageBox.Show("Data pasien gagal dihapus.\n" + ex.Message, "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
 

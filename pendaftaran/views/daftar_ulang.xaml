@@ -8,7 +8,7 @@
       Title="daftar_ulang">
 
     <Page.Resources>
-        
+
     </Page.Resources>
 
     <Grid Style="{StaticResource OpenSans}">

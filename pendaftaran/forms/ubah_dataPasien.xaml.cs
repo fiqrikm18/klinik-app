@@ -81,15 +81,16 @@ namespace pendaftaran.forms
 
                 try
                 {
-                    if (DBConnection.dbConnection().State.Equals(System.Data.ConnectionState.Closed)){
+                    if (DBConnection.dbConnection().State.Equals(System.Data.ConnectionState.Closed))
+                    {
                         DBConnection.dbConnection().Open();
                     }
 
-                    string query = "update pasien set nama='"+namaPasien+"', jenis_kelamin='"+jenisKelamin+"', no_telp='"+noTelp+"', alamat='"+alamat+"' where no_identitas='"+identitas+"';";
+                    string query = "update pasien set nama='" + namaPasien + "', jenis_kelamin='" + jenisKelamin + "', no_telp='" + noTelp + "', alamat='" + alamat + "' where no_identitas='" + identitas + "';";
                     MySqlCommand cmd = new MySqlCommand(query, DBConnection.dbConnection());
                     int res = cmd.ExecuteNonQuery();
 
-                    if(res == 1)
+                    if (res == 1)
                     {
                         MessageBox.Show("Berhasil memperbarui data pasien.", "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
                         du.displayDataPasien();
@@ -103,7 +104,8 @@ namespace pendaftaran.forms
                         else if (jk == "Wanita") cbJenisKelamin.SelectedIndex = 1;
                     }
 
-                }catch(Exception ex)
+                }
+                catch (Exception ex)
                 {
                     MessageBox.Show("Terjadi kesalahan.\n" + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }

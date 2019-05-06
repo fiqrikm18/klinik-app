@@ -1,2 +1,4 @@
 Gray sidepanel = #f0f0f0;
 gray text = #555555;
+lifht bue = #E4ECF5
+dark blue = #4A88DA;
