@@ -67,7 +67,7 @@ namespace pendaftaran.views
             cbPoliklinik.DisplayMemberPath = "kode_poliklinik";
             cbPoliklinik.SelectedValuePath = "nama_poliklinik";
             cbPoliklinik.ItemsSource = cbp;
-            cbPoliklinik.SelectedIndex = 0;
+            cbPoliklinik.SelectedIndex = -1;
 
             displayDataAntrian();
         }
@@ -95,7 +95,7 @@ namespace pendaftaran.views
                     "FROM antrian " +
                     "LEFT JOIN pasien ON pasien.no_rekam_medis = antrian.nomor_rm " +
                     "LEFT JOIN poliklinik ON antrian.poliklinik = poliklinik.kode_poliklinik" +
-                    " WHERE DATE(antrian.tanggal_berobat) = '" + DateTime.Now.ToString("yyyy-MM-dd") + "' AND poliklinik = '"+ antrian +"';";
+                    " WHERE DATE(antrian.tanggal_berobat) = '" + DateTime.Now.ToString("yyyy-MM-dd") + "' AND poliklinik = '"+ antrian + "' AND status='Antri';";
                 }
                 else
                 {
@@ -103,7 +103,7 @@ namespace pendaftaran.views
                     "FROM antrian " +
                     "LEFT JOIN pasien ON pasien.no_rekam_medis = antrian.nomor_rm " +
                     "LEFT JOIN poliklinik ON antrian.poliklinik = poliklinik.kode_poliklinik" +
-                    " WHERE DATE(antrian.tanggal_berobat) = '" + DateTime.Now.ToString("yyyy-MM-dd") + "';";
+                    " WHERE DATE(antrian.tanggal_berobat) = '" + DateTime.Now.ToString("yyyy-MM-dd") + "' AND status='Antri';";
                 }
 
                 //string query = "SELECT * FROM antrian LEFT JOIN pasien ON pasien.no_rekam_medis = antrian.nomor_rm LEFT JOIN poliklinik ON antrian.poliklinik = poliklinik.kode_poliklinik WHERE DATE(antrian.tanggal_berobat) = '2019-05-06';";
@@ -145,27 +145,40 @@ namespace pendaftaran.views
                     string query;
                     DBConnection.dbConnection().Open();
                     int res = 1;
+                    ComboboxPairs cbp = (ComboboxPairs)cbPoliklinik.SelectedItem;
+                    string policode;
+
+                    if (cbPoliklinik.SelectedIndex == -1) policode = null;
+                    else policode = cbp.nama_poliklinik;
 
                     try
                     {
                         for (int i = 0; i < dtgAntrian.SelectedItems.Count; i++)
                         {
-                            //MessageBox.Show((this.dtgDataPasien.SelectedCells[0].Column.GetCellContent(this.dtgDataPasien.SelectedItems[i]) as TextBlock).Text);
-                            query = "delete from pasien where nomor_rm = '" + (dtgAntrian.SelectedCells[0].Column.GetCellContent(this.dtgAntrian.SelectedItems[i]) as TextBlock).Text + "';";
-                            MySqlCommand command = new MySqlCommand(query, DBConnection.dbConnection());
-                            res = command.ExecuteNonQuery();
-                        }
+                            if(policode != null)
+                            {
+                                //MessageBox.Show((this.dtgDataPasien.SelectedCells[0].Column.GetCellContent(this.dtgDataPasien.SelectedItems[i]) as TextBlock).Text);
+                                query = "delete from antrian where nomor_rm = '" + (dtgAntrian.SelectedCells[0].Column.GetCellContent(this.dtgAntrian.SelectedItems[i]) as TextBlock).Text + "' and nomor_urut = '" + (dtgAntrian.SelectedCells[2].Column.GetCellContent(this.dtgAntrian.SelectedItems[i]) as TextBlock).Text + "' and poliklinik = '" + policode + "' and status='Antri';";
+                                MySqlCommand command = new MySqlCommand(query, DBConnection.dbConnection());
+                                res = command.ExecuteNonQuery();
 
-                        if (res == 1)
-                        {
-                            MessageBox.Show("Data pasien berhasil dihapus.", "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
+                                if (res == 1)
+                                {
+                                    MessageBox.Show("Antrian pasien berhasil dihapus.", "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
+                                    cbPoliklinik.SelectedIndex = -1;
+                                }
+                                else
+                                    MessageBox.Show("Data pasien gagal dihapus.", "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Antrian pasien gagal dihapus.\nPilih pasien pada poliklinik yang akan dihapus.", "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
+                            }
                         }
-                        else
-                            MessageBox.Show("Data pasien gagal dihapus.", "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                     catch (MySqlException ex)
                     {
-                        MessageBox.Show("Data pasien gagal dihapus.\n" + ex.Message, "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
+                        MessageBox.Show("Antrian pasien gagal dihapus.\n" + ex.Message, "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
 
                     }
                 }
@@ -175,7 +188,7 @@ namespace pendaftaran.views
             }
             else
             {
-                MessageBox.Show("Pilih data pasien yang akan dihapus.", "Informasi", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Pilih data antrian pasien yang akan dihapus.", "Informasi", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

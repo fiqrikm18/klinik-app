@@ -27,7 +27,7 @@ namespace pendaftaran.views
             displayDataPasien();
         }
 
-        public void displayDataPasien()
+        public void displayDataPasien(string nama = null)
         {
             try
             {
@@ -36,15 +36,32 @@ namespace pendaftaran.views
                     DBConnection.dbConnection().Open();
                 }
 
-                string query = "select * from pasien";
-                MySqlCommand cmd = new MySqlCommand(query, DBConnection.dbConnection());
-                MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
+                string query;
 
-                adapter.Fill(dt);
-                dtgDataPasien.ItemsSource = dt.DefaultView;
+                if(nama != null)
+                {
+                    query = "select * from pasien where nama like '%" + nama + "%';";
+                    MySqlCommand cmd = new MySqlCommand(query, DBConnection.dbConnection());
+                    MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
 
-                DBConnection.dbConnection().Close();
+                    adapter.Fill(dt);
+                    dtgDataPasien.ItemsSource = dt.DefaultView;
+
+                    DBConnection.dbConnection().Close();
+                }
+                else
+                {
+                    query = "select * from pasien";
+                    MySqlCommand cmd = new MySqlCommand(query, DBConnection.dbConnection());
+                    MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+
+                    adapter.Fill(dt);
+                    dtgDataPasien.ItemsSource = dt.DefaultView;
+
+                    DBConnection.dbConnection().Close();
+                }
             }
             catch (MySqlException ex)
             {
@@ -128,6 +145,14 @@ namespace pendaftaran.views
             {
                 MessageBox.Show("Pilih data pasien yang akan dihapus.", "Informasi", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void TxtSearchPasien_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var nama = sender as TextBox;
+
+            if(nama.Text != "Nama Pasien")
+                displayDataPasien(nama.Text.ToString());
         }
     }
 }

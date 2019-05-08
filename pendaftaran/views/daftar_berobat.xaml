@@ -25,11 +25,20 @@
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
 
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
                 <StackPanel Orientation="Vertical" Grid.Row="0">
                     <TextBlock Text="ID Pasien"/>
-                    <TextBox x:Name="txtIdPasien" IsEnabled="False"/>
+                    <TextBox x:Name="txtIdPasien" IsEnabled="{Binding ElementName=checkscan, Path=IsChecked}"/>
                 </StackPanel>
 
+                <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" >
+                    <CheckBox x:Name="checkscan" Content="Ketik manual" Margin="15 0"/>
+                </StackPanel>
+                
                 <StackPanel Orientation="Vertical" Grid.Row="1">
                     <TextBlock Text="Poliklink"/>
                     <ComboBox x:Name="cbPoliklinik"/>
@@ -38,8 +47,7 @@
         </StackPanel>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal">
-            <Button Click="tambah_antrian" Content="Tambah"/>
-            <Button Content="Batal"/>
+            <Button Click="tambah_antrian" Content="Daftar"/>
         </StackPanel>
     </Grid>
 </Page>

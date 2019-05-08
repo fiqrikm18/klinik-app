@@ -63,5 +63,12 @@ namespace ui_design
 
             dispatcherTimer.IsEnabled = true;
         }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var textBox = sender as TextBox;
+
+            Title = textBox.Text + "[Length = " + textBox.Text.Length.ToString() + "]";
+        }
     }
 }

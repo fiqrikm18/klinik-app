@@ -9,14 +9,11 @@
     <Grid Style="{StaticResource OpenSans}" Margin="20">
 
         <StackPanel>
-            <Button Width="50"
-            Height="50"
-            Click="Button_Click"
-            Content="OK" />
             <Label x:Name="MyLabel"
             Content="THIS IS A LABEL"
             FontSize="30"
             Visibility="Collapsed" />
+            <TextBox x:Name="textBox" Height="24" TextWrapping="Wrap" Text="TextBox" TextChanged="TextBox_TextChanged"/>
         </StackPanel>
 
     </Grid>

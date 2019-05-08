@@ -76,8 +76,8 @@ namespace pendaftaran.views
             ComboboxPairs cbp = (ComboboxPairs)cbPoliklinik.SelectedItem;
             string policode = cbp.nama_poliklinik;
             string poliklinik = policode;
-            //string norm = txtIdPasien.Text.ToString();
-            string norm = "444";
+            string norm = txtIdPasien.Text.ToString();
+            //string norm = "444";
 
             try
             {
@@ -91,6 +91,9 @@ namespace pendaftaran.views
 
                 if (rm_exist >= 1)
                 {
+                    if (DBConnection.dbConnection().State.Equals(System.Data.ConnectionState.Closed))
+                        DBConnection.dbConnection().Open();
+
                     string last = "";
                     int a = 0;
                     //int.TryParse(last, out a);
@@ -107,7 +110,7 @@ namespace pendaftaran.views
 
                     DBConnection.dbConnection().Close();
                     DBConnection.dbConnection().Open();
-                    query = "insert into antrian(nomor_rm, nomor_urut, poliklinik) values('" + norm + "','" + no_urut + "','" + policode + "');";
+                    query = "insert into antrian(nomor_rm, nomor_urut, poliklinik, status) values('" + norm + "','" + no_urut + "','" + policode + "','Antri');";
                     cmd = new MySqlCommand(query, DBAccess.DBConnection.dbConnection());
 
                     int res = cmd.ExecuteNonQuery();

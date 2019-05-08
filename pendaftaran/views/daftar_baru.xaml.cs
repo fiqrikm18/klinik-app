@@ -162,7 +162,7 @@ namespace pendaftaran.views
 
                                     DBAccess.DBConnection.dbConnection().Close();
                                     DBAccess.DBConnection.dbConnection().Open();
-                                    query = "insert into antrian(nomor_rm, nomor_urut, poliklinik) values('" + norm + "','" + no_urut + "','" + policode + "');";
+                                    query = "insert into antrian(nomor_rm, nomor_urut, poliklinik, status) values('" + norm + "','" + no_urut + "','" + policode + "', 'Antri');";
                                     command = new MySqlCommand(query, DBAccess.DBConnection.dbConnection());
 
                                     res = command.ExecuteNonQuery();

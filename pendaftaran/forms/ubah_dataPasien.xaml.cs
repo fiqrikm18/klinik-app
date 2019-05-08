@@ -139,7 +139,7 @@ namespace pendaftaran.forms
 
         private void Batal(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
     }
 }
