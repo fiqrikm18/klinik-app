@@ -24,7 +24,6 @@ namespace pendaftaran.views
         private MDaftarBaru _mDaftarBaru = new MDaftarBaru(" ", " ", " ", " ", " ");
 
         private IsoReader isoReader;
-        private const byte CLA = 0xFF;
         private const byte Msb = 0x00;
         private MifareCard card;
 

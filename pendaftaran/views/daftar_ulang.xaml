@@ -43,14 +43,16 @@
                     <DataGridTextColumn Binding="{Binding jenis_kelamin}" IsReadOnly="True" Header="Jenis Kelamin"/>
                     <DataGridTextColumn Binding="{Binding no_telp}" IsReadOnly="True" Header="Nomor Telepon"/>
                     <DataGridTextColumn Binding="{Binding alamat}" IsReadOnly="True" Header="Alamat" Width="250"/>
+                    <DataGridTextColumn Binding="{Binding tanggal_lahir, StringFormat='yyyy-mm-dd'}" IsReadOnly="True" Header="Tanggal Lahir" Width="250"/>
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>
 
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button x:Name="btn_cetak" Content="Cetak Kartu"/>
+            <Button x:Name="btn_cekData" Click="Btn_cekData_OnClick" Content="Cek Data Kartu"/>
+            <Button x:Name="btn_cetak" Click="Btn_cetak_OnClick" Content="Cetak Kartu"/>
             <Button x:Name="btn_add" Click="TambahPasien" Content="Daftar"/>
-            <Button x:Name="btn_edit" Click="UbahDataPasien" Content="Perbarui"/>
+            <Button x:Name="btn_edit" Click="UbahDataPasien" Content="Ubah"/>
             <Button x:Name="btn_hapus" Click="HapusDataPasien" Content="Hapus"/>
         </StackPanel>
     </Grid>

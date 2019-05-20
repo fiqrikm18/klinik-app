@@ -48,7 +48,7 @@
 
         <StackPanel Grid.Row="2" Orientation="Horizontal">
             <Button Click="tambah_antrian" Content="Daftar"/>
-            <Button Width="Auto" Content="Scan Kartu Pasien" IsEnabled="{Binding ElementName=checkscan, Path=IsChecked}"/>
+            <Button Width="Auto" x:Name="btnScanKartu" Click="BtnScanKartu_OnClick" Content="Scan Kartu Pasien" IsEnabled="{Binding ElementName=checkscan, Path=IsChecked}"/>
         </StackPanel>
     </Grid>
 </Page>
