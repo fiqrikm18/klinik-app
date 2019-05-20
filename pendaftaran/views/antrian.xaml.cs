@@ -165,7 +165,7 @@ namespace pendaftaran.views
                                 if (res == 1)
                                 {
                                     MessageBox.Show("Antrian pasien berhasil dihapus.", "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
-                                    cbPoliklinik.SelectedIndex = -1;
+                                    //cbPoliklinik.SelectedIndex = 0;
                                 }
                                 else
                                     MessageBox.Show("Data pasien gagal dihapus.", "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
