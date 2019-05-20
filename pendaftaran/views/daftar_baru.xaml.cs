@@ -544,6 +544,7 @@ namespace pendaftaran.views
 
         private void BtnHapusKartu_OnClick(object sender, RoutedEventArgs e)
         {
+            //erase card data
             ClearAllBlock();
         }
 
