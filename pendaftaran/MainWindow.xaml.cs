@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using MySql.Data.MySqlClient;
-using System.Configuration;
+using PCSC;
 
 namespace pendaftaran
 {
@@ -38,7 +38,28 @@ namespace pendaftaran
             {
                 MessageBox.Show("Periksa kembali koneksi database anda...", "Perhatian", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
+
+            var contextFactory = ContextFactory.Instance;
+            var ctx = contextFactory.Establish(SCardScope.System);
+            var readerNames = ctx.GetReaders();
+
+            if (NoReaderAvailable(readerNames))
+            {
+                MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                //Environment.Exit(0);
+            }
+            else
+            {
+                var nfcReader = readerNames[0];
+                if (string.IsNullOrEmpty(nfcReader))
+                {
+                    MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
+
+        private bool NoReaderAvailable(ICollection<string> readerNames) 
+            => readerNames == null || readerNames.Count < 1;
 
         private void daftar_baru(object sender, RoutedEventArgs e) => MainFrame.Content = new views.daftar_baru();
         private void daftar_pasien(object sender, RoutedEventArgs e) => MainFrame.Content = new views.daftar_ulang();

@@ -61,58 +61,49 @@ namespace pendaftaran.forms
 
         private void AddPasien_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            _mDaftarBaru = new MDaftarBaru(norm, idP, nama, telp, alamat);
+            _mDaftarBaru = new MDaftarBaru(" ", "", "", " ", " ");
+            
+            CultureInfo ci = CultureInfo.CreateSpecificCulture(CultureInfo.CurrentCulture.Name);
+            ci.DateTimeFormat.ShortDatePattern = "yyyy-MM-dd";
+            Thread.CurrentThread.CurrentCulture = ci;
 
-            if (checkTextBoxValue())
+            //DateTime dt = DateTime.ParseExact(, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+
+            string identitas = TxtNoIdentitas.Text.ToString();
+            string namaPasien = TxtNamaPasien.Text.ToString();
+            string noTelp = TxtNoTelp.Text.ToString();
+            string alamat = TextAlamat.Text.ToString();
+            string jenisKelamin = cbJenisKelamin.Text.ToString();
+
+            try
             {
-
-                CultureInfo ci = CultureInfo.CreateSpecificCulture(CultureInfo.CurrentCulture.Name);
-                ci.DateTimeFormat.ShortDatePattern = "yyyy-MM-dd";
-                Thread.CurrentThread.CurrentCulture = ci;
-
-                //DateTime dt = DateTime.ParseExact(, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-
-                string norm = TxtNoRm.Text.ToString();
-                string identitas = TxtNoIdentitas.Text.ToString();
-                string namaPasien = TxtNamaPasien.Text.ToString();
-                string noTelp = TxtNoTelp.Text.ToString();
-                string alamat = TextAlamat.Text.ToString();
-                string jenisKelamin = cbJenisKelamin.Text.ToString();
-
-                try
+                if (DBConnection.dbConnection().State.Equals(System.Data.ConnectionState.Closed))
                 {
-                    if (DBConnection.dbConnection().State.Equals(System.Data.ConnectionState.Closed))
-                    {
-                        DBConnection.dbConnection().Open();
-                    }
-
-                    string query = "update pasien set nama='" + namaPasien + "', jenis_kelamin='" + jenisKelamin + "', no_telp='" + noTelp + "', alamat='" + alamat + "' where no_identitas='" + identitas + "';";
-                    MySqlCommand cmd = new MySqlCommand(query, DBConnection.dbConnection());
-                    int res = cmd.ExecuteNonQuery();
-
-                    if (res == 1)
-                    {
-                        MessageBox.Show("Berhasil memperbarui data pasien.", "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
-                        du.displayDataPasien();
-                        Close();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Gagal memperbarui data pasein.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                        DataContext = _mDaftarBaru;
-                        if (jk == "Pria") cbJenisKelamin.SelectedIndex = 0;
-                        else if (jk == "Wanita") cbJenisKelamin.SelectedIndex = 1;
-                    }
-
+                    DBConnection.dbConnection().Open();
                 }
-                catch (Exception ex)
+
+                string query = "update pasien set nama='" + namaPasien + "', jenis_kelamin='" + jenisKelamin + "', no_telp='" + noTelp + "', alamat='" + alamat + "' where no_identitas='" + identitas + "';";
+                MySqlCommand cmd = new MySqlCommand(query, DBConnection.dbConnection());
+                int res = cmd.ExecuteNonQuery();
+
+                if (res == 1)
                 {
-                    MessageBox.Show("Terjadi kesalahan.\n" + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Berhasil memperbarui data pasien.", "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
+                    du.displayDataPasien();
+                    Close();
                 }
+                else
+                {
+                    MessageBox.Show("Gagal memperbarui data pasein.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    DataContext = _mDaftarBaru;
+                    if (jk == "Pria") cbJenisKelamin.SelectedIndex = 0;
+                    else if (jk == "Wanita") cbJenisKelamin.SelectedIndex = 1;
+                }
+
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Tidak terdapat pembaruan data pasien.", "Infomasi");
+                MessageBox.Show("Terjadi kesalahan.\n" + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             DataContext = _mDaftarBaru;

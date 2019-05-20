@@ -55,7 +55,7 @@ namespace pendaftaran.Mifare
             Debug.WriteLine($"General Authenticate: {BitConverter.ToString(authenticateCmd.ToArray())}");
             var response = _isoreader.Transmit(authenticateCmd);
             Debug.WriteLine($"SW1 SW2 = {response.SW1:X2} {response.SW2:X2}");
-            
+
             return IsSuccess(response);
         }
 
@@ -70,37 +70,34 @@ namespace pendaftaran.Mifare
                 Data = data
             };
 
-            Debug.WriteLine($"Update Bunary: {BitConverter.ToString(updateBinaryCmd.ToArray())}");
+            Debug.WriteLine($"Update Binary: {BitConverter.ToString(updateBinaryCmd.ToArray())}");
             var response = _isoreader.Transmit(updateBinaryCmd);
-            Debug.WriteLine($"Sw1 SW2 = {response.SW1:X2} {response.SW2:X2}\nData: {response.GetData()}");
+            Debug.WriteLine($"Sw1 SW2 = {response.SW1:X2} {response.SW2:X2}");
 
             return IsSuccess(response);
         }
 
         public byte[] ReadBinary(byte Msb, byte Lsb, int size)
         {
-            unchecked
+            var readBinaryCmd = new CommandApdu(IsoCase.Case2Short, SCardProtocol.Any)
             {
-                var readBinaryCmd = new CommandApdu(IsoCase.Case2Short, SCardProtocol.Any)
-                {
-                    CLA = CUSTOM_CLA,
-                    Instruction = InstructionCode.ReadBinary,
-                    P1 = Msb,
-                    P2 = Lsb,
-                    Le = size
-                };
+                CLA = CUSTOM_CLA,
+                Instruction = InstructionCode.ReadBinary,
+                P1 = Msb,
+                P2 = Lsb,
+                Le = size
+            };
 
-                Debug.WriteLine($"Read Binary: {BitConverter.ToString(readBinaryCmd.ToArray())}");
-                var response = _isoreader.Transmit(readBinaryCmd);
-                Debug.WriteLine($"SW1 SW2 = {response.SW1:X2} {response.SW2:X2}\nData: {response.GetData()}");
+            Debug.WriteLine($"Read Binary: {BitConverter.ToString(readBinaryCmd.ToArray())}");
+            var response = _isoreader.Transmit(readBinaryCmd);
+            Debug.WriteLine($"SW1 SW2 = {response.SW1:X2} {response.SW2:X2}\nData: {response.GetData()}");
 
-                return IsSuccess(response)
-                    ? response.GetData() ?? new byte[0]
-                    : null;
-            }
+            return IsSuccess(response)
+                ? response.GetData() ?? new byte[0]
+                : null;
         }
 
-        private bool IsSuccess(Response response) 
+        private bool IsSuccess(Response response)
             => (response.SW1 == (byte)SW1Code.Normal) && (response.SW2 == 0x00);
     }
 }

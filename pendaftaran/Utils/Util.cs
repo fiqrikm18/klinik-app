@@ -3,22 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace pendaftaran.Util
+namespace pendaftaran.Utils
 {
     public class Util
     {
-        public static int GetLength(byte[] bstr, int length)
-        {
-            int rsl = 0;
-            for(int i = 0; i < length; i++)
-            {
-                if (bstr[i] == 0) break;
-                else rsl++;
-            }
-
-            return rsl;
-        }
-
         public static byte[] ToArrayByte16(string str)
         {
             byte[] bout = new byte[16];
@@ -28,10 +16,8 @@ namespace pendaftaran.Util
             if (len > 16)
                 len = 16;
 
-            for (int i = 0; i < str.Length; i++)
-            {
+            for (int i = 0; i < len; i++)
                 bout[i] = (byte)str[i];
-            }
 
             return bout;
         }
@@ -69,42 +55,36 @@ namespace pendaftaran.Util
             return bout;
         }
 
-        public static byte[] ToArrayByte128(string str)
-        {
-            byte[] bout = new byte[128];
-            Array.Clear(bout, 0, 128);
-
-            for (int i = 0; i < str.Length; i++)
-                bout[i] = (byte)str[i];
-
-            return bout;
-        }
-
-        public static string ToASCII(byte[] bstr, int idx, int len, bool whitespace = false)
+        public static string ToASCII(byte[] bstr, int idx, int len, bool whitespace)
         {
             string str = "";
-            int strLen = GetLength(bstr, len);
-            for (int i = 0; i < strLen;)
+            int strlen = GetLenght(bstr, len);
+            for(int i =0; i < strlen;)
             {
                 if (whitespace)
                 {
-                    if (bstr[idx + 1] > 0x2A)
-                    {
-                        str += Convert.ToChar(bstr[idx + i]) + " ";
-                    }
+                    if (bstr[idx + 1] > 0x2A) str += Convert.ToChar(bstr[idx + i]);
                 }
                 else
                 {
-                    if(bstr[idx+1] > 0x2A)
-                    {
-                        str += Convert.ToSByte(bstr[idx + i]);
-                    }
+                    if (bstr[idx + 1] > 0x2A) str += Convert.ToChar(bstr[idx + i]);
                 }
-
                 i++;
             }
 
             return str;
+        }
+
+        private static int GetLenght(byte[] bstr, int len)
+        {
+            int rsl = 0;
+            for (int i = 0; i < len; i++)
+            {
+                if (bstr[i] == 0) break;
+                rsl++;
+            }
+
+            return rsl;
         }
     }
 }

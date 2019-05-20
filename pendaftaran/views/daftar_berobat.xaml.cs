@@ -122,5 +122,15 @@ namespace pendaftaran.views
 
             }
         }
+
+        private void Checkscan_OnUnchecked(object sender, RoutedEventArgs e)
+        {
+            this.txtIdPasien.IsEnabled = true;
+        }
+
+        private void Checkscan_OnChecked(object sender, RoutedEventArgs e)
+        {
+            this.txtIdPasien.IsEnabled = false;
+        }
     }
 }

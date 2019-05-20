@@ -76,7 +76,7 @@
     <Compile Include="Mifare\KeyType.cs" />
     <Compile Include="Mifare\MifareCard.cs" />
     <Compile Include="models\MDaftarBaru.cs" />
-    <Compile Include="Util\Util.cs" />
+    <Compile Include="Utils\Util.cs" />
     <Compile Include="views\antrian.xaml.cs">
       <DependentUpon>antrian.xaml</DependentUpon>
     </Compile>

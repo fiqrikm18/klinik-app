@@ -78,7 +78,7 @@
                     </ComboBox>
                 </StackPanel>
 
-                <StackPanel Grid.Column="0" Grid.Row="6">
+                <StackPanel Grid.Column="1" Grid.Row="6" HorizontalAlignment="Right">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
                         <Button x:Name="btnAdd" Content="Perbarui Data" Command="New"></Button>
                         <Button Click="Batal" Content="Batal"></Button>

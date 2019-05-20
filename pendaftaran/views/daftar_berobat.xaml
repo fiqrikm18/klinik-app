@@ -32,11 +32,11 @@
 
                 <StackPanel Orientation="Vertical" Grid.Row="0">
                     <TextBlock Text="Nomor Rekam Medis"/>
-                    <TextBox x:Name="txtIdPasien" IsEnabled="{Binding ElementName=checkscan, Path=IsChecked}"/>
+                    <TextBox x:Name="txtIdPasien"/>
                 </StackPanel>
 
                 <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" >
-                    <CheckBox x:Name="checkscan" Content="Ketik manual" Margin="15 0"/>
+                    <CheckBox x:Name="checkscan" Content="Scan kartu pasien" IsChecked="True" Margin="15 0" Unchecked="Checkscan_OnUnchecked" Checked="Checkscan_OnChecked"/>
                 </StackPanel>
                 
                 <StackPanel Orientation="Vertical" Grid.Row="1">
@@ -48,6 +48,7 @@
 
         <StackPanel Grid.Row="2" Orientation="Horizontal">
             <Button Click="tambah_antrian" Content="Daftar"/>
+            <Button Width="Auto" Content="Scan Kartu Pasien" IsEnabled="{Binding ElementName=checkscan, Path=IsChecked}"/>
         </StackPanel>
     </Grid>
 </Page>
