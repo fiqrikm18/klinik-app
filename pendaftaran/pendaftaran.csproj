@@ -71,11 +71,12 @@
     <Compile Include="forms\ubah_dataPasien.xaml.cs">
       <DependentUpon>ubah_dataPasien.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MIfare\GeneralAuthenticate.cs" />
-    <Compile Include="MIfare\KeyStructure.cs" />
-    <Compile Include="MIfare\KeyType.cs" />
-    <Compile Include="MIfare\MifareCard.cs" />
+    <Compile Include="Mifare\GeneralAuthenticate.cs" />
+    <Compile Include="Mifare\KeyStructure.cs" />
+    <Compile Include="Mifare\KeyType.cs" />
+    <Compile Include="Mifare\MifareCard.cs" />
     <Compile Include="models\MDaftarBaru.cs" />
+    <Compile Include="Util\Util.cs" />
     <Compile Include="views\antrian.xaml.cs">
       <DependentUpon>antrian.xaml</DependentUpon>
     </Compile>

@@ -40,7 +40,7 @@
 
                 <StackPanel Grid.Column="0" Grid.Row="1">
                     <Label Content="No.Identitas (KTP/SIM/Kartu Pelajar)"/>
-                    <TextBox x:Name="TxtNoIdentitas" IsEnabled="False" MaxLength="20" GotKeyboardFocus="TextBoxFocus"
+                    <TextBox x:Name="TxtNoIdentitas" IsEnabled="False" MaxLength="20"
                              Text="{Binding UpdateSourceTrigger=LostFocus,
                         Path=Identitas, NotifyOnSourceUpdated=True,
                         ValidatesOnDataErrors=True}"></TextBox>
@@ -48,7 +48,7 @@
 
                 <StackPanel Grid.Column="1" Grid.Row="0">
                     <Label Content="Nama Pasien"/>
-                    <TextBox x:Name="TxtNamaPasien" GotKeyboardFocus="TextBoxFocus"
+                    <TextBox x:Name="TxtNamaPasien"
                              Text="{Binding UpdateSourceTrigger=LostFocus,
                         Path=NamaPasien, NotifyOnSourceUpdated=True,
                         ValidatesOnDataErrors=True}"></TextBox>
@@ -56,7 +56,7 @@
 
                 <StackPanel Grid.Column="1" Grid.Row="1">
                     <Label Content="No.Telepon"/>
-                    <TextBox x:Name="TxtNoTelp" MaxLength="12" GotKeyboardFocus="TextBoxFocus"
+                    <TextBox x:Name="TxtNoTelp" MaxLength="12"
                              Text="{Binding UpdateSourceTrigger=LostFocus,
                         Path=NoTelp, NotifyOnSourceUpdated=True,
                         ValidatesOnDataErrors=True}"></TextBox>
@@ -64,7 +64,7 @@
 
                 <StackPanel Grid.Column="0" Grid.Row="2">
                     <Label Content="Alamat"/>
-                    <TextBox x:Name="TextAlamat" Height="100" AcceptsReturn="True" TextWrapping="Wrap" GotKeyboardFocus="TextBoxFocus"
+                    <TextBox x:Name="TextAlamat" Height="100" AcceptsReturn="True" TextWrapping="Wrap"
                              Text="{Binding UpdateSourceTrigger=LostFocus,
                         Path=Alamat, NotifyOnSourceUpdated=True,
                         ValidatesOnDataErrors=True}"></TextBox>

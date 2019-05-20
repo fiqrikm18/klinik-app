@@ -1,18 +1,8 @@
 ﻿using pendaftaran.models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using pendaftaran.DBAccess;
 using MySql.Data.MySqlClient;
 
@@ -35,7 +25,7 @@ namespace pendaftaran.views
                 if (DBConnection.dbConnection().State.Equals(System.Data.ConnectionState.Closed))
                 {
                     DBConnection.dbConnection().Open();
-                    MySqlCommand command = new MySqlCommand("select * from poliklinik", DBAccess.DBConnection.dbConnection());
+                    MySqlCommand command = new MySqlCommand("select * from poliklinik", DBConnection.dbConnection());
                     using (MySqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -48,7 +38,7 @@ namespace pendaftaran.views
                 }
                 else
                 {
-                    MySqlCommand command = new MySqlCommand("select * from poliklinik", DBAccess.DBConnection.dbConnection());
+                    MySqlCommand command = new MySqlCommand("select * from poliklinik", DBConnection.dbConnection());
                     using (MySqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -85,7 +75,7 @@ namespace pendaftaran.views
                     DBConnection.dbConnection().Open();
 
                 string query = "select count(*) from pasien where no_rekam_medis = '" + norm + "';";
-                cmd = new MySqlCommand(query, DBAccess.DBConnection.dbConnection());
+                cmd = new MySqlCommand(query, DBConnection.dbConnection());
                 int rm_exist = int.Parse(cmd.ExecuteScalar().ToString());
                 DBConnection.dbConnection().Close();
 
@@ -100,7 +90,7 @@ namespace pendaftaran.views
                     int no_urut = 0;
                     string query_last = "select nomor_urut from antrian where poliklinik= '" + policode + "' and DATE(tanggal_berobat) = '" + DateTime.Now.ToString("yyyy-MM-dd") + "' ORDER BY nomor_urut desc LIMIT 1;";
                     //string query_last = "select nomor_urut from antrian where poliklinik= '003' and DATE(tanggal_berobat) = '" + DateTime.Now.ToString("yyyy-MM-dd") + "' ORDER BY nomor_urut desc LIMIT 1;";
-                    cmd = new MySqlCommand(query_last, DBAccess.DBConnection.dbConnection());
+                    cmd = new MySqlCommand(query_last, DBConnection.dbConnection());
                     MySqlDataReader reader = cmd.ExecuteReader();
 
                     if (reader.Read()) a = reader.GetInt32(0);
@@ -111,7 +101,7 @@ namespace pendaftaran.views
                     DBConnection.dbConnection().Close();
                     DBConnection.dbConnection().Open();
                     query = "insert into antrian(nomor_rm, nomor_urut, poliklinik, status) values('" + norm + "','" + no_urut + "','" + policode + "','Antri');";
-                    cmd = new MySqlCommand(query, DBAccess.DBConnection.dbConnection());
+                    cmd = new MySqlCommand(query, DBConnection.dbConnection());
 
                     int res = cmd.ExecuteNonQuery();
 

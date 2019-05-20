@@ -31,7 +31,7 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Orientation="Vertical" Grid.Row="0">
-                    <TextBlock Text="ID Pasien"/>
+                    <TextBlock Text="Nomor Rekam Medis"/>
                     <TextBox x:Name="txtIdPasien" IsEnabled="{Binding ElementName=checkscan, Path=IsChecked}"/>
                 </StackPanel>
 
