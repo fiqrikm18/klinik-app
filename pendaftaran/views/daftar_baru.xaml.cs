@@ -496,11 +496,18 @@ namespace pendaftaran.views
 
         private bool checkTextBoxValue()
         {
-            if (TxtNoRm.Text == " " && TxtNoIdentitas.Text == " " && TxtNamaPasien.Text == " " &&
-                TxtNoTelp.Text == " " && TextAlamat.Text == " " &&
-                dtTanggalLahir.SelectedDate.ToString() == null) return false;
+//            if (TxtNoRm.Text == " " && TxtNoIdentitas.Text == " " && TxtNamaPasien.Text == " " &&
+//                TxtNoTelp.Text == " " && TextAlamat.Text == " " &&
+//                dtTanggalLahir.SelectedDate.ToString() == null) return false;
 
-            return true;
+            if (!string.IsNullOrWhiteSpace(TxtNoRm.Text) && !string.IsNullOrWhiteSpace(TxtNoIdentitas.Text) &&
+                !string.IsNullOrWhiteSpace(TxtNamaPasien.Text) && !string.IsNullOrWhiteSpace(TxtNoTelp.Text) &&
+                !string.IsNullOrWhiteSpace(TextAlamat.Text) && !string.IsNullOrWhiteSpace(dtTanggalLahir.SelectedDate.ToString()))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         #endregion

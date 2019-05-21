@@ -1,0 +1,33 @@
+﻿<Page x:Class="admin.views.DaftarApoteker"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:admin.views"
+      mc:Ignorable="d" 
+      Title="DaftarApoteker">
+
+    <Grid Style="{StaticResource OpenSans}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+            <TextBlock FontSize="16" FontWeight="Bold" Text="Daftar Apoteker" Foreground="#555555"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1">
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="btnTambahApoteker" Width="Auto" Click="BtnTambahApoteker_OnClick" Content="Tambah Data Apoteker"/>
+                <Button x:Name="btnUbahApoteker" Width="Auto" Click="BtnUbahApoteker_OnClick" Content="Ubah Data Apoteker"/>
+                <Button x:Name="btnHapusApoteker" Width="Auto" Click="BtnHapusApoteker_OnClick" Content="Hapus Data Apoteker"/>
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2">
+            <DataGrid x:Name="dtgStaff"></DataGrid>
+        </StackPanel>
+    </Grid>
+</Page>

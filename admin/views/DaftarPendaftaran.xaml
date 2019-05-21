@@ -1,0 +1,33 @@
+﻿<Page x:Class="admin.views.DaftarPendaftaran"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:admin.views"
+      mc:Ignorable="d" 
+      Title="DaftarPendaftaran">
+
+    <Grid Style="{StaticResource OpenSans}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+            <TextBlock FontSize="16" FontWeight="Bold" Text="Daftar Staff Pendaftaran" Foreground="#555555"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1">
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="btnTambahStaff" Width="Auto" Click="BtnTambahStaff_OnClick" Content="Tambah Staff Pendaftaran"/>
+                <Button x:Name="btnUbahStaff"  Width="Auto" Click="BtnUbahStaff_OnClick" Content="Ubah Staff Pendaftaran"/>
+                <Button x:Name="btnHapusStaff"  Width="Auto" Click="BtnHapusStaff_OnClick" Content="Hapus Staff Pendaftaran"/>
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2">
+            <DataGrid x:Name="dtgStaff"></DataGrid>
+        </StackPanel>
+    </Grid>
+</Page>
