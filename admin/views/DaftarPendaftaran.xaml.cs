@@ -89,8 +89,6 @@ namespace admin.views
             var nama = "";
             var telp = "";
             var alamat = "";
-            var spesialis = "";
-            var tugas = "";
             var jenisK = "";
 
             if (dtgDataPendaftar.SelectedItems.Count > 0)

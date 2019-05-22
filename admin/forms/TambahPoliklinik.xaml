@@ -1,0 +1,65 @@
+﻿<Window x:Class="admin.forms.TambahPoliklinik"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:admin.forms"
+        mc:Ignorable="d"
+        Title="Tambah Data Poliklinik" Height="370" Width="412.853" WindowStartupLocation="CenterScreen"
+        Icon="/admin;component/images/BMicon.ico">
+    <Grid Style="{StaticResource OpenSans}" Margin="25">
+        <Grid.CommandBindings>
+            <CommandBinding Command="New" CanExecute="AddPoliklinik_CanExecute" Executed="AddPoliklinik_Executed" />
+        </Grid.CommandBindings>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+            <TextBlock Text="Tambah Data Poliklinik" FontSize="16" FontWeight="Bold" Foreground="#555555" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Grid.Column="0">
+                    <Label Content="Kode Poliklinik" />
+                    <TextBox x:Name="txtidDokter"
+                             Validation.Error="Validation_Error"
+                             Text="{Binding UpdateSourceTrigger=LostFocus,
+                        Path=kode_poliklinik, NotifyOnSourceUpdated=True,
+                        ValidatesOnDataErrors=True}"
+                             GotKeyboardFocus="TextBoxFocus" />
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" Grid.Column="0">
+                    <Label Content="Poliklinik" />
+                    <TextBox x:Name="txtNamaDokter"
+                             Validation.Error="Validation_Error"
+                             Text="{Binding UpdateSourceTrigger=LostFocus,
+                        Path=nama_poliklinik, NotifyOnSourceUpdated=True,
+                        ValidatesOnDataErrors=True}"
+                             GotKeyboardFocus="TextBoxFocus" />
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Orientation="Horizontal">
+            <Button Content="Simpan" Command="New" />
+            <Button Content="Batal" x:Name="btnBatal" Click="BtnBatal_OnClick" />
+        </StackPanel>
+    </Grid>
+</Window>

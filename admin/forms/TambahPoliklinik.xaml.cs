@@ -10,23 +10,19 @@ using MySql.Data.MySqlClient;
 namespace admin.forms
 {
     /// <summary>
-    ///     Interaction logic for UbahStaffPendaftaran.xaml
+    ///     Interaction logic for TambahPoliklinik.xaml
     /// </summary>
-    public partial class UbahStaffPendaftaran : Window
+    public partial class TambahPoliklinik : Window
     {
-        private readonly DaftarPendaftaran df;
-        private MPendaftaran _mDaftarBaru = new MPendaftaran(" ", " ", " ", " ", " ", " ");
+        private readonly DaftarPoliklinik dp;
+        private MPoliklinik _mDaftarBaru = new MPoliklinik(" ", " ");
         private int _noOfErrorsOnScreen;
 
-        public UbahStaffPendaftaran(string id, string nama, string alamat, string telp, string jenisK,
-            DaftarPendaftaran df)
+
+        public TambahPoliklinik(DaftarPoliklinik dp)
         {
             InitializeComponent();
-            DataContext = new MPendaftaran(id, nama, alamat, telp, " ", jenisK);
-
-            this.df = df;
-            if (jenisK == "Pria") cbJenisKelamin.SelectedIndex = 0;
-            else if (jenisK == "Wanita") cbJenisKelamin.SelectedIndex = 1;
+            this.dp = dp;
         }
 
         private void BtnBatal_OnClick(object sender, RoutedEventArgs e)
@@ -50,46 +46,55 @@ namespace admin.forms
             source.Clear();
         }
 
-        private void AddDokter_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        private void AddPoliklinik_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = _noOfErrorsOnScreen == 0;
             e.Handled = true;
         }
 
-        private void AddDokter_Executed(object sender, ExecutedRoutedEventArgs e)
+        private void AddPoliklinik_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            _mDaftarBaru = new MPendaftaran(" ", " ", " ", " ", " ", " ");
+            _mDaftarBaru = new MPoliklinik(" ", " ");
 
             if (checkTextBoxValue())
             {
                 var nama = txtNamaDokter.Text;
                 var id = txtidDokter.Text.ToUpper();
-                var telp = txtTelpDokter.Text;
-                var alamat = TextAlamat.Text;
-                var jenisK = cbJenisKelamin.Text;
 
                 try
                 {
                     if (DBConnection.dbConnection().State.Equals(ConnectionState.Closed))
                         DBConnection.dbConnection().Open();
 
-                    var query =
-                        "update pendaftar set nama='" + nama + "', alamat='" + alamat + "', telp='" + telp +
-                        "', jenis_kelamin='" + jenisK + "' where id='" + id + "'";
-                    var command = new MySqlCommand(query, DBConnection.dbConnection());
-                    var res = command.ExecuteNonQuery();
+                    var query = "select count(*) from poliklinik where kode_poliklinik='" + id + "'";
+                    var cmd = new MySqlCommand(query, DBConnection.dbConnection());
+                    var idExist = int.Parse(cmd.ExecuteScalar().ToString());
 
-                    if (res == 1)
+                    if (idExist >= 1)
                     {
-                        MessageBox.Show("Data staff berhasil disimpan.", "Informasi", MessageBoxButton.OK,
-                            MessageBoxImage.Information);
-                        df.displayDataPendaftar();
-                        Close();
+                        MessageBox.Show("Kode poliklinik sudah terdaftar.", "Error", MessageBoxButton.OK,
+                            MessageBoxImage.Error);
                     }
                     else
                     {
-                        MessageBox.Show("Data staff gagal disimpan.", "Error", MessageBoxButton.OK,
-                            MessageBoxImage.Error);
+                        query =
+                            "insert into poliklinik(kode_poliklinik, nama_poliklinik) values('" + id + "', '" + nama +
+                            "')";
+                        var command = new MySqlCommand(query, DBConnection.dbConnection());
+                        var res = command.ExecuteNonQuery();
+
+                        if (res == 1)
+                        {
+                            MessageBox.Show("Data poliklinik berhasil disimpan.", "Informasi", MessageBoxButton.OK,
+                                MessageBoxImage.Information);
+                            dp.displayDataPoliklinik();
+                            Close();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Data poliklinik gagal disimpan.", "Error", MessageBoxButton.OK,
+                                MessageBoxImage.Error);
+                        }
                     }
                 }
                 catch (MySqlException ex)
@@ -103,7 +108,7 @@ namespace admin.forms
                     MessageBoxImage.Warning);
             }
 
-            cbJenisKelamin.SelectedIndex = 0;
+            DataContext = _mDaftarBaru;
             e.Handled = true;
         }
 
@@ -112,9 +117,7 @@ namespace admin.forms
 //            if (txtidDokter.Text == " " && txtNamaDokter.Text == " " && txtTelpDokter.Text == " " &&
 //                txtSpesialisai.Text == " " && TextAlamat.Text == " ") return false;
 
-            if (!string.IsNullOrWhiteSpace(txtidDokter.Text) && !string.IsNullOrWhiteSpace(txtNamaDokter.Text) &&
-                !string.IsNullOrWhiteSpace(txtTelpDokter.Text) &&
-                !string.IsNullOrWhiteSpace(TextAlamat.Text))
+            if (!string.IsNullOrWhiteSpace(txtidDokter.Text) && !string.IsNullOrWhiteSpace(txtNamaDokter.Text))
                 return true;
 
             return false;
