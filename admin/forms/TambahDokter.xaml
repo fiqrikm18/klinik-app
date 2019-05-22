@@ -5,100 +5,113 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:admin.forms"
         mc:Ignorable="d"
-        Title="Tambah Data Dokter" Height="600" Width="850" WindowStartupLocation="CenterScreen" Icon="/admin;component/images/BMicon.ico">
+        Title="Tambah Data Dokter" Height="600" Width="850" WindowStartupLocation="CenterScreen"
+        Icon="/admin;component/images/BMicon.ico">
     <Grid Style="{StaticResource OpenSans}" Margin="25">
         <Grid.CommandBindings>
-            <CommandBinding Command="New" CanExecute="AddDokter_CanExecute" Executed="AddDokter_Executed"/>
+            <CommandBinding Command="New" CanExecute="AddDokter_CanExecute" Executed="AddDokter_Executed" />
         </Grid.CommandBindings>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
-            <TextBlock Text="Tambah Data Dokter" FontSize="16" FontWeight="Bold" Foreground="#555555"/>
+            <TextBlock Text="Tambah Data Dokter" FontSize="16" FontWeight="Bold" Foreground="#555555" />
         </StackPanel>
 
         <StackPanel Grid.Row="1">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
 
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <StackPanel Grid.Row="0"  Grid.Column="0">
-                    <Label Content="ID Dokter"/>
+                <StackPanel Grid.Row="0" Grid.Column="0">
+                    <Label Content="ID Dokter" />
                     <TextBox x:Name="txtidDokter"
-                             Validation.Error="Validation_Error" 
+                             Validation.Error="Validation_Error"
                              Text="{Binding UpdateSourceTrigger=LostFocus,
                         Path=id, NotifyOnSourceUpdated=True,
-                        ValidatesOnDataErrors=True}" GotKeyboardFocus="TextBoxFocus"/>
+                        ValidatesOnDataErrors=True}"
+                             GotKeyboardFocus="TextBoxFocus" />
                 </StackPanel>
 
-                <StackPanel Grid.Row="1"  Grid.Column="0">
-                    <Label Content="Nama Dokter"/>
+                <StackPanel Grid.Row="1" Grid.Column="0">
+                    <Label Content="Nama Dokter" />
                     <TextBox x:Name="txtNamaDokter"
-                             Validation.Error="Validation_Error" 
+                             Validation.Error="Validation_Error"
                              Text="{Binding UpdateSourceTrigger=LostFocus,
                         Path=nama, NotifyOnSourceUpdated=True,
-                        ValidatesOnDataErrors=True}" GotKeyboardFocus="TextBoxFocus"/>
+                        ValidatesOnDataErrors=True}"
+                             GotKeyboardFocus="TextBoxFocus" />
                 </StackPanel>
 
                 <StackPanel Grid.Row="2" Grid.Column="0">
-                    <Label Content="Telepon"/>
+                    <Label Content="Telepon" />
                     <TextBox x:Name="txtTelpDokter" MaxLength="12"
-                             Validation.Error="Validation_Error" 
+                             Validation.Error="Validation_Error"
                              Text="{Binding UpdateSourceTrigger=LostFocus,
                         Path=telp, NotifyOnSourceUpdated=True,
-                        ValidatesOnDataErrors=True}" GotKeyboardFocus="TextBoxFocus"/>
+                        ValidatesOnDataErrors=True}"
+                             GotKeyboardFocus="TextBoxFocus" />
                 </StackPanel>
 
                 <StackPanel Grid.Row="3" Grid.Column="0">
-                    <Label Content="Alamat"/>
-                    <TextBox x:Name="TextAlamat" Height="100" AcceptsReturn="True" TextWrapping="Wrap" GotKeyboardFocus="TextBoxFocus"
+                    <Label Content="Alamat" />
+                    <TextBox x:Name="TextAlamat" Height="100" AcceptsReturn="True" TextWrapping="Wrap"
+                             GotKeyboardFocus="TextBoxFocus"
                              Text="{Binding UpdateSourceTrigger=LostFocus,
                         Path=alamat, NotifyOnSourceUpdated=True,
-                        ValidatesOnDataErrors=True}"></TextBox>
+                        ValidatesOnDataErrors=True}" />
                 </StackPanel>
 
                 <StackPanel Grid.Row="0" Grid.Column="1">
-                    <Label Content="Spesialisasi"/>
+                    <Label Content="Spesialisasi" />
                     <TextBox x:Name="txtSpesialisai"
-                             Validation.Error="Validation_Error" 
+                             Validation.Error="Validation_Error"
                              Text="{Binding UpdateSourceTrigger=LostFocus,
                         Path=spesialisasi, NotifyOnSourceUpdated=True,
-                        ValidatesOnDataErrors=True}" GotKeyboardFocus="TextBoxFocus"/>
+                        ValidatesOnDataErrors=True}"
+                             GotKeyboardFocus="TextBoxFocus" />
                 </StackPanel>
 
                 <StackPanel Grid.Row="1" Grid.Column="1">
-                    <Label Content="Jenis Kelamin"/>
+                    <Label Content="Jenis Kelamin" />
                     <ComboBox x:Name="cbJenisKelamin" SelectedIndex="0" Background="{x:Null}" BorderBrush="{x:Null}">
-                        <ComboBoxItem Content="Pria"/>
-                        <ComboBoxItem Content="Wanita"/>
+                        <ComboBoxItem Content="Pria" />
+                        <ComboBoxItem Content="Wanita" />
                     </ComboBox>
                 </StackPanel>
 
                 <StackPanel Grid.Row="2" Grid.Column="1">
-                    <Label Content="Poliklnik"/>
-                    <ComboBox x:Name="cbPoliklinik"/>
+                    <Label Content="Poliklnik" />
+                    <ComboBox x:Name="cbPoliklinik" />
                 </StackPanel>
-                
+
+                <StackPanel Grid.Row="3" Grid.Column="1">
+                    <Label Content="Password" />
+                    <TextBox x:Name="txtPassword"
+                             Validation.Error="Validation_Error"
+                             Text="{Binding ElementName=txtidDokter, Path=Text}"
+                             GotKeyboardFocus="TextBoxFocus" IsEnabled="False" />
+                </StackPanel>
             </Grid>
         </StackPanel>
 
         <StackPanel Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Orientation="Horizontal">
-            <Button Content="Simpan" Command="New"></Button>
-            <Button Content="Batal" x:Name="btnBatal" Click="BtnBatal_OnClick"></Button>
-            <CheckBox Content="Buat kartu dokter" VerticalAlignment="Center" IsChecked="True"></CheckBox>
+            <Button Content="Simpan" Command="New" />
+            <Button Content="Batal" x:Name="btnBatal" Click="BtnBatal_OnClick" />
+            <CheckBox Content="Buat kartu dokter" VerticalAlignment="Center" IsChecked="True" />
         </StackPanel>
     </Grid>
 </Window>

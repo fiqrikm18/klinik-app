@@ -1,15 +1,15 @@
 ﻿<Page x:Class="pendaftaran.views.daftar_baru"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:pendaftaran.views"
-      mc:Ignorable="d" 
+      mc:Ignorable="d"
       Title="daftar_baru">
 
     <Grid Style="{StaticResource OpenSans}">
         <Grid.CommandBindings>
-            <CommandBinding Command="New" CanExecute="AddPasien_CanExecute" Executed="AddPasien_Executed"/>
+            <CommandBinding Command="New" CanExecute="AddPasien_CanExecute" Executed="AddPasien_Executed" />
         </Grid.CommandBindings>
 
         <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0">
@@ -17,89 +17,93 @@
             <Grid>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
 
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <StackPanel Grid.Column="0" Grid.Row="0">
-                    <Label Content="No.Rekam Medis"/>
-                    <TextBox x:Name="TxtNoRm" MaxLength="10" Validation.Error="Validation_Error" 
-                        Text="{Binding UpdateSourceTrigger=LostFocus,
+                    <Label Content="No.Rekam Medis" />
+                    <TextBox x:Name="TxtNoRm" MaxLength="10" Validation.Error="Validation_Error"
+                             Text="{Binding UpdateSourceTrigger=LostFocus,
                         Path=NoRm, NotifyOnSourceUpdated=True,
-                        ValidatesOnDataErrors=True}" GotKeyboardFocus="TextBoxFocus"></TextBox>
+                        ValidatesOnDataErrors=True}"
+                             GotKeyboardFocus="TextBoxFocus" />
                 </StackPanel>
 
                 <StackPanel Grid.Column="0" Grid.Row="1">
-                    <Label Content="No.Identitas (KTP/SIM/Kartu Pelajar)"/>
+                    <Label Content="No.Identitas (KTP/SIM/Kartu Pelajar)" />
                     <TextBox x:Name="TxtNoIdentitas" MaxLength="20" GotKeyboardFocus="TextBoxFocus"
                              Text="{Binding UpdateSourceTrigger=LostFocus,
                         Path=Identitas, NotifyOnSourceUpdated=True,
-                        ValidatesOnDataErrors=True}"></TextBox>
+                        ValidatesOnDataErrors=True}" />
                 </StackPanel>
 
                 <StackPanel Grid.Column="0" Grid.Row="2">
-                    <Label Content="Nama Pasien"/>
+                    <Label Content="Nama Pasien" />
                     <TextBox x:Name="TxtNamaPasien" GotKeyboardFocus="TextBoxFocus"
                              Text="{Binding UpdateSourceTrigger=LostFocus,
                         Path=NamaPasien, NotifyOnSourceUpdated=True,
-                        ValidatesOnDataErrors=True}"></TextBox>
+                        ValidatesOnDataErrors=True}" />
                 </StackPanel>
 
                 <StackPanel Grid.Column="0" Grid.Row="3">
-                    <Label Content="No.Telepon"/>
+                    <Label Content="No.Telepon" />
                     <TextBox x:Name="TxtNoTelp" MaxLength="12" GotKeyboardFocus="TextBoxFocus"
                              Text="{Binding UpdateSourceTrigger=LostFocus,
                         Path=NoTelp, NotifyOnSourceUpdated=True,
-                        ValidatesOnDataErrors=True}"></TextBox>
+                        ValidatesOnDataErrors=True}" />
                 </StackPanel>
 
                 <StackPanel Grid.Column="0" Grid.Row="4">
-                    <Label Content="Alamat"/>
-                    <TextBox x:Name="TextAlamat" Height="100" AcceptsReturn="True" TextWrapping="Wrap" GotKeyboardFocus="TextBoxFocus"
+                    <Label Content="Alamat" />
+                    <TextBox x:Name="TextAlamat" Height="100" AcceptsReturn="True" TextWrapping="Wrap"
+                             GotKeyboardFocus="TextBoxFocus"
                              Text="{Binding UpdateSourceTrigger=LostFocus,
                         Path=Alamat, NotifyOnSourceUpdated=True,
-                        ValidatesOnDataErrors=True}"></TextBox>
+                        ValidatesOnDataErrors=True}" />
                 </StackPanel>
 
                 <StackPanel Grid.Column="1" Grid.Row="0">
-                    <Label Content="Tanggal Lahir (YYYY-MM-DD)"/>
-                    <DatePicker x:Name="dtTanggalLahir" Width="120" HorizontalAlignment="Left" Margin="0,1"/>
+                    <Label Content="Tanggal Lahir (YYYY-MM-DD)" />
+                    <DatePicker x:Name="dtTanggalLahir" Width="120" HorizontalAlignment="Left" Margin="0,1" />
                 </StackPanel>
 
                 <StackPanel Grid.Column="1" Grid.Row="1">
-                    <Label Content="Jenis Kelamin"/>
+                    <Label Content="Jenis Kelamin" />
                     <ComboBox x:Name="cbJenisKelamin" SelectedIndex="0" Background="{x:Null}" BorderBrush="{x:Null}">
-                        <ComboBoxItem Content="Pria"/>
-                        <ComboBoxItem Content="Wanita"/>
+                        <ComboBoxItem Content="Pria" />
+                        <ComboBoxItem Content="Wanita" />
                     </ComboBox>
                 </StackPanel>
 
                 <StackPanel Grid.Column="1" Grid.Row="2">
-                    <Label Content="Poliklinik"/>
-                    <ComboBox x:Name="cbPoliklinik" SelectedIndex="0"/>
+                    <Label Content="Poliklinik" />
+                    <ComboBox x:Name="cbPoliklinik" SelectedIndex="0" />
                 </StackPanel>
             </Grid>
 
 
             <StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
-                    <Button x:Name="btnAdd" Content="Daftar" Command="New"></Button>
-                    <Button x:Name="btnCekKartu" Click="BtnCekKartu_OnClick" Content="Cek Data Kartu" Width="Auto"></Button>
-                    <Button x:Name="btnHapusKartu" Click="BtnHapusKartu_OnClick"  Content="Hapus Data Kartu" Width="Auto"></Button>
+                    <Button x:Name="btnAdd" Content="Daftar" Command="New" />
+                    <Button x:Name="btnCekKartu" Click="BtnCekKartu_OnClick" Content="Cek Data Kartu" Width="Auto" />
+                    <Button x:Name="btnHapusKartu" Click="BtnHapusKartu_OnClick" Content="Hapus Data Kartu"
+                            Width="Auto" />
                     <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                        <CheckBox Content="Cetak Kartu" x:Name="chkCetakKartu" Margin="15" IsChecked="True"/>
-                        <CheckBox Content="Kartu Baru" x:Name="chkKartuBaru" Margin="15" IsEnabled="{Binding ElementName=chkCetakKartu, Path=IsChecked}"/>
+                        <CheckBox Content="Cetak Kartu" x:Name="chkCetakKartu" Margin="15" IsChecked="True" />
+                        <CheckBox Content="Kartu Baru" x:Name="chkKartuBaru" Margin="15"
+                                  IsEnabled="{Binding ElementName=chkCetakKartu, Path=IsChecked}" />
                     </StackPanel>
                 </StackPanel>
             </StackPanel>

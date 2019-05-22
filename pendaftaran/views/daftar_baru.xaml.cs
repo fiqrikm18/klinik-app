@@ -1,43 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Globalization;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using MySql.Data.MySqlClient;
-using pendaftaran.models;
-using System.Globalization;
-using System.Threading;
 using PCSC;
 using PCSC.Iso7816;
+using pendaftaran.DBAccess;
 using pendaftaran.Mifare;
+using pendaftaran.models;
 using pendaftaran.Utils;
 
 namespace pendaftaran.views
 {
     /// <summary>
-    /// Interaction logic for daftar_baru.xaml
+    ///     Interaction logic for daftar_baru.xaml
     /// </summary>
     public partial class daftar_baru : Page
     {
-        //private static MySqlConnection MsqlConn = null;
-        private int _noOfErrorsOnScreen = 0;
+        private const byte Msb = 0x00;
+        private readonly byte blockAlamatForm = 18;
+        private readonly byte blockAlamatTo = 22;
+
+        private readonly byte blockIdPasien = 12;
+        private readonly byte blockJenisKelamin = 26;
+        private readonly byte blockNamaFrom = 14;
+        private readonly byte blockNamaTo = 17;
+        private readonly byte blockNoRekamMedis = 13;
+        private readonly byte blockNoTelp = 24;
+        private readonly byte blockTglLahir = 25;
+        private readonly MifareCard card;
+
+        private readonly IsoReader isoReader;
+
+        private readonly byte[] key = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+
         private MDaftarBaru _mDaftarBaru = new MDaftarBaru(" ", " ", " ", " ", " ");
 
-        private IsoReader isoReader;
-        private const byte Msb = 0x00;
-        private MifareCard card;
-
-        private byte blockIdPasien = 12;
-        private byte blockNoRekamMedis = 13;
-        private byte blockNamaFrom = 14;
-        private byte blockNamaTo = 17;
-        private byte blockAlamatForm = 18;
-        private byte blockAlamatTo = 22;
-        private byte blockNoTelp = 24;
-        private byte blockTglLahir = 25;
-        private byte blockJenisKelamin = 26;
-
-        private byte[] key = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+        //private static MySqlConnection MsqlConn = null;
+        private int _noOfErrorsOnScreen;
 
         #region constructor
 
@@ -84,9 +88,9 @@ namespace pendaftaran.views
 
             try
             {
-                if (DBAccess.DBConnection.dbConnection().State.Equals(System.Data.ConnectionState.Open))
+                if (DBConnection.dbConnection().State.Equals(ConnectionState.Open))
                 {
-                    var command = new MySqlCommand("select * from poliklinik", DBAccess.DBConnection.dbConnection());
+                    var command = new MySqlCommand("select * from poliklinik", DBConnection.dbConnection());
                     using (var reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -96,8 +100,8 @@ namespace pendaftaran.views
                 }
                 else
                 {
-                    DBAccess.DBConnection.dbConnection().Open();
-                    var command = new MySqlCommand("select * from poliklinik", DBAccess.DBConnection.dbConnection());
+                    DBConnection.dbConnection().Open();
+                    var command = new MySqlCommand("select * from poliklinik", DBConnection.dbConnection());
                     using (var reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -230,7 +234,6 @@ namespace pendaftaran.views
                     for (byte i = 1; i <= 63; i++)
                         if ((i + 1) % 4 == 0)
                         {
-                            continue;
                         }
                         else
                         {
@@ -286,19 +289,19 @@ namespace pendaftaran.views
                 var policode = cbp.nama_poliklinik;
                 //DateTime dt = DateTime.ParseExact(, "dd-MM-yyyy", CultureInfo.InvariantCulture);
 
-                var norm = TxtNoRm.Text.ToString();
-                var identitas = TxtNoIdentitas.Text.ToString();
-                var namaPasien = TxtNamaPasien.Text.ToString();
-                var noTelp = TxtNoTelp.Text.ToString();
-                var alamat = TextAlamat.Text.ToString();
+                var norm = TxtNoRm.Text;
+                var identitas = TxtNoIdentitas.Text;
+                var namaPasien = TxtNamaPasien.Text;
+                var noTelp = TxtNoTelp.Text;
+                var alamat = TextAlamat.Text;
                 var tglLahir = dtTanggalLahir.SelectedDate.Value.Date.ToShortDateString();
-                var jenisKelamin = cbJenisKelamin.Text.ToString();
+                var jenisKelamin = cbJenisKelamin.Text;
                 var poliklinik = policode;
 
                 try
                 {
                     var query = "select count(*) from pasien where no_identitas = '" + identitas + "';";
-                    var cmd = new MySqlCommand(query, DBAccess.DBConnection.dbConnection());
+                    var cmd = new MySqlCommand(query, DBConnection.dbConnection());
                     var idExist = int.Parse(cmd.ExecuteScalar().ToString());
 
                     if (idExist >= 1)
@@ -309,7 +312,7 @@ namespace pendaftaran.views
                     else
                     {
                         query = "select count(*) from pasien where no_rekam_medis = '" + norm + "';";
-                        cmd = new MySqlCommand(query, DBAccess.DBConnection.dbConnection());
+                        cmd = new MySqlCommand(query, DBConnection.dbConnection());
                         var rm_exist = int.Parse(cmd.ExecuteScalar().ToString());
 
                         if (rm_exist >= 1)
@@ -323,7 +326,7 @@ namespace pendaftaran.views
                                     identitas + "', '" + norm + "', '" + namaPasien + "', '" + tglLahir + "', '" +
                                     jenisKelamin + "', '" + noTelp + "', '" + alamat + "');";
 
-                                var command = new MySqlCommand(query, DBAccess.DBConnection.dbConnection());
+                                var command = new MySqlCommand(query, DBConnection.dbConnection());
                                 var res = command.ExecuteNonQuery();
 
                                 if (res == 1)
@@ -337,7 +340,7 @@ namespace pendaftaran.views
                                                      DateTime.Now.ToString("yyyy-MM-dd") +
                                                      "' ORDER BY nomor_urut desc LIMIT 1;";
                                     //string query_last = "select nomor_urut from antrian where poliklinik= '003' and DATE(tanggal_berobat) = '" + DateTime.Now.ToString("yyyy-MM-dd") + "' ORDER BY nomor_urut desc LIMIT 1;";
-                                    command = new MySqlCommand(query_last, DBAccess.DBConnection.dbConnection());
+                                    command = new MySqlCommand(query_last, DBConnection.dbConnection());
                                     var reader = command.ExecuteReader();
 
                                     if (reader.Read()) a = reader.GetInt32(0);
@@ -345,11 +348,11 @@ namespace pendaftaran.views
                                     if (last != null || last != "") no_urut = a + 1;
                                     else no_urut = 1;
 
-                                    DBAccess.DBConnection.dbConnection().Close();
-                                    DBAccess.DBConnection.dbConnection().Open();
+                                    DBConnection.dbConnection().Close();
+                                    DBConnection.dbConnection().Open();
                                     query = "insert into antrian(nomor_rm, nomor_urut, poliklinik, status) values('" +
                                             norm + "','" + no_urut + "','" + policode + "', 'Antri');";
-                                    command = new MySqlCommand(query, DBAccess.DBConnection.dbConnection());
+                                    command = new MySqlCommand(query, DBConnection.dbConnection());
 
                                     res = command.ExecuteNonQuery();
 
@@ -502,10 +505,9 @@ namespace pendaftaran.views
 
             if (!string.IsNullOrWhiteSpace(TxtNoRm.Text) && !string.IsNullOrWhiteSpace(TxtNoIdentitas.Text) &&
                 !string.IsNullOrWhiteSpace(TxtNamaPasien.Text) && !string.IsNullOrWhiteSpace(TxtNoTelp.Text) &&
-                !string.IsNullOrWhiteSpace(TextAlamat.Text) && !string.IsNullOrWhiteSpace(dtTanggalLahir.SelectedDate.ToString()))
-            {
+                !string.IsNullOrWhiteSpace(TextAlamat.Text) &&
+                !string.IsNullOrWhiteSpace(dtTanggalLahir.SelectedDate.ToString()))
                 return true;
-            }
 
             return false;
         }
@@ -545,7 +547,7 @@ namespace pendaftaran.views
             if (jk != null)
                 msg += "\nJenis Kelamin \t\t: " + Util.ToASCII(jk, 0, 16, false);
 
-            MessageBox.Show(msg.ToString(), "Informasi Kartu Pasien", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show(msg, "Informasi Kartu Pasien", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void BtnHapusKartu_OnClick(object sender, RoutedEventArgs e)

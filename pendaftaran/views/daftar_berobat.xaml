@@ -1,54 +1,56 @@
 ﻿<Page x:Class="pendaftaran.views.daftar_berobat"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:pendaftaran.views"
-      mc:Ignorable="d" 
+      mc:Ignorable="d"
       Title="daftar_berobat">
 
     <Grid Style="{StaticResource OpenSans}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
-            <TextBlock Text="Daftar Poliklinik" FontSize="16" FontWeight="Bold" Foreground="#555555"/>
+            <TextBlock Text="Daftar Poliklinik" FontSize="16" FontWeight="Bold" Foreground="#555555" />
         </StackPanel>
 
         <StackPanel Grid.Row="1">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Orientation="Vertical" Grid.Row="0">
-                    <TextBlock Text="Nomor Rekam Medis"/>
-                    <TextBox x:Name="txtIdPasien"/>
+                    <TextBlock Text="Nomor Rekam Medis" />
+                    <TextBox x:Name="txtIdPasien" />
                 </StackPanel>
 
-                <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" >
-                    <CheckBox x:Name="checkscan" Content="Scan kartu pasien" IsChecked="True" Margin="15 0" Unchecked="Checkscan_OnUnchecked" Checked="Checkscan_OnChecked"/>
+                <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center">
+                    <CheckBox x:Name="checkscan" Content="Scan kartu pasien" IsChecked="True" Margin="15 0"
+                              Unchecked="Checkscan_OnUnchecked" Checked="Checkscan_OnChecked" />
                 </StackPanel>
-                
+
                 <StackPanel Orientation="Vertical" Grid.Row="1">
-                    <TextBlock Text="Poliklink"/>
-                    <ComboBox x:Name="cbPoliklinik"/>
+                    <TextBlock Text="Poliklink" />
+                    <ComboBox x:Name="cbPoliklinik" />
                 </StackPanel>
             </Grid>
         </StackPanel>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal">
-            <Button Click="tambah_antrian" Content="Daftar"/>
-            <Button Width="Auto" x:Name="btnScanKartu" Click="BtnScanKartu_OnClick" Content="Scan Kartu Pasien" IsEnabled="{Binding ElementName=checkscan, Path=IsChecked}"/>
+            <Button Click="tambah_antrian" Content="Daftar" />
+            <Button Width="Auto" x:Name="btnScanKartu" Click="BtnScanKartu_OnClick" Content="Scan Kartu Pasien"
+                    IsEnabled="{Binding ElementName=checkscan, Path=IsChecked}" />
         </StackPanel>
     </Grid>
 </Page>

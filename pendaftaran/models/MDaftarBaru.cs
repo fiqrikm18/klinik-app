@@ -1,17 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-
-using MySql.Data.MySqlClient;
 
 namespace pendaftaran.models
 {
-    class MDaftarBaru : IDataErrorInfo
+    internal class MDaftarBaru : IDataErrorInfo
     {
+        public MDaftarBaru(string norm, string identitas, string namapasien, string notelp, string alamat)
+        {
+            NoRm = norm;
+            Identitas = identitas;
+            NamaPasien = namapasien;
+            NoTelp = notelp;
+            Alamat = alamat;
+        }
+
         public string NoRm { get; set; }
         public string Identitas { get; set; }
         public string NamaPasien { get; set; }
@@ -21,22 +25,11 @@ namespace pendaftaran.models
         public string JenisKelamin { get; set; }
         public string Poliklinik { get; set; }
 
-        public MDaftarBaru (string norm, string identitas, string namapasien, string notelp, string alamat)
-        {
-            NoRm = norm;
-            Identitas = identitas;
-            NamaPasien = namapasien;
-            NoTelp = notelp;
-            Alamat = alamat;
-        }
-
         #region IDataErrorInfo members
+
         string IDataErrorInfo.Error
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get { throw new NotImplementedException(); }
         }
 
         public string this[string columnName]
@@ -44,15 +37,13 @@ namespace pendaftaran.models
             get
             {
                 string result = null;
-                
+
                 if (columnName == "NoRm")
-                {
                     if (string.IsNullOrEmpty(NoRm))
                         result = "No rekam medis harus di isi.";
 
-                    //if (Regex.IsMatch(NoRm, "^[0-9A-Za-z ]+$"))
-                    //    result = "No rekam medis harus berupa huruf.";
-                }
+                //if (Regex.IsMatch(NoRm, "^[0-9A-Za-z ]+$"))
+                //    result = "No rekam medis harus berupa huruf.";
 
                 if (columnName == "Identitas")
                 {
@@ -68,7 +59,7 @@ namespace pendaftaran.models
 
                 if (columnName == "NamaPasien")
                 {
-                    if(string.IsNullOrEmpty(NamaPasien))
+                    if (string.IsNullOrEmpty(NamaPasien))
                         result = "Nama pasien harus di isi.";
 
                     if (!Regex.IsMatch(NamaPasien, "^[A-Za-z ]+$"))
@@ -91,16 +82,13 @@ namespace pendaftaran.models
                 }
 
                 if (columnName == "Alamat")
-                {
                     if (string.IsNullOrEmpty(Alamat))
                         result = "Alamat pasien harus di isi.";
-                }
-                
+
                 return result;
             }
         }
 
         #endregion
-
     }
 }

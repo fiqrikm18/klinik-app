@@ -31,7 +31,9 @@ namespace admin.views
 
                 if (!string.IsNullOrEmpty(nama))
                 {
-                    query = "select dokter.nama as nama, dokter.telp as telp, dokter.id as id, dokter.alamat as alamat, dokter.spesialisasi as spesialisasi, poliklinik.nama_poliklinik as tugas, dokter.jenis_kelamin as jenis_kelamin  from dokter LEFT JOIN poliklinik on poliklinik.kode_poliklinik = dokter.tugas where nama like '%" + nama + "%';";
+                    query =
+                        "select dokter.nama as nama, dokter.telp as telp, dokter.id as id, dokter.alamat as alamat, dokter.spesialisasi as spesialisasi, poliklinik.nama_poliklinik as tugas, dokter.jenis_kelamin as jenis_kelamin  from dokter LEFT JOIN poliklinik on poliklinik.kode_poliklinik = dokter.tugas where nama like '%" +
+                        nama + "%';";
                     var cmd = new MySqlCommand(query, DBConnection.dbConnection());
                     var adapter = new MySqlDataAdapter(cmd);
                     var dt = new DataTable();
@@ -43,7 +45,8 @@ namespace admin.views
                 }
                 else
                 {
-                    query = "select dokter.nama as nama, dokter.telp as telp, dokter.id as id, dokter.alamat as alamat, dokter.spesialisasi as spesialisasi, poliklinik.nama_poliklinik as tugas, dokter.jenis_kelamin as jenis_kelamin  from dokter LEFT JOIN poliklinik on poliklinik.kode_poliklinik = dokter.tugas;";
+                    query =
+                        "select dokter.nama as nama, dokter.telp as telp, dokter.id as id, dokter.alamat as alamat, dokter.spesialisasi as spesialisasi, poliklinik.nama_poliklinik as tugas, dokter.jenis_kelamin as jenis_kelamin  from dokter LEFT JOIN poliklinik on poliklinik.kode_poliklinik = dokter.tugas;";
                     var cmd = new MySqlCommand(query, DBConnection.dbConnection());
                     var adapter = new MySqlDataAdapter(cmd);
                     var dt = new DataTable();
@@ -83,13 +86,13 @@ namespace admin.views
 
         private void BtnUbahDokter_OnClick(object sender, RoutedEventArgs e)
         {
-            string id = "";
-            string nama = "";
-            string telp = "";
-            string alamat = "";
-            string spesialis = "";
-            string tugas = "";
-            string jenisK = "";
+            var id = "";
+            var nama = "";
+            var telp = "";
+            var alamat = "";
+            var spesialis = "";
+            var tugas = "";
+            var jenisK = "";
 
             if (dtgDataDokter.SelectedItems.Count > 0)
             {
@@ -103,15 +106,15 @@ namespace admin.views
                         .GetCellContent(dtgDataDokter.SelectedItems[i]) as TextBlock).Text;
                     telp = (dtgDataDokter.SelectedCells[3].Column
                         .GetCellContent(dtgDataDokter.SelectedItems[i]) as TextBlock).Text;
-                    alamat=(dtgDataDokter.SelectedCells[4].Column
+                    alamat = (dtgDataDokter.SelectedCells[4].Column
                         .GetCellContent(dtgDataDokter.SelectedItems[i]) as TextBlock).Text;
                     spesialis = (dtgDataDokter.SelectedCells[5].Column
                         .GetCellContent(dtgDataDokter.SelectedItems[i]) as TextBlock).Text;
-                    tugas =(dtgDataDokter.SelectedCells[6].Column
+                    tugas = (dtgDataDokter.SelectedCells[6].Column
                         .GetCellContent(dtgDataDokter.SelectedItems[i]) as TextBlock).Text;
                 }
 
-                var ud = new forms.UbahDokter(id, nama, telp, alamat, spesialis,  jenisK, this);
+                var ud = new UbahDokter(id, nama, telp, alamat, spesialis, jenisK, this);
                 ud.Show();
             }
         }
@@ -128,7 +131,7 @@ namespace admin.views
                     string query;
                     var res = 0;
 
-                    if (DBConnection.dbConnection().State.Equals(System.Data.ConnectionState.Closed))
+                    if (DBConnection.dbConnection().State.Equals(ConnectionState.Closed))
                         DBConnection.dbConnection().Open();
 
                     try
@@ -157,8 +160,8 @@ namespace admin.views
 
                 displayDataDokter();
                 DBConnection.dbConnection().Close();
-
-            }else
+            }
+            else
             {
                 MessageBox.Show("Pilih data dokter yang akan dihapus.", "Informasi", MessageBoxButton.OK,
                     MessageBoxImage.Error);

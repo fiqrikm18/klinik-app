@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace pendaftaran.Mifare
+﻿namespace pendaftaran.Mifare
 {
     public class GeneralAuthenticate
     {
@@ -13,6 +8,9 @@ namespace pendaftaran.Mifare
         public KeyType KeyType { get; set; }
         public byte KeyNumber { get; set; }
 
-        public byte[] ToArray() => new[] { Version, Msb, Lsb, (byte)KeyType, KeyNumber };
+        public byte[] ToArray()
+        {
+            return new[] {Version, Msb, Lsb, (byte) KeyType, KeyNumber};
+        }
     }
 }

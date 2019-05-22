@@ -5,83 +5,87 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:pendaftaran.forms"
         mc:Ignorable="d"
-        Title="Perbarui Data Pasien" Height="550" WindowStartupLocation="CenterScreen" Icon="/pendaftaran;component/images/BMicon.ico">
+        Title="Perbarui Data Pasien" Height="550" WindowStartupLocation="CenterScreen"
+        Icon="/pendaftaran;component/images/BMicon.ico">
     <Grid Style="{StaticResource OpenSans}" Margin="20">
         <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0">
             <Label FontSize="16" FontWeight="Bold" Foreground="#555555">Perbarui Data Pasien</Label>
             <Grid>
                 <Grid.CommandBindings>
-                    <CommandBinding Command="New" CanExecute="AddPasien_CanExecute" Executed="AddPasien_Executed"/>
+                    <CommandBinding Command="New" CanExecute="AddPasien_CanExecute" Executed="AddPasien_Executed" />
                 </Grid.CommandBindings>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
 
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <StackPanel Grid.Column="0" Grid.Row="0">
-                    <Label Content="No.Rekam Medis"/>
-                    <TextBox x:Name="TxtNoRm" MaxLength="10" IsEnabled="False" Validation.Error="Validation_Error" 
-                        Text="{Binding UpdateSourceTrigger=LostFocus,
+                    <Label Content="No.Rekam Medis" />
+                    <TextBox x:Name="TxtNoRm" MaxLength="10" IsEnabled="False" Validation.Error="Validation_Error"
+                             Text="{Binding UpdateSourceTrigger=LostFocus,
                         Path=NoRm, NotifyOnSourceUpdated=True,
-                        ValidatesOnDataErrors=True}" GotKeyboardFocus="TextBoxFocus"></TextBox>
+                        ValidatesOnDataErrors=True}"
+                             GotKeyboardFocus="TextBoxFocus" />
                 </StackPanel>
 
                 <StackPanel Grid.Column="0" Grid.Row="1">
-                    <Label Content="No.Identitas (KTP/SIM/Kartu Pelajar)"/>
+                    <Label Content="No.Identitas (KTP/SIM/Kartu Pelajar)" />
                     <TextBox x:Name="TxtNoIdentitas" IsEnabled="False" MaxLength="20"
                              Text="{Binding UpdateSourceTrigger=LostFocus,
                         Path=Identitas, NotifyOnSourceUpdated=True,
-                        ValidatesOnDataErrors=True}"></TextBox>
+                        ValidatesOnDataErrors=True}" />
                 </StackPanel>
 
                 <StackPanel Grid.Column="1" Grid.Row="0">
-                    <Label Content="Nama Pasien"/>
+                    <Label Content="Nama Pasien" />
                     <TextBox x:Name="TxtNamaPasien"
                              Text="{Binding UpdateSourceTrigger=LostFocus,
                         Path=NamaPasien, NotifyOnSourceUpdated=True,
-                        ValidatesOnDataErrors=True}"></TextBox>
+                        ValidatesOnDataErrors=True}" />
                 </StackPanel>
 
                 <StackPanel Grid.Column="1" Grid.Row="1">
-                    <Label Content="No.Telepon"/>
+                    <Label Content="No.Telepon" />
                     <TextBox x:Name="TxtNoTelp" MaxLength="12"
                              Text="{Binding UpdateSourceTrigger=LostFocus,
                         Path=NoTelp, NotifyOnSourceUpdated=True,
-                        ValidatesOnDataErrors=True}"></TextBox>
+                        ValidatesOnDataErrors=True}" />
                 </StackPanel>
 
                 <StackPanel Grid.Column="0" Grid.Row="2">
-                    <Label Content="Alamat"/>
+                    <Label Content="Alamat" />
                     <TextBox x:Name="TextAlamat" Height="100" AcceptsReturn="True" TextWrapping="Wrap"
                              Text="{Binding UpdateSourceTrigger=LostFocus,
                         Path=Alamat, NotifyOnSourceUpdated=True,
-                        ValidatesOnDataErrors=True}"></TextBox>
+                        ValidatesOnDataErrors=True}" />
                 </StackPanel>
 
                 <StackPanel Grid.Column="1" Grid.Row="2">
-                    <Label Content="Jenis Kelamin"/>
+                    <Label Content="Jenis Kelamin" />
                     <ComboBox x:Name="cbJenisKelamin" SelectedIndex="0" Background="{x:Null}" BorderBrush="{x:Null}">
-                        <ComboBoxItem Content="Pria"/>
-                        <ComboBoxItem Content="Wanita"/>
+                        <ComboBoxItem Content="Pria" />
+                        <ComboBoxItem Content="Wanita" />
                     </ComboBox>
                 </StackPanel>
 
-                <StackPanel Grid.Column="1" Grid.Row="6" HorizontalAlignment="Right">
+                <StackPanel Grid.Column="0" Grid.Row="6" HorizontalAlignment="Left">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
-                        <Button x:Name="btnAdd" Content="Perbarui Data" Command="New"></Button>
-                        <Button Click="Batal" Content="Batal"></Button>
+                        <Button x:Name="btnAdd" Content="Perbarui Data" Command="New" />
+                        <Button Click="Batal" Content="Batal" />
+                        <CheckBox Content="Update kartu pasien" x:Name="chkUpdateKartu" VerticalAlignment="Center"
+                                  IsChecked="True" />
                     </StackPanel>
                 </StackPanel>
             </Grid>

@@ -1,43 +1,45 @@
 ﻿<Page x:Class="pendaftaran.views.antrian"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:pendaftaran.views"
-      mc:Ignorable="d" 
+      mc:Ignorable="d"
       Title="antrian">
 
     <Grid Style="{StaticResource OpenSans}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
-            <TextBlock FontSize="16" FontWeight="Bold" Text="Daftar Antrian Pasien" Foreground="#555555"/>
+            <TextBlock FontSize="16" FontWeight="Bold" Text="Daftar Antrian Pasien" Foreground="#555555" />
         </StackPanel>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center">
-            <Label Content="Filter Berdasarkan Poliklinik" VerticalAlignment="Center"/>
-            <ComboBox x:Name="cbPoliklinik" Margin="15 0" SelectionChanged="DtgAntrian_SelectionChanged" VerticalAlignment="Center"/>
+            <Label Content="Filter Berdasarkan Poliklinik" VerticalAlignment="Center" />
+            <ComboBox x:Name="cbPoliklinik" Margin="15 0" SelectionChanged="DtgAntrian_SelectionChanged"
+                      VerticalAlignment="Center" />
         </StackPanel>
-        
+
         <StackPanel Grid.Row="2">
-            <DataGrid x:Name="dtgAntrian" SelectionMode="Extended" VerticalAlignment="Top" HorizontalAlignment="Stretch" AutoGenerateColumns="False" Height="400">
+            <DataGrid x:Name="dtgAntrian" SelectionMode="Extended" VerticalAlignment="Top"
+                      HorizontalAlignment="Stretch" AutoGenerateColumns="False" Height="400">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding no_rm}" Header="No Rekam Medis" Width="150"/>
-                    <DataGridTextColumn Binding="{Binding nama_pasien}" Header="Nama Pasien" Width="250"/>
-                    <DataGridTextColumn Binding="{Binding no_urut}" Header="No Antrian" Width="150"/>
-                    <DataGridTextColumn Binding="{Binding poliklinik}" Header="Poliklinik" Width="150"/>
+                    <DataGridTextColumn Binding="{Binding no_rm}" Header="No Rekam Medis" Width="150" />
+                    <DataGridTextColumn Binding="{Binding nama_pasien}" Header="Nama Pasien" Width="250" />
+                    <DataGridTextColumn Binding="{Binding no_urut}" Header="No Antrian" Width="150" />
+                    <DataGridTextColumn Binding="{Binding poliklinik}" Header="Poliklinik" Width="150" />
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>
-        
+
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button x:Name="btn_add" Click="TambahPasien" Content="Daftar"/>
-            <Button x:Name="btn_hapus" Click="HapusDataPasien" Content="Hapus"/>
+            <Button x:Name="btn_add" Click="TambahPasien" Content="Daftar" />
+            <Button x:Name="btn_hapus" Click="HapusDataPasien" Content="Hapus" />
         </StackPanel>
     </Grid>
 </Page>

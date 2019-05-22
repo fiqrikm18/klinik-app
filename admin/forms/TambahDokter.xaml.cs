@@ -5,6 +5,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using admin.DBAccess;
 using admin.models;
+using admin.Utils;
+using admin.views;
 using MySql.Data.MySqlClient;
 
 namespace admin.forms
@@ -14,20 +16,20 @@ namespace admin.forms
     /// </summary>
     public partial class TambahDokter : Window
     {
-        private MDokter _mDaftarBaru = new MDokter(" ", " ", " ", " ", " ");
+        private readonly DaftarDokter dd;
+        private MDokter _mDaftarBaru = new MDokter(" ", " ", " ", " ", " ", " ");
         private int _noOfErrorsOnScreen;
-        private views.DaftarDokter dd;
 
         #region constructor
 
-        public TambahDokter(views.DaftarDokter du)
+        public TambahDokter(DaftarDokter du)
         {
             InitializeComponent();
 
-            this.dd = du;
+            dd = du;
 
             var cbp = new List<ComboboxPairs>();
-            DataContext = new MDokter(" ", " ", " ", " ", " ");
+            DataContext = new MDokter(" ", " ", " ", " ", " ", " ");
             //DataContext = new MDaftarBaru("123", "123", "ad", "123", " 123123");
 
             try
@@ -68,6 +70,11 @@ namespace admin.forms
 
         #endregion
 
+        private void BtnBatal_OnClick(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
         #region members UI Control & CRUD Operations
 
         private void Validation_Error(object sender, ValidationErrorEventArgs e)
@@ -92,7 +99,7 @@ namespace admin.forms
 
         private void AddDokter_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            _mDaftarBaru = new MDokter(" ", " ", " ", " ", " ");
+            _mDaftarBaru = new MDokter(" ", " ", " ", " ", " ", " ");
 
             if (checkTextBoxValue())
             {
@@ -100,40 +107,48 @@ namespace admin.forms
                 var policode = cbp.nama_poliklinik;
 
                 var nama = txtNamaDokter.Text;
-                var id = txtidDokter.Text;
+                var id = txtidDokter.Text.ToUpper();
                 var telp = txtTelpDokter.Text;
                 var alamat = TextAlamat.Text;
                 var spesialisasi = txtSpesialisai.Text;
                 var jenisK = cbJenisKelamin.Text;
+                var password = txtPassword.Text.ToUpper();
 
                 try
                 {
-                    var query = "select count(*) from dokter where id='+ id +'";
+                    if (DBConnection.dbConnection().State.Equals(ConnectionState.Closed))
+                        DBConnection.dbConnection().Open();
+
+                    var query = "select count(*) from dokter where id='" + id + "'";
                     var cmd = new MySqlCommand(query, DBConnection.dbConnection());
                     var idExist = int.Parse(cmd.ExecuteScalar().ToString());
 
                     if (idExist >= 1)
+                    {
                         MessageBox.Show("No id sudah terdaftar.", "Error", MessageBoxButton.OK,
                             MessageBoxImage.Error);
-                    else
-                        query =
-                            "insert into dokter(id, nama, telp, alamat, spesialisasi, tugas, jenis_kelamin) values('" +
-                            id + "', '" + nama + "', '" + telp + "', '" + alamat + "', '" + spesialisasi + "', '" +
-                            policode + "', '" + jenisK + "')";
-                    var command = new MySqlCommand(query, DBConnection.dbConnection());
-                    var res = command.ExecuteNonQuery();
-
-                    if (res == 1)
-                    {
-                        MessageBox.Show("Data dokter berhasil disimpan.", "Informasi", MessageBoxButton.OK,
-                            MessageBoxImage.Information);
-                        dd.displayDataDokter();
-                        Close();
                     }
                     else
                     {
-                        MessageBox.Show("Data dokter gagal disimpan.", "Error", MessageBoxButton.OK,
-                            MessageBoxImage.Error);
+                        query =
+                            "insert into dokter(id, nama, telp, alamat, spesialisasi, tugas, jenis_kelamin, password) values('" +
+                            id + "', '" + nama + "', '" + telp + "', '" + alamat + "', '" + spesialisasi + "', '" +
+                            policode + "', '" + jenisK + "', '" + Encryptor.MD5Hash(password) + "')";
+                        var command = new MySqlCommand(query, DBConnection.dbConnection());
+                        var res = command.ExecuteNonQuery();
+
+                        if (res == 1)
+                        {
+                            MessageBox.Show("Data dokter berhasil disimpan.", "Informasi", MessageBoxButton.OK,
+                                MessageBoxImage.Information);
+                            dd.displayDataDokter();
+                            Close();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Data dokter gagal disimpan.", "Error", MessageBoxButton.OK,
+                                MessageBoxImage.Error);
+                        }
                     }
                 }
                 catch (MySqlException ex)
@@ -160,19 +175,12 @@ namespace admin.forms
 
             if (!string.IsNullOrWhiteSpace(txtidDokter.Text) && !string.IsNullOrWhiteSpace(txtNamaDokter.Text) &&
                 !string.IsNullOrWhiteSpace(txtTelpDokter.Text) && !string.IsNullOrWhiteSpace(txtSpesialisai.Text) &&
-                !string.IsNullOrWhiteSpace(TextAlamat.Text))
-            {
+                !string.IsNullOrWhiteSpace(TextAlamat.Text) && !string.IsNullOrWhiteSpace(txtPassword.Text))
                 return true;
-            }
 
             return false;
         }
 
         #endregion
-
-        private void BtnBatal_OnClick(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
     }
 }

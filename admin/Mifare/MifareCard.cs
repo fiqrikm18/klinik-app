@@ -1,14 +1,14 @@
-﻿using PCSC.Iso7816;
-using PCSC;
-using System;
+﻿using System;
 using System.Diagnostics;
+using PCSC;
+using PCSC.Iso7816;
 
 namespace admin.Mifare
 {
-    class MifareCard
+    internal class MifareCard
     {
         private const byte CUSTOM_CLA = 0xFF;
-        private IIsoReader _isoreader;
+        private readonly IIsoReader _isoreader;
 
         public MifareCard(IsoReader isoReader)
         {
@@ -21,7 +21,7 @@ namespace admin.Mifare
             {
                 CLA = CUSTOM_CLA,
                 Instruction = InstructionCode.ExternalAuthenticate,
-                P1 = (byte)keyStructure,
+                P1 = (byte) keyStructure,
                 P2 = keyNumber,
                 Data = key
             };
@@ -98,6 +98,8 @@ namespace admin.Mifare
         }
 
         private bool IsSuccess(Response response)
-            => (response.SW1 == (byte)SW1Code.Normal) && (response.SW2 == 0x00);
+        {
+            return response.SW1 == (byte) SW1Code.Normal && response.SW2 == 0x00;
+        }
     }
 }

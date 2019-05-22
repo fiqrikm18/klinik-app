@@ -10,32 +10,27 @@ using MySql.Data.MySqlClient;
 namespace admin.forms
 {
     /// <summary>
-    ///     Interaction logic for UbahDokter.xaml
+    ///     Interaction logic for UbahStaffPendaftaran.xaml
     /// </summary>
-    public partial class UbahDokter : Window
+    public partial class UbahStaffPendaftaran : Window
     {
-        private readonly DaftarDokter dd;
-        private MDokter _mDaftarBaru = new MDokter(" ", " ", " ", " ", " ", " ");
+        private MPendaftaran _mDaftarBaru = new MPendaftaran(" ", " ", " ", " ", " ", " ");
         private int _noOfErrorsOnScreen;
+        private readonly DaftarPendaftaran df;
 
-        #region constructor
-
-        public UbahDokter(string id, string nama, string telp, string alamat, string spesialisasi, string jenisK,
-            DaftarDokter dd)
+        public UbahStaffPendaftaran(string id, string nama, string alamat, string telp, string jenisK,
+            DaftarPendaftaran df)
         {
             InitializeComponent();
-            DataContext = new MDokter(id, nama, telp, spesialisasi, alamat, " ");
-            this.dd = dd;
+            DataContext = new MPendaftaran(id, nama, alamat, telp, " ", jenisK);
 
+            this.df = df;
             if (jenisK == "Pria") cbJenisKelamin.SelectedIndex = 0;
             else if (jenisK == "Wanita") cbJenisKelamin.SelectedIndex = 1;
         }
 
-        #endregion
-
         private void BtnBatal_OnClick(object sender, RoutedEventArgs e)
         {
-            dd.displayDataDokter();
             Close();
         }
 
@@ -63,15 +58,14 @@ namespace admin.forms
 
         private void AddDokter_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            _mDaftarBaru = new MDokter(" ", " ", " ", " ", " ", " ");
+            _mDaftarBaru = new MPendaftaran(" ", " ", " ", " ", " ", " ");
 
             if (checkTextBoxValue())
             {
                 var nama = txtNamaDokter.Text;
-                var id = txtidDokter.Text;
+                var id = txtidDokter.Text.ToUpper();
                 var telp = txtTelpDokter.Text;
                 var alamat = TextAlamat.Text;
-                var spesialisasi = txtSpesialisai.Text;
                 var jenisK = cbJenisKelamin.Text;
 
                 try
@@ -79,22 +73,22 @@ namespace admin.forms
                     if (DBConnection.dbConnection().State.Equals(ConnectionState.Closed))
                         DBConnection.dbConnection().Open();
 
-                    var query = "update dokter set nama='" + nama + "', alamat='" + alamat + "', telp='" + telp +
-                                "', spesialisasi='" + spesialisasi + "', jenis_kelamin='" + jenisK + "' where id='" +
-                                id + "'";
-                    var cmd = new MySqlCommand(query, DBConnection.dbConnection());
-                    var res = cmd.ExecuteNonQuery();
+                    var query =
+                        "update pendaftar set nama='" + nama + "', alamat='" + alamat + "', telp='" + telp +
+                        "', jenis_kelamin='" + jenisK + "' where id='" + id + "'";
+                    var command = new MySqlCommand(query, DBConnection.dbConnection());
+                    var res = command.ExecuteNonQuery();
 
-                    if (res >= 1)
+                    if (res == 1)
                     {
-                        MessageBox.Show("Berhasil memperbarui data dokter", "Informasi", MessageBoxButton.OK,
+                        MessageBox.Show("Data staff berhasil disimpan.", "Informasi", MessageBoxButton.OK,
                             MessageBoxImage.Information);
-                        dd.displayDataDokter();
+                        df.displayDataPendaftar();
                         Close();
                     }
                     else
                     {
-                        MessageBox.Show("Gagal memperbarui data dokter", "Error", MessageBoxButton.OK,
+                        MessageBox.Show("Data staff gagal disimpan.", "Error", MessageBoxButton.OK,
                             MessageBoxImage.Error);
                     }
                 }
@@ -109,7 +103,7 @@ namespace admin.forms
                     MessageBoxImage.Warning);
             }
 
-            DataContext = _mDaftarBaru;
+            cbJenisKelamin.SelectedIndex = 0;
             e.Handled = true;
         }
 
@@ -119,7 +113,7 @@ namespace admin.forms
 //                txtSpesialisai.Text == " " && TextAlamat.Text == " ") return false;
 
             if (!string.IsNullOrWhiteSpace(txtidDokter.Text) && !string.IsNullOrWhiteSpace(txtNamaDokter.Text) &&
-                !string.IsNullOrWhiteSpace(txtTelpDokter.Text) && !string.IsNullOrWhiteSpace(txtSpesialisai.Text) &&
+                !string.IsNullOrWhiteSpace(txtTelpDokter.Text) &&
                 !string.IsNullOrWhiteSpace(TextAlamat.Text))
                 return true;
 

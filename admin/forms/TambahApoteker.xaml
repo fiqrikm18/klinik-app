@@ -1,15 +1,15 @@
-﻿<Window x:Class="admin.forms.UbahDokter"
+﻿<Window x:Class="admin.forms.TambahApoteker"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:admin.forms"
         mc:Ignorable="d"
-        Title="Ubah Data Dokter" Height="600" Width="850" WindowStartupLocation="CenterScreen"
+        Title="Tambah Data Apoteker" Height="520" Width="850" WindowStartupLocation="CenterScreen"
         Icon="/admin;component/images/BMicon.ico">
     <Grid Style="{StaticResource OpenSans}" Margin="25">
         <Grid.CommandBindings>
-            <CommandBinding Command="New" CanExecute="AddDokter_CanExecute" Executed="AddDokter_Executed" />
+            <CommandBinding Command="New" CanExecute="AddApoteker_CanExecute" Executed="AddApoteker_Executed" />
         </Grid.CommandBindings>
 
         <Grid.RowDefinitions>
@@ -19,7 +19,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
-            <TextBlock Text="Ubah Data Dokter" FontSize="16" FontWeight="Bold" Foreground="#555555" />
+            <TextBlock Text="Tambah Data Apoteker" FontSize="16" FontWeight="Bold" Foreground="#555555" />
         </StackPanel>
 
         <StackPanel Grid.Row="1">
@@ -37,50 +37,40 @@
                 </Grid.RowDefinitions>
 
                 <StackPanel Grid.Row="0" Grid.Column="0">
-                    <Label Content="ID Dokter" />
-                    <TextBox x:Name="txtidDokter" IsEnabled="False"
+                    <Label Content="ID Apoteker" />
+                    <TextBox x:Name="txtidDokter"
                              Validation.Error="Validation_Error"
                              Text="{Binding UpdateSourceTrigger=LostFocus,
-                        Path=id, NotifyOnSourceUpdated=True,
+                        Path=id_apoteker, NotifyOnSourceUpdated=True,
                         ValidatesOnDataErrors=True}"
                              GotKeyboardFocus="TextBoxFocus" />
                 </StackPanel>
 
                 <StackPanel Grid.Row="1" Grid.Column="0">
-                    <Label Content="Nama Dokter" />
+                    <Label Content="Nama" />
                     <TextBox x:Name="txtNamaDokter"
                              Validation.Error="Validation_Error"
                              Text="{Binding UpdateSourceTrigger=LostFocus,
-                        Path=nama, NotifyOnSourceUpdated=True,
+                        Path=nama_apoteker, NotifyOnSourceUpdated=True,
                         ValidatesOnDataErrors=True}"
                              GotKeyboardFocus="TextBoxFocus" />
                 </StackPanel>
 
                 <StackPanel Grid.Row="2" Grid.Column="0">
-                    <Label Content="Telepon" />
-                    <TextBox x:Name="txtTelpDokter"
-                             Validation.Error="Validation_Error"
-                             Text="{Binding UpdateSourceTrigger=LostFocus,
-                        Path=telp, NotifyOnSourceUpdated=True,
-                        ValidatesOnDataErrors=True}"
-                             GotKeyboardFocus="TextBoxFocus" />
-                </StackPanel>
-
-                <StackPanel Grid.Row="3" Grid.Column="0">
                     <Label Content="Alamat" />
-                    <TextBox x:Name="TextAlamat" Height="100" GotKeyboardFocus="TextBoxFocus" AcceptsReturn="True"
-                             TextWrapping="Wrap"
+                    <TextBox x:Name="TextAlamat" Height="100" AcceptsReturn="True" TextWrapping="Wrap"
+                             GotKeyboardFocus="TextBoxFocus"
                              Text="{Binding UpdateSourceTrigger=LostFocus,
                         Path=alamat, NotifyOnSourceUpdated=True,
                         ValidatesOnDataErrors=True}" />
                 </StackPanel>
 
                 <StackPanel Grid.Row="0" Grid.Column="1">
-                    <Label Content="Spesialisasi" />
-                    <TextBox x:Name="txtSpesialisai"
+                    <Label Content="Telepon" />
+                    <TextBox x:Name="txtTelpDokter" MaxLength="12"
                              Validation.Error="Validation_Error"
                              Text="{Binding UpdateSourceTrigger=LostFocus,
-                        Path=spesialisasi, NotifyOnSourceUpdated=True,
+                        Path=no_telp, NotifyOnSourceUpdated=True,
                         ValidatesOnDataErrors=True}"
                              GotKeyboardFocus="TextBoxFocus" />
                 </StackPanel>
@@ -93,6 +83,13 @@
                     </ComboBox>
                 </StackPanel>
 
+                <StackPanel Grid.Row="2" Grid.Column="1">
+                    <Label Content="Password" />
+                    <TextBox x:Name="txtPassword"
+                             Validation.Error="Validation_Error"
+                             Text="{Binding ElementName=txtidDokter, Path=Text}" IsEnabled="False"
+                             GotKeyboardFocus="TextBoxFocus" />
+                </StackPanel>
 
             </Grid>
         </StackPanel>
@@ -100,7 +97,7 @@
         <StackPanel Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Orientation="Horizontal">
             <Button Content="Simpan" Command="New" />
             <Button Content="Batal" x:Name="btnBatal" Click="BtnBatal_OnClick" />
-            <CheckBox Content="Update kartu dokter" VerticalAlignment="Center" IsChecked="True" />
+            <CheckBox Content="Buat kartu apoteker" VerticalAlignment="Center" IsChecked="True" />
         </StackPanel>
     </Grid>
 </Window>

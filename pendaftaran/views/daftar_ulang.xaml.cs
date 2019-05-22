@@ -22,7 +22,6 @@ namespace pendaftaran.views
     public partial class daftar_ulang : Page
     {
         private const byte Msb = 0x00;
-        public string alamat;
         private readonly byte blockAlamatForm = 18;
         private readonly byte blockAlamatTo = 22;
 
@@ -36,9 +35,10 @@ namespace pendaftaran.views
         private readonly MifareCard card;
 
         private readonly IsoReader isoReader;
-        public string jenisK;
 
         private readonly byte[] key = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+        public string alamat;
+        public string jenisK;
         public string namaP;
         public string noidP;
         public string normP;

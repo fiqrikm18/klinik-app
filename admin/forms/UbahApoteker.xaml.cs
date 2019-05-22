@@ -10,32 +10,27 @@ using MySql.Data.MySqlClient;
 namespace admin.forms
 {
     /// <summary>
-    ///     Interaction logic for UbahDokter.xaml
+    ///     Interaction logic for UbahApoteker.xaml
     /// </summary>
-    public partial class UbahDokter : Window
+    public partial class UbahApoteker : Window
     {
-        private readonly DaftarDokter dd;
-        private MDokter _mDaftarBaru = new MDokter(" ", " ", " ", " ", " ", " ");
+        private readonly DaftarApoteker da;
+        private MApoteker _mDaftarBaru = new MApoteker(" ", " ", " ", " ", " ");
         private int _noOfErrorsOnScreen;
 
-        #region constructor
-
-        public UbahDokter(string id, string nama, string telp, string alamat, string spesialisasi, string jenisK,
-            DaftarDokter dd)
+        public UbahApoteker(string id, string nama, string alamat, string no_telp, string jenisK, DaftarApoteker ua)
         {
             InitializeComponent();
-            DataContext = new MDokter(id, nama, telp, spesialisasi, alamat, " ");
-            this.dd = dd;
+
+            DataContext = new MApoteker(id, nama, no_telp, alamat, " ");
+            da = ua;
 
             if (jenisK == "Pria") cbJenisKelamin.SelectedIndex = 0;
             else if (jenisK == "Wanita") cbJenisKelamin.SelectedIndex = 1;
         }
 
-        #endregion
-
         private void BtnBatal_OnClick(object sender, RoutedEventArgs e)
         {
-            dd.displayDataDokter();
             Close();
         }
 
@@ -55,15 +50,15 @@ namespace admin.forms
             source.Clear();
         }
 
-        private void AddDokter_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        private void AddApoteker_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = _noOfErrorsOnScreen == 0;
             e.Handled = true;
         }
 
-        private void AddDokter_Executed(object sender, ExecutedRoutedEventArgs e)
+        private void AddApoteker_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            _mDaftarBaru = new MDokter(" ", " ", " ", " ", " ", " ");
+            _mDaftarBaru = new MApoteker(" ", " ", " ", " ", " ");
 
             if (checkTextBoxValue())
             {
@@ -71,7 +66,6 @@ namespace admin.forms
                 var id = txtidDokter.Text;
                 var telp = txtTelpDokter.Text;
                 var alamat = TextAlamat.Text;
-                var spesialisasi = txtSpesialisai.Text;
                 var jenisK = cbJenisKelamin.Text;
 
                 try
@@ -79,22 +73,21 @@ namespace admin.forms
                     if (DBConnection.dbConnection().State.Equals(ConnectionState.Closed))
                         DBConnection.dbConnection().Open();
 
-                    var query = "update dokter set nama='" + nama + "', alamat='" + alamat + "', telp='" + telp +
-                                "', spesialisasi='" + spesialisasi + "', jenis_kelamin='" + jenisK + "' where id='" +
-                                id + "'";
+                    var query = "update apoteker set nama_apoteker='" + nama + "', no_telp='" + telp + "', alamat='" +
+                                alamat + "', jenis_kelamin='" + jenisK + "' where id_apoteker='" + id + "'";
                     var cmd = new MySqlCommand(query, DBConnection.dbConnection());
                     var res = cmd.ExecuteNonQuery();
 
                     if (res >= 1)
                     {
-                        MessageBox.Show("Berhasil memperbarui data dokter", "Informasi", MessageBoxButton.OK,
+                        MessageBox.Show("Berhasil memperbarui data apoteker", "Informasi", MessageBoxButton.OK,
                             MessageBoxImage.Information);
-                        dd.displayDataDokter();
+                        da.displayDataApoteker();
                         Close();
                     }
                     else
                     {
-                        MessageBox.Show("Gagal memperbarui data dokter", "Error", MessageBoxButton.OK,
+                        MessageBox.Show("Gagal memperbarui data apoteker", "Error", MessageBoxButton.OK,
                             MessageBoxImage.Error);
                     }
                 }
@@ -119,8 +112,7 @@ namespace admin.forms
 //                txtSpesialisai.Text == " " && TextAlamat.Text == " ") return false;
 
             if (!string.IsNullOrWhiteSpace(txtidDokter.Text) && !string.IsNullOrWhiteSpace(txtNamaDokter.Text) &&
-                !string.IsNullOrWhiteSpace(txtTelpDokter.Text) && !string.IsNullOrWhiteSpace(txtSpesialisai.Text) &&
-                !string.IsNullOrWhiteSpace(TextAlamat.Text))
+                !string.IsNullOrWhiteSpace(txtTelpDokter.Text) && !string.IsNullOrWhiteSpace(TextAlamat.Text))
                 return true;
 
             return false;

@@ -3,19 +3,20 @@ using MySql.Data.MySqlClient;
 
 namespace admin.DBAccess
 {
-    class DBConnection
+    internal class DBConnection
     {
-        static MySqlConnection MsqlConn = null;
+        private static MySqlConnection MsqlConn;
 
         /// <summary>
-        /// create connection to the database
+        ///     create connection to the database
         /// </summary>
         /// <returns></returns>
         public static MySqlConnection dbConnection()
         {
             if (MsqlConn == null)
             {
-                string connectionString = ConfigurationManager.ConnectionStrings["klinikDatabaseConeection"].ConnectionString;
+                var connectionString =
+                    ConfigurationManager.ConnectionStrings["klinikDatabaseConeection"].ConnectionString;
                 MsqlConn = new MySqlConnection(connectionString);
             }
 

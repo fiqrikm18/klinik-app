@@ -4,38 +4,35 @@ using System.Text.RegularExpressions;
 
 namespace admin.models
 {
-    internal class MDokter : IDataErrorInfo
+    internal class MPendaftaran : IDataErrorInfo
     {
-        public MDokter(string id, string nama, string telp, string spesialisasi, string alamat, string password)
+        public MPendaftaran(string id, string nama, string alamat, string telp, string password, string jenis_kelamin)
         {
             this.id = id;
             this.nama = nama;
             this.alamat = alamat;
             this.telp = telp;
-            this.spesialisasi = spesialisasi;
             this.password = password;
+            this.jenis_kelamin = jenis_kelamin;
         }
 
         public string id { get; set; }
         public string nama { get; set; }
-        public string telp { get; set; }
         public string alamat { get; set; }
-        public string spesialisasi { get; set; }
-        public string tugas { get; set; }
-        public string jenis_kelamin { get; set; }
+        public string telp { get; set; }
         public string password { get; set; }
+        public string jenis_kelamin { get; set; }
 
-        #region member IDataErrorInfo
 
         public string this[string columnName]
         {
             get
             {
-                string result = null;
+                var result = "";
 
                 if (columnName == "id")
                     if (string.IsNullOrEmpty(id))
-                        result = "Id/kode dokter harus diisi.";
+                        result = "Id staff pendaftaran harus diisi.";
 
                 if (columnName == "nama")
                 {
@@ -62,10 +59,6 @@ namespace admin.models
                     if (string.IsNullOrEmpty(alamat))
                         result = "Alamat harus di isi.";
 
-                if (columnName == "spesialisasi")
-                    if (string.IsNullOrEmpty(spesialisasi))
-                        result = "spesialisasi harus di isi.";
-
                 if (columnName == "password")
                     if (string.IsNullOrEmpty(password))
                         result = "Password harus di isi.";
@@ -75,7 +68,5 @@ namespace admin.models
         }
 
         public string Error { get; }
-
-        #endregion
     }
 }

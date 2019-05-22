@@ -68,18 +68,33 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DBAccess\DBConnection.cs" />
+    <Compile Include="forms\TambahApoteker.xaml.cs">
+      <DependentUpon>TambahApoteker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="forms\TambahDokter.xaml.cs">
       <DependentUpon>TambahDokter.xaml</DependentUpon>
     </Compile>
+    <Compile Include="forms\TambahStaffPendaftaran.xaml.cs">
+      <DependentUpon>TambahStaffPendaftaran.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="forms\UbahApoteker.xaml.cs">
+      <DependentUpon>UbahApoteker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="forms\UbahDokter.xaml.cs">
       <DependentUpon>UbahDokter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="forms\UbahStaffPendaftaran.xaml.cs">
+      <DependentUpon>UbahStaffPendaftaran.xaml</DependentUpon>
     </Compile>
     <Compile Include="Mifare\GeneralAuthenticate.cs" />
     <Compile Include="Mifare\KeyStructure.cs" />
     <Compile Include="Mifare\KeyType.cs" />
     <Compile Include="Mifare\MifareCard.cs" />
     <Compile Include="models\ComboboxPairs.cs" />
+    <Compile Include="models\MApoteker.cs" />
     <Compile Include="models\MDokter.cs" />
+    <Compile Include="models\MPendaftaran.cs" />
+    <Compile Include="Utils\Encryptor.cs" />
     <Compile Include="Utils\Util.cs" />
     <Compile Include="views\DaftarApoteker.xaml.cs">
       <DependentUpon>DaftarApoteker.xaml</DependentUpon>
@@ -93,11 +108,27 @@
     <Compile Include="views\DaftarPoliklinik.xaml.cs">
       <DependentUpon>DaftarPoliklinik.xaml</DependentUpon>
     </Compile>
+    <Page Include="forms\TambahApoteker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="forms\TambahDokter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="forms\TambahStaffPendaftaran.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="forms\UbahApoteker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="forms\UbahDokter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="forms\UbahStaffPendaftaran.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

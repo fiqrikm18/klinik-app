@@ -4,38 +4,30 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using admin.DBAccess;
 using admin.models;
+using admin.Utils;
 using admin.views;
 using MySql.Data.MySqlClient;
 
 namespace admin.forms
 {
     /// <summary>
-    ///     Interaction logic for UbahDokter.xaml
+    ///     Interaction logic for TambahStaffPendaftaran.xaml
     /// </summary>
-    public partial class UbahDokter : Window
+    public partial class TambahStaffPendaftaran : Window
     {
-        private readonly DaftarDokter dd;
-        private MDokter _mDaftarBaru = new MDokter(" ", " ", " ", " ", " ", " ");
+        private readonly DaftarPendaftaran dp;
+        private MPendaftaran _mDaftarBaru = new MPendaftaran(" ", " ", " ", " ", " ", " ");
         private int _noOfErrorsOnScreen;
 
-        #region constructor
-
-        public UbahDokter(string id, string nama, string telp, string alamat, string spesialisasi, string jenisK,
-            DaftarDokter dd)
+        public TambahStaffPendaftaran(DaftarPendaftaran dp)
         {
             InitializeComponent();
-            DataContext = new MDokter(id, nama, telp, spesialisasi, alamat, " ");
-            this.dd = dd;
-
-            if (jenisK == "Pria") cbJenisKelamin.SelectedIndex = 0;
-            else if (jenisK == "Wanita") cbJenisKelamin.SelectedIndex = 1;
+            this.dp = dp;
+            DataContext = _mDaftarBaru;
         }
-
-        #endregion
 
         private void BtnBatal_OnClick(object sender, RoutedEventArgs e)
         {
-            dd.displayDataDokter();
             Close();
         }
 
@@ -63,39 +55,52 @@ namespace admin.forms
 
         private void AddDokter_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            _mDaftarBaru = new MDokter(" ", " ", " ", " ", " ", " ");
+            _mDaftarBaru = new MPendaftaran(" ", " ", " ", " ", " ", " ");
 
             if (checkTextBoxValue())
             {
                 var nama = txtNamaDokter.Text;
-                var id = txtidDokter.Text;
+                var id = txtidDokter.Text.ToUpper();
                 var telp = txtTelpDokter.Text;
                 var alamat = TextAlamat.Text;
-                var spesialisasi = txtSpesialisai.Text;
                 var jenisK = cbJenisKelamin.Text;
+                var password = txtPassword.Text.ToUpper();
 
                 try
                 {
                     if (DBConnection.dbConnection().State.Equals(ConnectionState.Closed))
                         DBConnection.dbConnection().Open();
 
-                    var query = "update dokter set nama='" + nama + "', alamat='" + alamat + "', telp='" + telp +
-                                "', spesialisasi='" + spesialisasi + "', jenis_kelamin='" + jenisK + "' where id='" +
-                                id + "'";
+                    var query = "select count(*) from pendaftar where id='" + id + "'";
                     var cmd = new MySqlCommand(query, DBConnection.dbConnection());
-                    var res = cmd.ExecuteNonQuery();
+                    var idExist = int.Parse(cmd.ExecuteScalar().ToString());
 
-                    if (res >= 1)
+                    if (idExist >= 1)
                     {
-                        MessageBox.Show("Berhasil memperbarui data dokter", "Informasi", MessageBoxButton.OK,
-                            MessageBoxImage.Information);
-                        dd.displayDataDokter();
-                        Close();
+                        MessageBox.Show("No id sudah terdaftar.", "Error", MessageBoxButton.OK,
+                            MessageBoxImage.Error);
                     }
                     else
                     {
-                        MessageBox.Show("Gagal memperbarui data dokter", "Error", MessageBoxButton.OK,
-                            MessageBoxImage.Error);
+                        query =
+                            "insert into pendaftar(id, nama, alamat, telp, password, jenis_kelamin) Values('" + id +
+                            "', '" + nama + "', '" + alamat + "', '" + telp + "', '" + Encryptor.MD5Hash(password) +
+                            "', '" + jenisK + "')";
+                        var command = new MySqlCommand(query, DBConnection.dbConnection());
+                        var res = command.ExecuteNonQuery();
+
+                        if (res == 1)
+                        {
+                            MessageBox.Show("Data staff berhasil disimpan.", "Informasi", MessageBoxButton.OK,
+                                MessageBoxImage.Information);
+                            dp.displayDataPendaftar();
+                            Close();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Data staff gagal disimpan.", "Error", MessageBoxButton.OK,
+                                MessageBoxImage.Error);
+                        }
                     }
                 }
                 catch (MySqlException ex)
@@ -109,7 +114,7 @@ namespace admin.forms
                     MessageBoxImage.Warning);
             }
 
-            DataContext = _mDaftarBaru;
+            cbJenisKelamin.SelectedIndex = 0;
             e.Handled = true;
         }
 
@@ -119,8 +124,8 @@ namespace admin.forms
 //                txtSpesialisai.Text == " " && TextAlamat.Text == " ") return false;
 
             if (!string.IsNullOrWhiteSpace(txtidDokter.Text) && !string.IsNullOrWhiteSpace(txtNamaDokter.Text) &&
-                !string.IsNullOrWhiteSpace(txtTelpDokter.Text) && !string.IsNullOrWhiteSpace(txtSpesialisai.Text) &&
-                !string.IsNullOrWhiteSpace(TextAlamat.Text))
+                !string.IsNullOrWhiteSpace(txtTelpDokter.Text) &&
+                !string.IsNullOrWhiteSpace(TextAlamat.Text) && !string.IsNullOrWhiteSpace(txtPassword.Text))
                 return true;
 
             return false;

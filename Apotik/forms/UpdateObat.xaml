@@ -6,7 +6,5 @@
         xmlns:local="clr-namespace:Apotik.forms"
         mc:Ignorable="d"
         Title="Perbarui Data Obat" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+    <Grid />
 </Window>
