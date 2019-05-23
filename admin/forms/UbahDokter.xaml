@@ -53,7 +53,7 @@
                              Text="{Binding UpdateSourceTrigger=LostFocus,
                         Path=nama, NotifyOnSourceUpdated=True,
                         ValidatesOnDataErrors=True}"
-                             GotKeyboardFocus="TextBoxFocus" />
+                             />
                 </StackPanel>
 
                 <StackPanel Grid.Row="2" Grid.Column="0">
@@ -63,12 +63,12 @@
                              Text="{Binding UpdateSourceTrigger=LostFocus,
                         Path=telp, NotifyOnSourceUpdated=True,
                         ValidatesOnDataErrors=True}"
-                             GotKeyboardFocus="TextBoxFocus" />
+                             />
                 </StackPanel>
 
                 <StackPanel Grid.Row="3" Grid.Column="0">
                     <Label Content="Alamat" />
-                    <TextBox x:Name="TextAlamat" Height="100" GotKeyboardFocus="TextBoxFocus" AcceptsReturn="True"
+                    <TextBox x:Name="TextAlamat" Height="100" AcceptsReturn="True"
                              TextWrapping="Wrap"
                              Text="{Binding UpdateSourceTrigger=LostFocus,
                         Path=alamat, NotifyOnSourceUpdated=True,
@@ -82,7 +82,7 @@
                              Text="{Binding UpdateSourceTrigger=LostFocus,
                         Path=spesialisasi, NotifyOnSourceUpdated=True,
                         ValidatesOnDataErrors=True}"
-                             GotKeyboardFocus="TextBoxFocus" />
+                             />
                 </StackPanel>
 
                 <StackPanel Grid.Row="1" Grid.Column="1">
@@ -100,7 +100,7 @@
         <StackPanel Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Orientation="Horizontal">
             <Button Content="Simpan" Command="New" />
             <Button Content="Batal" x:Name="btnBatal" Click="BtnBatal_OnClick" />
-            <CheckBox Content="Update kartu dokter" VerticalAlignment="Center" IsChecked="True" />
+            <CheckBox Content="Update kartu dokter" x:Name="chkCetakKartu" VerticalAlignment="Center" IsChecked="True" />
         </StackPanel>
     </Grid>
 </Window>

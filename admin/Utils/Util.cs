@@ -52,7 +52,7 @@ namespace admin.Utils
             return bout;
         }
 
-        public static string ToASCII(byte[] bstr, int idx, int len, bool whitespace)
+        public static string ToASCII(byte[] bstr, int idx, int len, bool whitespace = false)
         {
             var str = "";
             var strlen = GetLenght(bstr, len);

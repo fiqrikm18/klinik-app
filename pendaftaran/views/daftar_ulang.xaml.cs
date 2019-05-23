@@ -440,7 +440,7 @@ namespace pendaftaran.views
             var count = 0;
             var blockData = new byte[16];
 
-            for (i = blockFrom; i < blockTo; i++)
+            for (i = blockFrom; i <= blockTo; i++)
             {
                 if ((i + 1) % 4 == 0) continue;
 

@@ -111,7 +111,7 @@
         <StackPanel Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Orientation="Horizontal">
             <Button Content="Simpan" Command="New" />
             <Button Content="Batal" x:Name="btnBatal" Click="BtnBatal_OnClick" />
-            <CheckBox Content="Buat kartu dokter" VerticalAlignment="Center" IsChecked="True" />
+            <CheckBox Content="Buat kartu dokter" x:Name="chkChekKartu" VerticalAlignment="Center" IsChecked="True" />
         </StackPanel>
     </Grid>
 </Window>
