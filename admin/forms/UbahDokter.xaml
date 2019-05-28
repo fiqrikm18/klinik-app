@@ -52,8 +52,7 @@
                              Validation.Error="Validation_Error"
                              Text="{Binding UpdateSourceTrigger=LostFocus,
                         Path=nama, NotifyOnSourceUpdated=True,
-                        ValidatesOnDataErrors=True}"
-                             />
+                        ValidatesOnDataErrors=True}" />
                 </StackPanel>
 
                 <StackPanel Grid.Row="2" Grid.Column="0">
@@ -62,8 +61,7 @@
                              Validation.Error="Validation_Error"
                              Text="{Binding UpdateSourceTrigger=LostFocus,
                         Path=telp, NotifyOnSourceUpdated=True,
-                        ValidatesOnDataErrors=True}"
-                             />
+                        ValidatesOnDataErrors=True}" />
                 </StackPanel>
 
                 <StackPanel Grid.Row="3" Grid.Column="0">
@@ -79,10 +77,8 @@
                     <Label Content="Spesialisasi" />
                     <TextBox x:Name="txtSpesialisai"
                              Validation.Error="Validation_Error"
-                             Text="{Binding UpdateSourceTrigger=LostFocus,
-                        Path=spesialisasi, NotifyOnSourceUpdated=True,
-                        ValidatesOnDataErrors=True}"
-                             />
+                             Text="{Binding Path=spesialisasi,
+                        ValidatesOnDataErrors=False}" />
                 </StackPanel>
 
                 <StackPanel Grid.Row="1" Grid.Column="1">
@@ -93,7 +89,10 @@
                     </ComboBox>
                 </StackPanel>
 
-
+                <StackPanel Grid.Row="2" Grid.Column="1">
+                    <Label Content="Poliklnik" />
+                    <ComboBox x:Name="cbPoliklinik" />
+                </StackPanel>
             </Grid>
         </StackPanel>
 

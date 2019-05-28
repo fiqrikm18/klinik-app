@@ -4,12 +4,6 @@
              xmlns:local="clr-namespace:ui_design"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <Style x:Key="OpenSans">
-            <Setter Property="TextElement.FontFamily" Value="/fonts/#Open Sans" />
-        </Style>
 
-        <Style x:Key="OpenSansBold">
-            <Setter Property="TextElement.FontFamily" Value="/fonts/#Open Sans-Bold" />
-        </Style>
     </Application.Resources>
 </Application>

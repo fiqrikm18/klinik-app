@@ -37,6 +37,14 @@
     <Reference Include="MySql.Data">
       <HintPath>..\..\..\Source Script\mysql-connector-net-6.8.8-noinstall\v4.5\MySql.Data.dll</HintPath>
     </Reference>
+    <Reference Include="PCSC, Version=4.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\PCSC.4.0.3\lib\net40\PCSC.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PCSC.Iso7816, Version=4.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\PCSC.Iso7816.4.0.3\lib\net40\PCSC.Iso7816.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -57,6 +65,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Util.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -71,6 +80,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Mifare\GeneralAuthenticate.cs" />
+    <Compile Include="Mifare\KeyStructure.cs" />
+    <Compile Include="Mifare\KeyType.cs" />
+    <Compile Include="Mifare\MifareCard.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -88,6 +101,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

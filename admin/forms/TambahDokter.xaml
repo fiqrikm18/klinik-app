@@ -78,10 +78,7 @@
                 <StackPanel Grid.Row="0" Grid.Column="1">
                     <Label Content="Spesialisasi" />
                     <TextBox x:Name="txtSpesialisai"
-                             Validation.Error="Validation_Error"
-                             Text="{Binding UpdateSourceTrigger=LostFocus,
-                        Path=spesialisasi, NotifyOnSourceUpdated=True,
-                        ValidatesOnDataErrors=True}"
+                             Text="{Binding Path=spesialisasi, ValidatesOnDataErrors=False}"
                              GotKeyboardFocus="TextBoxFocus" />
                 </StackPanel>
 

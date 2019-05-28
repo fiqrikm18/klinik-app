@@ -40,7 +40,7 @@
 
         <StackPanel Grid.Row="2">
             <DataGrid x:Name="dtgDataPasien" SelectionMode="Extended" VerticalAlignment="Top"
-                      HorizontalAlignment="Stretch" AutoGenerateColumns="False" Height="400">
+                      HorizontalAlignment="Stretch" AutoGenerateColumns="False" Height="400" CanUserAddRows="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding no_identitas}" IsReadOnly="True" Header="No Identitas" />
                     <DataGridTextColumn Binding="{Binding no_rekam_medis}" IsReadOnly="True" Header="No Rekam Medis" />

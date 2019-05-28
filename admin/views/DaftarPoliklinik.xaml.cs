@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Data;
+using System.Data.SqlClient;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using admin.DBAccess;
 using admin.forms;
-using MySql.Data.MySqlClient;
 
 namespace admin.views
 {
@@ -32,9 +32,9 @@ namespace admin.views
                 if (!string.IsNullOrEmpty(nama))
                 {
                     query =
-                        "select * from poliklinik where nama_poliklinik like '%" + nama + "%';";
-                    var cmd = new MySqlCommand(query, DBConnection.dbConnection());
-                    var adapter = new MySqlDataAdapter(cmd);
+                        "select * from tb_poliklinik where nama_poli like '%" + nama + "%';";
+                    var cmd = new SqlCommand(query, DBConnection.dbConnection());
+                    var adapter = new SqlDataAdapter(cmd);
                     var dt = new DataTable();
 
                     adapter.Fill(dt);
@@ -45,9 +45,9 @@ namespace admin.views
                 else
                 {
                     query =
-                        "select * from poliklinik";
-                    var cmd = new MySqlCommand(query, DBConnection.dbConnection());
-                    var adapter = new MySqlDataAdapter(cmd);
+                        "select * from tb_poliklinik";
+                    var cmd = new SqlCommand(query, DBConnection.dbConnection());
+                    var adapter = new SqlDataAdapter(cmd);
                     var dt = new DataTable();
 
                     adapter.Fill(dt);
@@ -56,7 +56,7 @@ namespace admin.views
                     DBConnection.dbConnection().Close();
                 }
             }
-            catch (MySqlException ex)
+            catch (SqlException ex)
             {
                 MessageBox.Show("Koneksi ke database gagal, periksa kembali database anda...\n" + ex.Message,
                     "Perhatian", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -103,10 +103,10 @@ namespace admin.views
                     {
                         for (var i = 0; i < dtgDataPoliklinik.SelectedItems.Count; i++)
                         {
-                            query = "delete from poliklinik where kode_poliklinik = '" +
+                            query = "delete from tb_poliklinik where kode_poli = '" +
                                     (dtgDataPoliklinik.SelectedCells[0].Column
                                         .GetCellContent(dtgDataPoliklinik.SelectedItems[i]) as TextBlock)?.Text + "';";
-                            var command = new MySqlCommand(query, DBConnection.dbConnection());
+                            var command = new SqlCommand(query, DBConnection.dbConnection());
                             res = command.ExecuteNonQuery();
                         }
 

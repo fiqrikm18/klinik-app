@@ -54,6 +54,7 @@
         <StackPanel Grid.Row="2">
             <StackPanel Grid.Row="2">
                 <DataGrid x:Name="dtgDataPendaftar" SelectionMode="Extended" VerticalAlignment="Top"
+                          CanUserAddRows="False"
                           HorizontalAlignment="Stretch" AutoGenerateColumns="False" Height="400">
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding id}" IsReadOnly="True" Header="ID Staff" />

@@ -5,16 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ui_design"
         mc:Ignorable="d"
-        Title="MainWindow" Height="Auto" Width="1000" Background="#E4ECF5">
-    <Grid Style="{StaticResource OpenSans}" Margin="20">
-
-        <StackPanel>
-            <Label x:Name="MyLabel"
-                   Content="THIS IS A LABEL"
-                   FontSize="30"
-                   Visibility="Collapsed" />
-            <TextBox x:Name="textBox" Height="24" TextWrapping="Wrap" Text="TextBox" TextChanged="TextBox_TextChanged" />
-        </StackPanel>
+        Title="MainWindow" Height="400" Width="300" Background="#E4ECF5">
+    <Grid Margin="20">
+        <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="22" Margin="72,130,0,0" TextWrapping="Wrap"
+                 Text="TextBox" VerticalAlignment="Top" Width="120" />
+        <DatePicker HorizontalAlignment="Left" Margin="72,91,0,0" x:Name="dp1" VerticalAlignment="Top"
+                    SelectedDateChanged="dp1_SelectedDateChanged" />
 
     </Grid>
 </Window>

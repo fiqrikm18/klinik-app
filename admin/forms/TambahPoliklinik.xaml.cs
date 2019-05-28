@@ -1,11 +1,11 @@
 ﻿using System.Data;
+using System.Data.SqlClient;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using admin.DBAccess;
 using admin.models;
 using admin.views;
-using MySql.Data.MySqlClient;
 
 namespace admin.forms
 {
@@ -66,8 +66,8 @@ namespace admin.forms
                     if (DBConnection.dbConnection().State.Equals(ConnectionState.Closed))
                         DBConnection.dbConnection().Open();
 
-                    var query = "select count(*) from poliklinik where kode_poliklinik='" + id + "'";
-                    var cmd = new MySqlCommand(query, DBConnection.dbConnection());
+                    var query = "select count(*) from tb_poliklinik where kode_poli='" + id + "'";
+                    var cmd = new SqlCommand(query, DBConnection.dbConnection());
                     var idExist = int.Parse(cmd.ExecuteScalar().ToString());
 
                     if (idExist >= 1)
@@ -78,9 +78,9 @@ namespace admin.forms
                     else
                     {
                         query =
-                            "insert into poliklinik(kode_poliklinik, nama_poliklinik) values('" + id + "', '" + nama +
+                            "insert into tb_poliklinik(kode_poli, nama_poli) values('" + id + "', '" + nama +
                             "')";
-                        var command = new MySqlCommand(query, DBConnection.dbConnection());
+                        var command = new SqlCommand(query, DBConnection.dbConnection());
                         var res = command.ExecuteNonQuery();
 
                         if (res == 1)
@@ -97,7 +97,7 @@ namespace admin.forms
                         }
                     }
                 }
-                catch (MySqlException ex)
+                catch (SqlException ex)
                 {
                     MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Windows;
 using admin.DBAccess;
 using admin.views;
-using MySql.Data.MySqlClient;
 using PCSC;
 using PCSC.Iso7816;
 
@@ -57,9 +57,10 @@ namespace admin
                 if (DBConnection.dbConnection().State.Equals(ConnectionState.Closed))
                     DBConnection.dbConnection().Open();
             }
-            catch (MySqlException)
+            catch (SqlException ex)
             {
-                MessageBox.Show("Periksa kembali koneksi database anda...", "Perhatian", MessageBoxButton.OK,
+                MessageBox.Show("Periksa kembali koneksi database anda.\n" + ex.Message, "Perhatian",
+                    MessageBoxButton.OK,
                     MessageBoxImage.Warning);
             }
         }

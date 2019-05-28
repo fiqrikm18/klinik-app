@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Windows;
-using MySql.Data.MySqlClient;
 using PCSC;
 using pendaftaran.DBAccess;
 using pendaftaran.views;
@@ -24,7 +24,7 @@ namespace pendaftaran
                 if (DBConnection.dbConnection().State.Equals(ConnectionState.Closed))
                     DBConnection.dbConnection().Open();
             }
-            catch (MySqlException)
+            catch (SqlException)
             {
                 MessageBox.Show("Periksa kembali koneksi database anda...", "Perhatian", MessageBoxButton.OK,
                     MessageBoxImage.Warning);

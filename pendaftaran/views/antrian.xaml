@@ -23,11 +23,14 @@
             <Label Content="Filter Berdasarkan Poliklinik" VerticalAlignment="Center" />
             <ComboBox x:Name="cbPoliklinik" Margin="15 0" SelectionChanged="DtgAntrian_SelectionChanged"
                       VerticalAlignment="Center" />
+            <Label Content="Filter Berdasarkan Tanggal" VerticalAlignment="Center" />
+            <DatePicker x:Name="dtTanggalLahir" Width="120" HorizontalAlignment="Left" Margin="15 0"
+                        SelectedDateChanged="dtTanggalLahir_SelectedDateChanged" />
         </StackPanel>
 
         <StackPanel Grid.Row="2">
             <DataGrid x:Name="dtgAntrian" SelectionMode="Extended" VerticalAlignment="Top"
-                      HorizontalAlignment="Stretch" AutoGenerateColumns="False" Height="400">
+                      HorizontalAlignment="Stretch" AutoGenerateColumns="False" Height="400" CanUserAddRows="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding no_rm}" Header="No Rekam Medis" Width="150" />
                     <DataGridTextColumn Binding="{Binding nama_pasien}" Header="Nama Pasien" Width="250" />

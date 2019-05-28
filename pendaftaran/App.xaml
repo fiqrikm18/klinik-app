@@ -81,9 +81,11 @@
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="Background" Value="{x:Null}" />
+            <Setter Property="Foreground" Value="#555555" />
         </Style>
 
         <Style TargetType="{x:Type DatePickerTextBox}">
+            <Setter Property="Foreground" Value="#555555" />
             <Setter Property="Control.Template">
                 <Setter.Value>
                     <ControlTemplate>
