@@ -208,7 +208,7 @@ namespace pendaftaran.views
                             MessageBox.Show("Data pasien gagal dihapus.", "Error", MessageBoxButton.OK,
                                 MessageBoxImage.Error);
                     }
-                    catch (SqlException ex)
+                    catch (SqlException)
                     {
                         MessageBox.Show("Data pasien gagal dihapus.", "Error", MessageBoxButton.OK,
                             MessageBoxImage.Error);
@@ -373,7 +373,7 @@ namespace pendaftaran.views
                         MessageBoxImage.Error);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 MessageBox.Show("Terjadi kesalahan, pastikan kartu sudah berada pada jangkauan reader.",
                     "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -419,7 +419,7 @@ namespace pendaftaran.views
 
                 MessageBox.Show(msg, "Informasi Kartu Pasien", MessageBoxButton.OK, MessageBoxImage.Information);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 MessageBox.Show("Terjadi kesalahan, pastikan kartu sudah berada pada jangkauan reader.",
                     "Error", MessageBoxButton.OK, MessageBoxImage.Error);

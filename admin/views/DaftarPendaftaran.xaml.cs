@@ -324,7 +324,7 @@ namespace admin.views
                         MessageBoxImage.Error);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 MessageBox.Show("Terjadi kesalahan, pastikan kartu sudah berada pada jangkauan reader.", "Error",
                     MessageBoxButton.OK, MessageBoxImage.Error);
@@ -360,7 +360,7 @@ namespace admin.views
 
                 MessageBox.Show(msg, "Informasi Kartu", MessageBoxButton.OK, MessageBoxImage.Information);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 MessageBox.Show("Terjadi kesalahan, pastikan kartu sudah berada pada jangkauan reader.", "Error",
                     MessageBoxButton.OK, MessageBoxImage.Error);
@@ -376,7 +376,7 @@ namespace admin.views
                 card = new MifareCard(isoReader);
                 ClearAllBlock();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 MessageBox.Show("Terjadi kesalahan, pastikan kartu sudah berada pada jangkauan reader.", "Error",
                     MessageBoxButton.OK, MessageBoxImage.Error);

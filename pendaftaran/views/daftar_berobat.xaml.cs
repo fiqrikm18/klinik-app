@@ -369,7 +369,7 @@ namespace pendaftaran.views
                 var readData = ReadBlock(Msb, blockNoRekamMedis);
                 if (readData != null) txtIdPasien.Text = Util.ToASCII(readData, 0, 16, false);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 MessageBox.Show("Terjadi kesalahan, pastikan kartu sudah berada pada jangkauan reader.",
                     "Error", MessageBoxButton.OK, MessageBoxImage.Error);

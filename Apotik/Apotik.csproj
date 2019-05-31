@@ -35,6 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -54,9 +55,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DBAccess\DBCommand.cs" />
+    <Compile Include="DBAccess\DBConnection.cs" />
     <Compile Include="forms\UpdateObat.xaml.cs">
       <DependentUpon>UpdateObat.xaml</DependentUpon>
     </Compile>
+    <Compile Include="models\ModelObat.cs" />
     <Compile Include="views\DaftarObat.xaml.cs">
       <DependentUpon>DaftarObat.xaml</DependentUpon>
     </Compile>
@@ -126,8 +130,6 @@
   <ItemGroup>
     <Resource Include="images\BMicon.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="models\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

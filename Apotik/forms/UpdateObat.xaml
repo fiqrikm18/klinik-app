@@ -5,6 +5,114 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Apotik.forms"
         mc:Ignorable="d"
-        Title="Perbarui Data Obat" Height="450" Width="800">
-    <Grid />
+        Title="Ubah Data Obat" Height="608.054" Width="800" WindowStartupLocation="CenterScreen">
+    <Grid Style="{StaticResource OpenSans}" Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+            <TextBlock FontSize="16" FontWeight="Bold" Text="Tambah Data Obat" Foreground="#555555"/>
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.CommandBindings>
+                <CommandBinding Command="New" CanExecute="AddObat_CanExecute" Executed="AddObat_Executed"/>
+            </Grid.CommandBindings>
+
+            <StackPanel Grid.Row="0" Grid.Column="0">
+                <Label Content="Kode Obat"/>
+                <TextBox x:Name="txtKodeObat" IsEnabled="False"
+                         Validation.Error="Validation_Error"
+                             Text="{Binding UpdateSourceTrigger=LostFocus,
+                        Path=kode_obat, NotifyOnSourceUpdated=True,
+                        ValidatesOnDataErrors=True}"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" Grid.Column="0">
+                <Label Content="Nama Obat"/>
+                <TextBox x:Name="txtNamaObat"
+                         Validation.Error="Validation_Error"
+                             Text="{Binding UpdateSourceTrigger=LostFocus,
+                        Path=nama_obat, NotifyOnSourceUpdated=True,
+                        ValidatesOnDataErrors=True}"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="2" Grid.Column="0">
+                <Label Content="Harga Beli"/>
+                <TextBox x:Name="txtHargaBeli"
+                         Validation.Error="Validation_Error"
+                             Text="{Binding UpdateSourceTrigger=LostFocus,
+                        Path=harga_beli, NotifyOnSourceUpdated=True,
+                        ValidatesOnDataErrors=True}"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="3" Grid.Column="0">
+                <Label Content="Harga Jual"/>
+                <TextBox x:Name="txtHargaJual"
+                         Validation.Error="Validation_Error"
+                             Text="{Binding UpdateSourceTrigger=LostFocus,
+                        Path=harga_jual, NotifyOnSourceUpdated=True,
+                        ValidatesOnDataErrors=True}"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="4" Grid.Column="0">
+                <Label Content="Harga Resep"/>
+                <TextBox x:Name="txtHargaResep"
+                         Validation.Error="Validation_Error"
+                             Text="{Binding UpdateSourceTrigger=LostFocus,
+                        Path=harga_resep, NotifyOnSourceUpdated=True,
+                        ValidatesOnDataErrors=True}"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="0" Grid.Column="1">
+                <Label Content="Jumlah Stok"/>
+                <TextBox x:Name="txtStok"
+                         Validation.Error="Validation_Error"
+                             Text="{Binding UpdateSourceTrigger=LostFocus,
+                        Path=stok, NotifyOnSourceUpdated=True,
+                        ValidatesOnDataErrors=True}"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" Grid.Column="1">
+                <Label Content="Satuan"/>
+                <ComboBox x:Name="cbSatuan">
+                    <ComboBoxItem IsSelected="True">Strip</ComboBoxItem>
+                    <ComboBoxItem>Tablet</ComboBoxItem>
+                    <ComboBoxItem>Fls</ComboBoxItem>
+                    <ComboBoxItem>Botol</ComboBoxItem>
+                    <ComboBoxItem>Dus</ComboBoxItem>
+                    <ComboBoxItem>Suppositoria</ComboBoxItem>
+                    <ComboBoxItem>Kapsul</ComboBoxItem>
+                    <ComboBoxItem>Blitser</ComboBoxItem>
+                    <ComboBoxItem>Pot</ComboBoxItem>
+                    <ComboBoxItem>Tube</ComboBoxItem>
+                    <ComboBoxItem>Ampul</ComboBoxItem>
+                    <ComboBoxItem>Pcs</ComboBoxItem>
+                    <ComboBoxItem>Pack</ComboBoxItem>
+                    <ComboBoxItem>Saset</ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+
+            <StackPanel Grid.Row="5" Grid.Column="0" Orientation="Horizontal">
+                <Button x:Name="btnSimpan" Command="New"  Content="Simpan"/>
+                <Button x:Name="btnBatal" Content="Batal"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
 </Window>

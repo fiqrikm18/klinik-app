@@ -208,7 +208,7 @@ namespace admin.forms
                                     isPrinted = true;
                                     if (isPrinted) break;
                                 }
-                                catch (Exception ex)
+                                catch (Exception)
                                 {
                                     var ans = MessageBox.Show("Penulisan kartu gagal, pastikan kartu sudah berada pada jangkauan reader.\nApakah anda ingin menulis kartu lain kali?", "Error",
                                         MessageBoxButton.YesNo, MessageBoxImage.Error);

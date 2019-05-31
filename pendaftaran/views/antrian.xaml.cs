@@ -155,7 +155,6 @@ namespace pendaftaran.views
         {
             var cbp = (ComboboxPairs)cbPoliklinik.SelectedItem;
             policode = cbp.nama_poliklinik;
-            int res = 1;
 
             if (DBConnection.dbConnection().State.Equals(System.Data.ConnectionState.Closed))
                 DBConnection.dbConnection().Open();
@@ -175,16 +174,17 @@ namespace pendaftaran.views
                 }
                 else
                 {
+                    int res = 1;
+
                     try
                     {
                         if (policode != "Pilih" || policode != "000")
                         {
                             for (int i = 0; i < dtgAntrian.Items.Count; i++)
                             {
-                                var query = "delete from [tb_antrian_poli] where [tgl_berobat] = CONVERT(date, '"+ dtTanggalLahir.SelectedDate.Value.ToShortDateString() + "', 111) AND [poliklinik] = '"+policode+"';";
-                                SqlCommand cmd = new SqlCommand(query, DBConnection.dbConnection());
-                                //cmd.Parameters.AddWithValue("date", dtTanggalLahir.SelectedDate.Value.ToShortDateString());
-                                //cmd.Parameters.AddWithValue("poliklinik", "006");
+                                SqlCommand cmd = new SqlCommand("delete from[tb_antrian_poli] where[tgl_berobat] = CONVERT(date, @date, 111) AND[poliklinik] = @poliklinik", DBConnection.dbConnection());
+                                cmd.Parameters.AddWithValue("date", dtTanggalLahir.SelectedDate.Value.ToShortDateString());
+                                cmd.Parameters.AddWithValue("poliklinik", policode);
                                 res = cmd.ExecuteNonQuery();
                             }
 

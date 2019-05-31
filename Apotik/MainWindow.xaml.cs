@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using Apotik.views;
+using Apotik.DBAccess;
 
 namespace Apotik
 {
@@ -11,21 +11,23 @@ namespace Apotik
         public MainWindow()
         {
             InitializeComponent();
+            DBCommand cmd = new DBCommand(DBConnection.dbConnection());
+            cmd.OpenConnection();
         }
 
         private void TambahObat(object sender, RoutedEventArgs e)
         {
-            MainFrame.Content = new TambahObat();
+            MainFrame.Content = new views.TambahObat();
         }
 
         private void DaftarObat(object sender, RoutedEventArgs e)
         {
-            MainFrame.Content = new DaftarObat();
+            MainFrame.Content = new views.DaftarObat();
         }
 
         private void DaftarResep(object sender, RoutedEventArgs e)
         {
-            MainFrame.Content = new DaftarResep();
+            MainFrame.Content = new views.DaftarResep();
         }
     }
 }
