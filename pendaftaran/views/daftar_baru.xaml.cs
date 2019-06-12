@@ -509,13 +509,14 @@ namespace pendaftaran.views
 
                                         MessageBox.Show("Data pasien berhasil ditambahkan. \nNomor antri: " + no_urut,
                                             "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
-                                        //MessageBox.Show(last);
+                                        DataContext = _mDaftarBaru;
                                     }
                                     else
                                     {
                                         MessageBox.Show(
                                             "Data pasien berhasil ditambahkan. \nGagal menambahakan pasien ke antrian.",
                                             "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
+                                        DataContext = _mDaftarBaru;
                                     }
                                 }
                                 else
@@ -544,7 +545,6 @@ namespace pendaftaran.views
                     MessageBoxImage.Warning);
             }
 
-            DataContext = _mDaftarBaru;
             dtTanggalLahir.SelectedDate = null;
             cbJenisKelamin.SelectedIndex = 0;
             cbPoliklinik.SelectedIndex = 0;
@@ -554,7 +554,11 @@ namespace pendaftaran.views
         private void TextBoxFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             var source = e.Source as TextBox;
-            source.Clear();
+
+            if(source.Text == " " || string.IsNullOrEmpty(source.Text))
+            {
+                source.Clear();
+            }
         }
 
         private bool checkTextBoxValue()

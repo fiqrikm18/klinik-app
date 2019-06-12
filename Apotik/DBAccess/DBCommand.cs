@@ -26,7 +26,7 @@ namespace Apotik.DBAccess
 
         public void CloseConnection()
         {
-            if (conn.State.Equals(System.Data.ConnectionState.Closed))
+            if (conn.State.Equals(System.Data.ConnectionState.Open))
                 conn.Close();
         }
 
@@ -89,6 +89,7 @@ namespace Apotik.DBAccess
         {
             try
             {
+                OpenConnection();
                 SqlCommand cmd = new SqlCommand("UPDATE [dbo].[tb_obat] SET [nama_obat] = @nama_obat ,[harga_beli] = @harga_beli ,[harga_jual] = @harga_jual ,[harga_resep] = @harga_resep, [stok] = @stok, [satuan]=@satuan WHERE [kode_obat] = @kode_obat", conn);
                 cmd.Parameters.AddWithValue("nama_obat", nama_obat);
                 cmd.Parameters.AddWithValue("stok", stok);
@@ -101,6 +102,8 @@ namespace Apotik.DBAccess
 
                 if (res == 1)
                     return true;
+
+                CloseConnection();
             }
             catch(SqlException ex)
             {

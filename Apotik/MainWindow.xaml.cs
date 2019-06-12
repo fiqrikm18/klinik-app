@@ -11,8 +11,6 @@ namespace Apotik
         public MainWindow()
         {
             InitializeComponent();
-            DBCommand cmd = new DBCommand(DBConnection.dbConnection());
-            cmd.OpenConnection();
         }
 
         private void TambahObat(object sender, RoutedEventArgs e)

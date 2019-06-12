@@ -1,29 +1,28 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
-using PCSC.Iso7816;
-using ui_design.Mifare;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
 namespace ui_design
 {
     /// <summary>
-    ///     Interaction logic for MainWindow.xaml
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        private const byte Msb = 0x00;
-        private readonly MifareCard card;
-        private readonly IsoReader isoReader;
-        private byte[] key = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
-
         public MainWindow()
         {
             InitializeComponent();
-        }
-
-        private void dp1_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
-        {
-            textBox1.Text = dp1.SelectedDate.Value.Year + "-" + dp1.SelectedDate.Value.Month + "-" +
-                            dp1.SelectedDate.Value.Day;
         }
     }
 }

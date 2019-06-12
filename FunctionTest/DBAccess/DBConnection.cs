@@ -1,7 +1,7 @@
 ﻿using System.Configuration;
 using System.Data.SqlClient;
 
-namespace FunctionTest.DBAccess
+namespace dokter.DBAccess
 {
     internal class DBConnection
     {

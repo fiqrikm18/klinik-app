@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace dokter.views
+namespace Antrian
 {
     /// <summary>
-    /// Interaction logic for DataPsien.xaml
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class DataPsien : Page
+    public partial class MainWindow : Window
     {
-        public DataPsien()
+        public MainWindow()
         {
             InitializeComponent();
         }

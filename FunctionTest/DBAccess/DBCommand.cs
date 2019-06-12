@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data.SqlClient;
 
-namespace FunctionTest.DBAccess
+namespace dokter.DBAccess
 {
     class DBCommand
     {

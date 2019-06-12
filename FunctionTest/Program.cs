@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FunctionTest.DBAccess;
+using dokter.DBAccess;
 using System.Data.SqlClient;
 
-namespace FunctionTest
+namespace dokter
 {
     class Program
     {

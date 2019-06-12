@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace FunctionTest
+namespace dokter
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -25,6 +25,24 @@ namespace FunctionTest
             InitializeComponent();
             string role = Properties.Settings.Default.Role;
             lblHeader.Content = "Poli " + role;
+
+            DBAccess.DBCommand cmd = new DBAccess.DBCommand(DBAccess.DBConnection.dbConnection());
+            cmd.OpenConnection();
+        }
+
+        private void btnAntrianPasien_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Content = new views.DaftarAntrian();
+        }
+
+        private void btnRekamMedisPasien_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Content = new views.DaftarRekamMedis();
+        }
+
+        private void btnDataPasien_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Content = new views.DataPsien();
         }
     }
 }

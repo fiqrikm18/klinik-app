@@ -10,17 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace dokter.views
+namespace dokter.forms
 {
     /// <summary>
-    /// Interaction logic for DataPsien.xaml
+    /// Interaction logic for InputRekamMedis.xaml
     /// </summary>
-    public partial class DataPsien : Page
+    public partial class InputRekamMedis : Window
     {
-        public DataPsien()
+        public InputRekamMedis()
         {
             InitializeComponent();
         }

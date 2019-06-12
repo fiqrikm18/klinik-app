@@ -1,9 +1,9 @@
-﻿<Window x:Class="FunctionTest.MainWindow"
+﻿<Window x:Class="dokter.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:FunctionTest"
+        xmlns:local="clr-namespace:dokter"
         mc:Ignorable="d"
         Title="Klinik Bunda Mulya" Height="700" Width="1200" WindowStartupLocation="CenterScreen" Icon="images/BMicon.ico">
     <Window.Resources>
@@ -107,7 +107,7 @@
 
                             <Grid Grid.Row="0">
                                 <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                                    <Button Margin="0 3" HorizontalContentAlignment="Left"
+                                    <Button Margin="0 3" HorizontalContentAlignment="Left" x:Name="btnAntrianPasien" Click="btnAntrianPasien_Click"
                                             Style="{StaticResource SideMenuButton}">
                                         <StackPanel Orientation="Horizontal" Margin="10 0">
                                             <Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -126,7 +126,7 @@
 
                             <Grid Grid.Row="1">
                                 <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                                    <Button Padding="10" Margin="0 3" HorizontalContentAlignment="Left"
+                                    <Button Padding="10" Margin="0 3" HorizontalContentAlignment="Left" x:Name="btnRekamMedisPasien" Click="btnRekamMedisPasien_Click"
                                             Style="{StaticResource SideMenuButton}">
                                         <StackPanel Orientation="Horizontal" Margin="10 0">
                                             <Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -145,7 +145,7 @@
 
                             <Grid Grid.Row="2">
                                 <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                                    <Button Padding="10" Margin="0 3" HorizontalContentAlignment="Left"
+                                    <Button Padding="10" Margin="0 3" HorizontalContentAlignment="Left" x:Name="btnDataPasien" Click="btnDataPasien_Click"
                                             Style="{StaticResource SideMenuButton}">
                                         <StackPanel Orientation="Horizontal" Margin="10 0">
                                             <Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"

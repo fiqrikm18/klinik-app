@@ -24,22 +24,29 @@ namespace Apotik.views
 
         public void DisplayDataObat(string nama = null)
         {
-            DBCommand cmd = new DBCommand(conn);
-
-            if (nama == null)
+            try
             {
-                var data = cmd.GetDataObat();
-                dtgDataObat.ItemsSource = data;
+                DBCommand cmd = new DBCommand(conn);
+
+                if (nama == null)
+                {
+                    var data = cmd.GetDataObat();
+                    dtgDataObat.ItemsSource = data;
+                }
+                else
+                {
+                    SqlCommand command = new SqlCommand("SELECT * FROM tb_obat WHERE nama_obat LIKE '%" + nama + "%'", conn);
+                    //command.Parameters.AddWithValue("nama", nama);
+                    var adapter = new SqlDataAdapter(command);
+                    var dt = new DataTable();
+
+                    adapter.Fill(dt);
+                    dtgDataObat.ItemsSource = dt.DefaultView;
+                }
             }
-            else
+            catch(Exception ex)
             {
-                SqlCommand command = new SqlCommand("SELECT * FROM tb_obat WHERE nama_obat LIKE '%"+nama+"%'", conn);
-                //command.Parameters.AddWithValue("nama", nama);
-                var adapter = new SqlDataAdapter(command);
-                var dt = new DataTable();
-
-                adapter.Fill(dt);
-                dtgDataObat.ItemsSource = dt.DefaultView;
+                throw new Exception(ex.Message);
             }
         }
 
