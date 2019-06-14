@@ -81,8 +81,9 @@ namespace Apotik.views
 
         private bool checkTextBoxValue()
         {
-            if (!string.IsNullOrEmpty(txtKodeObat.Text) && !string.IsNullOrEmpty(txtNamaObat.Text) && !string.IsNullOrEmpty(txtHargaBeli.Text) && !string.IsNullOrEmpty(txtHargaJual.Text)
-                && !string.IsNullOrEmpty(txtHargaResep.Text)&& !string.IsNullOrEmpty(txtStok.Text))
+            if (!string.IsNullOrWhiteSpace(txtKodeObat.Text) && !string.IsNullOrWhiteSpace(txtNamaObat.Text) 
+                && !string.IsNullOrWhiteSpace(txtHargaBeli.Text) && !string.IsNullOrWhiteSpace(txtHargaJual.Text)
+                && !string.IsNullOrWhiteSpace(txtHargaResep.Text)&& !string.IsNullOrWhiteSpace(txtStok.Text))
                 return true;
 
             return false;

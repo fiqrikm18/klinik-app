@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:admin.forms"
         mc:Ignorable="d"
-        Title="Tambah Data Staff Pendaftaran" Height="600" Width="850" WindowStartupLocation="CenterScreen"
+        Title="Tambah Data Staff Pendaftaran" Height="620" Width="850" WindowStartupLocation="CenterScreen"
         Icon="/admin;component/images/BMicon.ico">
     <Grid Style="{StaticResource OpenSans}" Margin="25">
         <Grid.CommandBindings>
@@ -78,6 +78,7 @@
                 <StackPanel Grid.Row="0" Grid.Column="1">
                     <Label Content="Jenis Kelamin" />
                     <ComboBox x:Name="cbJenisKelamin" SelectedIndex="0" Background="{x:Null}" BorderBrush="{x:Null}">
+                        <ComboBoxItem Content="Pilih" />
                         <ComboBoxItem Content="Pria" />
                         <ComboBoxItem Content="Wanita" />
                     </ComboBox>

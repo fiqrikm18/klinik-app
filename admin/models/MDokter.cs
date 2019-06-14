@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace admin.models
 {
-    internal class MDokter : IDataErrorInfo
+    public class MDokter : IDataErrorInfo
     {
         public MDokter(string id, string nama, string telp, string spesialisasi, string alamat, string password)
         {
@@ -16,6 +16,18 @@ namespace admin.models
             this.password = password;
         }
 
+        public MDokter(string id, string nama, string telp, string spesialisasi, string alamat, string password, string poliklinik, string jenis_kelamin)
+        {
+            this.id = id;
+            this.nama = nama;
+            this.alamat = alamat;
+            this.telp = telp;
+            this.spesialisasi = spesialisasi;
+            this.jenis_kelamin = jenis_kelamin;
+            this.password = password;
+            this.poliklinik = poliklinik;
+        }
+
         public string id { get; set; }
         public string nama { get; set; }
         public string telp { get; set; }
@@ -24,6 +36,7 @@ namespace admin.models
         public string tugas { get; set; }
         public string jenis_kelamin { get; set; }
         public string password { get; set; }
+        public string poliklinik { get; set; }
 
         #region member IDataErrorInfo
 

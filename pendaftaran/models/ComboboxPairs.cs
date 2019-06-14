@@ -1,6 +1,6 @@
 ﻿namespace pendaftaran.models
 {
-    internal class ComboboxPairs
+    public class ComboboxPairs
     {
         public ComboboxPairs(string KodePoli, string NamaPoli)
         {

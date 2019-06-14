@@ -11,6 +11,8 @@ using admin.Mifare;
 using admin.Utils;
 using PCSC;
 using PCSC.Iso7816;
+using admin.models;
+using System.Linq;
 
 namespace admin.views
 {
@@ -32,79 +34,42 @@ namespace admin.views
         private readonly byte BlockSpesialisasi = 24;
         private readonly byte BlockTelp = 17;
         private readonly byte BlockTugas = 25;
-        private readonly byte[] key = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
-        private MifareCard card;
 
-        private readonly IContextFactory contextFactory = ContextFactory.Instance;
-        private IsoReader isoReader;
-        private readonly string nfcReader;
+        SmartCardOperation sp;
+
+        SqlConnection conn;
+        DBCommand cmd;
 
         public DaftarDokter()
         {
             InitializeComponent();
+            conn = DBConnection.dbConnection();
+            cmd = new DBCommand(conn);
+
+            sp = new SmartCardOperation();
+
             displayDataDokter();
 
-            var ctx = contextFactory.Establish(SCardScope.System);
-            var readerNames = ctx.GetReaders();
-
-            if (NoReaderAvailable(readerNames))
-            {
-                MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer", "Error",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            if (sp.IsReaderAvailable()) { }
             else
             {
-                nfcReader = readerNames[0];
-                if (string.IsNullOrEmpty(nfcReader))
-                    MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer",
-                        "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-
-                isoReaderInit();
-                card = new MifareCard(isoReader);
+                MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+
         }
 
         public void displayDataDokter(string nama = null)
         {
-            try
+            List<MDokter> dokter = cmd.GetDataDokter();
+
+            if (string.IsNullOrEmpty(nama))
             {
-                if (DBConnection.dbConnection().State.Equals(ConnectionState.Closed))
-                    DBConnection.dbConnection().Open();
-
-                string query;
-
-                if (!string.IsNullOrEmpty(nama))
-                {
-                    query =
-                        "select tb_dokter.nama as nama, tb_dokter.telp as telp, tb_dokter.id as id, tb_dokter.alamat as alamat, tb_dokter.spesialisasi as spesialisasi, tb_poliklinik.nama_poli as tugas, tb_dokter.jenis_kelamin as jenis_kelamin  from tb_dokter LEFT JOIN tb_poliklinik on tb_poliklinik.kode_poli = tb_dokter.tugas where nama like '%" +
-                        nama + "%';";
-                    var cmd = new SqlCommand(query, DBConnection.dbConnection());
-                    var adapter = new SqlDataAdapter(cmd);
-                    var dt = new DataTable();
-
-                    adapter.Fill(dt);
-                    dtgDataDokter.ItemsSource = dt.DefaultView;
-
-                    DBConnection.dbConnection().Close();
-                }
-                else
-                {
-                    query =
-                        "select tb_dokter.nama as nama, tb_dokter.telp as telp, tb_dokter.id as id, tb_dokter.alamat as alamat, tb_dokter.spesialisasi as spesialisasi, tb_poliklinik.nama_poli as tugas, tb_dokter.jenis_kelamin as jenis_kelamin  from tb_dokter LEFT JOIN tb_poliklinik on tb_poliklinik.kode_poli = tb_dokter.tugas";
-                    var cmd = new SqlCommand(query, DBConnection.dbConnection());
-                    var adapter = new SqlDataAdapter(cmd);
-                    var dt = new DataTable();
-
-                    adapter.Fill(dt);
-                    dtgDataDokter.ItemsSource = dt.DefaultView;
-
-                    DBConnection.dbConnection().Close();
-                }
+                dtgDataDokter.ItemsSource = dokter;
             }
-            catch (SqlException ex)
+            else
             {
-                MessageBox.Show("Koneksi ke database gagal, periksa kembali database anda...\n" + ex.Message,
-                    "Perhatian", MessageBoxButton.OK, MessageBoxImage.Warning);
+                IEnumerable<MDokter> filtered = dokter.Where(x => x.nama.ToLower().Contains(nama.ToLower()));
+                dtgDataDokter.ItemsSource = filtered;
             }
         }
 
@@ -161,6 +126,10 @@ namespace admin.views
                 var ud = new UbahDokter(id, nama, telp, alamat, spesialis, jenisK, tugas, this);
                 ud.Show();
             }
+            else
+            {
+                MessageBox.Show("Pilih data yang ingin di ubah terlebih dahulu.", "Perhatian", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
         private void BtnHapusDokter_OnClick(object sender, RoutedEventArgs e)
@@ -172,33 +141,23 @@ namespace admin.views
 
                 if (a == MessageBoxResult.Yes)
                 {
-                    string query;
-                    var res = 0;
+                    var res = false;
 
-                    if (DBConnection.dbConnection().State.Equals(ConnectionState.Closed))
-                        DBConnection.dbConnection().Open();
-
-                    try
+                    for (var i = 0; i < dtgDataDokter.SelectedItems.Count; i++)
                     {
-                        for (var i = 0; i < dtgDataDokter.SelectedItems.Count; i++)
+                        if (cmd.DeleteDataDokter((dtgDataDokter.SelectedCells[0].Column.GetCellContent(dtgDataDokter.SelectedItems[i]) as TextBlock)?.Text))
                         {
-                            query = "delete from tb_dokter where id = '" +
-                                    (dtgDataDokter.SelectedCells[0].Column
-                                        .GetCellContent(dtgDataDokter.SelectedItems[i]) as TextBlock)?.Text + "';";
-                            var command = new SqlCommand(query, DBConnection.dbConnection());
-                            res = command.ExecuteNonQuery();
+                            res = true;
                         }
 
-                        if (res == 1)
-                            MessageBox.Show("Data dokter berhasil dihapus.", "Informasi", MessageBoxButton.OK,
-                                MessageBoxImage.Information);
+                        if (res)
+                        {
+                            MessageBox.Show("Data dokter berhasil dihapus.", "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
+                        }
                         else
-                            MessageBox.Show("Data dokter gagal dihapus.", "Error", MessageBoxButton.OK,
-                                MessageBoxImage.Error);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        {
+                            MessageBox.Show("Data dokter gagal dihapus.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
                     }
                 }
 
@@ -216,8 +175,8 @@ namespace admin.views
         {
             try
             {
-                isoReaderInit();
-                card = new MifareCard(isoReader);
+                sp.isoReaderInit();
+                //card = new MifareCard(isoReader);
 
                 var id = "";
                 var nama = "";
@@ -263,7 +222,7 @@ namespace admin.views
 
                     if (!string.IsNullOrEmpty(id))
                     {
-                        if (WriteBlock(Msb, BlockId, Util.ToArrayByte16(id)))
+                        if (sp.WriteBlock(Msb, BlockId, Util.ToArrayByte16(id)))
                         {
                         }
                         else
@@ -277,7 +236,7 @@ namespace admin.views
 
                     if (!string.IsNullOrEmpty(nama))
                     {
-                        if (WriteBlockRange(Msb, BlockNamaFrom, BlockNamaTo, Util.ToArrayByte48(nama)))
+                        if (sp.WriteBlockRange(Msb, BlockNamaFrom, BlockNamaTo, Util.ToArrayByte48(nama)))
                         {
                         }
                         else
@@ -288,7 +247,7 @@ namespace admin.views
 
                     if (!string.IsNullOrEmpty(telp))
                     {
-                        if (WriteBlock(Msb, BlockTelp, Util.ToArrayByte16(telp)))
+                        if (sp.WriteBlock(Msb, BlockTelp, Util.ToArrayByte16(telp)))
                         {
                         }
                         else
@@ -302,7 +261,7 @@ namespace admin.views
 
                     if (!string.IsNullOrEmpty(alamat))
                     {
-                        if (WriteBlockRange(Msb, BlockAlamatFrom, BlockAlamatTo, Util.ToArrayByte64(alamat)))
+                        if (sp.WriteBlockRange(Msb, BlockAlamatFrom, BlockAlamatTo, Util.ToArrayByte64(alamat)))
                         {
                         }
                         else
@@ -313,7 +272,7 @@ namespace admin.views
 
                     if (!string.IsNullOrEmpty(jenisK))
                     {
-                        if (WriteBlock(Msb, BlockJenisKelamin, Util.ToArrayByte16(jenisK)))
+                        if (sp.WriteBlock(Msb, BlockJenisKelamin, Util.ToArrayByte16(jenisK)))
                         {
                         }
                         else
@@ -324,7 +283,7 @@ namespace admin.views
 
                     if (!string.IsNullOrEmpty(id))
                     {
-                        if (WriteBlockRange(Msb, BlockPasswordFrom, BlockPasswordTo,
+                        if (sp.WriteBlockRange(Msb, BlockPasswordFrom, BlockPasswordTo,
                             Util.ToArrayByte32(Encryptor.MD5Hash(id))))
                         {
                         }
@@ -336,7 +295,7 @@ namespace admin.views
 
                     if (!string.IsNullOrEmpty(spesialis))
                     {
-                        if (WriteBlock(Msb, BlockSpesialisasi, Util.ToArrayByte16(spesialis)))
+                        if (sp.WriteBlock(Msb, BlockSpesialisasi, Util.ToArrayByte16(spesialis)))
                         {
                         }
                         else
@@ -347,7 +306,7 @@ namespace admin.views
 
                     if (!string.IsNullOrEmpty(tugas))
                     {
-                        if (WriteBlock(Msb, BlockTugas, Util.ToArrayByte16(tugas)))
+                        if (sp.WriteBlock(Msb, BlockTugas, Util.ToArrayByte16(tugas)))
                         {
                         }
                         else
@@ -369,7 +328,7 @@ namespace admin.views
             {
                 MessageBox.Show("Terjadi kesalahan, pastikan kartu sudah berada pada jangkauan reader.", "Error",
                     MessageBoxButton.OK, MessageBoxImage.Error);
-                isoReaderInit();
+                sp.isoReaderInit();
             }
         }
 
@@ -377,32 +336,32 @@ namespace admin.views
         {
             try
             {
-                isoReaderInit();
-                card = new MifareCard(isoReader);
+                sp.isoReaderInit();
+                //card = new MifareCard(isoReader);
 
                 var msg = "";
-                var id = ReadBlock(Msb, BlockId);
+                var id = sp.ReadBlock(Msb, BlockId);
                 if (id != null) msg += "ID: " + Util.ToASCII(id, 0, 16);
 
-                var nama = ReadBlockRange(Msb, BlockNamaFrom, BlockNamaTo);
+                var nama = sp.ReadBlockRange(Msb, BlockNamaFrom, BlockNamaTo);
                 if (nama != null) msg += "\nNama: " + Util.ToASCII(nama, 0, 48);
 
-                var telp = ReadBlock(Msb, BlockTelp);
+                var telp = sp.ReadBlock(Msb, BlockTelp);
                 if (telp != null) msg += "\nTelp: " + Util.ToASCII(telp, 0, 16);
 
-                var alamat = ReadBlockRange(Msb, BlockAlamatFrom, BlockAlamatTo);
+                var alamat = sp.ReadBlockRange(Msb, BlockAlamatFrom, BlockAlamatTo);
                 if (alamat != null) msg += "\nAlamat: " + Util.ToASCII(alamat, 0, 64);
 
-                var jenisK = ReadBlock(Msb, BlockJenisKelamin);
+                var jenisK = sp.ReadBlock(Msb, BlockJenisKelamin);
                 if (jenisK != null) msg += "\nJenis Kelamin: " + Util.ToASCII(jenisK, 0, 16);
 
-                var spesialis = ReadBlock(Msb, BlockSpesialisasi);
+                var spesialis = sp.ReadBlock(Msb, BlockSpesialisasi);
                 if (spesialis != null) msg += "\nSpesialisasi: " + Util.ToASCII(spesialis, 0, 16);
 
-                var tugas = ReadBlock(Msb, BlockTugas);
+                var tugas = sp.ReadBlock(Msb, BlockTugas);
                 if (tugas != null) msg += "\nPoliklinik: " + Util.ToASCII(tugas, 0, 16);
 
-                var pass = ReadBlockRange(Msb, BlockPasswordFrom, BlockPasswordTo);
+                var pass = sp.ReadBlockRange(Msb, BlockPasswordFrom, BlockPasswordTo);
                 if (pass != null) msg += "\nPassword: " + Util.ToASCII(pass, 0, 32);
 
                 MessageBox.Show(msg, "Informasi Kartu", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -411,7 +370,7 @@ namespace admin.views
             {
                 MessageBox.Show("Terjadi kesalahan, pastikan kartu sudah berada pada jangkauan reader.", "Error",
                     MessageBoxButton.OK, MessageBoxImage.Error);
-                isoReaderInit();
+                sp.isoReaderInit();
             }
         }
 
@@ -419,196 +378,20 @@ namespace admin.views
         {
             try
             {
-                isoReaderInit();
-                card = new MifareCard(isoReader);
+                sp.isoReaderInit();
+                //card = new MifareCard(isoReader);
 
-                ClearAllBlock();
+                if (sp.ClearAllBlock())
+                {
+                    MessageBox.Show("Data Kartu berhasil dihapus.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
             }
             catch (Exception)
             {
                 MessageBox.Show("Terjadi kesalahan, pastikan kartu sudah berada pada jangkauan reader.", "Error",
                     MessageBoxButton.OK, MessageBoxImage.Error);
-                isoReaderInit();
+                sp.isoReaderInit();
             }
         }
-
-        #region member smart card operations
-
-        private bool NoReaderAvailable(ICollection<string> readerNames)
-        {
-            return readerNames == null || readerNames.Count < 1;
-        }
-
-        private bool WriteBlock(byte msb, byte lsb, byte[] data)
-        {
-            isoReaderInit();
-            card = new MifareCard(isoReader);
-
-            if (card.LoadKey(KeyStructure.VolatileMemory, 0x00, key))
-            {
-                if (card.Authenticate(msb, lsb, KeyType.KeyA, 0x00))
-                    if (card.UpdateBinary(msb, lsb, data))
-                        return true;
-
-                return false;
-            }
-
-            return false;
-        }
-
-        private bool WriteBlockRange(byte msb, byte blockFrom, byte blockTo, byte[] data)
-        {
-            isoReaderInit();
-            card = new MifareCard(isoReader);
-
-            byte i;
-            var count = 0;
-            var blockData = new byte[16];
-
-            for (i = blockFrom; i <= blockTo; i++)
-            {
-                if ((i + 1) % 4 == 0) continue;
-
-                Array.Copy(data, count * 16, blockData, 0, 16);
-
-                if (WriteBlock(msb, i, blockData)) count++;
-                else return false;
-            }
-
-            return true;
-        }
-
-        private byte[] ReadBlock(byte msb, byte lsb)
-        {
-            isoReaderInit();
-            card = new MifareCard(isoReader);
-
-            var readBinary = new byte[16];
-
-            if (card.LoadKey(KeyStructure.VolatileMemory, 0x00, key))
-                if (card.Authenticate(msb, lsb, KeyType.KeyA, 0x00))
-                    readBinary = card.ReadBinary(msb, lsb, 16);
-
-            return readBinary;
-        }
-
-        //        private byte[] ReadBlockRange(byte msb, byte blockFrom, byte blockTo)
-        //        {
-        //            byte i;
-        //            int nBlock = 0;
-        //            int count = 0;
-        //
-        //            for (i = blockFrom; i <= blockTo;)
-        //            {
-        //                if ((i + 1) % 4 == 0) continue;
-        //                nBlock++;
-        //            }
-        //
-        //            var dataOut = new byte[nBlock * 16];
-        //            for (i = blockFrom; i <= blockTo; i++)
-        //            {
-        //                if ((i + 1) % 4 == 0) continue;
-        //                Array.Copy(ReadBlock(msb, i), 0, dataOut, count * 16, 16);
-        //                count++;
-        //            }
-        //
-        //            return dataOut;
-        //        }
-
-
-        public void connect()
-        {
-            var ctx = new SCardContext();
-            ctx.Establish(SCardScope.System);
-            var reader = new SCardReader(ctx);
-            reader.Connect(nfcReader, SCardShareMode.Shared, SCardProtocol.Any);
-        }
-
-        private void isoReaderInit()
-        {
-            try
-            {
-                var ctx = contextFactory.Establish(SCardScope.System);
-                isoReader = new IsoReader(
-                    ctx,
-                    nfcReader,
-                    SCardShareMode.Shared,
-                    SCardProtocol.Any,
-                    false);
-
-                card = new MifareCard(isoReader);
-            }
-            catch (Exception)
-            {
-                //MessageBox.Show(ex.Message, "Info", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-        }
-
-        private byte[] ReadBlockRange(byte msb, byte blockFrom, byte blockTo)
-        {
-            isoReaderInit();
-            card = new MifareCard(isoReader);
-
-            byte i;
-            var nBlock = 0;
-            var count = 0;
-
-            for (i = blockFrom; i <= blockTo; i++)
-            {
-                if ((i + 1) % 4 == 0) continue;
-                nBlock++;
-            }
-
-            var dataOut = new byte[nBlock * 16];
-            for (i = blockFrom; i <= blockTo; i++)
-            {
-                if ((i + 1) % 4 == 0) continue;
-                Array.Copy(ReadBlock(msb, i), 0, dataOut, count * 16, 16);
-                count++;
-            }
-
-            return dataOut;
-        }
-
-        public void ClearAllBlock()
-        {
-            var res = MessageBox.Show("Apakah anda yakin ingin menghapus data kartu? ", "Warning",
-                MessageBoxButton.YesNo);
-
-            if (res == MessageBoxResult.Yes)
-            {
-                isoReaderInit();
-                card = new MifareCard(isoReader);
-
-                var data = new byte[16];
-                if (card.LoadKey(KeyStructure.VolatileMemory, 0x00, key))
-                {
-                    for (byte i = 1; i <= 63; i++)
-                        if ((i + 1) % 4 == 0)
-                        {
-                        }
-                        else
-                        {
-                            if (card.Authenticate(Msb, i, KeyType.KeyA, 0x00))
-                            {
-                                Array.Clear(data, 0, 16);
-                                if (WriteBlock(Msb, i, data))
-                                {
-                                }
-                                else
-                                {
-                                    MessageBox.Show("Data gagal dihapus");
-                                    break;
-                                }
-                            }
-                        }
-
-                    MessageBox.Show("Data berhasil dihapus", "Informasi", MessageBoxButton.OK,
-                        MessageBoxImage.Information);
-                }
-            }
-        }
-
-        #endregion
     }
 }

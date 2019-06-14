@@ -5,7 +5,7 @@ using PCSC.Iso7816;
 
 namespace pendaftaran.Mifare
 {
-    internal class MifareCard
+    public class MifareCard
     {
         private const byte CUSTOM_CLA = 0xFF;
         private readonly IIsoReader _isoreader;

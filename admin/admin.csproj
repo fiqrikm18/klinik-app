@@ -35,6 +35,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="PCSC, Version=4.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\PCSC.4.0.3\lib\net40\PCSC.dll</HintPath>
@@ -64,6 +67,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DBAccess\DBCommand.cs" />
     <Compile Include="DBAccess\DBConnection.cs" />
     <Compile Include="forms\TambahApoteker.xaml.cs">
       <DependentUpon>TambahApoteker.xaml</DependentUpon>
@@ -90,6 +94,7 @@
     <Compile Include="Mifare\KeyStructure.cs" />
     <Compile Include="Mifare\KeyType.cs" />
     <Compile Include="Mifare\MifareCard.cs" />
+    <Compile Include="Mifare\SmartCardOperation.cs" />
     <Compile Include="models\ComboboxPairs.cs" />
     <Compile Include="models\MApoteker.cs" />
     <Compile Include="models\MDokter.cs" />
@@ -186,6 +191,7 @@
     </EmbeddedResource>
     <Resource Include="fonts\OpenSans-Bold.ttf" />
     <Resource Include="fonts\OpenSans-Regular.ttf" />
+    <None Include="app.manifest" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

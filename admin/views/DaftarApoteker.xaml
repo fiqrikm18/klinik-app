@@ -55,11 +55,11 @@
             <DataGrid x:Name="dtgDataApoteker" SelectionMode="Extended" VerticalAlignment="Top"
                       HorizontalAlignment="Stretch" AutoGenerateColumns="False" Height="400" CanUserAddRows="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding id}" IsReadOnly="True" Header="ID Apoteker" />
-                    <DataGridTextColumn Binding="{Binding nama}" IsReadOnly="True" Header="Nama" Width="150" />
+                    <DataGridTextColumn Binding="{Binding id_apoteker}" IsReadOnly="True" Header="ID Apoteker" />
+                    <DataGridTextColumn Binding="{Binding nama_apoteker}" IsReadOnly="True" Header="Nama" Width="150" />
                     <DataGridTextColumn Binding="{Binding jenis_kelamin}" IsReadOnly="True" Header="Jenis Kelamin"
                                         Width="150" />
-                    <DataGridTextColumn Binding="{Binding telp}" IsReadOnly="True" Header="Telepon" Width="150" />
+                    <DataGridTextColumn Binding="{Binding no_telp}" IsReadOnly="True" Header="Telepon" Width="150" />
                     <DataGridTextColumn Binding="{Binding alamat}" IsReadOnly="True" Header="Alamat" Width="250" />
                 </DataGrid.Columns>
             </DataGrid>

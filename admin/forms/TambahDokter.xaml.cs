@@ -37,76 +37,35 @@ namespace admin.forms
         private MDokter _mDaftarBaru = new MDokter(" ", " ", " ", " ", " ", " ");
         private int _noOfErrorsOnScreen;
 
-        private readonly byte[] key = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
-        private MifareCard card;
+        SmartCardOperation sp;
 
-        private readonly IContextFactory contextFactory = ContextFactory.Instance;
-        private IsoReader isoReader;
-        private readonly string nfcReader;
+        SqlConnection conn;
+        DBCommand cmd;
 
         #region constructor
 
         public TambahDokter(DaftarDokter du)
         {
             InitializeComponent();
+            conn = DBConnection.dbConnection();
+            cmd = new DBCommand(conn);
+            sp = new SmartCardOperation();
 
             dd = du;
 
-            var cbp = new List<ComboboxPairs>();
             DataContext = new MDokter(" ", " ", " ", " ", " ", " ");
             //DataContext = new MDaftarBaru("123", "123", "ad", "123", " 123123");
 
-            var ctx = contextFactory.Establish(SCardScope.System);
-            var readerNames = ctx.GetReaders();
-
-            if (NoReaderAvailable(readerNames))
-            {
-                MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer", "Error",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            if (sp.IsReaderAvailable()) { }
             else
             {
-                nfcReader = readerNames[0];
-                if (string.IsNullOrEmpty(nfcReader))
-                    MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer",
-                        "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-
-                isoReaderInit();
-                card = new MifareCard(isoReader);
+                MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
-            try
-            {
-                if (DBConnection.dbConnection().State.Equals(ConnectionState.Open))
-                {
-                    var command = new SqlCommand("select * from tb_poliklinik", DBConnection.dbConnection());
-                    using (var reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                            cbp.Add(new ComboboxPairs(reader["nama_poli"].ToString(),
-                                reader["kode_poli"].ToString()));
-                    }
-                }
-                else
-                {
-                    DBConnection.dbConnection().Open();
-                    var command = new SqlCommand("select * from tb_poliklinik", DBConnection.dbConnection());
-                    using (var reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                            cbp.Add(new ComboboxPairs(reader["nama_poli"].ToString(),
-                                reader["kode_poli"].ToString()));
-                    }
-                }
-            }
-            catch (SqlException ex)
-            {
-                MessageBox.Show("Koneksi ke database gagal, periksa kembali database anda...\n" + ex.Message,
-                    "Perhatian", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
+            var cbp = cmd.GetDataPoliklinik();
 
-            cbPoliklinik.DisplayMemberPath = "kode_poliklinik";
-            cbPoliklinik.SelectedValuePath = "nama_poliklinik";
+            cbPoliklinik.DisplayMemberPath = "nama_poliklinik";
+            cbPoliklinik.SelectedValuePath = "kode_poliklinik";
             cbPoliklinik.ItemsSource = cbp;
             cbPoliklinik.SelectedIndex = 0;
         }
@@ -117,185 +76,6 @@ namespace admin.forms
         {
             Close();
         }
-
-        #region member smart card operations
-
-        private bool NoReaderAvailable(ICollection<string> readerNames)
-        {
-            return readerNames == null || readerNames.Count < 1;
-        }
-
-        private bool WriteBlock(byte msb, byte lsb, byte[] data)
-        {
-            isoReaderInit();
-            card = new MifareCard(isoReader);
-
-            if (card.LoadKey(KeyStructure.VolatileMemory, 0x00, key))
-            {
-                if (card.Authenticate(msb, lsb, KeyType.KeyA, 0x00))
-                    if (card.UpdateBinary(msb, lsb, data))
-                        return true;
-
-                return false;
-            }
-
-            return false;
-        }
-
-        private bool WriteBlockRange(byte msb, byte blockFrom, byte blockTo, byte[] data)
-        {
-            isoReaderInit();
-            card = new MifareCard(isoReader);
-
-            byte i;
-            var count = 0;
-            var blockData = new byte[16];
-
-            for (i = blockFrom; i <= blockTo; i++)
-            {
-                if ((i + 1) % 4 == 0) continue;
-
-                Array.Copy(data, count * 16, blockData, 0, 16);
-
-                if (WriteBlock(msb, i, blockData)) count++;
-                else return false;
-            }
-
-            return true;
-        }
-
-        private byte[] ReadBlock(byte msb, byte lsb)
-        {
-            isoReaderInit();
-            card = new MifareCard(isoReader);
-
-            var readBinary = new byte[16];
-
-            if (card.LoadKey(KeyStructure.VolatileMemory, 0x00, key))
-                if (card.Authenticate(msb, lsb, KeyType.KeyA, 0x00))
-                    readBinary = card.ReadBinary(msb, lsb, 16);
-
-            return readBinary;
-        }
-
-        //        private byte[] ReadBlockRange(byte msb, byte blockFrom, byte blockTo)
-        //        {
-        //            byte i;
-        //            int nBlock = 0;
-        //            int count = 0;
-        //
-        //            for (i = blockFrom; i <= blockTo;)
-        //            {
-        //                if ((i + 1) % 4 == 0) continue;
-        //                nBlock++;
-        //            }
-        //
-        //            var dataOut = new byte[nBlock * 16];
-        //            for (i = blockFrom; i <= blockTo; i++)
-        //            {
-        //                if ((i + 1) % 4 == 0) continue;
-        //                Array.Copy(ReadBlock(msb, i), 0, dataOut, count * 16, 16);
-        //                count++;
-        //            }
-        //
-        //            return dataOut;
-        //        }
-
-
-        public void connect()
-        {
-            var ctx = new SCardContext();
-            ctx.Establish(SCardScope.System);
-            var reader = new SCardReader(ctx);
-            reader.Connect(nfcReader, SCardShareMode.Shared, SCardProtocol.Any);
-        }
-
-        private void isoReaderInit()
-        {
-            try
-            {
-                var ctx = contextFactory.Establish(SCardScope.System);
-                isoReader = new IsoReader(
-                    ctx,
-                    nfcReader,
-                    SCardShareMode.Shared,
-                    SCardProtocol.Any,
-                    false);
-
-                card = new MifareCard(isoReader);
-            }
-            catch (Exception)
-            {
-                //MessageBox.Show(ex.Message, "Info", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-        }
-
-        private byte[] ReadBlockRange(byte msb, byte blockFrom, byte blockTo)
-        {
-            isoReaderInit();
-            card = new MifareCard(isoReader);
-
-            byte i;
-            var nBlock = 0;
-            var count = 0;
-
-            for (i = blockFrom; i <= blockTo; i++)
-            {
-                if ((i + 1) % 4 == 0) continue;
-                nBlock++;
-            }
-
-            var dataOut = new byte[nBlock * 16];
-            for (i = blockFrom; i <= blockTo; i++)
-            {
-                if ((i + 1) % 4 == 0) continue;
-                Array.Copy(ReadBlock(msb, i), 0, dataOut, count * 16, 16);
-                count++;
-            }
-
-            return dataOut;
-        }
-
-        public void ClearAllBlock()
-        {
-            var res = MessageBox.Show("Apakah anda yakin ingin menghapus data kartu? ", "Warning",
-                MessageBoxButton.YesNo);
-
-            if (res == MessageBoxResult.Yes)
-            {
-                isoReaderInit();
-                card = new MifareCard(isoReader);
-
-                var data = new byte[16];
-                if (card.LoadKey(KeyStructure.VolatileMemory, 0x00, key))
-                {
-                    for (byte i = 1; i <= 63; i++)
-                        if ((i + 1) % 4 == 0)
-                        {
-                        }
-                        else
-                        {
-                            if (card.Authenticate(Msb, i, KeyType.KeyA, 0x00))
-                            {
-                                Array.Clear(data, 0, 16);
-                                if (WriteBlock(Msb, i, data))
-                                {
-                                }
-                                else
-                                {
-                                    MessageBox.Show("Data gagal dihapus");
-                                    break;
-                                }
-                            }
-                        }
-
-                    MessageBox.Show("Data berhasil dihapus", "Informasi", MessageBoxButton.OK,
-                        MessageBoxImage.Information);
-                }
-            }
-        }
-
-        #endregion
 
         #region members UI Control & CRUD Operations
 
@@ -310,7 +90,8 @@ namespace admin.forms
         private void TextBoxFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             var source = e.Source as TextBox;
-            source.Clear();
+            if(string.IsNullOrEmpty(source.Text) || string.IsNullOrWhiteSpace(source.Text) || source.Text == " ")
+                source.Clear();
         }
 
         private void AddDokter_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -326,8 +107,8 @@ namespace admin.forms
             if (checkTextBoxValue())
             {
                 var cbp = (ComboboxPairs) cbPoliklinik.SelectedItem;
-                var policode = cbp.nama_poliklinik;
-                var poliname = cbp.kode_poliklinik;
+                var poliname = cbp.nama_poliklinik;
+                var policode = cbp.kode_poliklinik;
 
                 var nama = txtNamaDokter.Text;
                 var id = txtidDokter.Text.ToUpper();
@@ -337,170 +118,147 @@ namespace admin.forms
                 var jenisK = cbJenisKelamin.Text;
                 var password = txtPassword.Text.ToUpper();
 
-                try
+                if(cmd.CheckDokterExsist(id) == 1)
                 {
-                    if (DBConnection.dbConnection().State.Equals(ConnectionState.Closed))
-                        DBConnection.dbConnection().Open();
-
-                    var query = "select count(*) from tb_dokter where id='" + id + "'";
-                    var cmd = new SqlCommand(query, DBConnection.dbConnection());
-                    var idExist = int.Parse(cmd.ExecuteScalar().ToString());
-
-                    if (idExist >= 1)
+                    MessageBox.Show("No id sudah terdaftar.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else
+                {
+                    if (cmd.InsertDataDokter(id, nama, telp, alamat, spesialisasi, policode, jenisK, password))
                     {
-                        MessageBox.Show("No id sudah terdaftar.", "Error", MessageBoxButton.OK,
-                            MessageBoxImage.Error);
+                        bool isPrinted = false;
+
+                        if (chkChekKartu.IsChecked == true)
+                        {
+                            while (!isPrinted)
+                            {
+                                try
+                                {
+                                    sp.isoReaderInit();
+                                    //card = new MifareCard(isoReader);
+
+                                    if (!string.IsNullOrEmpty(id))
+                                    {
+                                        if (sp.WriteBlock(Msb, BlockId, Util.ToArrayByte16(id)))
+                                        {
+                                        }
+                                        else
+                                        {
+                                            MessageBox.Show("Id gagal ditulis.");
+                                        }
+                                    }
+
+                                    if (nama.Length > 48)
+                                        nama = nama.Substring(0, 47);
+
+                                    if (!string.IsNullOrEmpty(nama))
+                                    {
+                                        if (sp.WriteBlockRange(Msb, BlockNamaFrom, BlockNamaTo, Util.ToArrayByte48(nama)))
+                                        {
+                                        }
+                                        else
+                                        {
+                                            MessageBox.Show("Nama gagal ditulis.");
+                                        }
+                                    }
+
+                                    if (!string.IsNullOrEmpty(telp))
+                                    {
+                                        if (sp.WriteBlock(Msb, BlockTelp, Util.ToArrayByte16(telp)))
+                                        {
+                                        }
+                                        else
+                                        {
+                                            MessageBox.Show("telp gagal ditulis.");
+                                        }
+                                    }
+
+                                    if (alamat.Length > 64)
+                                        alamat = alamat.Substring(0, 67);
+
+                                    if (!string.IsNullOrEmpty(alamat))
+                                    {
+                                        if (sp.WriteBlockRange(Msb, BlockAlamatFrom, BlockAlamatTo,
+                                            Util.ToArrayByte64(alamat)))
+                                        {
+                                        }
+                                        else
+                                        {
+                                            MessageBox.Show("alamat gagal ditulis.");
+                                        }
+                                    }
+
+                                    if (!string.IsNullOrEmpty(jenisK))
+                                    {
+                                        if (sp.WriteBlock(Msb, BlockJenisKelamin, Util.ToArrayByte16(jenisK)))
+                                        {
+                                        }
+                                        else
+                                        {
+                                            MessageBox.Show("Jenis kelamin gagal ditulis.");
+                                        }
+                                    }
+
+                                    if (!string.IsNullOrEmpty(id))
+                                    {
+                                        if (sp.WriteBlockRange(Msb, BlockPasswordFrom, BlockPasswordTo,
+                                            Util.ToArrayByte32(Encryptor.MD5Hash(id))))
+                                        {
+                                        }
+                                        else
+                                        {
+                                            MessageBox.Show("Password gagal ditulis.");
+                                        }
+                                    }
+
+                                    if (!string.IsNullOrEmpty(spesialisasi))
+                                    {
+                                        if (sp.WriteBlock(Msb, BlockSpesialisasi, Util.ToArrayByte16(spesialisasi)))
+                                        {
+                                        }
+                                        else
+                                        {
+                                            MessageBox.Show("Spesialis gagal ditulis.");
+                                        }
+                                    }
+
+                                    if (!string.IsNullOrEmpty(poliname))
+                                    {
+                                        if (sp.WriteBlock(Msb, BlockTugas, Util.ToArrayByte16(poliname)))
+                                        {
+                                        }
+                                        else
+                                        {
+                                            MessageBox.Show("Spesialis gagal ditulis.");
+                                        }
+                                    }
+
+                                    isPrinted = true;
+
+                                    if (isPrinted) break;
+                                }
+                                catch (Exception)
+                                {
+                                    var ans = MessageBox.Show("Penulisan kartu gagal, pastikan kartu sudah berada pada jangkauan reader.\nApakah anda ingin menulis kartu lain kali?", "Error",
+                                        MessageBoxButton.YesNo, MessageBoxImage.Error);
+
+                                    if (ans == MessageBoxResult.Yes)
+                                        break;
+
+                                    sp.isoReaderInit();
+                                }
+                            }
+                        }
+
+                        MessageBox.Show("Data dokter berhasil disimpan.", "Informasi", MessageBoxButton.OK,
+                            MessageBoxImage.Information);
+                        dd.displayDataDokter();
+                        Close();
                     }
                     else
                     {
-                        query =
-                            "insert into tb_dokter(id, nama, telp, alamat, spesialisasi, tugas, jenis_kelamin, password) values('" +
-                            id + "', '" + nama + "', '" + telp + "', '" + alamat + "', '" + spesialisasi + "', '" +
-                            policode + "', '" + jenisK + "', '" + Encryptor.MD5Hash(password) + "')";
-                        var command = new SqlCommand(query, DBConnection.dbConnection());
-                        var res = command.ExecuteNonQuery();
-
-                        bool isPrinted = false;
-
-                        if (res == 1)
-                        {
-                            if (chkChekKartu.IsChecked == true)
-                            {
-                                while (!isPrinted)
-                                {
-                                    try
-                                    {
-                                        isoReaderInit();
-                                        card = new MifareCard(isoReader);
-
-                                        if (!string.IsNullOrEmpty(id))
-                                        {
-                                            if (WriteBlock(Msb, BlockId, Util.ToArrayByte16(id)))
-                                            {
-                                            }
-                                            else
-                                            {
-                                                MessageBox.Show("Id gagal ditulis.");
-                                            }
-                                        }
-
-                                        if (nama.Length > 48)
-                                            nama = nama.Substring(0, 47);
-
-                                        if (!string.IsNullOrEmpty(nama))
-                                        {
-                                            if (WriteBlockRange(Msb, BlockNamaFrom, BlockNamaTo, Util.ToArrayByte48(nama)))
-                                            {
-                                            }
-                                            else
-                                            {
-                                                MessageBox.Show("Nama gagal ditulis.");
-                                            }
-                                        }
-
-                                        if (!string.IsNullOrEmpty(telp))
-                                        {
-                                            if (WriteBlock(Msb, BlockTelp, Util.ToArrayByte16(telp)))
-                                            {
-                                            }
-                                            else
-                                            {
-                                                MessageBox.Show("telp gagal ditulis.");
-                                            }
-                                        }
-
-                                        if (alamat.Length > 64)
-                                            alamat = alamat.Substring(0, 67);
-
-                                        if (!string.IsNullOrEmpty(alamat))
-                                        {
-                                            if (WriteBlockRange(Msb, BlockAlamatFrom, BlockAlamatTo,
-                                                Util.ToArrayByte64(alamat)))
-                                            {
-                                            }
-                                            else
-                                            {
-                                                MessageBox.Show("alamat gagal ditulis.");
-                                            }
-                                        }
-
-                                        if (!string.IsNullOrEmpty(jenisK))
-                                        {
-                                            if (WriteBlock(Msb, BlockJenisKelamin, Util.ToArrayByte16(jenisK)))
-                                            {
-                                            }
-                                            else
-                                            {
-                                                MessageBox.Show("Jenis kelamin gagal ditulis.");
-                                            }
-                                        }
-
-                                        if (!string.IsNullOrEmpty(id))
-                                        {
-                                            if (WriteBlockRange(Msb, BlockPasswordFrom, BlockPasswordTo,
-                                                Util.ToArrayByte32(Encryptor.MD5Hash(id))))
-                                            {
-                                            }
-                                            else
-                                            {
-                                                MessageBox.Show("Password gagal ditulis.");
-                                            }
-                                        }
-
-                                        if (!string.IsNullOrEmpty(spesialisasi))
-                                        {
-                                            if (WriteBlock(Msb, BlockSpesialisasi, Util.ToArrayByte16(spesialisasi)))
-                                            {
-                                            }
-                                            else
-                                            {
-                                                MessageBox.Show("Spesialis gagal ditulis.");
-                                            }
-                                        }
-
-                                        if (!string.IsNullOrEmpty(poliname))
-                                        {
-                                            if (WriteBlock(Msb, BlockTugas, Util.ToArrayByte16(poliname)))
-                                            {
-                                            }
-                                            else
-                                            {
-                                                MessageBox.Show("Spesialis gagal ditulis.");
-                                            }
-                                        }
-
-                                        isPrinted = true;
-
-                                        if (isPrinted) break;
-                                    }
-                                    catch (Exception)
-                                    {
-                                        var ans = MessageBox.Show("Penulisan kartu gagal, pastikan kartu sudah berada pada jangkauan reader.\nApakah anda ingin menulis kartu lain kali?", "Error",
-                                            MessageBoxButton.YesNo, MessageBoxImage.Error);
-
-                                        if (ans == MessageBoxResult.Yes)
-                                            break;
-
-                                        isoReaderInit();
-                                    }
-                                }
-                            }
-
-                            MessageBox.Show("Data dokter berhasil disimpan.", "Informasi", MessageBoxButton.OK,
-                                MessageBoxImage.Information);
-                            dd.displayDataDokter();
-                            Close();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Data dokter gagal disimpan.", "Error", MessageBoxButton.OK,
-                                MessageBoxImage.Error);
-                        }
+                        MessageBox.Show("Data dokter gagal disimpan.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
-                }
-                catch (SqlException ex)
-                {
-                    MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             else
@@ -517,11 +275,11 @@ namespace admin.forms
 
         private bool checkTextBoxValue()
         {
-//            if (txtidDokter.Text == " " && txtNamaDokter.Text == " " && txtTelpDokter.Text == " " &&
-//                txtSpesialisai.Text == " " && TextAlamat.Text == " ") return false;
+            //            if (txtidDokter.Text == " " && txtNamaDokter.Text == " " && txtTelpDokter.Text == " " &&
+            //                txtSpesialisai.Text == " " && TextAlamat.Text == " ") return false;
 
             if (!string.IsNullOrWhiteSpace(txtidDokter.Text) && !string.IsNullOrWhiteSpace(txtNamaDokter.Text) &&
-                !string.IsNullOrWhiteSpace(txtTelpDokter.Text) &&
+                !string.IsNullOrWhiteSpace(txtTelpDokter.Text) && cbPoliklinik.SelectedIndex != 0 && cbJenisKelamin.SelectedIndex != 0 &&
                 !string.IsNullOrWhiteSpace(TextAlamat.Text) && !string.IsNullOrWhiteSpace(txtPassword.Text))
                 return true;
 

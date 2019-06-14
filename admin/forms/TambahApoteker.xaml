@@ -78,6 +78,7 @@
                 <StackPanel Grid.Row="1" Grid.Column="1">
                     <Label Content="Jenis Kelamin" />
                     <ComboBox x:Name="cbJenisKelamin" SelectedIndex="0" Background="{x:Null}" BorderBrush="{x:Null}">
+                        <ComboBoxItem Content="Pilih" />
                         <ComboBoxItem Content="Pria" />
                         <ComboBoxItem Content="Wanita" />
                     </ComboBox>

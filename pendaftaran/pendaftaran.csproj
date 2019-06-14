@@ -34,6 +34,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>images\BMicon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="PCSC, Version=4.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\PCSC.4.0.3\lib\net40\PCSC.dll</HintPath>
@@ -63,6 +69,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DBAccess\DBCommand.cs" />
     <Compile Include="DBAccess\DBConnection.cs" />
     <Compile Include="forms\ubah_dataPasien.xaml.cs">
       <DependentUpon>ubah_dataPasien.xaml</DependentUpon>
@@ -71,7 +78,10 @@
     <Compile Include="Mifare\KeyStructure.cs" />
     <Compile Include="Mifare\KeyType.cs" />
     <Compile Include="Mifare\MifareCard.cs" />
+    <Compile Include="Mifare\SmartCardOperation.cs" />
     <Compile Include="models\MDaftarBaru.cs" />
+    <Compile Include="models\ModelAntrian.cs" />
+    <Compile Include="models\ModelPasien.cs" />
     <Compile Include="Utils\Util.cs" />
     <Compile Include="views\antrian.xaml.cs">
       <DependentUpon>antrian.xaml</DependentUpon>
@@ -143,6 +153,7 @@
     </EmbeddedResource>
     <Resource Include="fonts\OpenSans-Bold.ttf" />
     <Resource Include="fonts\OpenSans-Regular.ttf" />
+    <None Include="app.manifest" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

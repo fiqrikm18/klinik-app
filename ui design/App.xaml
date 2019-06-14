@@ -4,6 +4,33 @@
              xmlns:local="clr-namespace:ui_design"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="#E4E8EB"/>
+            <Setter Property="Foreground" Value="#636C77" />
+            <Setter Property="Width" Value="100" />
+            <Setter Property="Height" Value="35" />
+            <Setter Property="Margin" Value="0 10 10 0" />
+            
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" Padding="5">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#CAD0D7"/>
+                    <Setter Property="Foreground" Value="#424852" />
+                </Trigger>
+
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.5"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Application.Resources>
 </Application>

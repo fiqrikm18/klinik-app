@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:admin.forms"
         mc:Ignorable="d"
-        Title="Ubah Data Staff Pendaftaran" Height="600" Width="850" WindowStartupLocation="CenterScreen"
+        Title="Ubah Data Staff Pendaftaran" Height="620" Width="850" WindowStartupLocation="CenterScreen"
         Icon="/admin;component/images/BMicon.ico">
     <Grid Style="{StaticResource OpenSans}" Margin="25">
         <Grid.CommandBindings>

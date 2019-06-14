@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using admin.DBAccess;
 using admin.forms;
+using admin.models;
 
 namespace admin.views
 {
@@ -14,52 +17,30 @@ namespace admin.views
     /// </summary>
     public partial class DaftarPoliklinik : Page
     {
+        SqlConnection conn;
+        DBCommand cmd;
+
         public DaftarPoliklinik()
         {
             InitializeComponent();
+            conn = DBConnection.dbConnection();
+            cmd = new DBCommand(conn);
+
             displayDataPoliklinik();
         }
 
         public void displayDataPoliklinik(string nama = null)
         {
-            try
+            List<MPoliklinik> poliklinik = cmd.GetDataPoliKlinik();
+
+            if (string.IsNullOrEmpty(nama))
             {
-                if (DBConnection.dbConnection().State.Equals(ConnectionState.Closed))
-                    DBConnection.dbConnection().Open();
-
-                string query;
-
-                if (!string.IsNullOrEmpty(nama))
-                {
-                    query =
-                        "select * from tb_poliklinik where nama_poli like '%" + nama + "%';";
-                    var cmd = new SqlCommand(query, DBConnection.dbConnection());
-                    var adapter = new SqlDataAdapter(cmd);
-                    var dt = new DataTable();
-
-                    adapter.Fill(dt);
-                    dtgDataPoliklinik.ItemsSource = dt.DefaultView;
-
-                    DBConnection.dbConnection().Close();
-                }
-                else
-                {
-                    query =
-                        "select * from tb_poliklinik";
-                    var cmd = new SqlCommand(query, DBConnection.dbConnection());
-                    var adapter = new SqlDataAdapter(cmd);
-                    var dt = new DataTable();
-
-                    adapter.Fill(dt);
-                    dtgDataPoliklinik.ItemsSource = dt.DefaultView;
-
-                    DBConnection.dbConnection().Close();
-                }
+                dtgDataPoliklinik.ItemsSource = poliklinik;
             }
-            catch (SqlException ex)
+            else
             {
-                MessageBox.Show("Koneksi ke database gagal, periksa kembali database anda...\n" + ex.Message,
-                    "Perhatian", MessageBoxButton.OK, MessageBoxImage.Warning);
+                IEnumerable<MPoliklinik> cbp = poliklinik.Where(x => x.nama_poliklinik.ToLower().Contains(nama.ToLower()));
+                dtgDataPoliklinik.ItemsSource = cbp;
             }
         }
 
@@ -93,33 +74,16 @@ namespace admin.views
 
                 if (a == MessageBoxResult.Yes)
                 {
-                    string query;
-                    var res = 0;
-
-                    if (DBConnection.dbConnection().State.Equals(ConnectionState.Closed))
-                        DBConnection.dbConnection().Open();
-
-                    try
+                    for (var i = 0; i < dtgDataPoliklinik.SelectedItems.Count; i++)
                     {
-                        for (var i = 0; i < dtgDataPoliklinik.SelectedItems.Count; i++)
+                        if (cmd.DeleteDataPoliklinik((dtgDataPoliklinik.SelectedCells[0].Column.GetCellContent(dtgDataPoliklinik.SelectedItems[i]) as TextBlock)?.Text))
                         {
-                            query = "delete from tb_poliklinik where kode_poli = '" +
-                                    (dtgDataPoliklinik.SelectedCells[0].Column
-                                        .GetCellContent(dtgDataPoliklinik.SelectedItems[i]) as TextBlock)?.Text + "';";
-                            var command = new SqlCommand(query, DBConnection.dbConnection());
-                            res = command.ExecuteNonQuery();
+                            MessageBox.Show("Data poliklinik berhasil dihapus.", "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
                         }
-
-                        if (res == 1)
-                            MessageBox.Show("Data poliklinik berhasil dihapus.", "Informasi", MessageBoxButton.OK,
-                                MessageBoxImage.Information);
                         else
-                            MessageBox.Show("Data poliklinik gagal dihapus.", "Error", MessageBoxButton.OK,
-                                MessageBoxImage.Error);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        {
+                            MessageBox.Show("Data poliklinik gagal dihapus.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
                     }
                 }
 

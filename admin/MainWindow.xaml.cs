@@ -7,6 +7,7 @@ using admin.DBAccess;
 using admin.views;
 using PCSC;
 using PCSC.Iso7816;
+using admin.Mifare;
 
 namespace admin
 {
@@ -15,53 +16,17 @@ namespace admin
     /// </summary>
     public partial class MainWindow : Window
     {
-        private IsoReader isoReader;
+        SmartCardOperation sp;
 
         public MainWindow()
         {
             InitializeComponent();
+            sp = new SmartCardOperation();
 
-            var contextFactory = ContextFactory.Instance;
-            var ctx = contextFactory.Establish(SCardScope.System);
-            var readerNames = ctx.GetReaders();
-
-            if (NoReaderAvailable(readerNames))
-            {
-                MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer", "Error",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            if (sp.IsReaderAvailable()) { }
             else
             {
-                var nfcReader = readerNames[0];
-                if (string.IsNullOrEmpty(nfcReader))
-                    MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer",
-                        "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-
-                try
-                {
-                    isoReader = new IsoReader(
-                        ctx,
-                        nfcReader,
-                        SCardShareMode.Shared,
-                        SCardProtocol.Any,
-                        false);
-                }
-                catch (Exception)
-                {
-                    //MessageBox.Show(ex.Message, "Info", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-            }
-
-            try
-            {
-                if (DBConnection.dbConnection().State.Equals(ConnectionState.Closed))
-                    DBConnection.dbConnection().Open();
-            }
-            catch (SqlException ex)
-            {
-                MessageBox.Show("Periksa kembali koneksi database anda.\n" + ex.Message, "Perhatian",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Warning);
+                MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

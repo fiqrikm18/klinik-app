@@ -4,10 +4,10 @@ using System.Text.RegularExpressions;
 
 namespace admin.models
 {
-    internal class MPoliklinik : IDataErrorInfo
+    public class MPoliklinik : IDataErrorInfo
     {
-        public string kode_poliklinik;
-        public string nama_poliklinik;
+        public string kode_poliklinik { get; set; }
+        public string nama_poliklinik { get; set; }
 
         public MPoliklinik(string kode, string nama)
         {

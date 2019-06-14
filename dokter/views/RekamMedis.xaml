@@ -38,11 +38,11 @@
         <StackPanel Grid.Row="2">
             <DataGrid x:Name="dtgDataRekamMedis" Height="400" CanUserAddRows="False" AutoGenerateColumns="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding no_rm}" Header="Nomor Rekam Medis"/>
-                    <DataGridTextColumn Binding="{Binding nama_pasien}" Header="Nama Pasien" Width="150"/>
-                    <DataGridTextColumn Binding="{Binding nama_poli}" Header="Poliklinik" Width="150"/>
-                    <DataGridTextColumn Binding="{Binding nama_dokter}" Header="Dokter Pemeriksa"/>
-                    <DataGridTextColumn Binding="{Binding tgl_pemeriksaan}" Header="Tanggal Berobat Terakhir"/>
+                    <DataGridTextColumn Binding="{Binding no_rm}" Header="Nomor Rekam Medis" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding nama_pasien}" Header="Nama Pasien" IsReadOnly="True" Width="150"/>
+                    <DataGridTextColumn Binding="{Binding nama_poli}" Header="Poliklinik" IsReadOnly="True" Width="150"/>
+                    <DataGridTextColumn Binding="{Binding nama_dokter}" Header="Dokter Pemeriksa" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding tgl_pemeriksaan}" Header="Tanggal Berobat Terakhir" IsReadOnly="True"/>
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>

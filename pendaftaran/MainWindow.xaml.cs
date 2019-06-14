@@ -3,8 +3,8 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Windows;
 using PCSC;
-using pendaftaran.DBAccess;
 using pendaftaran.views;
+using pendaftaran.Mifare;
 
 namespace pendaftaran
 {
@@ -14,38 +14,17 @@ namespace pendaftaran
     public partial class MainWindow : Window
     {
         //static MySqlConnection MsqlConn = null;
+        SmartCardOperation sp;
 
         public MainWindow()
         {
             InitializeComponent();
+            sp = new SmartCardOperation();
 
-            try
-            {
-                if (DBConnection.dbConnection().State.Equals(ConnectionState.Closed))
-                    DBConnection.dbConnection().Open();
-            }
-            catch (SqlException)
-            {
-                MessageBox.Show("Periksa kembali koneksi database anda...", "Perhatian", MessageBoxButton.OK,
-                    MessageBoxImage.Warning);
-            }
-
-            var contextFactory = ContextFactory.Instance;
-            var ctx = contextFactory.Establish(SCardScope.System);
-            var readerNames = ctx.GetReaders();
-
-            if (NoReaderAvailable(readerNames))
-            {
-                MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
-                //Environment.Exit(0);
-            }
+            if (sp.IsReaderAvailable()) { }
             else
             {
-                var nfcReader = readerNames[0];
-                if (string.IsNullOrEmpty(nfcReader))
-                    MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.",
-                        "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace admin.models
 {
-    internal class MPendaftaran : IDataErrorInfo
+    public class MPendaftaran : IDataErrorInfo
     {
         public MPendaftaran(string id, string nama, string alamat, string telp, string password, string jenis_kelamin)
         {

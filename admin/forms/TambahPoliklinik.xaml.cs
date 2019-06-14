@@ -18,11 +18,18 @@ namespace admin.forms
         private MPoliklinik _mDaftarBaru = new MPoliklinik(" ", " ");
         private int _noOfErrorsOnScreen;
 
+        SqlConnection conn;
+        DBCommand cmd;
 
         public TambahPoliklinik(DaftarPoliklinik dp)
         {
             InitializeComponent();
             this.dp = dp;
+
+            DataContext = _mDaftarBaru;
+
+            conn = DBConnection.dbConnection();
+            cmd = new DBCommand(conn);
         }
 
         private void BtnBatal_OnClick(object sender, RoutedEventArgs e)
@@ -43,7 +50,8 @@ namespace admin.forms
         private void TextBoxFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             var source = e.Source as TextBox;
-            source.Clear();
+            if (string.IsNullOrEmpty(source.Text) || string.IsNullOrWhiteSpace(source.Text) || source.Text == " ")
+                source.Clear();
         }
 
         private void AddPoliklinik_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -61,45 +69,24 @@ namespace admin.forms
                 var nama = txtNamaDokter.Text;
                 var id = txtidDokter.Text.ToUpper();
 
-                try
+                if(cmd.CheckPoliExsist(id) == 1)
                 {
-                    if (DBConnection.dbConnection().State.Equals(ConnectionState.Closed))
-                        DBConnection.dbConnection().Open();
-
-                    var query = "select count(*) from tb_poliklinik where kode_poli='" + id + "'";
-                    var cmd = new SqlCommand(query, DBConnection.dbConnection());
-                    var idExist = int.Parse(cmd.ExecuteScalar().ToString());
-
-                    if (idExist >= 1)
+                    MessageBox.Show("Kode poliklinik sudah terdaftar.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else
+                {
+                    if(cmd.InsertDataPoliklinik(id, nama))
                     {
-                        MessageBox.Show("Kode poliklinik sudah terdaftar.", "Error", MessageBoxButton.OK,
-                            MessageBoxImage.Error);
+                        MessageBox.Show("Data poliklinik berhasil disimpan.", "Informasi", MessageBoxButton.OK,
+                                MessageBoxImage.Information);
+                        dp.displayDataPoliklinik();
+                        Close();
                     }
                     else
                     {
-                        query =
-                            "insert into tb_poliklinik(kode_poli, nama_poli) values('" + id + "', '" + nama +
-                            "')";
-                        var command = new SqlCommand(query, DBConnection.dbConnection());
-                        var res = command.ExecuteNonQuery();
-
-                        if (res == 1)
-                        {
-                            MessageBox.Show("Data poliklinik berhasil disimpan.", "Informasi", MessageBoxButton.OK,
-                                MessageBoxImage.Information);
-                            dp.displayDataPoliklinik();
-                            Close();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Data poliklinik gagal disimpan.", "Error", MessageBoxButton.OK,
-                                MessageBoxImage.Error);
-                        }
+                        MessageBox.Show("Data poliklinik gagal disimpan.", "Error", MessageBoxButton.OK,
+                            MessageBoxImage.Error);
                     }
-                }
-                catch (SqlException ex)
-                {
-                    MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             else
@@ -108,7 +95,6 @@ namespace admin.forms
                     MessageBoxImage.Warning);
             }
 
-            DataContext = _mDaftarBaru;
             e.Handled = true;
         }
 

@@ -47,9 +47,9 @@
                           CanUserAddRows="False"
                           HorizontalAlignment="Stretch" AutoGenerateColumns="False" Height="400">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding kode_poli}" IsReadOnly="True"
+                        <DataGridTextColumn Binding="{Binding kode_poliklinik}" IsReadOnly="True"
                                             Header="Kode Poliklinik" />
-                        <DataGridTextColumn Binding="{Binding nama_poli}" IsReadOnly="True"
+                        <DataGridTextColumn Binding="{Binding nama_poliklinik}" IsReadOnly="True"
                                             Header="Nama Poliklinik" Width="150" />
                     </DataGrid.Columns>
                 </DataGrid>

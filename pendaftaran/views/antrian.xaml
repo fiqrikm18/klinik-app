@@ -33,9 +33,9 @@
                       HorizontalAlignment="Stretch" AutoGenerateColumns="False" Height="400" CanUserAddRows="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding no_rm}" Header="No Rekam Medis" Width="150" />
-                    <DataGridTextColumn Binding="{Binding nama_pasien}" Header="Nama Pasien" Width="250" />
+                    <DataGridTextColumn Binding="{Binding nama}" Header="Nama Pasien" Width="250" />
                     <DataGridTextColumn Binding="{Binding no_urut}" Header="No Antrian" Width="150" />
-                    <DataGridTextColumn Binding="{Binding poliklinik}" Header="Poliklinik" Width="150" />
+                    <DataGridTextColumn Binding="{Binding nama_poli}" Header="Poliklinik" Width="150" />
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>

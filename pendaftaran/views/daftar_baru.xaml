@@ -81,7 +81,8 @@
 
                 <StackPanel Grid.Column="1" Grid.Row="1">
                     <Label Content="Jenis Kelamin" />
-                    <ComboBox x:Name="cbJenisKelamin" SelectedIndex="0" Background="{x:Null}" BorderBrush="{x:Null}">
+                    <ComboBox x:Name="cbJenisKelamin" SelectedIndex="0">
+                        <ComboBoxItem Content="Pilih" />
                         <ComboBoxItem Content="Pria" />
                         <ComboBoxItem Content="Wanita" />
                     </ComboBox>
@@ -89,14 +90,14 @@
 
                 <StackPanel Grid.Column="1" Grid.Row="2">
                     <Label Content="Poliklinik" />
-                    <ComboBox x:Name="cbPoliklinik" SelectedIndex="0" />
+                    <ComboBox x:Name="cbPoliklinik" SelectedIndex="0"/>
                 </StackPanel>
             </Grid>
 
 
             <StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
-                    <Button x:Name="btnAdd" Content="Daftar" Command="New" />
+                    <Button x:Name="btnAdd" Content="Daftar" Command="New"/>
                     <Button x:Name="btnCekKartu" Click="BtnCekKartu_OnClick" Content="Cek Data Kartu" Width="Auto" />
                     <Button x:Name="btnHapusKartu" Click="BtnHapusKartu_OnClick" Content="Hapus Data Kartu"
                             Width="Auto" />

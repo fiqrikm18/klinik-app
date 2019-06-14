@@ -36,9 +36,26 @@ namespace dokter.views
 
         public void DisplayDataRekamMedis(string no_rm = null)
         {
-            DBCommand cmd = new DBCommand(conn);
-            var dataRekamMedis = cmd.GetDataRekamMedis();
-            dtgDataRekamMedis.ItemsSource = dataRekamMedis;
+            try
+            {
+                DBCommand cmd = new DBCommand(conn);
+
+                if (string.IsNullOrEmpty(no_rm))
+                {
+                    var dataRekamMedis = cmd.GetDataRekamMedis();
+                    dtgDataRekamMedis.ItemsSource = dataRekamMedis;
+                }
+                else
+                {
+                    var dataRekamMedis = cmd.GetDataRekamMedis();
+                    var dataRmFiltered = dataRekamMedis.Where(x => x.no_rm.Contains(no_rm));
+                    dtgDataRekamMedis.ItemsSource = dataRmFiltered;
+                }
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

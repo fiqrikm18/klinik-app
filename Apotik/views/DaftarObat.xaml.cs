@@ -1,11 +1,13 @@
 ﻿using System.Windows.Controls;
 using System.Data.SqlClient;
+using System.Linq;
 using Apotik.DBAccess;
 using System.Windows.Input;
-using System.Windows.Data;
 using System;
 using System.Data;
 using System.Windows;
+using System.Collections.Generic;
+using Apotik.models;
 
 namespace Apotik.views
 {
@@ -30,18 +32,22 @@ namespace Apotik.views
 
                 if (nama == null)
                 {
-                    var data = cmd.GetDataObat();
+                    List<ModelObat> data = cmd.GetDataObat();
                     dtgDataObat.ItemsSource = data;
                 }
                 else
                 {
-                    SqlCommand command = new SqlCommand("SELECT * FROM tb_obat WHERE nama_obat LIKE '%" + nama + "%'", conn);
-                    //command.Parameters.AddWithValue("nama", nama);
-                    var adapter = new SqlDataAdapter(command);
-                    var dt = new DataTable();
+                    //SqlCommand command = new SqlCommand("SELECT * FROM tb_obat WHERE nama_obat LIKE '%" + nama + "%'", conn);
+                    ////command.Parameters.AddWithValue("nama", nama);
+                    //var adapter = new SqlDataAdapter(command);
+                    //var dt = new DataTable();
 
-                    adapter.Fill(dt);
-                    dtgDataObat.ItemsSource = dt.DefaultView;
+                    //adapter.Fill(dt);
+                    //dtgDataObat.ItemsSource = dt.DefaultView;
+
+                    List<ModelObat> data = cmd.GetDataObat();
+                    IEnumerable<ModelObat> dataFiltered = data.Where(x => x.nama_obat.Contains(nama));
+                    dtgDataObat.ItemsSource = dataFiltered;
                 }
             }
             catch(Exception ex)
