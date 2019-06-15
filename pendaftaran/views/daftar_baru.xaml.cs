@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Globalization;
 using System.Threading;
 using System.Windows;
@@ -23,15 +24,16 @@ namespace pendaftaran.views
     {
         private const byte Msb = 0x00;
 
-        private readonly byte blockAlamatForm = 18;
-        private readonly byte blockAlamatTo = 22;
-        private readonly byte blockIdPasien = 12;
-        private readonly byte blockJenisKelamin = 26;
-        private readonly byte blockNamaFrom = 14;
-        private readonly byte blockNamaTo = 17;
-        private readonly byte blockNoRekamMedis = 13;
-        private readonly byte blockNoTelp = 24;
-        private readonly byte blockTglLahir = 25;
+        private readonly byte blockAlamatForm = 8;
+        private readonly byte blockAlamatTo = 12;
+        private readonly byte blockIdPasien = 1;
+        private readonly byte blockGolDarah = 13;
+        private readonly byte blockJenisKelamin = 17;
+        private readonly byte blockNamaFrom = 4;
+        private readonly byte blockNamaTo = 6;
+        private readonly byte blockNoRekamMedis = 2;
+        private readonly byte blockNoTelp = 14;
+        private readonly byte blockTglLahir = 16;
         private readonly byte[] key = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
 
         SmartCardOperation sp;
@@ -112,12 +114,13 @@ namespace pendaftaran.views
                 var tglLahir = dtTanggalLahir.SelectedDate.Value.Date.ToString("yyyy-MM-dd");
                 var jenisKelamin = cbJenisKelamin.Text;
                 var poliklinik = policode;
+                var golDarah = cbGolDarah.Text;
 
                 if (cmd.CountIdPasienExists(identitas) != 1)
                 {
                     if (cmd.CountRmPasienExists(norm) != 1)
                     {
-                        if (cmd.InsertDataPasien(identitas, norm, namaPasien, tglLahir, jenisKelamin, noTelp, alamat))
+                        if (cmd.InsertDataPasien(identitas, norm, namaPasien, tglLahir, jenisKelamin, noTelp, alamat, golDarah))
                         {
                             var last = cmd.GetLastNoUrut(policode);
                             var no_urut = 0;
@@ -141,10 +144,22 @@ namespace pendaftaran.views
                                     {
                                         try
                                         {
+                                            if (!string.IsNullOrEmpty(golDarah))
+                                            {
+                                                if (sp.WriteBlock(Msb, blockGolDarah, Util.ToArrayByte16(golDarah)))
+                                                {
+                                                }
+                                                else
+                                                {
+                                                    MessageBox.Show("Golongan Darah gagal ditulis");
+                                                }
+                                            }
+
                                             if (!string.IsNullOrEmpty(identitas))
                                             {
                                                 if (sp.WriteBlock(Msb, blockIdPasien, Util.ToArrayByte16(identitas)))
                                                 {
+                                                    isPrinted = true;
                                                 }
                                                 else
                                                 {
@@ -156,6 +171,7 @@ namespace pendaftaran.views
                                             {
                                                 if (sp.WriteBlock(Msb, blockNoRekamMedis, Util.ToArrayByte16(norm)))
                                                 {
+                                                    isPrinted = true;
                                                 }
                                                 else
                                                 {
@@ -171,6 +187,7 @@ namespace pendaftaran.views
                                                 if (sp.WriteBlockRange(Msb, blockNamaFrom, blockNamaTo,
                                                     Util.ToArrayByte48(namaPasien)))
                                                 {
+                                                    isPrinted = true;
                                                 }
                                                 else
                                                 {
@@ -182,6 +199,7 @@ namespace pendaftaran.views
                                             {
                                                 if (sp.WriteBlock(Msb, blockTglLahir, Util.ToArrayByte16(tglLahir)))
                                                 {
+                                                    isPrinted = true;
                                                 }
                                                 else
                                                 {
@@ -194,6 +212,7 @@ namespace pendaftaran.views
                                                 if (sp.WriteBlock(Msb, blockJenisKelamin,
                                                     Util.ToArrayByte16(jenisKelamin)))
                                                 {
+                                                    isPrinted = true;
                                                 }
                                                 else
                                                 {
@@ -205,6 +224,7 @@ namespace pendaftaran.views
                                             {
                                                 if (sp.WriteBlock(Msb, blockNoTelp, Util.ToArrayByte16(noTelp)))
                                                 {
+                                                    isPrinted = true;
                                                 }
                                                 else
                                                 {
@@ -220,6 +240,7 @@ namespace pendaftaran.views
                                                 if (sp.WriteBlockRange(Msb, blockAlamatForm, blockAlamatTo,
                                                     Util.ToArrayByte64(alamat)))
                                                 {
+                                                    isPrinted = true;
                                                 }
                                                 else
                                                 {
@@ -245,6 +266,7 @@ namespace pendaftaran.views
                                     MessageBox.Show("Pasien berhasil didaftarkan.\nKartu pasien berhasil ditulis.\nNomor Antri: " + no_urut + "", "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
                                     DataContext = _mDaftarBaru;
                                     cbPoliklinik.SelectedIndex = 0;
+                                    cbGolDarah.SelectedIndex = 0;
                                 }
                                 else
                                 {
@@ -298,7 +320,7 @@ namespace pendaftaran.views
 
             if (!string.IsNullOrWhiteSpace(TxtNoRm.Text) && !string.IsNullOrWhiteSpace(TxtNoIdentitas.Text) &&
                 !string.IsNullOrWhiteSpace(TxtNamaPasien.Text) && !string.IsNullOrWhiteSpace(TxtNoTelp.Text) &&
-                !string.IsNullOrWhiteSpace(TextAlamat.Text) &&
+                !string.IsNullOrWhiteSpace(TextAlamat.Text) && cbGolDarah.SelectedIndex != 0 &&
                 !string.IsNullOrWhiteSpace(dtTanggalLahir.SelectedDate.ToString()) && cbPoliklinik.SelectedIndex != 0 && cbJenisKelamin.SelectedIndex != 0)
                 return true;
 
@@ -328,6 +350,10 @@ namespace pendaftaran.views
                 var namaP = sp.ReadBlockRange(Msb, blockNamaFrom, blockNamaTo);
                 if (namaP != null)
                     msg += "\nNama Pasien \t\t: " + Util.ToASCII(namaP, 0, 48, false);
+
+                var gDarah = sp.ReadBlock(Msb, blockGolDarah);
+                if (gDarah != null)
+                    msg += "\nGolongan Darah \t\t: " + Util.ToASCII(gDarah, 0, 16, false);
 
                 var nTelp = sp.ReadBlock(Msb, blockNoTelp);
                 if (nTelp != null)

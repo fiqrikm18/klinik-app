@@ -79,13 +79,13 @@ namespace pendaftaran.DBAccess
             return res;
         }
 
-        public bool InsertDataPasien(string no_id, string no_rm, string nama, string tgl_lahir, string jenis_kelamin, string no_telp, string alamat)
+        public bool InsertDataPasien(string no_id, string no_rm, string nama, string tgl_lahir, string jenis_kelamin, string no_telp, string alamat, string golongan_darah)
         {
             try
             {
                 OpenConnection();
 
-                SqlCommand cmd = new SqlCommand("insert into tb_pasien (no_identitas, no_rekam_medis, nama, tanggal_lahir, jenis_kelamin, no_telp, alamat) values(@no_identitas, @no_rekam_medis, @nama, @tanggal_lahir, @jenis_kelamin, @no_telp, @alamat)", conn);
+                SqlCommand cmd = new SqlCommand("insert into tb_pasien (no_identitas, no_rekam_medis, nama, tanggal_lahir, jenis_kelamin, no_telp, alamat, golongan_darah) values(@no_identitas, @no_rekam_medis, @nama, @tanggal_lahir, @jenis_kelamin, @no_telp, @alamat, @golongan_darah)", conn);
                 //@no_identitas, @no_rekam_medis, @nama, @tanggal_lahir, @jenis_kelamin, @no_telp, @alamat
                 cmd.Parameters.AddWithValue("no_identitas", no_id);
                 cmd.Parameters.AddWithValue("no_rekam_medis", no_rm);
@@ -94,6 +94,7 @@ namespace pendaftaran.DBAccess
                 cmd.Parameters.AddWithValue("jenis_kelamin", jenis_kelamin);
                 cmd.Parameters.AddWithValue("no_telp", no_telp);
                 cmd.Parameters.AddWithValue("alamat", alamat);
+                cmd.Parameters.AddWithValue("golongan_darah", golongan_darah);
                 var res = cmd.ExecuteNonQuery();
 
                 CloseConnection();
@@ -240,7 +241,7 @@ namespace pendaftaran.DBAccess
                 {
                     while (reader.Read())
                     {
-                        pasien.Add(new ModelPasien(reader["no_identitas"].ToString(), reader["no_rekam_medis"].ToString(), reader["nama"].ToString(), DateTime.Parse(reader["tanggal_lahir"].ToString()).ToString("dd MMM yyyy"), reader["jenis_kelamin"].ToString(), reader["no_telp"].ToString(), reader["alamat"].ToString(), reader["tgl_daftar"].ToString()));
+                        pasien.Add(new ModelPasien(reader["no_identitas"].ToString(), reader["no_rekam_medis"].ToString(), reader["nama"].ToString(), DateTime.Parse(reader["tanggal_lahir"].ToString()).ToString("dd MMM yyyy"), reader["jenis_kelamin"].ToString(), reader["no_telp"].ToString(), reader["alamat"].ToString(), reader["tgl_daftar"].ToString(), reader["golongan_darah"].ToString()));
                     }
                 }
 
@@ -254,13 +255,14 @@ namespace pendaftaran.DBAccess
             return pasien;
         }
 
-        public bool UpdateDataPasien(string nama, string no_telp, string jenis_kelamin, string alamat, string id)
+        public bool UpdateDataPasien(string nama, string no_telp, string jenis_kelamin, string alamat, string id, string gol_darah)
         {
             try
             {
                 OpenConnection();
 
-                SqlCommand cmd = new SqlCommand("update tb_pasien set nama=@namaPasien, jenis_kelamin=@jenisKelamin, no_telp=@noTelp, alamat=@alamat where no_identitas=@identitas", conn);
+                SqlCommand cmd = new SqlCommand("update tb_pasien set nama=@namaPasien, jenis_kelamin=@jenisKelamin, no_telp=@noTelp, alamat=@alamat, golongan_darah=@golongan_darah where no_identitas=@identitas", conn);
+                cmd.Parameters.AddWithValue("golongan_darah", gol_darah);
                 cmd.Parameters.AddWithValue("namaPasien", nama);
                 cmd.Parameters.AddWithValue("jenisKelamin", jenis_kelamin);
                 cmd.Parameters.AddWithValue("noTelp", no_telp);

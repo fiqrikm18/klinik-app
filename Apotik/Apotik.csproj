@@ -64,6 +64,7 @@
       <DependentUpon>UpdateObat.xaml</DependentUpon>
     </Compile>
     <Compile Include="models\ModelObat.cs" />
+    <Compile Include="UserPreferences.cs" />
     <Compile Include="views\DaftarObat.xaml.cs">
       <DependentUpon>DaftarObat.xaml</DependentUpon>
     </Compile>

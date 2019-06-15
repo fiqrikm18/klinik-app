@@ -80,6 +80,17 @@
                 </StackPanel>
 
                 <StackPanel Grid.Column="1" Grid.Row="1">
+                    <Label Content="Golongan Darah" />
+                    <ComboBox x:Name="cbGolDarah" SelectedIndex="0" Background="{x:Null}" BorderBrush="{x:Null}">
+                        <ComboBoxItem Content="Pilih" />
+                        <ComboBoxItem Content="A" />
+                        <ComboBoxItem Content="B" />
+                        <ComboBoxItem Content="AB" />
+                        <ComboBoxItem Content="O" />
+                    </ComboBox>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Grid.Row="2">
                     <Label Content="Jenis Kelamin" />
                     <ComboBox x:Name="cbJenisKelamin" SelectedIndex="0">
                         <ComboBoxItem Content="Pilih" />
@@ -88,7 +99,7 @@
                     </ComboBox>
                 </StackPanel>
 
-                <StackPanel Grid.Column="1" Grid.Row="2">
+                <StackPanel Grid.Column="1" Grid.Row="3">
                     <Label Content="Poliklinik" />
                     <ComboBox x:Name="cbPoliklinik" SelectedIndex="0"/>
                 </StackPanel>

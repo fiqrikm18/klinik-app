@@ -79,6 +79,8 @@ namespace admin.DBAccess
                             reader["alamat"].ToString(), reader["password"].ToString(), reader["jenis_kelamin"].ToString()));
                     }
                 }
+
+                CloseConnection();
             }
             catch (SqlException ex)
             {

@@ -100,6 +100,7 @@
     <Compile Include="models\MDokter.cs" />
     <Compile Include="models\MPendaftaran.cs" />
     <Compile Include="models\MPoliklinik.cs" />
+    <Compile Include="UserPreferences.cs" />
     <Compile Include="Utils\Encryptor.cs" />
     <Compile Include="Utils\Util.cs" />
     <Compile Include="views\DaftarApoteker.xaml.cs">

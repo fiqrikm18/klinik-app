@@ -28,7 +28,7 @@
         </StackPanel>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="Periksa"/>
+            <Button Content="Periksa" x:Name="btnPeriksa" Click="BtnPeriksa_Click"/>
         </StackPanel>
     </Grid>
 </Page>

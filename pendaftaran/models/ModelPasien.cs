@@ -15,8 +15,9 @@ namespace pendaftaran.models
         public string no_telp { get; set; }
         public string alamat { get; set; }
         public string tgl_daftar { get; set; }
+        public string golongan_darah { get; set; }
 
-        public ModelPasien(string no_identitas, string no_rekam_medis, string nama, string tanggal_lahir, string jenis_kelamin, string no_telp, string alamat, string tgl_daftar)
+        public ModelPasien(string no_identitas, string no_rekam_medis, string nama, string tanggal_lahir, string jenis_kelamin, string no_telp, string alamat, string tgl_daftar, string golongan_darah)
         {
             this.no_identitas = no_identitas;
             this.no_rekam_medis = no_rekam_medis;
@@ -26,6 +27,7 @@ namespace pendaftaran.models
             this.no_telp = no_telp;
             this.alamat = alamat;
             this.tgl_daftar = tgl_daftar;
+            this.golongan_darah = golongan_darah;
         }
     }
 }

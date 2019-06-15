@@ -16,8 +16,9 @@ namespace dokter.models
         public string no_telp { get; set; }
         public string alamat { get; set; }
         public string tgl_daftar { get; set; }
+        public string golongan_darah { get; set; }
 
-        public ModelPasien(string id, string no_rm, string nama, string tgl_lahir, string jenis_kelamin, string no_telp, string alamat, string tgl_daftar)
+        public ModelPasien(string id, string no_rm, string nama, string tgl_lahir, string jenis_kelamin, string no_telp, string alamat, string tgl_daftar, string golongan_darah)
         {
             this.id = id;
             this.no_rm = no_rm;
@@ -27,6 +28,7 @@ namespace dokter.models
             this.no_telp = no_telp;
             this.alamat = alamat;
             this.tgl_daftar = tgl_daftar;
+            this.golongan_darah = golongan_darah;
         }
 
         ~ModelPasien() { }

@@ -45,5 +45,10 @@ namespace dokter.views
                 throw new Exception(ex.Message);
             }
         }
+
+        private void BtnPeriksa_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
     }
 }

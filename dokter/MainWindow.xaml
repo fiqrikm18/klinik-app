@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:dokter"
         mc:Ignorable="d"
+        Closing="Window_Closing"
         Title="Klinik Bunda Mulya" Height="700" Width="1200" WindowStartupLocation="CenterScreen" Icon="images/BMicon.ico">
     <Window.Resources>
         <Style x:Key="MyFocusVisual">

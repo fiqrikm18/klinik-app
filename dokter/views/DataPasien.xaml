@@ -41,6 +41,7 @@
                     <DataGridTextColumn Binding="{Binding id}" Header="Nomor Identitas" IsReadOnly="True"/>
                     <DataGridTextColumn Binding="{Binding no_rm}" Header="Nomor Rekam Medis" IsReadOnly="True"/>
                     <DataGridTextColumn Binding="{Binding nama}" Header="Nama Pasien" IsReadOnly="True" Width="150"/>
+                    <DataGridTextColumn Binding="{Binding golongan_darah}" Header="Golongan Darah" IsReadOnly="True" Width="150"/>
                     <DataGridTextColumn Binding="{Binding jenis_kelamin}" Header="Jenis Kelamin" IsReadOnly="True" Width="150"/>
                 </DataGrid.Columns>
             </DataGrid>

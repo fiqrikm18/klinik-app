@@ -24,18 +24,19 @@ namespace pendaftaran.views
     public partial class daftar_ulang : Page
     {
         private const byte Msb = 0x00;
-        private readonly byte blockAlamatForm = 18;
-        private readonly byte blockAlamatTo = 22;
-
-        private readonly byte blockIdPasien = 12;
-        private readonly byte blockJenisKelamin = 26;
-        private readonly byte blockNamaFrom = 14;
-        private readonly byte blockNamaTo = 17;
-        private readonly byte blockNoRekamMedis = 13;
-        private readonly byte blockNoTelp = 24;
-        private readonly byte blockTglLahir = 25;
+        private readonly byte blockAlamatForm = 8;
+        private readonly byte blockAlamatTo = 12;
+        private readonly byte blockIdPasien = 1;
+        private readonly byte blockGolDarah = 13;
+        private readonly byte blockJenisKelamin = 17;
+        private readonly byte blockNamaFrom = 4;
+        private readonly byte blockNamaTo = 6;
+        private readonly byte blockNoRekamMedis = 2;
+        private readonly byte blockNoTelp = 14;
+        private readonly byte blockTglLahir = 16;
 
         public string alamat;
+        public string golDarah;
         public string jenisK;
         public string namaP;
         public string noidP;
@@ -51,7 +52,7 @@ namespace pendaftaran.views
             InitializeComponent();
             conn = DBConnection.dbConnection();
 
-            displayDataPasien();
+            DisplayDataPasien();
             sp = new SmartCardOperation();
             sp = new SmartCardOperation();
 
@@ -62,7 +63,7 @@ namespace pendaftaran.views
             }
         }
 
-        public void displayDataPasien(string nama = null)
+        public void DisplayDataPasien(string nama = null)
         {
             DBCommand cmd = new DBCommand(conn);
             List<ModelPasien> pasien = cmd.GetDataPasien();
@@ -103,25 +104,29 @@ namespace pendaftaran.views
                         (dtgDataPasien.SelectedCells[2].Column
                             .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
                         .Text;
-                    jenisK =
+                    golDarah =
                         (dtgDataPasien.SelectedCells[3].Column
                             .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
                         .Text;
-                    noTelp =
+                    jenisK =
                         (dtgDataPasien.SelectedCells[4].Column
                             .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
                         .Text;
-                    alamat =
+                    noTelp =
                         (dtgDataPasien.SelectedCells[5].Column
                             .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
                         .Text;
-                    tglLahir =
+                    alamat =
                         (dtgDataPasien.SelectedCells[6].Column
+                            .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
+                        .Text;
+                    tglLahir =
+                        (dtgDataPasien.SelectedCells[7].Column
                             .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
                         .Text;
                 }
 
-                var ud = new ubah_dataPasien(normP, noidP, namaP, jenisK, noTelp, alamat, this);
+                var ud = new ubah_dataPasien(normP, noidP, namaP, jenisK, noTelp, alamat, golDarah, this);
                 ud.Show();
             }
             else
@@ -168,7 +173,7 @@ namespace pendaftaran.views
                             MessageBoxImage.Error);
                 }
 
-                displayDataPasien();
+                DisplayDataPasien();
             }
             else
             {
@@ -182,7 +187,7 @@ namespace pendaftaran.views
             var nama = sender as TextBox;
 
             if (nama.Text != "Nama Pasien")
-                displayDataPasien(nama.Text);
+                DisplayDataPasien(nama.Text);
         }
 
         private void Btn_cetak_OnClick(object sender, RoutedEventArgs e)
@@ -201,9 +206,9 @@ namespace pendaftaran.views
                     for (var i = 0; i < dtgDataPasien.SelectedItems.Count; i++)
                     {
                         normP =
-                            (dtgDataPasien.SelectedCells[1].Column
-                                .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
-                            .Text;
+                        (dtgDataPasien.SelectedCells[1].Column
+                            .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
+                        .Text;
                         noidP =
                             (dtgDataPasien.SelectedCells[0].Column
                                 .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
@@ -212,20 +217,24 @@ namespace pendaftaran.views
                             (dtgDataPasien.SelectedCells[2].Column
                                 .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
                             .Text;
-                        jenisK =
+                        golDarah =
                             (dtgDataPasien.SelectedCells[3].Column
                                 .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
                             .Text;
-                        noTelp =
+                        jenisK =
                             (dtgDataPasien.SelectedCells[4].Column
                                 .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
                             .Text;
-                        alamat =
+                        noTelp =
                             (dtgDataPasien.SelectedCells[5].Column
                                 .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
                             .Text;
-                        tglLahir =
+                        alamat =
                             (dtgDataPasien.SelectedCells[6].Column
+                                .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
+                            .Text;
+                        tglLahir =
+                            (dtgDataPasien.SelectedCells[7].Column
                                 .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
                             .Text;
                     }
@@ -238,6 +247,17 @@ namespace pendaftaran.views
                         else
                         {
                             MessageBox.Show("ID pasien gagal ditulis");
+                        }
+                    }
+
+                    if (!string.IsNullOrEmpty(golDarah))
+                    {
+                        if (sp.WriteBlock(Msb, blockGolDarah, Util.ToArrayByte16(golDarah)))
+                        {
+                        }
+                        else
+                        {
+                            MessageBox.Show("Golongan Darah gagal ditulis");
                         }
                     }
 
@@ -368,6 +388,10 @@ namespace pendaftaran.views
                 var jk = sp.ReadBlock(Msb, blockJenisKelamin);
                 if (jk != null)
                     msg += "\nJenis Kelamin \t\t: " + Util.ToASCII(jk, 0, 16, false);
+
+                var gol = sp.ReadBlock(Msb, blockGolDarah);
+                if (gol != null)
+                    msg += "\nGolongan Darah \t\t: " + Util.ToASCII(gol, 0, 16, false);
 
                 MessageBox.Show(msg, "Informasi Kartu Pasien", MessageBoxButton.OK, MessageBoxImage.Information);
             }

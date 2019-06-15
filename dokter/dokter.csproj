@@ -65,8 +65,10 @@
       <DependentUpon>InputRekamMedis.xaml</DependentUpon>
     </Compile>
     <Compile Include="models\ModelAntrian.cs" />
+    <Compile Include="models\ModelDokter.cs" />
     <Compile Include="models\Modelpasien.cs" />
     <Compile Include="models\ModelRekamMedis.cs" />
+    <Compile Include="UserPreferences.cs" />
     <Compile Include="views\DaftarAntrian.xaml.cs">
       <DependentUpon>DaftarAntrian.xaml</DependentUpon>
     </Compile>

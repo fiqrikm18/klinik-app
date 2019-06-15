@@ -23,12 +23,16 @@ namespace pendaftaran.forms
     public partial class ubah_dataPasien : Window
     {
         private const byte Msb = 0x00;
-        private readonly byte blockAlamatForm = 18;
-        private readonly byte blockAlamatTo = 22;
-        private readonly byte blockJenisKelamin = 26;
-        private readonly byte blockNamaFrom = 14;
-        private readonly byte blockNamaTo = 17;
-        private readonly byte blockNoTelp = 24;
+        private readonly byte blockAlamatForm = 8;
+        private readonly byte blockAlamatTo = 12;
+        private readonly byte blockIdPasien = 1;
+        private readonly byte blockGolDarah = 22;
+        private readonly byte blockJenisKelamin = 17;
+        private readonly byte blockNamaFrom = 4;
+        private readonly byte blockNamaTo = 6;
+        private readonly byte blockNoRekamMedis = 2;
+        private readonly byte blockNoTelp = 14;
+        private readonly byte blockTglLahir = 16;
         private readonly daftar_ulang du;
 
         private readonly string jk;
@@ -37,13 +41,11 @@ namespace pendaftaran.forms
         private int _noOfErrorsOnScreen;
         private string alamat;
 
-        private byte blockIdPasien = 12;
-        private byte blockNoRekamMedis = 13;
-        private byte blockTglLahir = 25;
         private string idP;
         private string nama;
 
         private string norm;
+        private string golDarah;
         private string telp;
 
         private readonly byte[] key = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
@@ -55,7 +57,7 @@ namespace pendaftaran.forms
 
         SqlConnection conn;
 
-        public ubah_dataPasien(string norm, string idp, string nama, string jk, string notlp, string alamat,
+        public ubah_dataPasien(string norm, string idp, string nama, string jk, string notlp, string alamat, string golDarah,
             daftar_ulang du)
         {
             InitializeComponent();
@@ -64,6 +66,7 @@ namespace pendaftaran.forms
 
             this.norm = norm;
             idP = idp;
+            this.golDarah = golDarah;
             this.nama = nama;
             this.jk = jk;
             telp = notlp;
@@ -72,6 +75,8 @@ namespace pendaftaran.forms
 
             if (jk == "Pria") cbJenisKelamin.SelectedIndex = 0;
             else if (jk == "Wanita") cbJenisKelamin.SelectedIndex = 1;
+
+            cbGolDarah.Text = golDarah;
 
             var ctx = contextFactory.Establish(SCardScope.System);
             var readerNames = ctx.GetReaders();
@@ -301,11 +306,12 @@ namespace pendaftaran.forms
                 var namaPasien = TxtNamaPasien.Text;
                 var noTelp = TxtNoTelp.Text;
                 var alamat = TextAlamat.Text;
+                var gd = cbGolDarah.Text;
                 var jenisKelamin = cbJenisKelamin.Text;
                 conn = DBConnection.dbConnection();
                 DBCommand cmd = new DBCommand(conn);
 
-                if(cmd.UpdateDataPasien(namaPasien, noTelp, jenisKelamin, alamat, identitas))
+                if(cmd.UpdateDataPasien(namaPasien, noTelp, jenisKelamin, alamat, identitas, gd))
                 {
                     bool isPrinted = false;
                     if (chkUpdateKartu.IsChecked == true)
@@ -382,7 +388,7 @@ namespace pendaftaran.forms
                 }
 
                 MessageBox.Show("Berhasil memperbarui data pasien.", "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
-                du.displayDataPasien();
+                du.DisplayDataPasien();
                 Close();
             }
             else

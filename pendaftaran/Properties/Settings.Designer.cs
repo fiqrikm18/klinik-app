@@ -61,7 +61,7 @@ namespace pendaftaran.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("700")]
+        [global::System.Configuration.DefaultSettingValueAttribute("720")]
         public double WindowHeight {
             get {
                 return ((double)(this["WindowHeight"]));

@@ -45,6 +45,7 @@
                     <DataGridTextColumn Binding="{Binding no_identitas}" IsReadOnly="True" Header="No Identitas" />
                     <DataGridTextColumn Binding="{Binding no_rekam_medis}" IsReadOnly="True" Header="No Rekam Medis" />
                     <DataGridTextColumn Binding="{Binding nama}" IsReadOnly="True" Header="Nama Pasien" Width="150" />
+                    <DataGridTextColumn Binding="{Binding golongan_darah}" IsReadOnly="True" Header="Golongan Darah" Width="150" />
                     <DataGridTextColumn Binding="{Binding jenis_kelamin}" IsReadOnly="True" Header="Jenis Kelamin" />
                     <DataGridTextColumn Binding="{Binding no_telp}" IsReadOnly="True" Header="Nomor Telepon" />
                     <DataGridTextColumn Binding="{Binding alamat}" IsReadOnly="True" Header="Alamat" Width="250" />
