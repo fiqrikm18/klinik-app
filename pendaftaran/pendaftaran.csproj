@@ -82,6 +82,7 @@
     <Compile Include="models\MDaftarBaru.cs" />
     <Compile Include="models\ModelAntrian.cs" />
     <Compile Include="models\ModelPasien.cs" />
+    <Compile Include="UserPreference.cs" />
     <Compile Include="Utils\Util.cs" />
     <Compile Include="views\antrian.xaml.cs">
       <DependentUpon>antrian.xaml</DependentUpon>

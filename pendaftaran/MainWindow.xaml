@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:pendaftaran"
         mc:Ignorable="d"
         Title="Klinik Bunda Mulya" Height="720" Width="1200" WindowStartupLocation="CenterScreen"
-        Icon="images/BMicon.ico">
+        Icon="images/BMicon.ico" Closing="Window_Closing">
     <Window.Resources>
         <Style x:Key="MyFocusVisual">
             <Setter Property="Control.Template">
