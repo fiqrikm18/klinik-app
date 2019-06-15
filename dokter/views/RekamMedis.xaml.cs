@@ -57,5 +57,19 @@ namespace dokter.views
                 throw new Exception(ex.Message);
             }
         }
+
+        private void TxtSearchRekamMedis_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var no_rm = sender as TextBox;
+
+            if (no_rm.Text != "Nomor Rekam Medis")
+                DisplayDataRekamMedis(no_rm.Text);
+        }
+
+        private void TxtSearchRekamMedis_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            var source = e.Source as TextBox;
+            source.Clear();
+        }
     }
 }

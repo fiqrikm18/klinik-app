@@ -79,6 +79,36 @@ namespace dokter.DBAccess
             return antrian;
         }
 
+        public List<ModelPasien> GetDataPasien()
+        {
+            List<ModelPasien> pasien = new List<ModelPasien>();
+
+            try
+            {
+                OpenConnection();
+                SqlCommand cmd = new SqlCommand("select * from tb_pasien", conn);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        pasien.Add(new ModelPasien(reader["no_identitas"].ToString(), reader["no_rekam_medis"].ToString(), reader["nama"].ToString(),
+                            reader["tanggal_lahir"].ToString(), reader["jenis_kelamin"].ToString(), reader["no_telp"].ToString(),
+                            reader["alamat"].ToString(), reader["tgl_daftar"].ToString()));
+                    }
+                }
+
+                CloseConnection();
+            }
+
+            catch (SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return pasien;
+        }
+
         public List<ModelRekamMedis> GetDataRekamMedis()
         {
             List<ModelRekamMedis> rekam_medis = new List<ModelRekamMedis>();
