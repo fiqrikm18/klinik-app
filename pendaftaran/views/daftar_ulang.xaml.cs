@@ -54,7 +54,6 @@ namespace pendaftaran.views
 
             DisplayDataPasien();
             sp = new SmartCardOperation();
-            sp = new SmartCardOperation();
 
             if (sp.IsReaderAvailable()) { }
             else

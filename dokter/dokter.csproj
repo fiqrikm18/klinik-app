@@ -61,9 +61,6 @@
     </ApplicationDefinition>
     <Compile Include="DBAccess\DBCommand.cs" />
     <Compile Include="DBAccess\DBConnection.cs" />
-    <Compile Include="forms\InputRekamMedis.xaml.cs">
-      <DependentUpon>InputRekamMedis.xaml</DependentUpon>
-    </Compile>
     <Compile Include="models\ModelAntrian.cs" />
     <Compile Include="models\ModelDokter.cs" />
     <Compile Include="models\Modelpasien.cs" />
@@ -78,10 +75,6 @@
     <Compile Include="views\RekamMedis.xaml.cs">
       <DependentUpon>RekamMedis.xaml</DependentUpon>
     </Compile>
-    <Page Include="forms\InputRekamMedis.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
