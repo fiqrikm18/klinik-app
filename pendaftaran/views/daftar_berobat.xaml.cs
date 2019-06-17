@@ -19,7 +19,7 @@ namespace pendaftaran.views
     public partial class daftar_berobat : Page
     {
         private const byte Msb = 0x00;
-        private readonly byte blockNoRekamMedis = 13;
+        private readonly byte blockNoRekamMedis = 1;
 
         SmartCardOperation sp;
 

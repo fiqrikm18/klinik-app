@@ -198,6 +198,62 @@ namespace dokter.DBAccess
             return rekam_medis;
         }
 
+        public List<ModelRekamMedis> GetAllDataRekamMedisFrom(string no_rm = null)
+        {
+            List<ModelRekamMedis> rekam_medis = new List<ModelRekamMedis>();
+            OpenConnection();
+
+            try
+            {
+                //SqlCommand cmd = new SqlCommand("select tb_rekam_medis.*, tb_pasien.nama as nama_pasien, tb_dokter.nama as nama_dokter, tb_poliklinik.nama_poli as nama_poli from tb_rekam_medis left join tb_dokter on tb_rekam_medis.id_dokter = tb_dokter.id left join tb_poliklinik on tb_rekam_medis.poli = tb_poliklinik.kode_poli left join tb_pasien on tb_pasien.no_rekam_medis = tb_rekam_medis.no_rm", conn);
+                SqlCommand cmd = new SqlCommand("select tb_rekam_medis.*, tb_pasien.nama as nama_pasien, tb_dokter.nama as nama_dokter, tb_poliklinik.nama_poli as nama_poli from tb_rekam_medis left join tb_dokter on tb_rekam_medis.id_dokter = tb_dokter.id left join tb_poliklinik on tb_rekam_medis.poli = tb_poliklinik.kode_poli left join tb_pasien on tb_pasien.no_rekam_medis = tb_rekam_medis.no_rm order by tgl_pemeriksaan DESC", conn);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        rekam_medis.Add(new ModelRekamMedis(int.Parse(reader["id"].ToString()), reader["no_rm"].ToString(), reader["riwayat_penyakit"].ToString(),
+                            reader["alergi"].ToString(), int.Parse(reader["berat_badan"].ToString()), reader["keluhan"].ToString(),
+                            reader["diagnosa"].ToString(), reader["tindakan"].ToString(), reader["id_dokter"].ToString(), reader["poli"].ToString(),
+                            reader["tgl_pemeriksaan"].ToString(), reader["nama_dokter"].ToString(), reader["nama_poli"].ToString(), reader["nama_pasien"].ToString()));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            CloseConnection();
+            return rekam_medis;
+        }
+
+        public string GetNoRmByNoUrut()
+        {
+            string no_rm = "";
+
+            try
+            {
+                OpenConnection();
+                SqlCommand command = new SqlCommand("SELECT TOP 1 no_rm FROM tb_antrian_poli WHERE tgl_berobat = CONVERT(date, GETDATE(), 111) AND poliklinik=@poliklinik AND status='Antri' ORDER BY no_urut ASC;", conn);
+                command.Parameters.AddWithValue("poliklinik", GetKodePoli());
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        no_rm = reader["no_rm"].ToString();
+                    }
+                }
+            }
+            catch(SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return no_rm;
+        }
+
         public bool InsertDataRekamMedis(string no_rm, string riwayat_penyakit, string alergi, string berat_badan, string keluhan, string diagnosa, string tindakan, string id_dokter, string poli)
         {
             try

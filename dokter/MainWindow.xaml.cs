@@ -65,5 +65,10 @@ namespace dokter
         {
             MainFrame.Content = new views.DataPsien();
         }
+
+        private void BtnPeriksaPasien_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Content = new views.ViewRekamMedis();
+        }
     }
 }

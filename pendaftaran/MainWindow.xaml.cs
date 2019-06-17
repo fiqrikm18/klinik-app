@@ -73,5 +73,10 @@ namespace pendaftaran
         {
             MainFrame.Content = new antrian();
         }
+
+        private void BtnLogout_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

@@ -45,6 +45,13 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="Black" />
+                    <Setter Property="Background" Value="#FFE6E6E6"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
 
         <!--

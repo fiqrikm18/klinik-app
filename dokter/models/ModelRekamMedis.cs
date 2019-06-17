@@ -35,6 +35,7 @@ namespace dokter.models
             this.berat_badan = berat_badan;
             this.keluhan = keluhan;
             this.tindakan = tindakan;
+            this.diagnosa = diagnosa;
             this.id_dokter = id_dokter;
             this.poli = poli;
             this.tgl_pemeriksaan = dt.ToString("dd MMM yyyy");

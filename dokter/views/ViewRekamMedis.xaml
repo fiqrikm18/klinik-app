@@ -1,0 +1,130 @@
+﻿<Page x:Class="dokter.views.ViewRekamMedis"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:dokter.views"
+      mc:Ignorable="d" 
+      Title="ViewRekamMedis">
+
+    <ScrollViewer CanContentScroll="True">
+        <Grid Style="{StaticResource OpenSans}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0">
+                <TextBlock Text="Rekam Medis Pasien" FontSize="16" FontWeight="Bold" Foreground="#555555"/>
+            </StackPanel>
+
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Row="0" Grid.Column="0">
+                        <DockPanel>
+                            <Label Content="Nomor Rekam Medis" VerticalAlignment="Center"/>
+                            <CheckBox x:Name="chkScanKartu" Checked="ChkScanKartu_Checked" Unchecked="ChkScanKartu_Unchecked" Content="Scan Kartu Pasien" Margin="10,0" VerticalAlignment="Center"/>
+                        </DockPanel>
+                        <DockPanel>
+                            <TextBox x:Name="txtNoRekamMedis" VerticalAlignment="Center" IsReadOnly="True" IsEnabled="False"/>
+                            <Button x:Name="btnBrowsePasien" Click="BtnBrowsePasien_Click" Content="Ambil Data" Width="Auto" Height="36" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5 0"/>
+                        </DockPanel>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1" Grid.Column="0">
+                        <Label Content="Nama Pasien"/>
+                        <TextBox x:Name="txtNamaPasien" IsReadOnly="True" IsEnabled="False"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="2" Grid.Column="0">
+                        <Label Content="Golongan Darah"/>
+                        <TextBox x:Name="txtGolDarah" IsReadOnly="True" IsEnabled="False"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="3" Grid.Column="0">
+                        <Label Content="Alamat" />
+                        <TextBox x:Name="TextAlamat" Height="100" AcceptsReturn="True" TextWrapping="Wrap" IsReadOnly="True" IsEnabled="False"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="0" Grid.Column="1">
+                        <Label Content="Jenis Kelamin"/>
+                        <TextBox x:Name="txtJenisKelamin" IsReadOnly="True" IsEnabled="False"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1" Grid.Column="1">
+                        <Label Content="Nomor Telepon"/>
+                        <TextBox x:Name="txtNoTelp" IsReadOnly="True" IsEnabled="False"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="2" Grid.Column="1">
+                        <Label Content="Tanggal Lahir"/>
+                        <TextBox x:Name="txtTglLahir" IsReadOnly="True" IsEnabled="False"/>
+                    </StackPanel>
+                </Grid>
+
+                <StackPanel Grid.Row="1">
+                    <DockPanel HorizontalAlignment="Left">
+                        <GroupBox BorderThickness="0" Margin="0 0 5 0">
+                            <DockPanel>
+                                <Button Width="Auto" Content="Tambah Rekam Medis"/>
+                                <Button Width="Auto" Content="Detail Rekam Medis"/>
+                                <Button Width="Auto" Content="Edit Rekam Medis"/>
+                                <Button Width="Auto" Content="Hapus Rekam Medis"/>
+                            </DockPanel>
+                        </GroupBox>
+
+                        <GroupBox BorderThickness="0" Margin="0 0 5 0">
+                            <DockPanel>
+                                <Button Width="Auto" Content="Buat Resep"/>
+                            </DockPanel>
+                        </GroupBox>
+
+                        <GroupBox BorderThickness="0" Margin="0 0 5 0">
+                            <DockPanel>
+                                <Button Width="Auto" Content="Edit Data Pasien"/>
+                            </DockPanel>
+                        </GroupBox>
+                    </DockPanel>
+                </StackPanel>
+
+                <StackPanel Grid.Row="2">
+                    <DataGrid x:Name="dtgDataRekamMedis" SelectionMode="Extended" VerticalAlignment="Top"
+                      HorizontalAlignment="Stretch" AutoGenerateColumns="False" Margin="0 10 10 0" Height="400" CanUserAddRows="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding nama_dokter}" Header="Dokter" IsReadOnly="True" Width="130"/>
+                            <DataGridTextColumn Binding="{Binding berat_badan}" Header="Berat Badan" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding alergi}" Header="Alergi" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding keluhan}" Header="Keluhan" IsReadOnly="True" Width="150"/>
+                            <DataGridTextColumn Binding="{Binding diagnosa}" Header="Diagnosa" IsReadOnly="True" Width="150"/>
+                            <DataGridTextColumn Binding="{Binding tindakan}" Header="Tindakan" IsReadOnly="True" Width="150"/>
+                            <DataGridTextColumn Binding="{Binding nama_poli}" Header="Poliklinik" IsReadOnly="True" Width="150"/>
+                            <DataGridTextColumn Binding="{Binding tgl_pemeriksaan}" Header="Tanggal Berobat" IsReadOnly="True"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+</Page>

@@ -75,5 +75,10 @@ namespace admin
         {
             MainFrame.Content = new DaftarPoliklinik();
         }
+
+        private void BtnLogout_Click(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -37,7 +37,16 @@
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>images\BMicon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PCSC, Version=4.1.1.0, Culture=neutral, PublicKeyToken=13b76e54a2ee80a7, processorArchitecture=MSIL">
+      <HintPath>..\packages\PCSC.4.1.1\lib\net40\PCSC.dll</HintPath>
+    </Reference>
+    <Reference Include="PCSC.Iso7816, Version=4.1.1.0, Culture=neutral, PublicKeyToken=13b76e54a2ee80a7, processorArchitecture=MSIL">
+      <HintPath>..\packages\PCSC.Iso7816.4.1.1\lib\net40\PCSC.Iso7816.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
@@ -61,11 +70,23 @@
     </ApplicationDefinition>
     <Compile Include="DBAccess\DBCommand.cs" />
     <Compile Include="DBAccess\DBConnection.cs" />
+    <Compile Include="forms\GetDataAntrian.xaml.cs">
+      <DependentUpon>GetDataAntrian.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="forms\InputRekamMedis.xaml.cs">
+      <DependentUpon>InputRekamMedis.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="mifare\GeneralAuthenticate.cs" />
+    <Compile Include="mifare\KeyStructure.cs" />
+    <Compile Include="mifare\KeyType.cs" />
+    <Compile Include="mifare\MifareCard.cs" />
+    <Compile Include="mifare\SmartCardOperation.cs" />
     <Compile Include="models\ModelAntrian.cs" />
     <Compile Include="models\ModelDokter.cs" />
     <Compile Include="models\Modelpasien.cs" />
     <Compile Include="models\ModelRekamMedis.cs" />
     <Compile Include="UserPreferences.cs" />
+    <Compile Include="Utils\Util.cs" />
     <Compile Include="views\DaftarAntrian.xaml.cs">
       <DependentUpon>DaftarAntrian.xaml</DependentUpon>
     </Compile>
@@ -75,6 +96,17 @@
     <Compile Include="views\RekamMedis.xaml.cs">
       <DependentUpon>RekamMedis.xaml</DependentUpon>
     </Compile>
+    <Compile Include="views\ViewRekamMedis.xaml.cs">
+      <DependentUpon>ViewRekamMedis.xaml</DependentUpon>
+    </Compile>
+    <Page Include="forms\GetDataAntrian.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="forms\InputRekamMedis.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -96,6 +128,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="views\RekamMedis.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\ViewRekamMedis.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -121,6 +157,7 @@
     <Resource Include="fonts\OpenSans-Bold.ttf" />
     <Resource Include="fonts\OpenSans-Regular.ttf" />
     <None Include="app.manifest" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

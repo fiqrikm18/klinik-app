@@ -49,5 +49,10 @@ namespace Apotik
         {
             MainFrame.Content = new views.DaftarResep();
         }
+
+        private void BtnLogout_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
