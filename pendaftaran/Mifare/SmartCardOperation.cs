@@ -148,7 +148,7 @@ namespace pendaftaran.Mifare
 
                 card = new MifareCard(isoReader);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //MessageBox.Show(ex.Message, "Info", MessageBoxButton.OK, MessageBoxImage.Information);
             }
@@ -182,7 +182,7 @@ namespace pendaftaran.Mifare
 
         public bool ClearAllBlock()
         {
-            var res = false;
+            //var res = false;
 
             isoReaderInit();
             card = new MifareCard(isoReader);

@@ -48,8 +48,8 @@
         </StackPanel>
 
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button x:Name="btnDetail" Content="Lihat Detail"/>
-            <Button x:Name="btnPrint" Content="Print Data Pasien" Width="Auto"/>
+            <Button x:Name="btnDetail" Click="btnDetail_Click" Content="Lihat Detail"/>
+            <Button x:Name="btnPrint" Click="btnPrint_Click" Content="Print Data Pasien" Width="Auto"/>
         </StackPanel>
     </Grid>
 </Page>

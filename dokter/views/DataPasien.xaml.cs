@@ -65,5 +65,15 @@ namespace dokter.views
             var source = e.Source as TextBox;
             source.Clear();
         }
+
+        private void btnDetail_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO: buat fungsi untuk melihat data detail pasien
+        }
+
+        private void btnPrint_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO: buat fungsi untuk print data pasien
+        }
     }
 }

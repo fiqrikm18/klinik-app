@@ -1,4 +1,5 @@
-﻿using System;
+﻿using dokter.DBAccess;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,8 +27,7 @@ namespace dokter
             string role = Properties.Settings.Default.Role;
             lblHeader.Content = "Poli " + role;
 
-            DBAccess.DBCommand cmd = new DBAccess.DBCommand(DBAccess.DBConnection.dbConnection());
-            cmd.OpenConnection();
+            DBCommand cmd = new DBCommand(DBConnection.dbConnection());
 
             var userPrefs = new UserPreferences();
 

@@ -15,16 +15,40 @@ namespace dokter.DBAccess
 
         ~DBCommand() { }
 
-        public void OpenConnection()
+        public bool OpenConnection()
         {
-            if (conn.State.Equals(System.Data.ConnectionState.Closed))
-                conn.Open();
+            try
+            {
+                if (conn.State.Equals(System.Data.ConnectionState.Closed))
+                {
+                    conn.Open();
+                    return true;
+                }
+            }
+            catch(SqlException)
+            {
+                return false;
+            }
+
+            return false;
         }
 
-        public void CloseConnection()
+        public bool CloseConnection()
         {
-            if (conn.State.Equals(System.Data.ConnectionState.Open))
-                conn.Close();
+            try
+            {
+                if (conn.State.Equals(System.Data.ConnectionState.Open))
+                {
+                    conn.Close();
+                    return true;
+                }
+            }
+            catch (SqlException)
+            {
+                return false;
+            }
+
+            return false;
         }
 
         public string GetKodePoli()
@@ -51,7 +75,35 @@ namespace dokter.DBAccess
             return kodePoli;
         }
 
+        
 
+        public List<ModelObat> GetDataObat()
+        {
+            List<ModelObat> obat = new List<ModelObat>();
+            OpenConnection();
+
+            try
+            {
+                SqlCommand cmd = new SqlCommand("select * from tb_obat", conn);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while(reader.Read())
+                    {
+                        obat.Add(new ModelObat(reader["kode_obat"].ToString(), reader["nama_obat"].ToString(), int.Parse(reader["stok"].ToString()),
+                            reader["satuan"].ToString(), reader["harga_beli"].ToString(), reader["harga_jual"].ToString(),
+                            reader["harga_resep"].ToString(), reader["tgl_insert"].ToString()));
+                    }
+                }
+                CloseConnection();
+            }
+            catch(SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return obat;
+        }
 
         public List<ModelAntrian> GetDataAntrian(string tgl_Berobat)
         {
@@ -167,7 +219,6 @@ namespace dokter.DBAccess
             return pasien;
         }
 
-
         public List<ModelRekamMedis> GetDataRekamMedis()
         {
             List<ModelRekamMedis> rekam_medis = new List<ModelRekamMedis>();
@@ -183,7 +234,7 @@ namespace dokter.DBAccess
                     while (reader.Read())
                     {
                         rekam_medis.Add(new ModelRekamMedis(int.Parse(reader["id"].ToString()), reader["no_rm"].ToString(), reader["riwayat_penyakit"].ToString(),
-                            reader["alergi"].ToString(), int.Parse(reader["berat_badan"].ToString()), reader["keluhan"].ToString(),
+                            reader["alergi"].ToString(), reader["berat_badan"].ToString(), reader["keluhan"].ToString(),
                             reader["diagnosa"].ToString(), reader["tindakan"].ToString(), reader["id_dokter"].ToString(), reader["poli"].ToString(),
                             reader["tgl_pemeriksaan"].ToString(), reader["nama_dokter"].ToString(), reader["nama_poli"].ToString(), reader["nama_pasien"].ToString()));
                     }
@@ -213,7 +264,7 @@ namespace dokter.DBAccess
                     while (reader.Read())
                     {
                         rekam_medis.Add(new ModelRekamMedis(int.Parse(reader["id"].ToString()), reader["no_rm"].ToString(), reader["riwayat_penyakit"].ToString(),
-                            reader["alergi"].ToString(), int.Parse(reader["berat_badan"].ToString()), reader["keluhan"].ToString(),
+                            reader["alergi"].ToString(), reader["berat_badan"].ToString(), reader["keluhan"].ToString(),
                             reader["diagnosa"].ToString(), reader["tindakan"].ToString(), reader["id_dokter"].ToString(), reader["poli"].ToString(),
                             reader["tgl_pemeriksaan"].ToString(), reader["nama_dokter"].ToString(), reader["nama_poli"].ToString(), reader["nama_pasien"].ToString()));
                     }
@@ -235,7 +286,7 @@ namespace dokter.DBAccess
             try
             {
                 OpenConnection();
-                SqlCommand command = new SqlCommand("SELECT TOP 1 no_rm FROM tb_antrian_poli WHERE tgl_berobat = CONVERT(date, GETDATE(), 111) AND poliklinik=@poliklinik AND status='Antri' ORDER BY no_urut ASC;", conn);
+                SqlCommand command = new SqlCommand("SELECT TOP 1 no_rm FROM tb_antrian_poli WHERE tgl_berobat = CONVERT(date, GETDATE(), 111) AND poliklinik=@poliklinik AND status='Antri' ORDER BY no_urut ASC", conn);
                 command.Parameters.AddWithValue("poliklinik", GetKodePoli());
 
                 using (var reader = command.ExecuteReader())
@@ -259,7 +310,7 @@ namespace dokter.DBAccess
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("INSERT INTO [dbo].[tb_rekam_medis] ([no_rm] ,[riwayat_penyakit] ,[alergi], [berat_badan] ,[keluhan] ,[diagnosa] ,[tindakan] ,[id_dokter] ,[poli]) VALUES (@no_rm,@riwayat_penyakit,@alergi,@berat_badan,@keluhan,@diagnosa,@tindakan,@id_dokter,@poli", conn);
+                SqlCommand cmd = new SqlCommand("INSERT INTO [dbo].[tb_rekam_medis] ([no_rm] ,[riwayat_penyakit] ,[alergi], [berat_badan] ,[keluhan] ,[diagnosa] ,[tindakan] ,[id_dokter] ,[poli]) VALUES (@no_rm,@riwayat_penyakit,@alergi,@berat_badan,@keluhan,@diagnosa,@tindakan,@id_dokter,@poli)", conn);
                 cmd.Parameters.AddWithValue("no_rm", no_rm);
                 cmd.Parameters.AddWithValue("riwayat_penyakit", riwayat_penyakit);
                 cmd.Parameters.AddWithValue("alergi", alergi);
@@ -306,16 +357,42 @@ namespace dokter.DBAccess
             return false;
         }
 
-        public bool InsertDetailResep(string kode_resep, string kode_obat, int jumlah, string keterangan)
+        public bool IsDataNomorResepExist(string no_rm, string kode_resep)
         {
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("INSERT INTO [dbo].[detail_resep]([no_resep],[kode_obat],[jumlah],[keterangan]) VALUES(@no_resep,@kode_obat,@jumlah,@keterangan)", conn);
+                SqlCommand cmd = new SqlCommand("select count(kode_resep) from tb_resep where no_rm =@no_rm and kode_resep=@kode_resep order by 1 desc", conn);
+                cmd.Parameters.AddWithValue("no_rm", no_rm);
+                cmd.Parameters.AddWithValue("kode_resep", kode_resep);
+                var res = int.Parse(cmd.ExecuteScalar().ToString());
+
+                if(res > 0)
+                {
+                    return true;
+                }
+
+                CloseConnection();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return false;
+        }
+
+        public bool InsertDetailResep(string kode_resep, string kode_obat, int jumlah, string keterangan, string pengunaan)
+        {
+            try
+            {
+                OpenConnection();
+                SqlCommand cmd = new SqlCommand("INSERT INTO [dbo].[tb_detail_resep]([no_resep],[kode_obat],[jumlah],[ket], [pengunaan]) VALUES(@no_resep,@kode_obat,@jumlah,@ket, @pengunaan)", conn);
                 cmd.Parameters.AddWithValue("no_resep", kode_resep);
                 cmd.Parameters.AddWithValue("kode_obat", kode_obat);
                 cmd.Parameters.AddWithValue("jumlah", jumlah);
-                cmd.Parameters.AddWithValue("keterangan", keterangan);
+                cmd.Parameters.AddWithValue("ket", keterangan);
+                cmd.Parameters.AddWithValue("pengunaan", pengunaan);
                 var res = cmd.ExecuteNonQuery();
 
                 if (res == 1)
@@ -324,6 +401,129 @@ namespace dokter.DBAccess
                 CloseConnection();
             }
             catch (SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return false;
+        }
+
+        public bool InsertAntrianApotik(string no_rm, string no_resep, string no_antrian, string status)
+        {
+            try
+            {
+                OpenConnection();
+                SqlCommand cmd = new SqlCommand("INSERT INTO tb_antrian_apotik(no_rm, no_resep, no_antrian, status) values(@no_rm, @no_resep, @no_antrian, @status)", conn);
+                cmd.Parameters.AddWithValue("no_rm", no_rm);
+                cmd.Parameters.AddWithValue("no_resep", no_resep);
+                cmd.Parameters.AddWithValue("no_antrian", no_antrian);
+                cmd.Parameters.AddWithValue("status", status);
+
+                if (cmd.ExecuteNonQuery() == 1)
+                    return true;
+
+                CloseConnection();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return false;
+        }
+
+        public int GetLastNoUrutApotik()
+        {
+            var res = 0;
+
+            try
+            {
+                OpenConnection();
+                SqlCommand cmd = new SqlCommand("select top 1 no_antrian from tb_antrian_apotik where tgl_resep = convert(varchar(10), getdate(), 111) order by 1 desc", conn);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        res = reader.GetInt32(0);
+                    }
+                }
+
+                CloseConnection();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return res;
+        }
+
+        public int GetLastNoResep(string no_rm)
+        {
+            int res = 0;
+
+            try
+            {
+                OpenConnection();
+                SqlCommand cmd = new SqlCommand("select top 1 no_resep from tb_resep where no_rm =@no_rm order by 1 desc", conn);
+                cmd.Parameters.AddWithValue("no_rm", no_rm);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        res = reader.GetInt32(0);
+                    }
+                }
+
+                    CloseConnection();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return res;
+        }
+
+        public int CountDataAntrian()
+        {
+            int res = 0;
+
+            try
+            {
+                OpenConnection();
+                SqlCommand command = new SqlCommand("select COUNT(*) from tb_antrian_poli where poliklinik=@poliklinik and tgl_berobat=CONVERT(date, getdate(), 111) and status='Antri'", conn);
+                command.Parameters.AddWithValue("poliklinik", GetKodePoli());
+                res = int.Parse(command.ExecuteScalar().ToString());
+
+                CloseConnection();
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return res;
+        }
+
+        public bool UpdateStatusAntrian(string no_rm)
+        {
+            try
+            {
+                OpenConnection();
+                SqlCommand cmd = new SqlCommand("update tb_antrian_poli set status='Selesai' where no_rm=@no_rm and no_urut=@no_urut and tgl_berobat=convert(date, getdate(), 111)", conn);
+                cmd.Parameters.AddWithValue("no_rm", no_rm);
+                cmd.Parameters.AddWithValue("no_urut", GetNoRmByNoUrut());
+
+                if (cmd.ExecuteNonQuery() == 1)
+                {
+                    return true;
+                }
+                CloseConnection();
+            }
+            catch(SqlException ex)
             {
                 throw new Exception(ex.Message);
             }

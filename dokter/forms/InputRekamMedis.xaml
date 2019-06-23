@@ -5,8 +5,110 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:dokter.forms"
         mc:Ignorable="d"
-        Title="InputRekamMedis" Height="450" Width="800">
-    <Grid>
-        
+        Title="Input Rekam Medis" Height="657" Width="888.5" Icon="/dokter;component/images/BMicon.ico" WindowStartupLocation="CenterScreen">
+    <Grid Style="{StaticResource OpenSans}" Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+            <TextBlock Text="Input Rekam Medis Pasien" FontSize="16" FontWeight="Bold" Foreground="#555555"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0">
+                            <Label Content="Nomor Rekam Medis"/>
+                            <TextBox x:Name="txtRekamMedis" IsEnabled="False" GotKeyboardFocus="TextBoxFocus"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1">
+                            <Label Content="Riwayat Penyakit"/>
+                            <TextBox x:Name="txtRiwayat" GotKeyboardFocus="TextBoxFocus"
+                                     Text="{Binding UpdateSourceTrigger=LostFocus,
+                        Path=riwayat_penyakit, NotifyOnSourceUpdated=True,
+                        ValidatesOnDataErrors=True}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="2">
+                            <Label Content="Berat Badan"/>
+                            <TextBox x:Name="txtBeratBadan" GotKeyboardFocus="TextBoxFocus"
+                                     Text="{Binding UpdateSourceTrigger=LostFocus,
+                        Path=berat_badan, NotifyOnSourceUpdated=True,
+                        ValidatesOnDataErrors=True}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="3">
+                            <Label Content="Alergi"/>
+                            <TextBox x:Name="txtAlergi" GotKeyboardFocus="TextBoxFocus"
+                                     Text="{Binding UpdateSourceTrigger=LostFocus,
+                        Path=alergi, NotifyOnSourceUpdated=True,
+                        ValidatesOnDataErrors=True}"/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0">
+                            <Label Content="Keluhan"/>
+                            <TextBox x:Name="textKeluhan" GotKeyboardFocus="TextBoxFocus" Height="100" TextWrapping="Wrap" AcceptsReturn="True" Width="415"
+                                     Text="{Binding UpdateSourceTrigger=LostFocus,
+                        Path=keluhan, NotifyOnSourceUpdated=True,
+                        ValidatesOnDataErrors=True}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1">
+                            <Label Content="Diagnosa"/>
+                            <TextBox x:Name="textDiagnosa" GotKeyboardFocus="TextBoxFocus" Height="100" TextWrapping="Wrap" AcceptsReturn="True" Width="415"
+                                     Text="{Binding UpdateSourceTrigger=LostFocus,
+                        Path=diagnosa, NotifyOnSourceUpdated=True,
+                        ValidatesOnDataErrors=True}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="2">
+                            <Label Content="Tindakan"/>
+                            <TextBox x:Name="textTindakan" GotKeyboardFocus="TextBoxFocus" Height="100" TextWrapping="Wrap" AcceptsReturn="True" Width="415"
+                                     Text="{Binding UpdateSourceTrigger=LostFocus,
+                        Path=tindakan, NotifyOnSourceUpdated=True,
+                        ValidatesOnDataErrors=True}"/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2">
+            <StackPanel.CommandBindings>
+                <CommandBinding Command="New" CanExecute="AddRekamMedis_CanExecute" Executed="AddRekamMedis_Executed" />
+            </StackPanel.CommandBindings>
+            
+            <DockPanel HorizontalAlignment="Right">
+                <Button x:Name="btnSimpanRM" Content="Simpan Rekam Medis" Width="Auto" Command="New"/>
+                <Button x:Name="btnBatal" Click="BtnBatal_Click" Content="Batal"/>
+            </DockPanel>
+        </StackPanel>
     </Grid>
 </Window>

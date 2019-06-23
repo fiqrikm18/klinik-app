@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace dokter.models
 {
-    class ModelRekamMedis
+    class ModelRekamMedis:IDataErrorInfo
     {
         public int id { get; set; }
         public string no_rm { get; set; }
         public string riwayat_penyakit { get; set; }
         public string alergi { get; set; }
-        public int berat_badan { get; set; }
+        public string berat_badan { get; set; }
         public string keluhan { get; set; }
         public string diagnosa { get; set; }
         public string tindakan { get; set; }
@@ -23,8 +25,24 @@ namespace dokter.models
         public string tgl_pemeriksaan { get; set; }
         public string nama_pasien { get; set; }
 
+        public string Error
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         public ModelRekamMedis() { }
-        public ModelRekamMedis(int id, string no_rm, string riwayat_penyakit, string alergi, int berat_badan, string keluhan, string diagnosa, string tindakan, string id_dokter, string poli, string tgl_pemeriksaan, string nama_dokter, string nama_poli, string nama_pasien)
+
+        public ModelRekamMedis(string keluhan, string diagnosa, string tindakan)
+        {
+            this.keluhan = keluhan;
+            this.tindakan = tindakan;
+            this.diagnosa = diagnosa;
+        }
+
+        public ModelRekamMedis(int id, string no_rm, string riwayat_penyakit, string alergi, string berat_badan, string keluhan, string diagnosa, string tindakan, string id_dokter, string poli, string tgl_pemeriksaan, string nama_dokter, string nama_poli, string nama_pasien)
         {
             DateTime dt = DateTime.Parse(tgl_pemeriksaan);
 
@@ -45,5 +63,76 @@ namespace dokter.models
         }
 
         ~ModelRekamMedis() { }
+
+        #region IDataErrorInfo
+
+        public string this[string columnName]
+        {
+            get
+            {
+                string result = null;
+                
+                if (columnName == "id")
+                {
+                    if (string.IsNullOrEmpty(id.ToString()))
+                    {
+                        result = "Id harus diisi.";
+                    }
+                }
+
+                if(columnName == "no_rm")
+                {
+                    if (string.IsNullOrEmpty(no_rm))
+                    {
+                        result = "Nomor rekam medis harus diisi.";
+                    }
+                }
+                
+                if(columnName == "keluhan")
+                {
+                    if (string.IsNullOrEmpty(keluhan))
+                    {
+                        result = "Keluhan harus diisi.";
+                    }
+                }
+
+                if(columnName == "diagnosa")
+                {
+                    if (string.IsNullOrEmpty(diagnosa))
+                    {
+                        result = "Diagnosa harus diisi.";
+                    }
+                }
+
+                if(columnName == "tindakan")
+                {
+                    if (string.IsNullOrEmpty(tindakan))
+                    {
+                        result = "Tindakan harus diisi.";
+                    }
+                }
+
+                if(columnName == "berat_badan")
+                {
+                    if (Regex.IsMatch(berat_badan.ToString(), "^[A-Za-z]+$"))
+                        result = "Berat badan harus berupa angka.";
+                }
+
+                if (columnName == "riwayat_penyakit")
+                {
+                    if (!Regex.IsMatch(riwayat_penyakit.ToString(), "^[A-Za-z ]+$"))
+                        result = "Riwayat penyakit harus berupa huruf.";
+                }
+
+                if (columnName == "alergi")
+                {
+                    if (!Regex.IsMatch(alergi.ToString(), "^[A-Za-z ]+$"))
+                        result = "Alergi harus berupa huruf.";
+                }
+
+                return result;
+            }
+        }
+        #endregion
     }
 }

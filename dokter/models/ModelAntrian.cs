@@ -15,6 +15,7 @@ namespace dokter.models
         public string poliklinik { get; set; }
         public string status { get; set; }
         public string tgl_berobat { get; set; }
+
         public ModelAntrian(string id, string no_rm, string nama, int no_urut, string poliklinik, string status, string tgl_berobat)
         {
             this.id = id;

@@ -71,5 +71,15 @@ namespace dokter.views
             var source = e.Source as TextBox;
             source.Clear();
         }
+
+        private void btnDetail_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO: buat fungsi untuk melihat detail rekam medis
+        }
+
+        private void btnPrint_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO: buat fungsi untuk print rekam medis
+        }
     }
 }

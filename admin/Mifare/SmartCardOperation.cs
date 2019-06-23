@@ -150,7 +150,7 @@ namespace admin.Mifare
 
                 card = new MifareCard(isoReader);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //MessageBox.Show(ex.Message, "Info", MessageBoxButton.OK, MessageBoxImage.Information);
             }
@@ -184,7 +184,7 @@ namespace admin.Mifare
 
         public bool ClearAllBlock()
         {
-            var res = false;
+            //var res = false;
 
             isoReaderInit();
             card = new MifareCard(isoReader);

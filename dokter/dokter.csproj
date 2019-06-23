@@ -70,11 +70,14 @@
     </ApplicationDefinition>
     <Compile Include="DBAccess\DBCommand.cs" />
     <Compile Include="DBAccess\DBConnection.cs" />
-    <Compile Include="forms\GetDataAntrian.xaml.cs">
-      <DependentUpon>GetDataAntrian.xaml</DependentUpon>
-    </Compile>
     <Compile Include="forms\InputRekamMedis.xaml.cs">
       <DependentUpon>InputRekamMedis.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="forms\InputResep.xaml.cs">
+      <DependentUpon>InputResep.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="forms\PopUpObat.xaml.cs">
+      <DependentUpon>PopUpObat.xaml</DependentUpon>
     </Compile>
     <Compile Include="mifare\GeneralAuthenticate.cs" />
     <Compile Include="mifare\KeyStructure.cs" />
@@ -82,9 +85,13 @@
     <Compile Include="mifare\MifareCard.cs" />
     <Compile Include="mifare\SmartCardOperation.cs" />
     <Compile Include="models\ModelAntrian.cs" />
+    <Compile Include="models\ModelAntrianApotik.cs" />
+    <Compile Include="models\ModelDetailResep.cs" />
     <Compile Include="models\ModelDokter.cs" />
+    <Compile Include="models\ModelObat.cs" />
     <Compile Include="models\Modelpasien.cs" />
     <Compile Include="models\ModelRekamMedis.cs" />
+    <Compile Include="models\ModelResep.cs" />
     <Compile Include="UserPreferences.cs" />
     <Compile Include="Utils\Util.cs" />
     <Compile Include="views\DaftarAntrian.xaml.cs">
@@ -99,11 +106,15 @@
     <Compile Include="views\ViewRekamMedis.xaml.cs">
       <DependentUpon>ViewRekamMedis.xaml</DependentUpon>
     </Compile>
-    <Page Include="forms\GetDataAntrian.xaml">
+    <Page Include="forms\InputRekamMedis.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="forms\InputRekamMedis.xaml">
+    <Page Include="forms\InputResep.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="forms\PopUpObat.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -165,7 +176,9 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\BMicon.ico" />

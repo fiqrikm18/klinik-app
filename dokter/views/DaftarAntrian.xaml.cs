@@ -48,7 +48,7 @@ namespace dokter.views
 
         private void BtnPeriksa_Click(object sender, RoutedEventArgs e)
         {
-            
+            // TODO: buat fungsi untuk link ke page pemeriksaan            
         }
     }
 }

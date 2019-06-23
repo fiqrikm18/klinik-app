@@ -151,7 +151,7 @@ namespace dokter.mifare
 
                 card = new MifareCard(isoReader);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //MessageBox.Show(ex.Message, "Info", MessageBoxButton.OK, MessageBoxImage.Information);
             }
@@ -185,7 +185,7 @@ namespace dokter.mifare
 
         public bool ClearAllBlock()
         {
-            var res = false;
+            //var res = false;
 
             isoReaderInit();
             card = new MifareCard(isoReader);
