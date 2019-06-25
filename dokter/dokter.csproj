@@ -70,6 +70,9 @@
     </ApplicationDefinition>
     <Compile Include="DBAccess\DBCommand.cs" />
     <Compile Include="DBAccess\DBConnection.cs" />
+    <Compile Include="forms\DetailPasien.xaml.cs">
+      <DependentUpon>DetailPasien.xaml</DependentUpon>
+    </Compile>
     <Compile Include="forms\InputRekamMedis.xaml.cs">
       <DependentUpon>InputRekamMedis.xaml</DependentUpon>
     </Compile>
@@ -78,6 +81,9 @@
     </Compile>
     <Compile Include="forms\PopUpObat.xaml.cs">
       <DependentUpon>PopUpObat.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="forms\UpdateRekamMedis.xaml.cs">
+      <DependentUpon>UpdateRekamMedis.xaml</DependentUpon>
     </Compile>
     <Compile Include="mifare\GeneralAuthenticate.cs" />
     <Compile Include="mifare\KeyStructure.cs" />
@@ -100,12 +106,13 @@
     <Compile Include="views\DataPasien.xaml.cs">
       <DependentUpon>DataPasien.xaml</DependentUpon>
     </Compile>
-    <Compile Include="views\RekamMedis.xaml.cs">
-      <DependentUpon>RekamMedis.xaml</DependentUpon>
-    </Compile>
     <Compile Include="views\ViewRekamMedis.xaml.cs">
       <DependentUpon>ViewRekamMedis.xaml</DependentUpon>
     </Compile>
+    <Page Include="forms\DetailPasien.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="forms\InputRekamMedis.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -115,6 +122,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="forms\PopUpObat.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="forms\UpdateRekamMedis.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -135,10 +146,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="views\DataPasien.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="views\RekamMedis.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

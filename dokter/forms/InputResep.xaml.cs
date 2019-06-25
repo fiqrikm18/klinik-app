@@ -34,6 +34,9 @@ namespace dokter.forms
         private ObservableCollection<ModelDetailResep> dataObat;
         private string kode_dokter = Properties.Settings.Default.KodeDokter;
 
+        private ModelDetailResep _mDetailResep;
+        private int _noOfErrorsOnScreen;
+
         public InputResep()
         {
             InitializeComponent();
@@ -43,6 +46,10 @@ namespace dokter.forms
             var dataDokter = cmd.GetDataDokter();
             lbNamaDokter.Content = "Dokter:\t Dr. " + dataDokter.First().nama;
             dataObat = new ObservableCollection<ModelDetailResep>();
+
+            _mDetailResep = new ModelDetailResep(" ", " ", " ", " ", " ", " ");
+            DataContext = _mDetailResep;
+
             LoadResep();
         }
 
@@ -55,6 +62,9 @@ namespace dokter.forms
 
             this.kode_obat = kode_obat;
             this.nama_obat = nama_obat;
+
+            new ModelDetailResep(" ", kode_obat, " ", " ", " ", " ");
+            DataContext = _mDetailResep;
 
             var dataDokter = cmd.GetDataDokter();
             lbNamaDokter.Content = "Dokter:\t Dr. " + dataDokter.First().nama;
@@ -74,6 +84,9 @@ namespace dokter.forms
             lbNamaDokter.Content = "Dokter:\t Dr. " + dataDokter.First().nama;
             this.no_rm = no_rm;
             lbNoRM.Text = no_rm;
+
+            _mDetailResep = new ModelDetailResep(" ", " ", " ", " ", " ", " ");
+            DataContext = _mDetailResep;
 
             LoadResep();
         }
@@ -124,7 +137,6 @@ namespace dokter.forms
 
         private void btnSaveRecive_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: buat fungsi save resep
             var lastNoResep = cmd.GetLastNoResep(no_rm);
             var kode_resep = txtKodeResep.Text.ToString().ToUpper();
             var kode_obat = "";
@@ -145,7 +157,7 @@ namespace dokter.forms
 
             if (!cmd.IsDataNomorResepExist(no_rm, kode_resep))
             {
-                if (cmd.InsertDataResep(txtKodeResep.Text, lbNoRM.Text, lastNoResep.ToString(), kode_dokter))
+                if (cmd.InsertDataResep(kode_resep, no_rm, lastNoResep.ToString(), kode_dokter))
                 {
                     bool res = false;
                     foreach (ModelDetailResep dr in dgListObat.ItemsSource)
@@ -174,7 +186,7 @@ namespace dokter.forms
                             no_urut += 1;
                         }
 
-                        if (cmd.InsertAntrianApotik(this.no_rm, kode_resep, no_urut.ToString(), "Antri"))
+                        if (cmd.InsertAntrianApotik(no_rm, kode_resep, no_urut.ToString(), "Antri"))
                         {
                             MessageBox.Show("Resep berhasil dibuat. Silahkan ambil resep diapotik.", "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
                             Close();
@@ -196,6 +208,56 @@ namespace dokter.forms
             }
         }
 
-        // TODO: buat fungsi validasi input resep
+        private void Validation_Error(object sender, ValidationErrorEventArgs e)
+        {
+            if (e.Action == ValidationErrorEventAction.Added)
+                _noOfErrorsOnScreen++;
+            else
+                _noOfErrorsOnScreen--;
+        }
+
+        private void AddDetailResep_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = _noOfErrorsOnScreen == 0;
+            e.Handled = true;
+        }
+
+        private void AddDetailResep_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            _mDetailResep = new ModelDetailResep(" ", " ", " ", " ", " ", " ");
+
+            if (CheckTextBoxEmpty())
+            {
+                ModelDetailResep mdr = new ModelDetailResep(txtKodeResep.Text, kode_obat, txtObat.Text, txtPemakaian.Text, txtKeterangan.Text, txtJumlah.Text);
+                LoadResep(mdr);
+                ClearTextBox();
+            }
+            else
+            {
+                MessageBox.Show("Pastikan data yang di inputkan sudah benar.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+
+            e.Handled = true;
+        }
+
+        private bool CheckTextBoxEmpty()
+        {
+            if (!string.IsNullOrEmpty(txtKodeResep.Text) && !string.IsNullOrEmpty(txtObat.Text) && !string.IsNullOrEmpty(txtJumlah.Text)
+                && !string.IsNullOrEmpty(txtPemakaian.Text))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private void TextBoxFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            var source = e.Source as TextBox;
+            if (string.IsNullOrEmpty(source.Text) || string.IsNullOrWhiteSpace(source.Text) || source.Text == " ")
+            {
+                source.Clear();
+            }
+        }
     }
 }

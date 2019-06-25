@@ -70,7 +70,7 @@ namespace dokter.forms
         {
             var nama = sender as TextBox;
 
-            if(nama.Text != "Nama obat")
+            if (nama.Text != "Nama obat")
             {
                 DisplayDataObat(nama.Text);
             }
@@ -79,11 +79,12 @@ namespace dokter.forms
         private void dgDataObat_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var data = dgDataObat.SelectedItem as models.ModelObat;
-            if(data != null)
+            if (data != null)
             {
                 ir.FillTextBox(data.kode_obat, data.nama_obat);
             }
 
+            ir.txtObat.Focus();
             Close();
         }
     }

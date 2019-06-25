@@ -48,7 +48,20 @@ namespace dokter.views
 
         private void BtnPeriksa_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: buat fungsi untuk link ke page pemeriksaan            
+            var noRm = "";
+
+            if (dtgAntrianPasien.SelectedItems.Count > 0)
+            {
+                for (var i = 0; i < dtgAntrianPasien.SelectedItems.Count; i++)
+                {
+                    noRm = (dtgAntrianPasien.SelectedCells[1].Column
+                            .GetCellContent(dtgAntrianPasien.SelectedItems[i]) as TextBlock)
+                        .Text;
+                }
+            }
+
+            views.ViewRekamMedis vrm = new ViewRekamMedis(noRm);
+            NavigationService.Navigate(vrm);
         }
     }
 }

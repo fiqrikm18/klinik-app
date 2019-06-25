@@ -45,6 +45,8 @@ namespace pendaftaran.views
 
         SqlConnection conn;
 
+        // TODO: tambah fungsi print label
+
         #region constructor
 
         public daftar_baru()
@@ -60,7 +62,7 @@ namespace pendaftaran.views
             }
 
             conn = DBConnection.dbConnection();
-            
+
             DataContext = new MDaftarBaru(" ", " ", " ", " ", " ");
             conn = DBConnection.dbConnection();
 

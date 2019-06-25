@@ -47,6 +47,8 @@ namespace pendaftaran.views
         SqlConnection conn;
         SmartCardOperation sp;
 
+        // TODO: tambah fungsi print label
+
         public daftar_ulang()
         {
             InitializeComponent();

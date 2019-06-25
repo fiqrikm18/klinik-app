@@ -56,11 +56,6 @@ namespace dokter
             MainFrame.Content = new views.DaftarAntrian();
         }
 
-        private void btnRekamMedisPasien_Click(object sender, RoutedEventArgs e)
-        {
-            MainFrame.Content = new views.DaftarRekamMedis();
-        }
-
         private void btnDataPasien_Click(object sender, RoutedEventArgs e)
         {
             MainFrame.Content = new views.DataPsien();

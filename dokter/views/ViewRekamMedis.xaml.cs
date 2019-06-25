@@ -33,6 +33,8 @@ namespace dokter.views
         private byte blockNoRekamMedis = 1;
 
         private SmartCardOperation sp = new SmartCardOperation();
+        private string no_rm = "";
+        private int id;
 
         public ViewRekamMedis()
         {
@@ -46,13 +48,15 @@ namespace dokter.views
             InitializeComponent();
             conn = DBConnection.dbConnection();
             cmd = new DBCommand(conn);
+
+            this.no_rm = no_rm;
+            DisplayDataPasien(no_rm);
         }
 
         private void BtnBrowsePasien_Click(object sender, RoutedEventArgs e)
         {
             if (cmd.CountDataAntrian() >= 1)
             {
-                string no_rm = "";
                 if (chkScanKartu.IsChecked ?? true)
                 {
                     sp = new SmartCardOperation();
@@ -112,7 +116,7 @@ namespace dokter.views
                     txtJenisKelamin.Text = fPasien.jenis_kelamin;
                     txtTglLahir.Text = DateTime.Parse(fPasien.tgl_lahir).ToString("dd MMM yyyy");
                     txtNoTelp.Text = fPasien.no_telp;
-                    DisplaDataRekamMedis(no_rm);
+                    DisplayDataRekamMedis(no_rm);
                 }
                 else
                 {
@@ -121,7 +125,7 @@ namespace dokter.views
             }
         }
 
-        private void DisplaDataRekamMedis(string no_rn = null)
+        private void DisplayDataRekamMedis(string no_rn = null)
         {
             List<ModelRekamMedis> rekamMedis = cmd.GetAllDataRekamMedisFrom();
 
@@ -160,19 +164,30 @@ namespace dokter.views
             }
         }
 
-        private void BtnDetailRM_Click(object sender, RoutedEventArgs e)
-        {
-            // TODO: buat fungsi untuk melihat detail rekam medis
-        }
-
-        private void BtnEditRM_Click(object sender, RoutedEventArgs e)
-        {
-            // TODO: buat fungsi untuk update rekam medis
-        }
-
         private void BtnHapusRM_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: buat fungsi untuk hapus rekam medis
+            if (dtgDataRekamMedis.SelectedItems.Count > 0)
+            {
+                id = 0;
+                foreach (ModelRekamMedis md in dtgDataRekamMedis.SelectedItems)
+                {
+                    id = md.id;
+                }
+
+                if (cmd.DeleteRekamMedis(id))
+                {
+                    MessageBox.Show("Rekam medis berhasil dihapus.", "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
+                    DisplayDataRekamMedis(txtNoRekamMedis.Text);
+                }
+                else
+                {
+                    MessageBox.Show("Rekam medis gagal dihapus.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Pilih data yang akan dihapus terlebih dahulu.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void BtnBuatResep_Click(object sender, RoutedEventArgs e)

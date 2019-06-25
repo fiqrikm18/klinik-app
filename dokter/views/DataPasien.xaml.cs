@@ -68,7 +68,22 @@ namespace dokter.views
 
         private void btnDetail_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: buat fungsi untuk melihat data detail pasien
+            string no_rm = null;
+
+            if(dtgDataPasien.SelectedItems.Count > 0)
+            {
+                foreach(ModelPasien mp in dtgDataPasien.SelectedItems)
+                {
+                    no_rm = mp.no_rm;
+                }
+
+                forms.DetailPasien dp = new forms.DetailPasien(no_rm);
+                dp.Show();
+            }
+            else
+            {
+                MessageBox.Show("Pilih data pasien terlebih dahulu.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
         private void btnPrint_Click(object sender, RoutedEventArgs e)

@@ -508,6 +508,32 @@ namespace dokter.DBAccess
             return res;
         }
 
+        public int GetLastAntrianPoli()
+        {
+            var res = 0;
+            try
+            {
+                OpenConnection();
+                SqlCommand cmd = new SqlCommand("select top 1 no_urut from tb_antrian_poli where status='Antri' and tgl_berobat=CONVERT(date, GETDATE(), 111) order by 1 asc", conn);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        res = reader.GetInt32(0);
+                    }
+                }
+
+                CloseConnection();
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return res;
+        }
+
         public bool UpdateStatusAntrian(string no_rm)
         {
             try
@@ -515,15 +541,69 @@ namespace dokter.DBAccess
                 OpenConnection();
                 SqlCommand cmd = new SqlCommand("update tb_antrian_poli set status='Selesai' where no_rm=@no_rm and no_urut=@no_urut and tgl_berobat=convert(date, getdate(), 111)", conn);
                 cmd.Parameters.AddWithValue("no_rm", no_rm);
-                cmd.Parameters.AddWithValue("no_urut", GetNoRmByNoUrut());
+                cmd.Parameters.AddWithValue("no_urut", GetLastAntrianPoli());
+                CloseConnection();
+                OpenConnection();
 
                 if (cmd.ExecuteNonQuery() == 1)
                 {
                     return true;
                 }
+
                 CloseConnection();
             }
             catch(SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return false;
+        }
+
+        public bool DeleteRekamMedis(int id)
+        {
+            try
+            {
+                OpenConnection();
+                SqlCommand cmd = new SqlCommand("DELETE FROM [dbo].[tb_rekam_medis] WHERE id=@id", conn);
+                cmd.Parameters.AddWithValue("id", id);
+
+                if(cmd.ExecuteNonQuery() == 1)
+                {
+                    return true;
+                }
+
+                CloseConnection();
+            }
+            catch(SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return false;
+        }
+
+        public bool UpdateDataRekamMedis(string no_rm, string riwayat_penyakit, string alergi, string berat_badan, string keluhan, string diagnosa, string tindakan, string id_dokter, string poli)
+        {
+            try
+            {
+                OpenConnection();
+                SqlCommand cmd = new SqlCommand("UPDATE [dbo].[tb_rekam_medis] set [riwayat_penyakit]=@riwayat_penyakit ,[alergi]=@alergi, [berat_badan]=@berat_badan ,[keluhan]=@keluhan ,[diagnosa]=@diagnosa ,[tindakan]=@tindakan ,[id_dokter]=@id_dokter ,[poli]=@poli where [no_rm]=@no_rm", conn);
+                cmd.Parameters.AddWithValue("no_rm", no_rm);
+                cmd.Parameters.AddWithValue("riwayat_penyakit", riwayat_penyakit);
+                cmd.Parameters.AddWithValue("alergi", alergi);
+                cmd.Parameters.AddWithValue("berat_badan", berat_badan);
+                cmd.Parameters.AddWithValue("keluhan", keluhan);
+                cmd.Parameters.AddWithValue("diagnosa", diagnosa);
+                cmd.Parameters.AddWithValue("tindakan", tindakan);
+                cmd.Parameters.AddWithValue("id_dokter", id_dokter);
+                cmd.Parameters.AddWithValue("poli", poli);
+                var res = cmd.ExecuteNonQuery();
+
+                if (res == 1) return true;
+                CloseConnection();
+            }
+            catch (SqlException ex)
             {
                 throw new Exception(ex.Message);
             }

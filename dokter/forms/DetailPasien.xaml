@@ -1,21 +1,20 @@
-﻿<Page x:Class="dokter.views.ViewRekamMedis"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:dokter.views"
-      mc:Ignorable="d" 
-      Title="ViewRekamMedis">
-
+﻿<Window x:Class="dokter.forms.DetailPasien"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:dokter.forms"
+        mc:Ignorable="d"
+        Title="Detail Pasien" Height="657" Width="956.5" Icon="/dokter;component/images/BMicon.ico" WindowStartupLocation="CenterScreen">
     <ScrollViewer CanContentScroll="True">
-        <Grid Style="{StaticResource OpenSans}">
+        <Grid Style="{StaticResource OpenSans}" Margin="20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
             <StackPanel Grid.Row="0">
-                <TextBlock Text="Rekam Medis Pasien" FontSize="16" FontWeight="Bold" Foreground="#555555"/>
+                <TextBlock Text="Detail Pasien" FontSize="16" FontWeight="Bold" Foreground="#555555"/>
             </StackPanel>
 
             <Grid Grid.Row="1">
@@ -45,11 +44,11 @@
                     <StackPanel Grid.Row="0" Grid.Column="0">
                         <DockPanel>
                             <Label Content="Nomor Rekam Medis" VerticalAlignment="Center"/>
-                            <CheckBox x:Name="chkScanKartu" Checked="ChkScanKartu_Checked" Unchecked="ChkScanKartu_Unchecked" Content="Scan Kartu Pasien" Margin="10,0" VerticalAlignment="Center"/>
+                            <!--<CheckBox x:Name="chkScanKartu" Checked="ChkScanKartu_Checked" Unchecked="ChkScanKartu_Unchecked" Content="Scan Kartu Pasien" Margin="10,0" VerticalAlignment="Center"/>-->
                         </DockPanel>
                         <DockPanel>
                             <TextBox x:Name="txtNoRekamMedis" VerticalAlignment="Center" IsReadOnly="True" IsEnabled="False"/>
-                            <Button x:Name="btnBrowsePasien" Click="BtnBrowsePasien_Click" Content="Ambil Data" Width="Auto" Height="36" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5 0"/>
+                            <!--<Button x:Name="btnBrowsePasien" Click="BtnBrowsePasien_Click" Content="Ambil Data" Width="Auto" Height="36" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5 0"/>-->
                         </DockPanel>
                     </StackPanel>
 
@@ -84,13 +83,13 @@
                     </StackPanel>
                 </Grid>
 
-                <StackPanel Grid.Row="1">
+                <!--<StackPanel Grid.Row="1">
                     <DockPanel HorizontalAlignment="Left">
                         <GroupBox BorderThickness="0" Margin="0 0 5 0">
                             <DockPanel>
                                 <Button x:Name="btnInputRM" Click="BtnInputRM_Click" Width="Auto" Content="Tambah Rekam Medis"/>
-                                <!--<Button x:Name="btnDetailRM" Click="BtnDetailRM_Click" Width="Auto" Content="Detail Rekam Medis"/>-->
-                                <!--<Button x:Name="btnEditRM" Click="BtnEditRM_Click" Width="Auto" Content="Edit Rekam Medis"/>-->
+                                --><!--<Button x:Name="btnDetailRM" Click="BtnDetailRM_Click" Width="Auto" Content="Detail Rekam Medis"/>-->
+                                <!--<Button x:Name="btnEditRM" Click="BtnEditRM_Click" Width="Auto" Content="Edit Rekam Medis"/>--><!--
                                 <Button x:Name="btnHapusRM" Click="BtnHapusRM_Click" Width="Auto" Content="Hapus Rekam Medis"/>
                             </DockPanel>
                         </GroupBox>
@@ -107,11 +106,11 @@
                             </DockPanel>
                         </GroupBox>
                     </DockPanel>
-                </StackPanel>
+                </StackPanel>-->
 
-                <StackPanel Grid.Row="2">
+                <StackPanel Grid.Row="1">
                     <Label x:Name="label" Content="Rekam Medis Pasien" FontWeight="Bold" FontSize="14"/>
-                    <DataGrid x:Name="dtgDataRekamMedis" SelectionMode="Extended" VerticalAlignment="Top"
+                    <DataGrid x:Name="dtgDataRekamMedis" SelectionMode="Extended" VerticalAlignment="Top" VerticalScrollBarVisibility="Visible"
                       HorizontalAlignment="Stretch" AutoGenerateColumns="False" Margin="0 10 10 0" Height="400" CanUserAddRows="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn Visibility="Collapsed" Binding="{Binding id , NotifyOnTargetUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
@@ -127,7 +126,11 @@
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>
+
+                <StackPanel Grid.Row="2" HorizontalAlignment="Right">
+                    <Button x:Name="btnPrintData" Content="Print Data Pasien" Click="btnPrintData_Click" Width="Auto"/>
+                </StackPanel>
             </Grid>
         </Grid>
     </ScrollViewer>
-</Page>
+</Window>

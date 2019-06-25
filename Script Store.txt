@@ -1,0 +1,10 @@
+if (dtgDataRekamMedis.SelectedItems.Count > 0)
+            {
+                var id = 0;
+                foreach(ModelRekamMedis md in dtgDataRekamMedis.SelectedItems)
+                {
+                    id = md.id;
+                }
+
+                MessageBox.Show(id.ToString());
+            }

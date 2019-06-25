@@ -1,13 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.645
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pendaftaran", "pendaftaran\pendaftaran.csproj", "{A63D8D07-B4D0-4EE0-9D72-CB47A75B451F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A2C9DE5C-7616-4598-8521-BF2A49893A44}"
 	ProjectSection(SolutionItems) = preProject
 		Color Scheme.txt = Color Scheme.txt
+		Script Store.txt = Script Store.txt
 		style.txt = style.txt
 	EndProjectSection
 EndProject
