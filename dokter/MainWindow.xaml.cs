@@ -65,5 +65,10 @@ namespace dokter
         {
             MainFrame.Content = new views.ViewRekamMedis();
         }
+
+        private void btnLogout_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO: add fungsi logout
+        }
     }
 }

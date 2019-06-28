@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:dokter.forms"
         mc:Ignorable="d"
-        Title="Detail Pasien" Height="657" Width="956.5" Icon="/dokter;component/images/BMicon.ico" WindowStartupLocation="CenterScreen">
+        Title="Detail Pasien" Height="657" Width="956.5" Icon="/dokter;component/images/BMicon.ico" WindowStartupLocation="CenterScreen" StateChanged="Window_StateChanged">
     <ScrollViewer CanContentScroll="True">
-        <Grid Style="{StaticResource OpenSans}" Margin="20">
+        <Grid x:Name="MainGrid" Style="{StaticResource OpenSans}" Margin="20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>

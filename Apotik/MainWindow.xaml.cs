@@ -50,6 +50,11 @@ namespace Apotik
             MainFrame.Content = new views.DaftarResep();
         }
 
+        private void BuatResep(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Content = new views.BuatResep();
+        }
+
         private void BtnLogout_Click(object sender, RoutedEventArgs e)
         {
 

@@ -51,8 +51,6 @@ namespace dokter.forms
 
             if (no_rm != null)
             {
-                if (no_rm == cmd.GetNoRmByNoUrut())
-                {
                     var fPasien = pasien.Where(x => x.no_rm.Contains(no_rm)).ToList().First();
                     txtNoRekamMedis.Text = fPasien.no_rm;
                     txtNamaPasien.Text = fPasien.nama;
@@ -62,11 +60,6 @@ namespace dokter.forms
                     txtTglLahir.Text = DateTime.Parse(fPasien.tgl_lahir).ToString("dd MMM yyyy");
                     txtNoTelp.Text = fPasien.no_telp;
                     DisplayDataRekamMedis(no_rm);
-                }
-                else
-                {
-                    MessageBox.Show("Pasien tidak ada di antrian atau belum saatnya dipanggil.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-                }
             }
         }
 
@@ -89,6 +82,19 @@ namespace dokter.forms
         private void btnPrintData_Click(object sender, RoutedEventArgs e)
         {
             // TODO: Print data pasien
+        }
+
+        private void Window_StateChanged(object sender, EventArgs e)
+        {
+            if(this.WindowState == WindowState.Maximized)
+            {
+                MainGrid.Margin = new Thickness(35);
+            }
+
+            if(this.WindowState == WindowState.Normal)
+            {
+                MainGrid.Margin = new Thickness(20);
+            }
         }
     }
 }

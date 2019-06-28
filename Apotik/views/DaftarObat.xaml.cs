@@ -131,7 +131,35 @@ namespace Apotik.views
 
         private void btn_hapus_Click(object sender, System.Windows.RoutedEventArgs e)
         {
+            DBCommand cmd = new DBCommand(conn);
+            var kode_obat = "";
 
+            if(dtgDataObat.SelectedItems.Count > 0)
+            {
+                var msgResult = MessageBox.Show("Apakah anda yakin ingin menghapus data obat?", "Warning", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+                if(msgResult == MessageBoxResult.Yes)
+                {
+                    foreach (ModelObat mo in dtgDataObat.SelectedItems)
+                    {
+                        kode_obat = mo.kode_obat;
+                    }
+
+                    if (cmd.DeleteDataObat(kode_obat))
+                    {
+                        MessageBox.Show("Data obat berhasil dihapus.", "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
+                        DisplayDataObat();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Data obat gagal dihapus.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Pilih data obat yang akan dihapus terlebih  dahulu.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
     }
 }

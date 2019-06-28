@@ -40,6 +40,14 @@
     <ApplicationIcon>images\BMicon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PCSC, Version=4.1.1.0, Culture=neutral, PublicKeyToken=13b76e54a2ee80a7, processorArchitecture=MSIL">
+      <HintPath>..\packages\PCSC.4.1.1\lib\net40\PCSC.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PCSC.Iso7816, Version=4.1.1.0, Culture=neutral, PublicKeyToken=13b76e54a2ee80a7, processorArchitecture=MSIL">
+      <HintPath>..\packages\PCSC.Iso7816.4.1.1\lib\net40\PCSC.Iso7816.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
@@ -66,8 +74,21 @@
     <Compile Include="forms\UpdateObat.xaml.cs">
       <DependentUpon>UpdateObat.xaml</DependentUpon>
     </Compile>
+    <Compile Include="mifare\GeneralAuthenticate.cs" />
+    <Compile Include="mifare\KeyStructure.cs" />
+    <Compile Include="mifare\KeyType.cs" />
+    <Compile Include="mifare\MifareCard.cs" />
+    <Compile Include="mifare\SmartCardOperation.cs" />
+    <Compile Include="models\ModelAntrianApotik.cs" />
+    <Compile Include="models\ModelApoteker.cs" />
+    <Compile Include="models\ModelDetailResep.cs" />
     <Compile Include="models\ModelObat.cs" />
+    <Compile Include="models\ModelResep.cs" />
     <Compile Include="UserPreferences.cs" />
+    <Compile Include="Utils\Util.cs" />
+    <Compile Include="views\BuatResep.xaml.cs">
+      <DependentUpon>BuatResep.xaml</DependentUpon>
+    </Compile>
     <Compile Include="views\DaftarObat.xaml.cs">
       <DependentUpon>DaftarObat.xaml</DependentUpon>
     </Compile>
@@ -93,6 +114,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="views\BuatResep.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="views\DaftarObat.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -127,6 +152,7 @@
     <Resource Include="fonts\OpenSans-Bold.ttf" />
     <Resource Include="fonts\OpenSans-Regular.ttf" />
     <None Include="app.manifest" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

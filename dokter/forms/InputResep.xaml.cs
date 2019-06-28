@@ -31,6 +31,7 @@ namespace dokter.forms
         private string kode_obat;
         private string nama_obat;
         private string no_rm;
+        private int lstNoResep = 0;
         private ObservableCollection<ModelDetailResep> dataObat;
         private string kode_dokter = Properties.Settings.Default.KodeDokter;
 
@@ -49,7 +50,6 @@ namespace dokter.forms
 
             _mDetailResep = new ModelDetailResep(" ", " ", " ", " ", " ", " ");
             DataContext = _mDetailResep;
-
             LoadResep();
         }
 
@@ -68,6 +68,20 @@ namespace dokter.forms
 
             var dataDokter = cmd.GetDataDokter();
             lbNamaDokter.Content = "Dokter:\t Dr. " + dataDokter.First().nama;
+
+            lstNoResep = cmd.GetLastNoResep(no_rm);
+
+            if (lstNoResep == 0)
+            {
+                lstNoResep = 1;
+            }
+            else
+            {
+                lstNoResep += 1;
+            }
+            var no = (no_rm + '-' + lstNoResep).ToString();
+            txtKodeResep.Text = no;
+
             LoadResep();
         }
 
@@ -87,6 +101,19 @@ namespace dokter.forms
 
             _mDetailResep = new ModelDetailResep(" ", " ", " ", " ", " ", " ");
             DataContext = _mDetailResep;
+
+            lstNoResep = cmd.GetLastNoResep(no_rm);
+
+            if (lstNoResep == 0)
+            {
+                lstNoResep = 1;
+            }
+            else
+            {
+                lstNoResep += 1;
+            }
+            var no = (no_rm + '-' + lstNoResep).ToString();
+            txtKodeResep.Text = no;
 
             LoadResep();
         }

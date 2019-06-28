@@ -76,7 +76,10 @@ namespace Apotik.views
         private void TextBoxFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             var source = e.Source as TextBox;
-            source.Clear();
+            if (string.IsNullOrEmpty(source.Text) || string.IsNullOrWhiteSpace(source.Text))
+            {
+                source.Clear();
+            }
         }
 
         private bool checkTextBoxValue()

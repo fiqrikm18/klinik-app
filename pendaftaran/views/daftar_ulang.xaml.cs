@@ -47,8 +47,6 @@ namespace pendaftaran.views
         SqlConnection conn;
         SmartCardOperation sp;
 
-        // TODO: tambah fungsi print label
-
         public daftar_ulang()
         {
             InitializeComponent();
@@ -240,6 +238,17 @@ namespace pendaftaran.views
                             .Text;
                     }
 
+                    if (!string.IsNullOrEmpty(golDarah))
+                    {
+                        if (sp.WriteBlock(Msb, blockGolDarah, Util.ToArrayByte16(" "+golDarah)))
+                        {
+                        }
+                        else
+                        {
+                            MessageBox.Show("Golongan Darah gagal ditulis");
+                        }
+                    }
+
                     if (!string.IsNullOrEmpty(noidP))
                     {
                         if (sp.WriteBlock(Msb, blockIdPasien, Util.ToArrayByte16(noidP)))
@@ -248,17 +257,6 @@ namespace pendaftaran.views
                         else
                         {
                             MessageBox.Show("ID pasien gagal ditulis");
-                        }
-                    }
-
-                    if (!string.IsNullOrEmpty(golDarah))
-                    {
-                        if (sp.WriteBlock(Msb, blockGolDarah, Util.ToArrayByte16(golDarah)))
-                        {
-                        }
-                        else
-                        {
-                            MessageBox.Show("Golongan Darah gagal ditulis");
                         }
                     }
 
@@ -382,17 +380,17 @@ namespace pendaftaran.views
                 if (alamatP != null)
                     msg += "\nAlamat Pasien \t\t: " + Util.ToASCII(alamatP, 0, 64, false);
 
-                var tglHarie = sp.ReadBlock(Msb, blockTglLahir);
-                if (tglHarie != null)
-                    msg += "\nTanggal Lahir \t\t: " + Util.ToASCII(tglHarie, 0, 16, false);
-
                 var jk = sp.ReadBlock(Msb, blockJenisKelamin);
                 if (jk != null)
                     msg += "\nJenis Kelamin \t\t: " + Util.ToASCII(jk, 0, 16, false);
 
                 var gol = sp.ReadBlock(Msb, blockGolDarah);
                 if (gol != null)
-                    msg += "\nGolongan Darah \t\t: " + Util.ToASCII(gol, 0, 16, false);
+                    msg += "\nGolongan Darah \t\t: " + Util.ToASCII(gol, 0, 16, false).TrimStart();
+
+                var tglHarie = sp.ReadBlock(Msb, blockTglLahir);
+                if (tglHarie != null)
+                    msg += "\nTanggal Lahir \t\t: " + Util.ToASCII(tglHarie, 0, 16, false);
 
                 MessageBox.Show(msg, "Informasi Kartu Pasien", MessageBoxButton.OK, MessageBoxImage.Information);
             }
@@ -402,6 +400,11 @@ namespace pendaftaran.views
                     "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 sp.isoReaderInit();
             }
+        }
+
+        private void btnPrintLabel_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO: tambah fungsi print label
         }
     }
 }

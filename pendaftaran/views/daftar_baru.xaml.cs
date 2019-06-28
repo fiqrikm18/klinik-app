@@ -145,18 +145,7 @@ namespace pendaftaran.views
                                     while (!isPrinted)
                                     {
                                         try
-                                        {
-                                            if (!string.IsNullOrEmpty(golDarah))
-                                            {
-                                                if (sp.WriteBlock(Msb, blockGolDarah, Util.ToArrayByte16(golDarah)))
-                                                {
-                                                }
-                                                else
-                                                {
-                                                    MessageBox.Show("Golongan Darah gagal ditulis");
-                                                }
-                                            }
-
+                                        {                                            
                                             if (!string.IsNullOrEmpty(identitas))
                                             {
                                                 if (sp.WriteBlock(Msb, blockIdPasien, Util.ToArrayByte16(identitas)))
@@ -166,6 +155,17 @@ namespace pendaftaran.views
                                                 else
                                                 {
                                                     MessageBox.Show("ID pasien gagal ditulis");
+                                                }
+                                            }
+
+                                            if (!string.IsNullOrEmpty(golDarah))
+                                            {
+                                                if (sp.WriteBlock(Msb, blockGolDarah, Util.ToArrayByte16(" "+golDarah)))
+                                                {
+                                                }
+                                                else
+                                                {
+                                                    MessageBox.Show("Golongan Darah gagal ditulis");
                                                 }
                                             }
 
@@ -269,11 +269,15 @@ namespace pendaftaran.views
                                     DataContext = _mDaftarBaru;
                                     cbPoliklinik.SelectedIndex = 0;
                                     cbGolDarah.SelectedIndex = 0;
+                                    cbJenisKelamin.SelectedIndex = 0;
+                                    cbPoliklinik.SelectedIndex = 0;
                                 }
                                 else
                                 {
                                     MessageBox.Show("Pasien berhasil didaftarkan.\nNomor Antri: " + no_urut, "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
                                     DataContext = _mDaftarBaru;
+                                    cbJenisKelamin.SelectedIndex = 0;
+                                    cbPoliklinik.SelectedIndex = 0;
                                 }
                             }
                             else
@@ -301,9 +305,6 @@ namespace pendaftaran.views
                 MessageBox.Show("Harap periksa kembali data yang ingin di inputkan, pastikan semua sudah diisi.", "Perhatian", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
 
-
-            cbJenisKelamin.SelectedIndex = 0;
-            cbPoliklinik.SelectedIndex = 0;
             e.Handled = true;
         }
 
@@ -404,5 +405,10 @@ namespace pendaftaran.views
         }
 
         #endregion
+
+        private void btnPrintLabel_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO: tambah fungsi print label
+        }
     }
 }

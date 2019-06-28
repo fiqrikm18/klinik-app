@@ -112,6 +112,8 @@
                     <Button x:Name="btnCekKartu" Click="BtnCekKartu_OnClick" Content="Cek Data Kartu" Width="Auto" />
                     <Button x:Name="btnHapusKartu" Click="BtnHapusKartu_OnClick" Content="Hapus Data Kartu"
                             Width="Auto" />
+                    <Button x:Name="btnPrintLabel" Click="btnPrintLabel_Click" Content="Cetak Label Kartu"
+                            Width="Auto" />
                     <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                         <CheckBox Content="Cetak Kartu" x:Name="chkCetakKartu" Margin="15" IsChecked="True" />
                         <CheckBox Content="Kartu Baru" x:Name="chkKartuBaru" Margin="15"

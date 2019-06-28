@@ -382,17 +382,17 @@ namespace dokter.DBAccess
             return false;
         }
 
-        public bool InsertDetailResep(string kode_resep, string kode_obat, int jumlah, string keterangan, string pengunaan)
+        public bool InsertDetailResep(string kode_resep, string kode_obat, int jumlah, string keterangan, string penggunaan)
         {
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("INSERT INTO [dbo].[tb_detail_resep]([no_resep],[kode_obat],[jumlah],[ket], [pengunaan]) VALUES(@no_resep,@kode_obat,@jumlah,@ket, @pengunaan)", conn);
+                SqlCommand cmd = new SqlCommand("INSERT INTO [dbo].[tb_detail_resep]([no_resep],[kode_obat],[jumlah],[ket], [penggunaan]) VALUES(@no_resep,@kode_obat,@jumlah,@ket, @penggunaan)", conn);
                 cmd.Parameters.AddWithValue("no_resep", kode_resep);
                 cmd.Parameters.AddWithValue("kode_obat", kode_obat);
                 cmd.Parameters.AddWithValue("jumlah", jumlah);
                 cmd.Parameters.AddWithValue("ket", keterangan);
-                cmd.Parameters.AddWithValue("pengunaan", pengunaan);
+                cmd.Parameters.AddWithValue("penggunaan", penggunaan);
                 var res = cmd.ExecuteNonQuery();
 
                 if (res == 1)
