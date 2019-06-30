@@ -194,14 +194,14 @@ namespace Apotik.DBAccess
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("select tb_resep.*, tb_dokter.nama as nama_dokter from tb_resep left join tb_dokter on tb_resep.id_dokter = tb_dokter.id where tgl_resep = convert(date , getdate(), 111)", conn);
+                SqlCommand cmd = new SqlCommand("select tb_resep.*, tb_dokter.nama as nama_dokter, tb_pasien.nama as nama_pasien from tb_resep left join tb_dokter on tb_resep.id_dokter = tb_dokter.id left join tb_pasien on tb_pasien.no_rekam_medis = tb_resep.no_rm where tgl_resep = convert(date , getdate(), 111)", conn);
                 //cmd.Parameters.AddWithValue("kode_resep", kode_resep);
 
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        resep.Add(new ModelResep(reader["kode_resep"].ToString(), reader["no_rm"].ToString(), reader["no_resep"].ToString(), reader["id_dokter"].ToString(), reader["tgl_resep"].ToString(), reader["nama_dokter"].ToString()));
+                        resep.Add(new ModelResep(reader["kode_resep"].ToString(), reader["no_rm"].ToString(), reader["no_resep"].ToString(), reader["id_dokter"].ToString(), reader["tgl_resep"].ToString(), reader["nama_dokter"].ToString(), reader["nama_pasien"].ToString()));
                     }
                 }
 

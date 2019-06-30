@@ -70,7 +70,7 @@ namespace Apotik.views
                     var fResep = dataResep.Where(x => x.kode_resep.Contains(kode_resep)).ToList().First();
                     txtKodeResep.Text = fResep.kode_resep;
                     txtNamaDokter.Text = fResep.nama_dokter;
-                    txtNomorResep.Text = fResep.no_resep;
+                    txtNamaPasien.Text = fResep.nama_pasien;
                     txtNoRm.Text = fResep.no_rm;
                     DisplayDetailResep(fResep.kode_resep);
 
@@ -113,7 +113,7 @@ namespace Apotik.views
         {
             txtKodeResep.Text = string.Empty;
             txtNamaDokter.Text = string.Empty;
-            txtNomorResep.Text = string.Empty;
+            txtNamaPasien.Text = string.Empty;
             txtNoRm.Text = string.Empty;
             dtgDetailResep.ItemsSource = null;
         }
@@ -122,45 +122,50 @@ namespace Apotik.views
         {
             var cntAntrian = cmd.CountAntrianApotik();
 
-            if (chkScanKartu.IsChecked ?? true)
+            if (cntAntrian >= 1)
             {
-                if (sp.IsReaderAvailable())
+                if (chkScanKartu.IsChecked ?? true)
                 {
-                    try
+                    if (sp.IsReaderAvailable())
                     {
-                        sp.isoReaderInit();
-                        var readData = sp.ReadBlock(0x00, blockRekamMedis);
-                        var asciiData = "";
-
-                        if (readData != null)
+                        try
                         {
-                            asciiData = Utils.Util.ToASCII(readData, 0, 16, false);
+                            sp.isoReaderInit();
+                            var readData = sp.ReadBlock(0x00, blockRekamMedis);
+                            var asciiData = "";
+
+                            if (readData != null)
+                            {
+                                asciiData = Utils.Util.ToASCII(readData, 0, 16, false);
+                            }
+
+                            kode_resep = cmd.GetKodeResepByRm(asciiData);
+
+                            Debug.WriteLine($"Kode resep: {kode_resep}");
+                            DisplayData(kode_resep);
                         }
-
-                        kode_resep = cmd.GetKodeResepByRm(asciiData);
-
-                        Debug.WriteLine($"Kode resep: {kode_resep}");
-                        DisplayData(kode_resep);
+                        catch (Exception)
+                        {
+                            MessageBox.Show("Pastikan reader sudah terpasang dan kartu sudah berada pada jangkauan reader.",
+                                "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            sp.isoReaderInit();
+                        }
                     }
-                    catch (Exception)
+                    else
                     {
-                        MessageBox.Show("Pastikan reader sudah terpasang dan kartu sudah berada pada jangkauan reader.",
-                            "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                        sp.isoReaderInit();
+                        MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                    kode_resep = cmd.GetKodeResepByNoUrut();
+                    DisplayData(kode_resep);
                 }
             }
             else
             {
-                if (cntAntrian >= 1)
-                {
-                    kode_resep = cmd.GetKodeResepByNoUrut();
-                    DisplayData(kode_resep);
-                }
+                MessageBox.Show("Tidak ada data antrian pasien.", "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 

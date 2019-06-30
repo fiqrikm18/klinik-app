@@ -94,11 +94,11 @@
                         </StackPanel>
 
                         <StackPanel Grid.Column="0" Grid.Row="1" VerticalAlignment="Center">
-                            <Label Content="No. Resep: " x:Name="lbNomorResep" Margin="0, 0, 20, 0"/>
+                            <Label Content="Nama Pasien: " x:Name="lbNamaPasien" Margin="0, 0, 20, 0"/>
                         </StackPanel>
 
                         <StackPanel Grid.Column="1" Grid.Row="1" VerticalAlignment="Center">
-                            <TextBox x:Name="txtNomorResep" IsEnabled="False" Width="250"/>
+                            <TextBox x:Name="txtNamaPasien" IsEnabled="False" Width="250"/>
                         </StackPanel>
                     </Grid>
                 </StackPanel>

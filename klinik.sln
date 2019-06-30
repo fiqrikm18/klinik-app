@@ -20,7 +20,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dokter", "dokter\dokter.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionTest", "FunctionTest\FunctionTest.csproj", "{9B85CA56-3007-4525-A1E0-8C50B9C589A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Antrian", "Antrian\Antrian.csproj", "{14B87D15-D2AF-47ED-B2B9-9BCF195769AA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Antrian Poliklinik", "Antrian\Antrian Poliklinik.csproj", "{14B87D15-D2AF-47ED-B2B9-9BCF195769AA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ui design", "ui design\ui design.csproj", "{9DCC0493-D3A9-4CB9-95E8-F67B56DFAFCD}"
 EndProject

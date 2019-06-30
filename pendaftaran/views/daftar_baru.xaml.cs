@@ -45,7 +45,7 @@ namespace pendaftaran.views
 
         SqlConnection conn;
 
-        // TODO: tambah fungsi print label
+        // TODO: tambah fungsi print no antrian
 
         #region constructor
 

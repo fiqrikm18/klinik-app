@@ -14,6 +14,7 @@ namespace Apotik.models
         public string no_resep { get; set; }
         public string id_dokter { get; set; }
         public string nama_dokter { get; set; }
+        public string nama_pasien { get; set; }
         public string tgl_resep { get; set; }
 
         public string Error
@@ -44,7 +45,7 @@ namespace Apotik.models
 
         public ModelResep() { }
 
-        public ModelResep(string kode_resep, string no_rm, string no_resep, string id_dokter, string tgl_resep, string nama_dokter)
+        public ModelResep(string kode_resep, string no_rm, string no_resep, string id_dokter, string tgl_resep, string nama_dokter, string nama_pasien)
         {
             this.kode_resep = kode_resep;
             this.no_rm = no_rm;
@@ -52,6 +53,7 @@ namespace Apotik.models
             this.id_dokter = id_dokter;
             this.tgl_resep = tgl_resep;
             this.nama_dokter = nama_dokter;
+            this.nama_pasien = nama_pasien;
         }
 
         ~ModelResep() { }

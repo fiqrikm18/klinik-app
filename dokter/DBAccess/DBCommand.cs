@@ -73,9 +73,7 @@ namespace dokter.DBAccess
             }
 
             return kodePoli;
-        }
-
-        
+        }        
 
         public List<ModelObat> GetDataObat()
         {
