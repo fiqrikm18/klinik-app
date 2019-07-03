@@ -108,7 +108,7 @@ namespace pendaftaran.views
                 var policode = cbp.nama_poliklinik;
                 //DateTime dt = DateTime.ParseExact(, "dd-MM-yyyy", CultureInfo.InvariantCulture);
 
-                var norm = TxtNoRm.Text;
+                var norm = TxtNoRm.Text.ToUpper();
                 var identitas = TxtNoIdentitas.Text;
                 var namaPasien = TxtNamaPasien.Text;
                 var noTelp = TxtNoTelp.Text;

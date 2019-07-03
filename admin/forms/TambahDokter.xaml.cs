@@ -253,6 +253,9 @@ namespace admin.forms
                         MessageBox.Show("Data dokter berhasil disimpan.", "Informasi", MessageBoxButton.OK,
                             MessageBoxImage.Information);
                         dd.displayDataDokter();
+                        DataContext = _mDaftarBaru;
+                        cbJenisKelamin.SelectedIndex = 0;
+                        cbPoliklinik.SelectedIndex = 0;
                         Close();
                     }
                     else
@@ -267,9 +270,6 @@ namespace admin.forms
                     MessageBoxImage.Warning);
             }
 
-            DataContext = _mDaftarBaru;
-            cbJenisKelamin.SelectedIndex = 0;
-            cbPoliklinik.SelectedIndex = 0;
             e.Handled = true;
         }
 

@@ -82,5 +82,17 @@ namespace pendaftaran.Properties {
                 this["WindowWidth"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string IDStaff {
+            get {
+                return ((string)(this["IDStaff"]));
+            }
+            set {
+                this["IDStaff"] = value;
+            }
+        }
     }
 }

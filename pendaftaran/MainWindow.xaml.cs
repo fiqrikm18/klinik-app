@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.Windows;
-using PCSC;
+﻿using pendaftaran.Mifare;
 using pendaftaran.views;
-using pendaftaran.Mifare;
+using System;
+using System.Collections.Generic;
+using System.Windows;
 
 namespace pendaftaran
 {
@@ -14,20 +12,24 @@ namespace pendaftaran
     public partial class MainWindow : Window
     {
         //static MySqlConnection MsqlConn = null;
-        SmartCardOperation sp;
+        private SmartCardOperation sp;
 
+        //TODO: buat socket client antrian poli
         public MainWindow()
         {
             InitializeComponent();
             sp = new SmartCardOperation();
 
-            var userPrefs = new UserPreferences();
+            //MessageBox.Show(Properties.Settings.Default.IDStaff);
+            //MessageBox.Show(Application.Current.Windows.Count.ToString());
 
-            this.Height = userPrefs.WindowHeight;
-            this.Width = userPrefs.WindowWidth;
-            this.Top = userPrefs.WindowTop;
-            this.Left = userPrefs.WindowLeft;
-            this.WindowState = userPrefs.WindowState;
+            UserPreferences userPrefs = new UserPreferences();
+
+            Height = userPrefs.WindowHeight;
+            Width = userPrefs.WindowWidth;
+            Top = userPrefs.WindowTop;
+            Left = userPrefs.WindowLeft;
+            WindowState = userPrefs.WindowState;
 
             if (sp.IsReaderAvailable()) { }
             else
@@ -38,13 +40,15 @@ namespace pendaftaran
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            var userPrefs = new UserPreferences();
-
-            userPrefs.WindowHeight = this.Height;
-            userPrefs.WindowWidth = this.Width;
-            userPrefs.WindowTop = this.Top;
-            userPrefs.WindowLeft = this.Left;
-            userPrefs.WindowState = this.WindowState;
+            UserPreferences userPrefs = new UserPreferences
+            {
+                WindowHeight = Height,
+                WindowWidth = Width,
+                WindowTop = Top,
+                WindowLeft = Left,
+                WindowState = WindowState
+            };
+            Properties.Settings.Default.IDStaff = null;
 
             userPrefs.Save();
         }
@@ -76,7 +80,16 @@ namespace pendaftaran
 
         private void BtnLogout_Click(object sender, RoutedEventArgs e)
         {
+            Properties.Settings.Default.IDStaff = null;
+            Environment.Exit(0);
 
+            //Dispatcher.Invoke(() =>
+            //{
+            //    Properties.Settings.Default.IDStaff = null;
+            //    Login lg = new Login();
+            //    lg.Show();
+            //    Close();
+            //});
         }
     }
 }

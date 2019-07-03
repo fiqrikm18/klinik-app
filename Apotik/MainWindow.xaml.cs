@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using Apotik.DBAccess;
 
 namespace Apotik
@@ -57,7 +58,8 @@ namespace Apotik
 
         private void BtnLogout_Click(object sender, RoutedEventArgs e)
         {
-
+            Properties.Settings.Default.KodeApoteker = null;
+            Environment.Exit(0);
         }
     }
 }

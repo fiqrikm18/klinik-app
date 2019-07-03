@@ -35,6 +35,31 @@ namespace pendaftaran.DBAccess
             }
         }
 
+        public bool Login(string id, string pass)
+        {
+            //var res = 0;
+            try
+            {
+                OpenConnection();
+                SqlCommand cmd = new SqlCommand("select count(*) from tb_pendaftaran where id=@id and password=@pass", conn);
+                cmd.Parameters.AddWithValue("id", id);
+                cmd.Parameters.AddWithValue("pass", pass);
+
+                if(int.Parse(cmd.ExecuteScalar().ToString()) > 0)
+                {
+                    return true;
+                }
+
+                CloseConnection();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return false;
+        }
+
         public int CountIdPasienExists(string identitas)
         {
             int res = 0;

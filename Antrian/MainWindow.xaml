@@ -105,7 +105,7 @@
                         </Grid.RowDefinitions>
 
                         <StackPanel Grid.Row="0" Orientation="Horizontal">
-                            <TextBlock x:Name="tbjudul" Text="Daftar Antrian " Margin="30 0" FontSize="16" FontWeight="Bold" Foreground="#555555"/>
+                            <TextBlock x:Name="tbjudul" Text="Antrian " Margin="30 0" FontSize="16" FontWeight="Bold" Foreground="#555555"/>
                         </StackPanel>
 
                         <StackPanel Grid.Row="1">
@@ -120,7 +120,7 @@
                     </Grid>
 
                     <Grid Grid.Row="2">
-                        <Label Content="Total Pasien: " x:Name="txtTotalAntri" Margin="30 20" FontSize="16" VerticalContentAlignment="Bottom" FontWeight="Bold"/>
+                        <Label Content="Total Pasien Antri: " x:Name="txtTotalAntri" Margin="30 20" FontSize="16" VerticalContentAlignment="Bottom" FontWeight="Bold"/>
                     </Grid>
                 </Grid>
             </Grid>
@@ -128,19 +128,30 @@
 
             <!-- Frame/Content -->
             <Grid Grid.Column="1" Background="#FFF1F1F1">
-                <Grid Height="300" Width="300">
-                    <Border Margin="10" BorderBrush="#FFE6E6E6" BorderThickness="0" Background="White">
-                        <Border.Effect>
-                            <DropShadowEffect ShadowDepth="1.5" Color="#FF858585" />
-                        </Border.Effect>
-                    </Border>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
 
-                    <Border Margin="10" BorderBrush="{x:Null}" BorderThickness="1">
-                        <StackPanel Orientation="Vertical" Margin="5">
-                            <Label Content="Nomor Sedang Diperiksa" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" Margin="20"/>
-                            <Label FontSize="72" x:Name="txtNoAntri" Margin="0 30" Content="01" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        </StackPanel>
-                    </Border>
+                <Grid Grid.Row="0" Margin="50">
+                    <TextBlock Text="Selamat Datang Di Klinik Bunda Mulya" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" FontWeight="Bold" Foreground="#555555"/>
+                </Grid>
+
+                <Grid Grid.Row="1">
+                    <Grid Height="300" Width="300">
+                        <Border Margin="10" BorderBrush="#FFE6E6E6" BorderThickness="0" Background="White">
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="1.5" Color="#FF858585" />
+                            </Border.Effect>
+                        </Border>
+
+                        <Border Margin="10" BorderBrush="{x:Null}" BorderThickness="1">
+                            <StackPanel Orientation="Vertical" Margin="5">
+                                <Label Content="Nomor Sedang Diperiksa" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" Margin="20"/>
+                                <Label FontSize="72" x:Name="txtNoAntri" Margin="0 30" Content="01" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
                 </Grid>
             </Grid>
             <!-- End Content -->

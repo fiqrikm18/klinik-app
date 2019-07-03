@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.Windows;
-using admin.DBAccess;
+﻿using admin.Mifare;
 using admin.views;
-using PCSC;
-using PCSC.Iso7816;
-using admin.Mifare;
+using System;
+using System.Collections.Generic;
+using System.Windows;
 
 namespace admin
 {
@@ -16,20 +11,20 @@ namespace admin
     /// </summary>
     public partial class MainWindow : Window
     {
-        SmartCardOperation sp;
+        private SmartCardOperation sp;
 
         public MainWindow()
         {
             InitializeComponent();
             sp = new SmartCardOperation();
 
-            var userPrefs = new UserPreferences();
+            UserPreferences userPrefs = new UserPreferences();
 
-            this.Height = userPrefs.WindowHeight;
-            this.Width = userPrefs.WindowWidth;
-            this.Top = userPrefs.WindowTop;
-            this.Left = userPrefs.WindowLeft;
-            this.WindowState = userPrefs.WindowState;
+            Height = userPrefs.WindowHeight;
+            Width = userPrefs.WindowWidth;
+            Top = userPrefs.WindowTop;
+            Left = userPrefs.WindowLeft;
+            WindowState = userPrefs.WindowState;
 
             if (sp.IsReaderAvailable()) { }
             else
@@ -40,13 +35,14 @@ namespace admin
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            var userPrefs = new UserPreferences();
-
-            userPrefs.WindowHeight = this.Height;
-            userPrefs.WindowWidth = this.Width;
-            userPrefs.WindowTop = this.Top;
-            userPrefs.WindowLeft = this.Left;
-            userPrefs.WindowState = this.WindowState;
+            UserPreferences userPrefs = new UserPreferences
+            {
+                WindowHeight = Height,
+                WindowWidth = Width,
+                WindowTop = Top,
+                WindowLeft = Left,
+                WindowState = WindowState
+            };
 
             userPrefs.Save();
         }
@@ -78,7 +74,7 @@ namespace admin
 
         private void BtnLogout_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            Environment.Exit(0);
         }
     }
 }

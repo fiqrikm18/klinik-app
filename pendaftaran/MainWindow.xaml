@@ -208,7 +208,7 @@
                        Margin="25"
                        HorizontalContentAlignment="Stretch"
                        VerticalContentAlignment="Stretch"
-                       NavigationUIVisibility="Hidden" />
+                       NavigationUIVisibility="Hidden"/>
             </Grid>
             <!-- End Content -->
         </Grid>
