@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace dokter.mifare
+﻿namespace dokter.mifare
 {
     public class GeneralAuthenticate
     {
@@ -16,7 +10,7 @@ namespace dokter.mifare
 
         public byte[] ToArray()
         {
-            return new[] { Version, Msb, Lsb, (byte)KeyType, KeyNumber };
+            return new[] {Version, Msb, Lsb, (byte) KeyType, KeyNumber};
         }
     }
 }

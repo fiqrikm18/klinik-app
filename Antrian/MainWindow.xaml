@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Antrian"
         mc:Ignorable="d"
-        Title="Antrian Poliklinik" Height="720" Width="1200" Icon="images/BMicon.ico" WindowStartupLocation="CenterScreen">
+        Title="Antrian Poliklinik" Height="720" Width="1200" Icon="images/BMicon.ico"
+        WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <Style x:Key="MyFocusVisual">
             <Setter Property="Control.Template">
@@ -86,41 +87,48 @@
             <Grid Grid.Column="0" Background="White">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
                     <Grid Grid.Row="0">
                         <StackPanel Orientation="Horizontal">
-                            <Image x:Name="image" Width="86" Margin="30,11,0,12" Source="images/Logo Klinik Bunda Mulya2.jpg" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                            <TextBlock x:Name="lbNamaPoli" Text="Nama Poliklinik" Margin="10,30,0,32" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Image x:Name="image" Width="86" Margin="30,11,0,12"
+                                   Source="images/Logo Klinik Bunda Mulya2.jpg" HorizontalAlignment="Center"
+                                   VerticalAlignment="Center" />
+                            <TextBlock x:Name="lbNamaPoli" Text="Nama Poliklinik" Margin="10,30,0,32" FontSize="20"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </StackPanel>
                     </Grid>
 
                     <Grid Grid.Row="1" Margin="0 20 0 0">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
                         <StackPanel Grid.Row="0" Orientation="Horizontal">
-                            <TextBlock x:Name="tbjudul" Text="Antrian " Margin="30 0" FontSize="16" FontWeight="Bold" Foreground="#555555"/>
+                            <TextBlock x:Name="tbjudul" Text="Antrian " Margin="30 0" FontSize="16" FontWeight="Bold"
+                                       Foreground="#555555" />
                         </StackPanel>
 
                         <StackPanel Grid.Row="1">
-                            <DataGrid x:Name="dtgAntrian" Height="430" Margin="30 0" HeadersVisibility="None" AutoGenerateColumns="False" CanUserAddRows="False" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled">
+                            <DataGrid x:Name="dtgAntrian" Height="430" Margin="30 0" HeadersVisibility="None"
+                                      AutoGenerateColumns="False" CanUserAddRows="False"
+                                      VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Binding="{Binding no_urut}" FontSize="14"/>
-                                    <DataGridTextColumn Binding="{Binding no_rm}" FontSize="14"/>
-                                    <DataGridTextColumn Binding="{Binding nama}" FontSize="14"/>
+                                    <DataGridTextColumn Binding="{Binding no_urut}" FontSize="14" />
+                                    <DataGridTextColumn Binding="{Binding no_rm}" FontSize="14" />
+                                    <DataGridTextColumn Binding="{Binding nama}" FontSize="14" />
                                 </DataGrid.Columns>
                             </DataGrid>
                         </StackPanel>
                     </Grid>
 
                     <Grid Grid.Row="2">
-                        <Label Content="Total Pasien Antri: " x:Name="txtTotalAntri" Margin="30 20" FontSize="16" VerticalContentAlignment="Bottom" FontWeight="Bold"/>
+                        <Label Content="Total Pasien Antri: " x:Name="txtTotalAntri" Margin="30 20" FontSize="16"
+                               VerticalContentAlignment="Bottom" FontWeight="Bold" />
                     </Grid>
                 </Grid>
             </Grid>
@@ -129,12 +137,13 @@
             <!-- Frame/Content -->
             <Grid Grid.Column="1" Background="#FFF1F1F1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
 
                 <Grid Grid.Row="0" Margin="50">
-                    <TextBlock Text="Selamat Datang Di Klinik Bunda Mulya" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" FontWeight="Bold" Foreground="#555555"/>
+                    <TextBlock Text="Selamat Datang Di Klinik Bunda Mulya" VerticalAlignment="Center"
+                               HorizontalAlignment="Center" FontSize="24" FontWeight="Bold" Foreground="#555555" />
                 </Grid>
 
                 <Grid Grid.Row="1">
@@ -147,8 +156,10 @@
 
                         <Border Margin="10" BorderBrush="{x:Null}" BorderThickness="1">
                             <StackPanel Orientation="Vertical" Margin="5">
-                                <Label Content="Nomor Sedang Diperiksa" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" Margin="20"/>
-                                <Label FontSize="72" x:Name="txtNoAntri" Margin="0 30" Content="01" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <Label Content="Nomor Sedang Diperiksa" FontSize="16" FontWeight="Bold"
+                                       HorizontalAlignment="Center" Margin="20" />
+                                <Label FontSize="72" x:Name="txtNoAntri" Margin="0 30" Content="01"
+                                       VerticalAlignment="Center" HorizontalAlignment="Center" />
                             </StackPanel>
                         </Border>
                     </Grid>

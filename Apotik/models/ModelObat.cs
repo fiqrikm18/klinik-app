@@ -1,25 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Apotik.models
 {
-    class ModelObat : IDataErrorInfo
+    internal class ModelObat : IDataErrorInfo
     {
-        public string kode_obat { get; set; }
-        public string nama_obat { get; set; }
-        public string harga_jual { get; set; }
-        public string harga_beli { get; set; }
-        public string harga_resep { get; set; }
-        public string stok { get; set; }
-        public string satuan { get; set; }
-
         #region constructor
-        public ModelObat(string kode_obat, string nama_obat, string harga_jual, string harga_beli, string harga_resep, string stok, string satuan)
+
+        public ModelObat(string kode_obat, string nama_obat, string harga_jual, string harga_beli, string harga_resep,
+            string stok, string satuan)
         {
             this.kode_obat = kode_obat;
             this.nama_obat = nama_obat;
@@ -29,15 +19,22 @@ namespace Apotik.models
             this.satuan = satuan;
             this.stok = stok;
         }
+
         #endregion
 
+        public string kode_obat { get; set; }
+        public string nama_obat { get; set; }
+        public string harga_jual { get; set; }
+        public string harga_beli { get; set; }
+        public string harga_resep { get; set; }
+        public string stok { get; set; }
+        public string satuan { get; set; }
+
         #region IDataErrorInfo
+
         public string Error
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get { throw new NotImplementedException(); }
         }
 
         public string this[string columnName]
@@ -92,6 +89,7 @@ namespace Apotik.models
                 return result;
             }
         }
+
         #endregion
     }
 }

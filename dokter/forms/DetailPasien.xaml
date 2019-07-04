@@ -5,81 +5,84 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:dokter.forms"
         mc:Ignorable="d"
-        Title="Detail Pasien" Height="657" Width="956.5" Icon="/dokter;component/images/BMicon.ico" WindowStartupLocation="CenterScreen" StateChanged="Window_StateChanged">
+        Title="Detail Pasien" Height="657" Width="956.5" Icon="/dokter;component/images/BMicon.ico"
+        WindowStartupLocation="CenterScreen" StateChanged="Window_StateChanged">
     <ScrollViewer CanContentScroll="True">
         <Grid x:Name="MainGrid" Style="{StaticResource OpenSans}" Margin="20">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <StackPanel Grid.Row="0">
-                <TextBlock Text="Detail Pasien" FontSize="16" FontWeight="Bold" Foreground="#555555"/>
+                <TextBlock Text="Detail Pasien" FontSize="16" FontWeight="Bold" Foreground="#555555" />
             </StackPanel>
 
             <Grid Grid.Row="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <Grid Grid.Row="0">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
                     <StackPanel Grid.Row="0" Grid.Column="0">
                         <DockPanel>
-                            <Label Content="Nomor Rekam Medis" VerticalAlignment="Center"/>
+                            <Label Content="Nomor Rekam Medis" VerticalAlignment="Center" />
                             <!--<CheckBox x:Name="chkScanKartu" Checked="ChkScanKartu_Checked" Unchecked="ChkScanKartu_Unchecked" Content="Scan Kartu Pasien" Margin="10,0" VerticalAlignment="Center"/>-->
                         </DockPanel>
                         <DockPanel>
-                            <TextBox x:Name="txtNoRekamMedis" VerticalAlignment="Center" IsReadOnly="True" IsEnabled="False"/>
+                            <TextBox x:Name="txtNoRekamMedis" VerticalAlignment="Center" IsReadOnly="True"
+                                     IsEnabled="False" />
                             <!--<Button x:Name="btnBrowsePasien" Click="BtnBrowsePasien_Click" Content="Ambil Data" Width="Auto" Height="36" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5 0"/>-->
                         </DockPanel>
                     </StackPanel>
 
                     <StackPanel Grid.Row="1" Grid.Column="0">
-                        <Label Content="Nama Pasien"/>
-                        <TextBox x:Name="txtNamaPasien" IsReadOnly="True" IsEnabled="False"/>
+                        <Label Content="Nama Pasien" />
+                        <TextBox x:Name="txtNamaPasien" IsReadOnly="True" IsEnabled="False" />
                     </StackPanel>
 
                     <StackPanel Grid.Row="2" Grid.Column="0">
-                        <Label Content="Golongan Darah"/>
-                        <TextBox x:Name="txtGolDarah" IsReadOnly="True" IsEnabled="False"/>
+                        <Label Content="Golongan Darah" />
+                        <TextBox x:Name="txtGolDarah" IsReadOnly="True" IsEnabled="False" />
                     </StackPanel>
 
                     <StackPanel Grid.Row="3" Grid.Column="0">
                         <Label Content="Alamat" />
-                        <TextBox x:Name="TextAlamat" Height="100" AcceptsReturn="True" TextWrapping="Wrap" IsReadOnly="True" IsEnabled="False"/>
+                        <TextBox x:Name="TextAlamat" Height="100" AcceptsReturn="True" TextWrapping="Wrap"
+                                 IsReadOnly="True" IsEnabled="False" />
                     </StackPanel>
 
                     <StackPanel Grid.Row="0" Grid.Column="1">
-                        <Label Content="Jenis Kelamin"/>
-                        <TextBox x:Name="txtJenisKelamin" IsReadOnly="True" IsEnabled="False"/>
+                        <Label Content="Jenis Kelamin" />
+                        <TextBox x:Name="txtJenisKelamin" IsReadOnly="True" IsEnabled="False" />
                     </StackPanel>
 
                     <StackPanel Grid.Row="1" Grid.Column="1">
-                        <Label Content="Nomor Telepon"/>
-                        <TextBox x:Name="txtNoTelp" IsReadOnly="True" IsEnabled="False"/>
+                        <Label Content="Nomor Telepon" />
+                        <TextBox x:Name="txtNoTelp" IsReadOnly="True" IsEnabled="False" />
                     </StackPanel>
 
                     <StackPanel Grid.Row="2" Grid.Column="1">
-                        <Label Content="Tanggal Lahir"/>
-                        <TextBox x:Name="txtTglLahir" IsReadOnly="True" IsEnabled="False"/>
+                        <Label Content="Tanggal Lahir" />
+                        <TextBox x:Name="txtTglLahir" IsReadOnly="True" IsEnabled="False" />
                     </StackPanel>
                 </Grid>
 
@@ -89,7 +92,7 @@
                             <DockPanel>
                                 <Button x:Name="btnInputRM" Click="BtnInputRM_Click" Width="Auto" Content="Tambah Rekam Medis"/>
                                 --><!--<Button x:Name="btnDetailRM" Click="BtnDetailRM_Click" Width="Auto" Content="Detail Rekam Medis"/>-->
-                                <!--<Button x:Name="btnEditRM" Click="BtnEditRM_Click" Width="Auto" Content="Edit Rekam Medis"/>--><!--
+                <!--<Button x:Name="btnEditRM" Click="BtnEditRM_Click" Width="Auto" Content="Edit Rekam Medis"/>--><!--
                                 <Button x:Name="btnHapusRM" Click="BtnHapusRM_Click" Width="Auto" Content="Hapus Rekam Medis"/>
                             </DockPanel>
                         </GroupBox>
@@ -109,26 +112,55 @@
                 </StackPanel>-->
 
                 <StackPanel Grid.Row="1">
-                    <Label x:Name="label" Content="Rekam Medis Pasien" FontWeight="Bold" FontSize="14"/>
-                    <DataGrid x:Name="dtgDataRekamMedis" SelectionMode="Extended" VerticalAlignment="Top" VerticalScrollBarVisibility="Visible"
-                      HorizontalAlignment="Stretch" AutoGenerateColumns="False" Margin="0 10 10 0" Height="400" CanUserAddRows="False">
+                    <Label x:Name="label" Content="Rekam Medis Pasien" FontWeight="Bold" FontSize="14" />
+                    <DataGrid x:Name="dtgDataRekamMedis" SelectionMode="Extended" VerticalAlignment="Top"
+                              VerticalScrollBarVisibility="Visible"
+                              HorizontalAlignment="Stretch" AutoGenerateColumns="False" Margin="0 10 10 0" Height="400"
+                              CanUserAddRows="False">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Visibility="Collapsed" Binding="{Binding id , NotifyOnTargetUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                            <DataGridTextColumn Binding="{Binding nama_dokter}" Header="Dokter" IsReadOnly="True" Width="130"/>
-                            <DataGridTextColumn Binding="{Binding berat_badan}" Header="Berat Badan" IsReadOnly="True"/>
-                            <DataGridTextColumn Binding="{Binding riwayat_penyakit}" Header="Riwayat Penyakit" IsReadOnly="True"/>
-                            <DataGridTextColumn Binding="{Binding alergi}" Header="Alergi" IsReadOnly="True"/>
-                            <DataGridTextColumn Binding="{Binding keluhan}" Header="Keluhan" IsReadOnly="True" Width="150"/>
-                            <DataGridTextColumn Binding="{Binding diagnosa}" Header="Diagnosa" IsReadOnly="True" Width="150"/>
-                            <DataGridTextColumn Binding="{Binding tindakan}" Header="Tindakan" IsReadOnly="True" Width="150"/>
-                            <DataGridTextColumn Binding="{Binding nama_poli}" Header="Poliklinik" IsReadOnly="True" Width="100"/>
-                            <DataGridTextColumn Binding="{Binding tgl_pemeriksaan}" Header="Tanggal Berobat" IsReadOnly="True"/>
+                            <DataGridTextColumn Visibility="Collapsed"
+                                                Binding="{Binding id , NotifyOnTargetUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <DataGridTextColumn Binding="{Binding nama_dokter}" Header="Dokter" IsReadOnly="True"
+                                                Width="130" />
+                            <DataGridTextColumn Binding="{Binding berat_badan}" Header="Berat Badan" IsReadOnly="True" />
+                            <DataGridTextColumn Binding="{Binding riwayat_penyakit}" Header="Riwayat Penyakit"
+                                                IsReadOnly="True" />
+                            <DataGridTextColumn Binding="{Binding alergi}" Header="Alergi" IsReadOnly="True" />
+
+                            <DataGridTemplateColumn Header="Keluhan" IsReadOnly="True" Width="150">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding keluhan}" TextWrapping="Wrap" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="Diagnosa" IsReadOnly="True" Width="150">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding diagnosa}" TextWrapping="Wrap" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="Tindakan" IsReadOnly="True" Width="150">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding tindakan}" TextWrapping="Wrap" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTextColumn Binding="{Binding nama_poli}" Header="Poliklinik" IsReadOnly="True"
+                                                Width="100" />
+                            <DataGridTextColumn Binding="{Binding tgl_pemeriksaan}" Header="Tanggal Berobat"
+                                                IsReadOnly="True" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>
 
                 <StackPanel Grid.Row="2" HorizontalAlignment="Right">
-                    <Button x:Name="btnPrintData" Content="Print Data Pasien" Click="btnPrintData_Click" Width="Auto"/>
+                    <Button x:Name="btnPrintData" Content="Print Data Pasien" Click="btnPrintData_Click" Width="Auto" />
                 </StackPanel>
             </Grid>
         </Grid>

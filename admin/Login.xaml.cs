@@ -1,44 +1,50 @@
-﻿using admin.DBAccess;
+﻿using System;
+using System.Data.SqlClient;
+using System.Diagnostics;
+using System.Windows;
+using admin.DBAccess;
 using admin.Mifare;
+using admin.Utils;
 using PCSC;
 using PCSC.Monitoring;
 using PCSC.Reactive;
 using PCSC.Reactive.Events;
-using System;
-using System.Data.SqlClient;
-using System.Diagnostics;
-using System.Windows;
 
 namespace admin
 {
     /// <summary>
-    /// Interaction logic for Login.xaml
+    ///     Interaction logic for Login.xaml
     /// </summary>
     public partial class Login : Window
     {
-        private SmartCardOperation sp = new SmartCardOperation();
         private readonly byte BlockId = 1;
         private readonly byte BlockPasswordFrom = 2;
         private readonly byte BlockPasswordTo = 4;
-        private SqlConnection conn;
-        private DBCommand cmd;
+        private readonly DBCommand cmd;
+        private readonly SqlConnection conn;
+        private readonly SmartCardOperation sp = new SmartCardOperation();
+
+        private readonly IDisposable subscription;
 
         public Login()
         {
             InitializeComponent();
             conn = DBConnection.dbConnection();
             cmd = new DBCommand(conn);
-            string[] readers = GetReaders();
+            var readers = GetReaders();
 
             //MessageBox.Show(Properties.Settings.Default.IDStaff);
-            if (sp.IsReaderAvailable()) { }
+            if (sp.IsReaderAvailable())
+            {
+            }
             else
             {
-                MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
-            IMonitorFactory monitorFactory = MonitorFactory.Instance;
-            IDisposable subsription = monitorFactory.CreateObservable(SCardScope.System, readers)
+            var monitorFactory = MonitorFactory.Instance;
+            subscription = monitorFactory.CreateObservable(SCardScope.System, readers)
                 .Subscribe(onNext, onError);
         }
 
@@ -54,30 +60,24 @@ namespace admin
                 if (ev.ToString() == "PCSC.Reactive.Events.CardInserted")
                 {
                     //Debug.WriteLine(ev.ToString());
-                    byte[] user = sp.ReadBlock(0x00, BlockId);
-                    byte[] pass = sp.ReadBlockRange(0x00, BlockPasswordFrom, BlockPasswordTo);
+                    var user = sp.ReadBlock(0x00, BlockId);
+                    var pass = sp.ReadBlockRange(0x00, BlockPasswordFrom, BlockPasswordTo);
 
 
                     //MessageBox.Show(Utils.Util.ToASCII(user, 0, user.Length, false));
                     //MessageBox.Show(Utils.Util.ToASCII(pass, 0, pass.Length, false));
 
-                    if (cmd.Login(Utils.Util.ToASCII(user, 0, user.Length, false), Utils.Util.ToASCII(pass, 0, pass.Length, false)))
-                    {
-                        Dispatcher.Invoke(() =>
-                        {
-                            sh();
-                        });
-                    }
+                    if (cmd.Login(Util.ToASCII(user, 0, user.Length), Util.ToASCII(pass, 0, pass.Length)))
+                        Dispatcher.Invoke(() => { sh(); });
                     else
-                    {
-                        MessageBox.Show("Admin tidak terdaftar, hubungi administrator untuk mendaftar.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
+                        MessageBox.Show("Admin tidak terdaftar, hubungi administrator untuk mendaftar.", "Error",
+                            MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             catch (Exception)
             {
                 MessageBox.Show("Pastikan reader sudah terpasang dan kartu sudah berada pada jangkauan reader.",
-                                "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 sp.isoReaderInit();
             }
         }
@@ -86,15 +86,30 @@ namespace admin
         {
             //byte[] user = sp.ReadBlock(0x00, BlockId);
             //Properties.Settings.Default.KodeDokter = Utils.Util.ToASCII(user, 0, user.Length, false);
-            MainWindow lg = new MainWindow();
+            var lg = new MainWindow();
+            Dispose(true);
+            subscription?.Dispose();
             lg.Show();
             Close();
         }
 
+        private void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposing) return;
+
+            subscription?.Dispose();
+        }
+
         private string[] GetReaders()
         {
-            IContextFactory contectFactory = ContextFactory.Instance;
-            using (ISCardContext ctx = contectFactory.Establish(SCardScope.System))
+            var contectFactory = ContextFactory.Instance;
+            using (var ctx = contectFactory.Establish(SCardScope.System))
             {
                 return ctx.GetReaders();
             }

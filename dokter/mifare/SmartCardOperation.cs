@@ -1,22 +1,19 @@
-﻿using PCSC;
-using PCSC.Iso7816;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using PCSC;
+using PCSC.Iso7816;
 
 namespace dokter.mifare
 {
     public class SmartCardOperation
     {
-        private MifareCard card;
+        private const byte Msb = 0x00;
         private readonly IContextFactory contextFactory = ContextFactory.Instance;
+        private readonly byte[] key = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+        private MifareCard card;
         private IsoReader isoReader;
         private string nfcReader;
-        private readonly byte[] key = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
-        private const byte Msb = 0x00;
-        private string[] readerNames;
+        private readonly string[] readerNames;
 
         public SmartCardOperation()
         {
@@ -36,18 +33,15 @@ namespace dokter.mifare
         public bool IsReaderAvailable()
         {
             if (NoReaderAvailable(readerNames))
-                return false;
-            else
             {
-                nfcReader = readerNames[0];
-                if (string.IsNullOrEmpty(nfcReader))
-                {
-                    return false;
-                }
-
-                isoReaderInit();
-                card = new MifareCard(isoReader);
+                return false;
             }
+
+            nfcReader = readerNames[0];
+            if (string.IsNullOrEmpty(nfcReader)) return false;
+
+            isoReaderInit();
+            card = new MifareCard(isoReader);
 
             return true;
         }
@@ -192,7 +186,6 @@ namespace dokter.mifare
 
             var data = new byte[16];
             if (card.LoadKey(KeyStructure.VolatileMemory, 0x00, key))
-            {
                 for (byte i = 1; i <= 63; i++)
                     if ((i + 1) % 4 == 0)
                     {
@@ -211,7 +204,6 @@ namespace dokter.mifare
                             }
                         }
                     }
-            }
 
             return true;
         }

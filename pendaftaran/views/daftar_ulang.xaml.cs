@@ -1,19 +1,14 @@
 ﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
+using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using PCSC;
-using PCSC.Iso7816;
 using pendaftaran.DBAccess;
 using pendaftaran.forms;
 using pendaftaran.Mifare;
-using pendaftaran.models;
 using pendaftaran.Utils;
 
 namespace pendaftaran.views
@@ -26,8 +21,8 @@ namespace pendaftaran.views
         private const byte Msb = 0x00;
         private readonly byte blockAlamatForm = 8;
         private readonly byte blockAlamatTo = 12;
-        private readonly byte blockIdPasien = 1;
         private readonly byte blockGolDarah = 13;
+        private readonly byte blockIdPasien = 1;
         private readonly byte blockJenisKelamin = 17;
         private readonly byte blockNamaFrom = 4;
         private readonly byte blockNamaTo = 6;
@@ -36,16 +31,16 @@ namespace pendaftaran.views
         private readonly byte blockTglLahir = 16;
 
         public string alamat;
+
+        private readonly SqlConnection conn;
         public string golDarah;
         public string jenisK;
         public string namaP;
         public string noidP;
         public string normP;
         public string noTelp;
+        private readonly SmartCardOperation sp;
         public string tglLahir;
-
-        SqlConnection conn;
-        SmartCardOperation sp;
 
         public daftar_ulang()
         {
@@ -55,17 +50,20 @@ namespace pendaftaran.views
             DisplayDataPasien();
             sp = new SmartCardOperation();
 
-            if (sp.IsReaderAvailable()) { }
+            if (sp.IsReaderAvailable())
+            {
+            }
             else
             {
-                MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         public void DisplayDataPasien(string nama = null)
         {
-            DBCommand cmd = new DBCommand(conn);
-            List<ModelPasien> pasien = cmd.GetDataPasien();
+            var cmd = new DBCommand(conn);
+            var pasien = cmd.GetDataPasien();
 
             if (string.IsNullOrEmpty(nama))
             {
@@ -73,7 +71,7 @@ namespace pendaftaran.views
             }
             else
             {
-                IEnumerable<ModelPasien> filtered = pasien.Where(x => x.nama.ToLower().Contains(nama.ToLower()));
+                var filtered = pasien.Where(x => x.nama.ToLower().Contains(nama.ToLower()));
                 dtgDataPasien.ItemsSource = filtered;
             }
         }
@@ -147,7 +145,7 @@ namespace pendaftaran.views
                 //object item = dtgDataPasien.SelectedItem;
                 //string id = (dtgDataPasien.SelectedCells[0].Column.GetCellContent(item) as TextBlock).Text.ToString();
                 //MessageBox.Show(id);
-                DBCommand cmd = new DBCommand(conn);
+                var cmd = new DBCommand(conn);
 
                 var a = MessageBox.Show("Anda yakin ingin menghapus data pasien?", "Konfirmasi", MessageBoxButton.YesNo,
                     MessageBoxImage.Warning);
@@ -157,12 +155,9 @@ namespace pendaftaran.views
                     var res = false;
 
                     for (var i = 0; i < dtgDataPasien.SelectedItems.Count; i++)
-                    {
-                        if (cmd.DeleteDataPasien((dtgDataPasien.SelectedCells[1].Column.GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)?.Text))
-                        {
+                        if (cmd.DeleteDataPasien((dtgDataPasien.SelectedCells[1].Column
+                            .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)?.Text))
                             res = true;
-                        }
-                    }
 
                     if (res)
                         MessageBox.Show("Data pasien berhasil dihapus.", "Informasi", MessageBoxButton.OK,
@@ -205,9 +200,9 @@ namespace pendaftaran.views
                     for (var i = 0; i < dtgDataPasien.SelectedItems.Count; i++)
                     {
                         normP =
-                        (dtgDataPasien.SelectedCells[1].Column
-                            .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
-                        .Text;
+                            (dtgDataPasien.SelectedCells[1].Column
+                                .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
+                            .Text;
                         noidP =
                             (dtgDataPasien.SelectedCells[0].Column
                                 .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
@@ -240,7 +235,7 @@ namespace pendaftaran.views
 
                     if (!string.IsNullOrEmpty(golDarah))
                     {
-                        if (sp.WriteBlock(Msb, blockGolDarah, Util.ToArrayByte16(" "+golDarah)))
+                        if (sp.WriteBlock(Msb, blockGolDarah, Util.ToArrayByte16(" " + golDarah)))
                         {
                         }
                         else
@@ -402,9 +397,24 @@ namespace pendaftaran.views
             }
         }
 
-        private void btnPrintLabel_Click(object sender, RoutedEventArgs e)
+        private void BtnPrintLabel_OnClick(object sender, RoutedEventArgs e)
         {
-            // TODO: tambah fungsi print label
+            if (dtgDataPasien.SelectedItems.Count > 0)
+            {
+                var no_rm = "";
+                foreach (models.ModelPasien mp in dtgDataPasien.SelectedItems)
+                {
+                    no_rm = mp.no_rekam_medis;
+                }
+
+                forms.PrintPreview pv = new forms.PrintPreview(no_rm);
+                pv.Show();
+            }
+            else
+            {
+                MessageBox.Show("Pilih data untuk di cetak.", "Error", MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+            }
         }
     }
 }

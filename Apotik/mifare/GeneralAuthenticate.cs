@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Apotik.mifare
+﻿namespace Apotik.mifare
 {
     public class GeneralAuthenticate
     {
@@ -16,7 +10,7 @@ namespace Apotik.mifare
 
         public byte[] ToArray()
         {
-            return new[] { Version, Msb, Lsb, (byte)KeyType, KeyNumber };
+            return new[] {Version, Msb, Lsb, (byte) KeyType, KeyNumber};
         }
     }
 }

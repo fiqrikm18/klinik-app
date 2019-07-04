@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,8 +8,6 @@ using admin.Mifare;
 using admin.models;
 using admin.Utils;
 using admin.views;
-using PCSC;
-using PCSC.Iso7816;
 
 namespace admin.forms
 {
@@ -31,16 +27,18 @@ namespace admin.forms
         private readonly byte BlockPasswordFrom = 28;
         private readonly byte BlockPasswordTo = 29;
         private readonly byte BlockSpesialisasi = 24;
+
         private readonly byte BlockTelp = 17;
+
         //private readonly byte BlockTugas = 25;
         private readonly DaftarDokter dd;
         private MDokter _mDaftarBaru = new MDokter(" ", " ", " ", " ", " ", " ");
         private int _noOfErrorsOnScreen;
+        private readonly DBCommand cmd;
 
-        SmartCardOperation sp;
+        private readonly SqlConnection conn;
 
-        SqlConnection conn;
-        DBCommand cmd;
+        private readonly SmartCardOperation sp;
 
         #region constructor
 
@@ -61,10 +59,13 @@ namespace admin.forms
             if (jenisK == "Pria") cbJenisKelamin.SelectedIndex = 0;
             else if (jenisK == "Wanita") cbJenisKelamin.SelectedIndex = 1;
 
-            if (sp.IsReaderAvailable()) { }
+            if (sp.IsReaderAvailable())
+            {
+            }
             else
             {
-                MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             cbPoliklinik.DisplayMemberPath = "nama_poliklinik";
@@ -120,13 +121,11 @@ namespace admin.forms
                 var spesialisasi = txtSpesialisai.Text;
                 var jenisK = cbJenisKelamin.Text;
 
-                if(cmd.UpdateDataDokter(id, nama, alamat, telp, spesialisasi, policode, jenisK))
+                if (cmd.UpdateDataDokter(id, nama, alamat, telp, spesialisasi, policode, jenisK))
                 {
-                    bool isPrited = false;
+                    var isPrited = false;
                     if (chkCetakKartu.IsChecked == true)
-                    {
                         while (!isPrited)
-                        {
                             try
                             {
                                 if (!string.IsNullOrEmpty(id))
@@ -170,7 +169,8 @@ namespace admin.forms
 
                                 if (!string.IsNullOrEmpty(alamat))
                                 {
-                                    if (sp.WriteBlockRange(Msb, BlockAlamatFrom, BlockAlamatTo, Util.ToArrayByte64(alamat)))
+                                    if (sp.WriteBlockRange(Msb, BlockAlamatFrom, BlockAlamatTo,
+                                        Util.ToArrayByte64(alamat)))
                                     {
                                     }
                                     else
@@ -218,7 +218,9 @@ namespace admin.forms
                             }
                             catch (Exception)
                             {
-                                var ans = MessageBox.Show("Penulisan kartu gagal, pastikan kartu sudah berada pada jangkauan reader.\nApakah anda ingin menulis kartu lain kali?", "Error",
+                                var ans = MessageBox.Show(
+                                    "Penulisan kartu gagal, pastikan kartu sudah berada pada jangkauan reader.\nApakah anda ingin menulis kartu lain kali?",
+                                    "Error",
                                     MessageBoxButton.YesNo, MessageBoxImage.Error);
 
                                 if (ans == MessageBoxResult.Yes)
@@ -226,8 +228,6 @@ namespace admin.forms
 
                                 sp.isoReaderInit();
                             }
-                        }
-                    }
 
                     MessageBox.Show("Berhasil memperbarui data dokter", "Informasi", MessageBoxButton.OK,
                         MessageBoxImage.Information);

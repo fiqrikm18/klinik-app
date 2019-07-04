@@ -1,25 +1,27 @@
-﻿using dokter.DBAccess;
-using System;
+﻿using System;
+using System.ComponentModel;
 using System.Windows;
+using dokter.DBAccess;
+using dokter.Properties;
+using dokter.views;
 
 namespace dokter
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    ///     Interaction logic for MainWindow.xaml
     /// </summary>
-    /// 
     //TODO: buat socket client antrian poli & apotik
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
-            string role = Properties.Settings.Default.Role;
+            var role = Settings.Default.Role;
             lblHeader.Content = "Poli " + role;
 
-            DBCommand cmd = new DBCommand(DBConnection.dbConnection());
+            var cmd = new DBCommand(DBConnection.dbConnection());
 
-            UserPreferences userPrefs = new UserPreferences();
+            var userPrefs = new UserPreferences();
 
             Height = userPrefs.WindowHeight;
             Width = userPrefs.WindowWidth;
@@ -28,9 +30,9 @@ namespace dokter
             WindowState = userPrefs.WindowState;
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
-            UserPreferences userPrefs = new UserPreferences
+            var userPrefs = new UserPreferences
             {
                 WindowHeight = Height,
                 WindowWidth = Width,
@@ -44,23 +46,29 @@ namespace dokter
 
         private void btnAntrianPasien_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Content = new views.DaftarAntrian();
+            MainFrame.Content = new DaftarAntrian();
         }
 
         private void btnDataPasien_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Content = new views.DataPsien();
+            MainFrame.Content = new DataPsien();
         }
 
         private void BtnPeriksaPasien_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Content = new views.ViewRekamMedis();
+            MainFrame.Content = new ViewRekamMedis();
         }
 
         private void btnLogout_Click(object sender, RoutedEventArgs e)
         {
-            Properties.Settings.Default.KodeDokter = null;
-            Environment.Exit(0);
+            Dispatcher.Invoke(() =>
+            {
+                Settings.Default.KodeDokter = null;
+                var lg = new Login();
+                lg.Show();
+                Close();
+                GC.SuppressFinalize(this);
+            });
         }
     }
 }

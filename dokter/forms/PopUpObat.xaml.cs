@@ -1,30 +1,21 @@
-﻿using dokter.DBAccess;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using dokter.DBAccess;
+using dokter.models;
 
 namespace dokter.forms
 {
     /// <summary>
-    /// Interaction logic for PopUpObat.xaml
+    ///     Interaction logic for PopUpObat.xaml
     /// </summary>
     public partial class PopUpObat : Window
     {
-        SqlConnection conn;
-        DBCommand cmd;
-        InputResep ir;
+        private readonly DBCommand cmd;
+        private readonly SqlConnection conn;
+        private readonly InputResep ir;
 
         public PopUpObat()
         {
@@ -70,19 +61,13 @@ namespace dokter.forms
         {
             var nama = sender as TextBox;
 
-            if (nama.Text != "Nama obat")
-            {
-                DisplayDataObat(nama.Text);
-            }
+            if (nama.Text != "Nama obat") DisplayDataObat(nama.Text);
         }
 
         private void dgDataObat_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var data = dgDataObat.SelectedItem as models.ModelObat;
-            if (data != null)
-            {
-                ir.FillTextBox(data.kode_obat, data.nama_obat);
-            }
+            var data = dgDataObat.SelectedItem as ModelObat;
+            if (data != null) ir.FillTextBox(data.kode_obat, data.nama_obat);
 
             ir.txtObat.Focus();
             Close();

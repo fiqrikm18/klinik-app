@@ -1,5 +1,4 @@
-﻿using System.Data;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -17,9 +16,9 @@ namespace admin.forms
         private readonly DaftarPoliklinik dp;
         private MPoliklinik _mDaftarBaru = new MPoliklinik(" ", " ");
         private int _noOfErrorsOnScreen;
+        private readonly DBCommand cmd;
 
-        SqlConnection conn;
-        DBCommand cmd;
+        private readonly SqlConnection conn;
 
         public TambahPoliklinik(DaftarPoliklinik dp)
         {
@@ -69,16 +68,17 @@ namespace admin.forms
                 var nama = txtNamaDokter.Text;
                 var id = txtidDokter.Text.ToUpper();
 
-                if(cmd.CheckPoliExsist(id) == 1)
+                if (cmd.CheckPoliExsist(id) == 1)
                 {
-                    MessageBox.Show("Kode poliklinik sudah terdaftar.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Kode poliklinik sudah terdaftar.", "Error", MessageBoxButton.OK,
+                        MessageBoxImage.Error);
                 }
                 else
                 {
-                    if(cmd.InsertDataPoliklinik(id, nama))
+                    if (cmd.InsertDataPoliklinik(id, nama))
                     {
                         MessageBox.Show("Data poliklinik berhasil disimpan.", "Informasi", MessageBoxButton.OK,
-                                MessageBoxImage.Information);
+                            MessageBoxImage.Information);
                         dp.displayDataPoliklinik();
                         Close();
                     }

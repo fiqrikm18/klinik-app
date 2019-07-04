@@ -1,40 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Data.SqlClient;
 using dokter.DBAccess;
-using dokter.models;
-using dokter.mifare;
-using dokter.Utils;
 using dokter.forms;
+using dokter.mifare;
+using dokter.models;
+using dokter.Utils;
 
 namespace dokter.views
 {
     /// <summary>
-    /// Interaction logic for ViewRekamMedis.xaml
+    ///     Interaction logic for ViewRekamMedis.xaml
     /// </summary>
     public partial class ViewRekamMedis : Page
     {
-        private SqlConnection conn;
-        private DBCommand cmd;
-        private byte Msb = 0x00;
-
-        private byte blockNoRekamMedis = 1;
+        private readonly byte blockNoRekamMedis = 1;
+        private readonly DBCommand cmd;
+        private readonly SqlConnection conn;
+        private int id;
+        private readonly byte Msb = 0x00;
+        private string no_rm = "";
 
         private SmartCardOperation sp = new SmartCardOperation();
-        private string no_rm = "";
-        private int id;
 
         public ViewRekamMedis()
         {
@@ -62,10 +51,8 @@ namespace dokter.views
                     sp = new SmartCardOperation();
 
                     if (sp.IsReaderAvailable())
-                    {
                         try
                         {
-
                             sp.isoReaderInit();
                             //card = new MifareCard(isoReader);
 
@@ -77,15 +64,14 @@ namespace dokter.views
                         }
                         catch (Exception)
                         {
-                            MessageBox.Show("Pastikan reader sudah terpasang dan kartu sudah berada pada jangkauan reader.",
+                            MessageBox.Show(
+                                "Pastikan reader sudah terpasang dan kartu sudah berada pada jangkauan reader.",
                                 "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                             sp.isoReaderInit();
                         }
-                    }
                     else
-                    {
-                        MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
+                        MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.",
+                            "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 else
                 {
@@ -95,14 +81,14 @@ namespace dokter.views
             }
             else
             {
-                MessageBox.Show("Tidak ada data antrian pasien.", "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Tidak ada data antrian pasien.", "Informasi", MessageBoxButton.OK,
+                    MessageBoxImage.Information);
             }
         }
 
         public void DisplayDataPasien(string no_rm = null)
         {
-
-            List<ModelPasien> pasien = cmd.GetDataPasien();
+            var pasien = cmd.GetDataPasien();
 
             if (no_rm != null)
             {
@@ -120,18 +106,19 @@ namespace dokter.views
                 }
                 else
                 {
-                    MessageBox.Show("Pasien tidak ada di antrian atau belum saatnya dipanggil.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("Pasien tidak ada di antrian atau belum saatnya dipanggil.", "Warning",
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
         }
 
         private void DisplayDataRekamMedis(string no_rn = null)
         {
-            List<ModelRekamMedis> rekamMedis = cmd.GetAllDataRekamMedisFrom();
+            var rekamMedis = cmd.GetAllDataRekamMedisFrom();
 
             if (no_rn != null)
             {
-                IEnumerable<ModelRekamMedis> fRekamMedis = rekamMedis.Where(x => x.no_rm.Contains(no_rn));
+                var fRekamMedis = rekamMedis.Where(x => x.no_rm.Contains(no_rn));
                 dtgDataRekamMedis.ItemsSource = fRekamMedis;
             }
             else
@@ -155,12 +142,13 @@ namespace dokter.views
         {
             if (!string.IsNullOrWhiteSpace(txtNoRekamMedis.Text) || !string.IsNullOrEmpty(txtNoRekamMedis.Text))
             {
-                InputRekamMedis irm = new InputRekamMedis(txtNoRekamMedis.Text, this);
+                var irm = new InputRekamMedis(txtNoRekamMedis.Text, this);
                 irm.Show();
             }
             else
             {
-                MessageBox.Show("Pastikan nomor rekam medis sudah terisi.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Pastikan nomor rekam medis sudah terisi.", "Warning", MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
             }
         }
 
@@ -169,14 +157,12 @@ namespace dokter.views
             if (dtgDataRekamMedis.SelectedItems.Count > 0)
             {
                 id = 0;
-                foreach (ModelRekamMedis md in dtgDataRekamMedis.SelectedItems)
-                {
-                    id = md.id;
-                }
+                foreach (ModelRekamMedis md in dtgDataRekamMedis.SelectedItems) id = md.id;
 
                 if (cmd.DeleteRekamMedis(id))
                 {
-                    MessageBox.Show("Rekam medis berhasil dihapus.", "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Rekam medis berhasil dihapus.", "Informasi", MessageBoxButton.OK,
+                        MessageBoxImage.Information);
                     DisplayDataRekamMedis(txtNoRekamMedis.Text);
                 }
                 else
@@ -186,7 +172,8 @@ namespace dokter.views
             }
             else
             {
-                MessageBox.Show("Pilih data yang akan dihapus terlebih dahulu.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Pilih data yang akan dihapus terlebih dahulu.", "Error", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
             }
         }
 
@@ -194,12 +181,13 @@ namespace dokter.views
         {
             if (!string.IsNullOrWhiteSpace(txtNoRekamMedis.Text) || !string.IsNullOrEmpty(txtNoRekamMedis.Text))
             {
-                InputResep irs = new InputResep(txtNoRekamMedis.Text, this);
+                var irs = new InputResep(txtNoRekamMedis.Text, this);
                 irs.Show();
             }
             else
             {
-                MessageBox.Show("Pastikan nomor rekam medis sudah terisi.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Pastikan nomor rekam medis sudah terisi.", "Warning", MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
             }
         }
 

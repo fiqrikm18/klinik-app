@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,8 +8,6 @@ using admin.Mifare;
 using admin.models;
 using admin.Utils;
 using admin.views;
-using PCSC;
-using PCSC.Iso7816;
 
 namespace admin.forms
 {
@@ -36,11 +32,11 @@ namespace admin.forms
         private readonly DaftarDokter dd;
         private MDokter _mDaftarBaru = new MDokter(" ", " ", " ", " ", " ", " ");
         private int _noOfErrorsOnScreen;
+        private readonly DBCommand cmd;
 
-        SmartCardOperation sp;
+        private readonly SqlConnection conn;
 
-        SqlConnection conn;
-        DBCommand cmd;
+        private readonly SmartCardOperation sp;
 
         #region constructor
 
@@ -56,10 +52,13 @@ namespace admin.forms
             DataContext = new MDokter(" ", " ", " ", " ", " ", " ");
             //DataContext = new MDaftarBaru("123", "123", "ad", "123", " 123123");
 
-            if (sp.IsReaderAvailable()) { }
+            if (sp.IsReaderAvailable())
+            {
+            }
             else
             {
-                MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             var cbp = cmd.GetDataPoliklinik();
@@ -90,7 +89,7 @@ namespace admin.forms
         private void TextBoxFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             var source = e.Source as TextBox;
-            if(string.IsNullOrEmpty(source.Text) || string.IsNullOrWhiteSpace(source.Text) || source.Text == " ")
+            if (string.IsNullOrEmpty(source.Text) || string.IsNullOrWhiteSpace(source.Text) || source.Text == " ")
                 source.Clear();
         }
 
@@ -118,7 +117,7 @@ namespace admin.forms
                 var jenisK = cbJenisKelamin.Text;
                 var password = txtPassword.Text.ToUpper();
 
-                if(cmd.CheckDokterExsist(id) == 1)
+                if (cmd.CheckDokterExsist(id) == 1)
                 {
                     MessageBox.Show("No id sudah terdaftar.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
@@ -126,12 +125,10 @@ namespace admin.forms
                 {
                     if (cmd.InsertDataDokter(id, nama, telp, alamat, spesialisasi, policode, jenisK, password))
                     {
-                        bool isPrinted = false;
+                        var isPrinted = false;
 
                         if (chkChekKartu.IsChecked == true)
-                        {
                             while (!isPrinted)
-                            {
                                 try
                                 {
                                     sp.isoReaderInit();
@@ -153,7 +150,8 @@ namespace admin.forms
 
                                     if (!string.IsNullOrEmpty(nama))
                                     {
-                                        if (sp.WriteBlockRange(Msb, BlockNamaFrom, BlockNamaTo, Util.ToArrayByte48(nama)))
+                                        if (sp.WriteBlockRange(Msb, BlockNamaFrom, BlockNamaTo,
+                                            Util.ToArrayByte48(nama)))
                                         {
                                         }
                                         else
@@ -239,7 +237,9 @@ namespace admin.forms
                                 }
                                 catch (Exception)
                                 {
-                                    var ans = MessageBox.Show("Penulisan kartu gagal, pastikan kartu sudah berada pada jangkauan reader.\nApakah anda ingin menulis kartu lain kali?", "Error",
+                                    var ans = MessageBox.Show(
+                                        "Penulisan kartu gagal, pastikan kartu sudah berada pada jangkauan reader.\nApakah anda ingin menulis kartu lain kali?",
+                                        "Error",
                                         MessageBoxButton.YesNo, MessageBoxImage.Error);
 
                                     if (ans == MessageBoxResult.Yes)
@@ -247,8 +247,6 @@ namespace admin.forms
 
                                     sp.isoReaderInit();
                                 }
-                            }
-                        }
 
                         MessageBox.Show("Data dokter berhasil disimpan.", "Informasi", MessageBoxButton.OK,
                             MessageBoxImage.Information);
@@ -260,7 +258,8 @@ namespace admin.forms
                     }
                     else
                     {
-                        MessageBox.Show("Data dokter gagal disimpan.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("Data dokter gagal disimpan.", "Error", MessageBoxButton.OK,
+                            MessageBoxImage.Error);
                     }
                 }
             }
@@ -279,7 +278,8 @@ namespace admin.forms
             //                txtSpesialisai.Text == " " && TextAlamat.Text == " ") return false;
 
             if (!string.IsNullOrWhiteSpace(txtidDokter.Text) && !string.IsNullOrWhiteSpace(txtNamaDokter.Text) &&
-                !string.IsNullOrWhiteSpace(txtTelpDokter.Text) && cbPoliklinik.SelectedIndex != 0 && cbJenisKelamin.SelectedIndex != 0 &&
+                !string.IsNullOrWhiteSpace(txtTelpDokter.Text) && cbPoliklinik.SelectedIndex != 0 &&
+                cbJenisKelamin.SelectedIndex != 0 &&
                 !string.IsNullOrWhiteSpace(TextAlamat.Text) && !string.IsNullOrWhiteSpace(txtPassword.Text))
                 return true;
 

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace dokter.models
 {
@@ -20,7 +16,8 @@ namespace dokter.models
             this.password = password;
         }
 
-        public ModelDokter(string id, string nama, string telp, string spesialisasi, string alamat, string password, string poliklinik, string jenis_kelamin)
+        public ModelDokter(string id, string nama, string telp, string spesialisasi, string alamat, string password,
+            string poliklinik, string jenis_kelamin)
         {
             this.id = id;
             this.nama = nama;
@@ -32,8 +29,6 @@ namespace dokter.models
             this.poliklinik = poliklinik;
         }
 
-        ~ModelDokter() { }
-
         public string id { get; set; }
         public string nama { get; set; }
         public string telp { get; set; }
@@ -43,6 +38,10 @@ namespace dokter.models
         public string jenis_kelamin { get; set; }
         public string password { get; set; }
         public string poliklinik { get; set; }
+
+        ~ModelDokter()
+        {
+        }
 
         #region member IDataErrorInfo
 

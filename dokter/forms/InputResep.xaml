@@ -5,29 +5,30 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:dokter.forms"
         mc:Ignorable="d"
-        Title="Input Resep" Height="688.204" Width="843.5" Icon="/dokter;component/images/BMicon.ico" WindowStartupLocation="CenterScreen" >
+        Title="Input Resep" Height="688.204" Width="843.5" Icon="/dokter;component/images/BMicon.ico"
+        WindowStartupLocation="CenterScreen">
     <Grid Style="{StaticResource OpenSans}" Margin="20">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
 
         <Grid Grid.Row="0">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Column="0">
-                    <TextBlock Text="Buat Resep" FontSize="16" FontWeight="Black" Foreground="#555555"/>
+                    <TextBlock Text="Buat Resep" FontSize="16" FontWeight="Black" Foreground="#555555" />
                 </StackPanel>
 
                 <StackPanel Grid.Column="1">
-                    <Label x:Name="lbNamaDokter" Content="Dokter pemeriksa:" Margin="20,0,0,0"/>
+                    <Label x:Name="lbNamaDokter" Content="Dokter pemeriksa:" Margin="20,0,0,0" />
                 </StackPanel>
             </Grid>
         </Grid>
@@ -35,39 +36,40 @@
         <!-- Grid 1 -->
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
             <Grid Grid.Column="0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition x:Name="column1" Width="Auto" MinWidth="150"/>
-                    <ColumnDefinition Width="{Binding ElementName=column1, Path=Width}" MinWidth="352"/>
+                    <ColumnDefinition x:Name="column1" Width="Auto" MinWidth="150" />
+                    <ColumnDefinition Width="{Binding ElementName=column1, Path=Width}" MinWidth="352" />
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
-                    <Label Content="No. Rekam Medis:" VerticalAlignment="Center"/>
+                    <Label Content="No. Rekam Medis:" VerticalAlignment="Center" />
                 </StackPanel>
 
                 <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
-                    <TextBlock x:Name="lbNoRM" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="lbNoRM" VerticalAlignment="Center" />
                 </StackPanel>
 
                 <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
-                    <Label Content="Kode Resep:" VerticalAlignment="Center"/>
+                    <Label Content="Kode Resep:" VerticalAlignment="Center" />
                 </StackPanel>
 
                 <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
-                    <TextBox x:FieldModifier="public" x:Name="txtKodeResep" Width="245" Validation.Error="Validation_Error"
+                    <TextBox x:FieldModifier="public" x:Name="txtKodeResep" Width="245"
+                             Validation.Error="Validation_Error"
                              Text="{Binding UpdateSourceTrigger=LostFocus,
                         Path=no_resep, NotifyOnSourceUpdated=True,
                         ValidatesOnDataErrors=True}"
-                             GotKeyboardFocus="TextBoxFocus"/>
+                             GotKeyboardFocus="TextBoxFocus" />
                 </StackPanel>
             </Grid>
         </Grid>
@@ -76,46 +78,50 @@
         <!--Grid 2-->
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
+                <ColumnDefinition />
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
             </Grid.RowDefinitions>
 
             <Grid Grid.Column="0" Grid.Row="0">
                 <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition MinWidth="150" Width="Auto"/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition MinWidth="150" Width="Auto" />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Column="0" Grid.Row="0">
                     <StackPanel>
-                        <Label Content="Obat:" VerticalAlignment="Center"/>
+                        <Label Content="Obat:" VerticalAlignment="Center" />
                     </StackPanel>
                 </StackPanel>
 
-                <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal" Background="{Binding ElementName=txtObat, Path=Background}">
-                    <TextBox x:Name="txtObat" VerticalAlignment="Center" Width="200" Margin="0,3" Validation.Error="Validation_Error"
+                <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal"
+                            Background="{Binding ElementName=txtObat, Path=Background}">
+                    <TextBox x:Name="txtObat" VerticalAlignment="Center" Width="200" Margin="0,3"
+                             Validation.Error="Validation_Error"
                              Text="{Binding UpdateSourceTrigger=LostFocus,
                         Path=nama_obat, NotifyOnSourceUpdated=True,
                         ValidatesOnDataErrors=True}"
-                             GotKeyboardFocus="TextBoxFocus"/>
-                    <Button x:Name="btnBrowse" VerticalAlignment="Center" Margin="0" Width="46" HorizontalAlignment="Right" Content="Cari" Padding="10,10,10,9.7" Height="42" Click="btnBrowse_Click"/>
+                             GotKeyboardFocus="TextBoxFocus" />
+                    <Button x:Name="btnBrowse" VerticalAlignment="Center" Margin="0" Width="46"
+                            HorizontalAlignment="Right" Content="Cari" Padding="10,10,10,9.7" Height="42"
+                            Click="btnBrowse_Click" />
                 </StackPanel>
 
                 <StackPanel Grid.Column="0" Grid.Row="1">
                     <StackPanel>
-                        <Label Content="Jumlah:" VerticalAlignment="Center"/>
+                        <Label Content="Jumlah:" VerticalAlignment="Center" />
                     </StackPanel>
                 </StackPanel>
 
@@ -124,24 +130,24 @@
                              Text="{Binding UpdateSourceTrigger=LostFocus,
                         Path=jumlah, NotifyOnSourceUpdated=True,
                         ValidatesOnDataErrors=True}"
-                             GotKeyboardFocus="TextBoxFocus"/>
+                             GotKeyboardFocus="TextBoxFocus" />
                 </StackPanel>
             </Grid>
 
             <Grid Grid.Column="1" Grid.Row="0">
                 <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
+                    <RowDefinition />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition MinWidth="100" Width="150"/>
-                    <ColumnDefinition Width="128*"/>
+                    <ColumnDefinition MinWidth="100" Width="150" />
+                    <ColumnDefinition Width="128*" />
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Column="0" Grid.Row="0">
                     <StackPanel Margin="20,8,1,8">
-                        <Label Content="Pemakaian:" VerticalAlignment="Center"/>
+                        <Label Content="Pemakaian:" VerticalAlignment="Center" />
                     </StackPanel>
                 </StackPanel>
 
@@ -150,12 +156,12 @@
                              Text="{Binding UpdateSourceTrigger=LostFocus,
                         Path=dosis, NotifyOnSourceUpdated=True,
                         ValidatesOnDataErrors=True}"
-                             GotKeyboardFocus="TextBoxFocus" Width="246"/>
+                             GotKeyboardFocus="TextBoxFocus" Width="246" />
                 </StackPanel>
 
                 <StackPanel Grid.Column="0" Grid.Row="1">
                     <StackPanel Margin="20,8,1,8">
-                        <Label Content="Keterangan:"/>
+                        <Label Content="Keterangan:" />
                     </StackPanel>
                 </StackPanel>
 
@@ -164,16 +170,17 @@
                              Text="{Binding UpdateSourceTrigger=LostFocus,
                         Path=ket, NotifyOnSourceUpdated=True,
                         ValidatesOnDataErrors=True}"
-                             GotKeyboardFocus="TextBoxFocus" Width="246"/>
+                             GotKeyboardFocus="TextBoxFocus" Width="246" />
                 </StackPanel>
             </Grid>
 
             <Grid Grid.Column="1" Grid.Row="1">
                 <Grid.CommandBindings>
-                    <CommandBinding Command="New" CanExecute="AddDetailResep_CanExecute" Executed="AddDetailResep_Executed"/>
+                    <CommandBinding Command="New" CanExecute="AddDetailResep_CanExecute"
+                                    Executed="AddDetailResep_Executed" />
                 </Grid.CommandBindings>
                 <StackPanel>
-                    <Button x:Name="btnAddToList" Content="Tambah Obat" HorizontalAlignment="Right" Command="New"/>
+                    <Button x:Name="btnAddToList" Content="Tambah Obat" HorizontalAlignment="Right" Command="New" />
                 </StackPanel>
             </Grid>
         </Grid>
@@ -182,31 +189,42 @@
         <!--Grid 3-->
         <Grid Grid.Row="3">
             <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0">
-                <Label Content="Daftar Obat" FontSize="14" FontWeight="Bold"/>
+                <Label Content="Daftar Obat" FontSize="14" FontWeight="Bold" />
             </Grid>
 
             <Grid Grid.Row="1">
-                <DataGrid Height="200" VerticalScrollBarVisibility="Visible" CanUserAddRows="False" x:Name="dgListObat" AutoGenerateColumns="False">
+                <DataGrid Height="200" VerticalScrollBarVisibility="Visible" CanUserAddRows="False" x:Name="dgListObat"
+                          AutoGenerateColumns="False">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding kode_obat, NotifyOnTargetUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="Kode Obat" Width="160"/>
-                        <DataGridTextColumn Binding="{Binding nama_obat, NotifyOnTargetUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="Obat" Width="150"/>
-                        <DataGridTextColumn Binding="{Binding jumlah, NotifyOnTargetUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="Jumlah" Width="150"/>
-                        <DataGridTextColumn Binding="{Binding dosis, NotifyOnTargetUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="Pemakaian" Width="150"/>
-                        <DataGridTextColumn Binding="{Binding ket, NotifyOnTargetUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="Keterangan" Width="150"/>
+                        <DataGridTextColumn
+                            Binding="{Binding kode_obat, NotifyOnTargetUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Header="Kode Obat" Width="160" />
+                        <DataGridTextColumn
+                            Binding="{Binding nama_obat, NotifyOnTargetUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Header="Obat" Width="150" />
+                        <DataGridTextColumn
+                            Binding="{Binding jumlah, NotifyOnTargetUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Header="Jumlah" Width="150" />
+                        <DataGridTextColumn
+                            Binding="{Binding dosis, NotifyOnTargetUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Header="Pemakaian" Width="150" />
+                        <DataGridTextColumn
+                            Binding="{Binding ket, NotifyOnTargetUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Header="Keterangan" Width="150" />
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
 
             <Grid Grid.Row="2">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button x:Name="btnSaveRecive"  Content="Simpan Resep" Click="btnSaveRecive_Click"/>
-                    <Button x:Name="btnCancel" Content="Batal" Click="btnCancel_Click"/>
+                    <Button x:Name="btnSaveRecive" Content="Simpan Resep" Click="btnSaveRecive_Click" />
+                    <Button x:Name="btnCancel" Content="Batal" Click="btnCancel_Click" />
                 </StackPanel>
             </Grid>
         </Grid>

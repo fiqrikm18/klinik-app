@@ -1,8 +1,9 @@
 ﻿using System.Windows;
-using Apotik.models;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Apotik.DBAccess;
+using Apotik.models;
+using Apotik.views;
 
 namespace Apotik.forms
 {
@@ -11,11 +12,12 @@ namespace Apotik.forms
     /// </summary>
     public partial class UpdateObat : Window
     {
-        ModelObat mo = new ModelObat(" ", " ", " ", " ", " ", " ", " ");
-        views.DaftarObat daftarObat = new views.DaftarObat();
         private int _noOfErrorsOnScreen;
+        private readonly DaftarObat daftarObat = new DaftarObat();
+        private ModelObat mo = new ModelObat(" ", " ", " ", " ", " ", " ", " ");
 
-        public UpdateObat(string kode_obat, string nama_obat, string stok, string satuan, string harga_jual, string harga_beli, string harga_resep, views.DaftarObat d)
+        public UpdateObat(string kode_obat, string nama_obat, string stok, string satuan, string harga_jual,
+            string harga_beli, string harga_resep, DaftarObat d)
         {
             InitializeComponent();
             mo = new ModelObat(kode_obat, nama_obat, harga_beli, harga_beli, harga_resep, stok, satuan);
@@ -50,23 +52,26 @@ namespace Apotik.forms
                 var harga_resep = txtHargaResep.Text;
                 var satuan = cbSatuan.Text;
 
-                DBCommand cmd = new DBCommand(DBConnection.dbConnection());
+                var cmd = new DBCommand(DBConnection.dbConnection());
 
                 var res = cmd.UpdateDataObat(kode_obat, nama_obat, satuan, stok, harga_jual, harga_beli, harga_resep);
 
                 if (res)
                 {
-                    MessageBox.Show("Data obat berhasil update.", "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Data obat berhasil update.", "Informasi", MessageBoxButton.OK,
+                        MessageBoxImage.Information);
                     daftarObat.DisplayDataObat();
                     Close();
                 }
                 else
+                {
                     MessageBox.Show("Data obat gagal update.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-
+                }
             }
             else
             {
-                MessageBox.Show("Pastikan data yang diinput sudah benar.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Pastikan data yang diinput sudah benar.", "Error", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
             }
 
             mo = new ModelObat(" ", " ", " ", " ", " ", " ", " ");
@@ -77,15 +82,13 @@ namespace Apotik.forms
         private void TextBoxFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             var source = e.Source as TextBox;
-            if(string.IsNullOrEmpty(source.Text) || string.IsNullOrWhiteSpace(source.Text))
-            {
-                source.Clear();
-            }
+            if (string.IsNullOrEmpty(source.Text) || string.IsNullOrWhiteSpace(source.Text)) source.Clear();
         }
 
         private bool checkTextBoxValue()
         {
-            if (!string.IsNullOrEmpty(txtKodeObat.Text) && !string.IsNullOrEmpty(txtNamaObat.Text) && !string.IsNullOrEmpty(txtHargaBeli.Text) && !string.IsNullOrEmpty(txtHargaJual.Text)
+            if (!string.IsNullOrEmpty(txtKodeObat.Text) && !string.IsNullOrEmpty(txtNamaObat.Text) &&
+                !string.IsNullOrEmpty(txtHargaBeli.Text) && !string.IsNullOrEmpty(txtHargaJual.Text)
                 && !string.IsNullOrEmpty(txtHargaResep.Text) && !string.IsNullOrEmpty(txtStok.Text))
                 return true;
 

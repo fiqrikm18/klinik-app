@@ -1,56 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Windows;
+using admin.Properties;
 
 namespace admin
 {
     public class UserPreferences
     {
-        #region Member Variables
-
-        private double _windowTop;
-        private double _windowLeft;
-        private double _windowHeight;
-        private double _windowWidth;
-        private System.Windows.WindowState _windowState;
-
-        #endregion //Member Variables
-
-        #region Public Properties
-
-        public double WindowTop
-        {
-            get { return _windowTop; }
-            set { _windowTop = value; }
-        }
-
-        public double WindowLeft
-        {
-            get { return _windowLeft; }
-            set { _windowLeft = value; }
-        }
-
-        public double WindowHeight
-        {
-            get { return _windowHeight; }
-            set { _windowHeight = value; }
-        }
-
-        public double WindowWidth
-        {
-            get { return _windowWidth; }
-            set { _windowWidth = value; }
-        }
-
-        public System.Windows.WindowState WindowState
-        {
-            get { return _windowState; }
-            set { _windowState = value; }
-        }
-
-        #endregion //Public Properties
-
         #region Constructor
 
         public UserPreferences()
@@ -67,76 +21,78 @@ namespace admin
 
         #endregion //Constructor
 
+        #region Member Variables
+
+        #endregion //Member Variables
+
+        #region Public Properties
+
+        public double WindowTop { get; set; }
+
+        public double WindowLeft { get; set; }
+
+        public double WindowHeight { get; set; }
+
+        public double WindowWidth { get; set; }
+
+        public WindowState WindowState { get; set; }
+
+        #endregion //Public Properties
+
         #region Functions
 
         /// <summary>
-        /// If the saved window dimensions are larger than the current screen shrink the
-        /// window to fit.
+        ///     If the saved window dimensions are larger than the current screen shrink the
+        ///     window to fit.
         /// </summary>
         public void SizeToFit()
         {
-            if (_windowHeight > System.Windows.SystemParameters.VirtualScreenHeight)
-            {
-                _windowHeight = System.Windows.SystemParameters.VirtualScreenHeight;
-            }
+            if (WindowHeight > SystemParameters.VirtualScreenHeight)
+                WindowHeight = SystemParameters.VirtualScreenHeight;
 
-            if (_windowWidth > System.Windows.SystemParameters.VirtualScreenWidth)
-            {
-                _windowWidth = System.Windows.SystemParameters.VirtualScreenWidth;
-            }
+            if (WindowWidth > SystemParameters.VirtualScreenWidth) WindowWidth = SystemParameters.VirtualScreenWidth;
         }
 
         /// <summary>
-        /// If the window is more than half off of the screen move it up and to the left 
-        /// so half the height and half the width are visible.
+        ///     If the window is more than half off of the screen move it up and to the left
+        ///     so half the height and half the width are visible.
         /// </summary>
         public void MoveIntoView()
         {
-            if (_windowTop + _windowHeight / 2 > System.Windows.SystemParameters.VirtualScreenHeight)
-            {
-                _windowTop = System.Windows.SystemParameters.VirtualScreenHeight - _windowHeight;
-            }
+            if (WindowTop + WindowHeight / 2 > SystemParameters.VirtualScreenHeight)
+                WindowTop = SystemParameters.VirtualScreenHeight - WindowHeight;
 
-            if (_windowLeft + _windowWidth / 2 > System.Windows.SystemParameters.VirtualScreenWidth)
-            {
-                _windowLeft = System.Windows.SystemParameters.VirtualScreenWidth - _windowWidth;
-            }
+            if (WindowLeft + WindowWidth / 2 > SystemParameters.VirtualScreenWidth)
+                WindowLeft = SystemParameters.VirtualScreenWidth - WindowWidth;
 
-            if (_windowTop < 0)
-            {
-                _windowTop = 0;
-            }
+            if (WindowTop < 0) WindowTop = 0;
 
-            if (_windowLeft < 0)
-            {
-                _windowLeft = 0;
-            }
+            if (WindowLeft < 0) WindowLeft = 0;
         }
 
         private void Load()
         {
-            _windowTop = Properties.Settings.Default.WindowTop;
-            _windowLeft = Properties.Settings.Default.WindowLeft;
-            _windowHeight = Properties.Settings.Default.WindowHeight;
-            _windowWidth = Properties.Settings.Default.WindowWidth;
-            _windowState = Properties.Settings.Default.WindowState;
+            WindowTop = Settings.Default.WindowTop;
+            WindowLeft = Settings.Default.WindowLeft;
+            WindowHeight = Settings.Default.WindowHeight;
+            WindowWidth = Settings.Default.WindowWidth;
+            WindowState = Settings.Default.WindowState;
         }
 
         public void Save()
         {
-            if (_windowState != System.Windows.WindowState.Minimized)
+            if (WindowState != WindowState.Minimized)
             {
-                Properties.Settings.Default.WindowTop = _windowTop;
-                Properties.Settings.Default.WindowLeft = _windowLeft;
-                Properties.Settings.Default.WindowHeight = _windowHeight;
-                Properties.Settings.Default.WindowWidth = _windowWidth;
-                Properties.Settings.Default.WindowState = _windowState;
+                Settings.Default.WindowTop = WindowTop;
+                Settings.Default.WindowLeft = WindowLeft;
+                Settings.Default.WindowHeight = WindowHeight;
+                Settings.Default.WindowWidth = WindowWidth;
+                Settings.Default.WindowState = WindowState;
 
-                Properties.Settings.Default.Save();
+                Settings.Default.Save();
             }
         }
 
         #endregion //Functions
-
     }
 }

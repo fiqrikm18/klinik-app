@@ -8,14 +8,14 @@
       Title="DaftarResep">
     <Grid Style="{StaticResource OpenSans}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
             <StackPanel>
-                <TextBlock Text="Daftar Resep Dokter" FontSize="16" FontWeight="Bold" Foreground="#555555"/>
+                <TextBlock Text="Daftar Resep Dokter" FontSize="16" FontWeight="Bold" Foreground="#555555" />
             </StackPanel>
         </Grid>
 
@@ -23,17 +23,17 @@
             <StackPanel>
                 <DataGrid x:Name="dtgResep" AutoGenerateColumns="False" CanUserAddRows="False" Height="400">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="No Antrian" Binding="{Binding no_antrian}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="No Rekam Medis" Binding="{Binding no_rm}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="Nama Pasien" Binding="{Binding nama}" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="Kode Resep" Binding="{Binding no_resep}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="No Antrian" Binding="{Binding no_antrian}" IsReadOnly="True" />
+                        <DataGridTextColumn Header="No Rekam Medis" Binding="{Binding no_rm}" IsReadOnly="True" />
+                        <DataGridTextColumn Header="Nama Pasien" Binding="{Binding nama}" IsReadOnly="True" />
+                        <DataGridTextColumn Header="Kode Resep" Binding="{Binding no_resep}" IsReadOnly="True" />
                     </DataGrid.Columns>
                 </DataGrid>
             </StackPanel>
         </Grid>
 
         <Grid Grid.Row="2" HorizontalAlignment="Right">
-            <Button Content="Detail Resep" Click="Button_Click"/>
+            <Button Content="Detail Resep" Click="Button_Click" />
             <!--<Button Content="Detail Resep"/>-->
         </Grid>
     </Grid>

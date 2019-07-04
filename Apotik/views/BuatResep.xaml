@@ -1,71 +1,72 @@
 ﻿<Page x:Class="Apotik.views.BuatResep"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:Apotik.views"
-      mc:Ignorable="d" 
+      mc:Ignorable="d"
       Title="BuatResep">
 
     <Grid Style="{StaticResource OpenSans}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="5*"/>
-                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="5*" />
+                    <ColumnDefinition Width="2*" />
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                    <TextBlock Text="Detail Resep" FontSize="16" FontWeight="Bold" Foreground="#555555"/>
+                    <TextBlock Text="Detail Resep" FontSize="16" FontWeight="Bold" Foreground="#555555" />
                 </StackPanel>
 
                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                    <Label Content="Apoteker: " x:Name="lbApoteker"/>
+                    <Label Content="Apoteker: " x:Name="lbApoteker" />
                 </StackPanel>
             </Grid>
         </StackPanel>
 
         <StackPanel Grid.Row="1">
-            <CheckBox x:Name="chkScanKartu" Margin="10 0 0 0" Content="Scan Kartu Pasien" Checked="ChkScanKartu_Checked" Unchecked="ChkScanKartu_Unchecked"/>
+            <CheckBox x:Name="chkScanKartu" Margin="10 0 0 0" Content="Scan Kartu Pasien"
+                      Checked="ChkScanKartu_Checked" Unchecked="ChkScanKartu_Unchecked" />
         </StackPanel>
 
-        <StackPanel  Grid.Row="2">
+        <StackPanel Grid.Row="2">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="1" Margin="0,0,10,0">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
                         <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
+                            <RowDefinition />
+                            <RowDefinition />
                         </Grid.RowDefinitions>
 
                         <StackPanel Grid.Column="0" Grid.Row="0" VerticalAlignment="Center">
-                            <Label Content="No. Rekam Medis: " Margin="0, 0, 20, 0"/>
+                            <Label Content="No. Rekam Medis: " Margin="0, 0, 20, 0" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" Grid.Row="0" VerticalAlignment="Center">
                             <TextBox IsEnabled="False" x:Name="txtNoRm" Width="250" />
                         </StackPanel>
 
                         <StackPanel Grid.Column="0" Grid.Row="1" VerticalAlignment="Center">
-                            <Label Content="Dokter:  " Margin="0, 0, 20, 0"/>
+                            <Label Content="Dokter:  " Margin="0, 0, 20, 0" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" Grid.Row="1" VerticalAlignment="Center">
-                            <TextBox IsEnabled="False" x:Name="txtNamaDokter" Width="250"/>
+                            <TextBox IsEnabled="False" x:Name="txtNamaDokter" Width="250" />
                         </StackPanel>
                     </Grid>
                 </StackPanel>
@@ -73,32 +74,35 @@
                 <StackPanel Grid.Column="0" Margin="10,0,0,0">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
                         <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
+                            <RowDefinition />
+                            <RowDefinition />
                         </Grid.RowDefinitions>
 
                         <StackPanel Grid.Column="0" Grid.Row="0" VerticalAlignment="Center">
-                            <Label Content="Kode Resep: " x:Name="lbKodeResep" Margin="0, 0, 20, 0"/>
+                            <Label Content="Kode Resep: " x:Name="lbKodeResep" Margin="0, 0, 20, 0" />
                         </StackPanel>
 
                         <StackPanel Grid.Column="1" Grid.Row="0" VerticalAlignment="Center">
                             <DockPanel>
-                                <TextBox x:Name="txtKodeResep" Width="250" VerticalAlignment="Center" IsReadOnly="True" IsEnabled="False"/>
-                                <Button x:Name="btnBrowseResep" Click="btnBrowseResep_Click" Content="Ambil Data" Width="Auto" Height="36" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5 0"/>
+                                <TextBox x:Name="txtKodeResep" Width="250" VerticalAlignment="Center" IsReadOnly="True"
+                                         IsEnabled="False" />
+                                <Button x:Name="btnBrowseResep" Click="btnBrowseResep_Click" Content="Ambil Data"
+                                        Width="Auto" Height="36" HorizontalAlignment="Left" VerticalAlignment="Center"
+                                        Margin="5 0" />
                             </DockPanel>
                         </StackPanel>
 
                         <StackPanel Grid.Column="0" Grid.Row="1" VerticalAlignment="Center">
-                            <Label Content="Nama Pasien: " x:Name="lbNamaPasien" Margin="0, 0, 20, 0"/>
+                            <Label Content="Nama Pasien: " x:Name="lbNamaPasien" Margin="0, 0, 20, 0" />
                         </StackPanel>
 
                         <StackPanel Grid.Column="1" Grid.Row="1" VerticalAlignment="Center">
-                            <TextBox x:Name="txtNamaPasien" IsEnabled="False" Width="250"/>
+                            <TextBox x:Name="txtNamaPasien" IsEnabled="False" Width="250" />
                         </StackPanel>
                     </Grid>
                 </StackPanel>
@@ -107,34 +111,37 @@
 
         <Grid Grid.Row="3">
             <StackPanel>
-                <Label x:Name="label" Content="Daftar Obat" FontWeight="Bold" FontSize="14"/>
+                <Label x:Name="label" Content="Daftar Obat" FontWeight="Bold" FontSize="14" />
                 <DataGrid x:Name="dtgDetailResep" Height="200" CanUserAddRows="False" AutoGenerateColumns="False">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding kode_obat}" Header="Kode Obat" IsReadOnly="True"/>
-                        <DataGridTextColumn Binding="{Binding nama_obat}" Header="Nama Obat" IsReadOnly="True"/>
-                        <DataGridTextColumn Binding="{Binding jumlah}" Header="Jumlah" IsReadOnly="True"/>
-                        <DataGridTextColumn Binding="{Binding harga_obat, StringFormat=C, ConverterCulture=id-ID}" Header="Harga Satuan" IsReadOnly="True"/>
-                        <DataGridTextColumn Binding="{Binding sub_total, StringFormat=C, ConverterCulture=id-ID}" Header="SubTotal" IsReadOnly="True"/>
+                        <DataGridTextColumn Binding="{Binding kode_obat}" Header="Kode Obat" IsReadOnly="True" />
+                        <DataGridTextColumn Binding="{Binding nama_obat}" Header="Nama Obat" IsReadOnly="True" />
+                        <DataGridTextColumn Binding="{Binding jumlah}" Header="Jumlah" IsReadOnly="True" />
+                        <DataGridTextColumn Binding="{Binding harga_obat, StringFormat=C, ConverterCulture=id-ID}"
+                                            Header="Harga Satuan" IsReadOnly="True" />
+                        <DataGridTextColumn Binding="{Binding sub_total, StringFormat=C, ConverterCulture=id-ID}"
+                                            Header="SubTotal" IsReadOnly="True" />
                     </DataGrid.Columns>
                 </DataGrid>
             </StackPanel>
         </Grid>
-        
+
         <Grid Grid.Row="4">
             <StackPanel Orientation="Vertical">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
                     <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
-                        <Label Content="Total: " Margin="10"/>
-                        <TextBox IsEnabled="False"  x:Name="txtTotal" Width="250" Background="White" BorderBrush="#FF6A6A6A" BorderThickness="1" FontWeight="Bold"/>
+                        <Label Content="Total: " Margin="10" />
+                        <TextBox IsEnabled="False" x:Name="txtTotal" Width="250" Background="White"
+                                 BorderBrush="#FF6A6A6A" BorderThickness="1" FontWeight="Bold" />
                     </StackPanel>
 
                     <StackPanel Grid.Row="1" HorizontalAlignment="Right">
-                        <Button Click="btnSelesai_Click" Content="Selesai" x:Name="btnSelesai"/>
+                        <Button Click="btnSelesai_Click" Content="Selesai" x:Name="btnSelesai" />
                     </StackPanel>
                 </Grid>
             </StackPanel>

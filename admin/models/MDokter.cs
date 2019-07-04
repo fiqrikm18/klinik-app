@@ -16,7 +16,8 @@ namespace admin.models
             this.password = password;
         }
 
-        public MDokter(string id, string nama, string telp, string spesialisasi, string alamat, string password, string poliklinik, string jenis_kelamin)
+        public MDokter(string id, string nama, string telp, string spesialisasi, string alamat, string password,
+            string poliklinik, string jenis_kelamin)
         {
             this.id = id;
             this.nama = nama;

@@ -1,24 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace dokter.models
+﻿namespace dokter.models
 {
     public class ModelPasien
     {
-        public string id { get; set; }
-        public string no_rm { get; set; }
-        public string nama { get; set; }
-        public string tgl_lahir { get; set; }
-        public string jenis_kelamin { get; set; }
-        public string no_telp { get; set; }
-        public string alamat { get; set; }
-        public string tgl_daftar { get; set; }
-        public string golongan_darah { get; set; }
-
-        public ModelPasien(string id, string no_rm, string nama, string tgl_lahir, string jenis_kelamin, string no_telp, string alamat, string tgl_daftar, string golongan_darah)
+        public ModelPasien(string id, string no_rm, string nama, string tgl_lahir, string jenis_kelamin, string no_telp,
+            string alamat, string tgl_daftar, string golongan_darah)
         {
             this.id = id;
             this.no_rm = no_rm;
@@ -31,6 +16,18 @@ namespace dokter.models
             this.golongan_darah = golongan_darah;
         }
 
-        ~ModelPasien() { }
+        public string id { get; set; }
+        public string no_rm { get; set; }
+        public string nama { get; set; }
+        public string tgl_lahir { get; set; }
+        public string jenis_kelamin { get; set; }
+        public string no_telp { get; set; }
+        public string alamat { get; set; }
+        public string tgl_daftar { get; set; }
+        public string golongan_darah { get; set; }
+
+        ~ModelPasien()
+        {
+        }
     }
 }

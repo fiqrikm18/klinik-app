@@ -75,13 +75,14 @@
                 <StackPanel Grid.Column="1" Grid.Row="2">
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
                         <StackPanel Grid.Row="1" Margin="0">
                             <Label Content="Jenis Kelamin" />
-                            <ComboBox x:Name="cbJenisKelamin" SelectedIndex="0" Background="{x:Null}" BorderBrush="{x:Null}">
+                            <ComboBox x:Name="cbJenisKelamin" SelectedIndex="0" Background="{x:Null}"
+                                      BorderBrush="{x:Null}">
                                 <ComboBoxItem Content="Pria" />
                                 <ComboBoxItem Content="Wanita" />
                             </ComboBox>
@@ -89,7 +90,8 @@
 
                         <StackPanel Grid.Row="0" Margin="0">
                             <Label Content="Golongan Darah" />
-                            <ComboBox x:Name="cbGolDarah" SelectedIndex="0" Background="{x:Null}" BorderBrush="{x:Null}">
+                            <ComboBox x:Name="cbGolDarah" SelectedIndex="0" Background="{x:Null}"
+                                      BorderBrush="{x:Null}">
                                 <ComboBoxItem Content="A" />
                                 <ComboBoxItem Content="B" />
                                 <ComboBoxItem Content="AB" />

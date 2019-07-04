@@ -11,13 +11,12 @@ namespace dokter.DBAccess
         ///     create connection to the database
         /// </summary>
         /// <returns></returns>
-        ///
-
         public static SqlConnection dbConnection()
         {
             if (MsqlConn == null)
             {
-                var connectionString = ConfigurationManager.ConnectionStrings["klinikDatabaseConeection"].ConnectionString;
+                var connectionString =
+                    ConfigurationManager.ConnectionStrings["klinikDatabaseConeection"].ConnectionString;
                 MsqlConn = new SqlConnection(connectionString);
             }
 

@@ -1,5 +1,5 @@
-﻿using System.Data.SqlClient;
-using System.Configuration;
+﻿using System.Configuration;
+using System.Data.SqlClient;
 
 namespace Antrian.DBAccess
 {
@@ -11,16 +11,20 @@ namespace Antrian.DBAccess
         ///     create connection to the database
         /// </summary>
         /// <returns></returns>
-        ///
+        private DBConnection()
+        {
+        }
 
-        DBConnection() { }
-        ~DBConnection() { }
+        ~DBConnection()
+        {
+        }
 
         public static SqlConnection dbConnection()
         {
             if (MsqlConn == null)
             {
-                var connectionString = ConfigurationManager.ConnectionStrings["klinikDatabaseConeection"].ConnectionString;
+                var connectionString =
+                    ConfigurationManager.ConnectionStrings["klinikDatabaseConeection"].ConnectionString;
                 MsqlConn = new SqlConnection(connectionString);
             }
 

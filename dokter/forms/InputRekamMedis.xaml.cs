@@ -1,49 +1,44 @@
-﻿using dokter.DBAccess;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using System.Data.SqlClient;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.Data.SqlClient;
+using dokter.DBAccess;
+using dokter.models;
+using dokter.Properties;
+using dokter.views;
 
 namespace dokter.forms
 {
     /// <summary>
-    /// Interaction logic for InputRekamMedis.xaml
+    ///     Interaction logic for InputRekamMedis.xaml
     /// </summary>
     public partial class InputRekamMedis : Window
     {
-        private string no_rm = "";
         private int _noOfErrorsOnScreen;
-        private models.ModelRekamMedis mrm;
-        private SqlConnection conn;
-        private views.ViewRekamMedis vmr;
+        private readonly SqlConnection conn;
+        private ModelRekamMedis mrm;
+        private string no_rm = "";
+        private readonly ViewRekamMedis vmr;
 
         public InputRekamMedis()
         {
             InitializeComponent();
-            mrm = new models.ModelRekamMedis(int.Parse(" "), " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ");
+            mrm = new ModelRekamMedis(int.Parse(" "), " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ");
             DataContext = mrm;
             conn = DBConnection.dbConnection();
         }
 
-        public InputRekamMedis(string no_rm, views.ViewRekamMedis vrm)
+        public InputRekamMedis(string no_rm, ViewRekamMedis vrm)
         {
             InitializeComponent();
             this.no_rm = no_rm;
             conn = DBConnection.dbConnection();
 
-            this.vmr = vrm;
+            vmr = vrm;
             txtRekamMedis.Text = no_rm;
-            mrm = new models.ModelRekamMedis(0, " ", " ", " ", " ", " ", " ", " ", " ", " ", DateTime.Now.ToShortDateString(), " ", " ", " ");
+            mrm = new ModelRekamMedis(0, " ", " ", " ", " ", " ", " ", " ", " ", " ", DateTime.Now.ToShortDateString(),
+                " ", " ", " ");
             //mrm = new models.ModelRekamMedis(" ", " ", " ");
             DataContext = mrm;
         }
@@ -76,8 +71,9 @@ namespace dokter.forms
 
         private void AddRekamMedis_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            mrm = new models.ModelRekamMedis(0, " ", " ", " ", " ", " ", " ", " ", " ", " ", DateTime.Now.ToShortDateString(), " ", " ", " ");
-            DBCommand cmd = new DBCommand(conn);
+            mrm = new ModelRekamMedis(0, " ", " ", " ", " ", " ", " ", " ", " ", " ", DateTime.Now.ToShortDateString(),
+                " ", " ", " ");
+            var cmd = new DBCommand(conn);
 
             var no_rm = txtRekamMedis.Text;
             var riwayat_penyakit = txtRiwayat.Text;
@@ -86,29 +82,32 @@ namespace dokter.forms
             var keluhan = textKeluhan.Text;
             var diagnosa = textDiagnosa.Text;
             var tindakan = textTindakan.Text;
-            var id_dokter = Properties.Settings.Default.KodeDokter;
+            var id_dokter = Settings.Default.KodeDokter;
             var kode_poli = cmd.GetKodePoli();
 
             cmd.CloseConnection();
 
             if (CheckTextBox())
             {
-                if (cmd.InsertDataRekamMedis(no_rm, riwayat_penyakit, alergi, berat_badan, keluhan, diagnosa, tindakan, id_dokter, kode_poli))
+                if (cmd.InsertDataRekamMedis(no_rm, riwayat_penyakit, alergi, berat_badan, keluhan, diagnosa, tindakan,
+                    id_dokter, kode_poli))
                 {
-
-                    MessageBox.Show("Rekam medis berhasil di tambahkan.", "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Rekam medis berhasil di tambahkan.", "Informasi", MessageBoxButton.OK,
+                        MessageBoxImage.Information);
                     DataContext = mrm;
                     vmr.DisplayDataPasien(no_rm);
                     Close();
                 }
                 else
                 {
-                    MessageBox.Show("Rekam medis gagal di tambahkan.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Rekam medis gagal di tambahkan.", "Error", MessageBoxButton.OK,
+                        MessageBoxImage.Error);
                 }
             }
             else
             {
-                MessageBox.Show("Pastikan data yang diinputkan sudah benar.", "Perhatian", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Pastikan data yang diinputkan sudah benar.", "Perhatian", MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
             }
 
             e.Handled = true;
@@ -116,10 +115,8 @@ namespace dokter.forms
 
         private bool CheckTextBox()
         {
-            if (!string.IsNullOrWhiteSpace(textDiagnosa.Text) && !string.IsNullOrWhiteSpace(textTindakan.Text) && !string.IsNullOrWhiteSpace(textDiagnosa.Text))
-            {
-                return true;
-            }
+            if (!string.IsNullOrWhiteSpace(textDiagnosa.Text) && !string.IsNullOrWhiteSpace(textTindakan.Text) &&
+                !string.IsNullOrWhiteSpace(textDiagnosa.Text)) return true;
 
             return false;
         }

@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Linq;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
+using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,6 +16,7 @@ namespace pendaftaran.views
     /// </summary>
     public partial class antrian : Page
     {
+        private readonly SqlConnection conn;
         /* query getting data for datagrid
          * --------------------------------------------------------------------------------------
          * SELECT tb_antrian_poli.no_rm, tb_pasien.nama, tb_antrian_poli.no_urut, tb_poliklinik.nama_poli
@@ -26,18 +26,16 @@ namespace pendaftaran.views
          * WHERE tb_antrian_poli.tgl_berobat = '2019-05-06';
          * */
 
-        private string policode = null;
-        private string tgl = null;
-
-        SqlConnection conn;
+        private string policode;
+        private string tgl;
 
         public antrian()
         {
             InitializeComponent();
             conn = DBConnection.dbConnection();
 
-            DBCommand dbcmd = new DBCommand(conn);
-            List<ComboboxPairs> cbp = dbcmd.GetPoliklinik();
+            var dbcmd = new DBCommand(conn);
+            var cbp = dbcmd.GetPoliklinik();
 
             cbPoliklinik.DisplayMemberPath = "kode_poliklinik";
             cbPoliklinik.SelectedValuePath = "nama_poliklinik";
@@ -56,8 +54,8 @@ namespace pendaftaran.views
 
         public void displayDataAntrian(string antrian = null, string tgl = null)
         {
-            DBCommand cmd = new DBCommand(conn);
-            List<ModelAntrian> dataAntrian = cmd.GetDataAntrian(tgl);
+            var cmd = new DBCommand(conn);
+            var dataAntrian = cmd.GetDataAntrian(tgl);
 
             if (string.IsNullOrEmpty(antrian) || antrian == "Pilih")
             {
@@ -65,14 +63,14 @@ namespace pendaftaran.views
             }
             else
             {
-                IEnumerable<ModelAntrian> filtered = dataAntrian.Where(x => x.poliklinik == antrian);
+                var filtered = dataAntrian.Where(x => x.poliklinik == antrian);
                 dtgAntrian.ItemsSource = filtered;
             }
         }
 
         private void DtgAntrian_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var cbp = (ComboboxPairs)cbPoliklinik.SelectedItem;
+            var cbp = (ComboboxPairs) cbPoliklinik.SelectedItem;
             policode = cbp.nama_poliklinik;
 
             displayDataAntrian(policode, tgl);
@@ -91,10 +89,10 @@ namespace pendaftaran.views
 
         private void HapusDataPasien(object sender, RoutedEventArgs e)
         {
-            var cbp = (ComboboxPairs)cbPoliklinik.SelectedItem;
+            var cbp = (ComboboxPairs) cbPoliklinik.SelectedItem;
             policode = cbp.nama_poliklinik;
 
-            if (DBConnection.dbConnection().State.Equals(System.Data.ConnectionState.Closed))
+            if (DBConnection.dbConnection().State.Equals(ConnectionState.Closed))
                 DBConnection.dbConnection().Open();
 
             if (dtTanggalLahir.SelectedDate.Value.ToShortDateString() != DateTime.Now.ToShortDateString())
@@ -103,25 +101,23 @@ namespace pendaftaran.views
                 {
                     if (policode != "Pilih" || policode != "000")
                     {
-
-                    }
-                    else
-                    {
-
                     }
                 }
                 else
                 {
-                    int res = 1;
+                    var res = 1;
 
                     try
                     {
                         if (policode != "Pilih" || policode != "000")
                         {
-                            for (int i = 0; i < dtgAntrian.Items.Count; i++)
+                            for (var i = 0; i < dtgAntrian.Items.Count; i++)
                             {
-                                SqlCommand cmd = new SqlCommand("delete from[tb_antrian_poli] where[tgl_berobat] = CONVERT(date, @date, 111) AND[poliklinik] = @poliklinik", DBConnection.dbConnection());
-                                cmd.Parameters.AddWithValue("date", dtTanggalLahir.SelectedDate.Value.ToShortDateString());
+                                var cmd = new SqlCommand(
+                                    "delete from[tb_antrian_poli] where[tgl_berobat] = CONVERT(date, @date, 111) AND[poliklinik] = @poliklinik",
+                                    DBConnection.dbConnection());
+                                cmd.Parameters.AddWithValue("date",
+                                    dtTanggalLahir.SelectedDate.Value.ToShortDateString());
                                 cmd.Parameters.AddWithValue("poliklinik", policode);
                                 res = cmd.ExecuteNonQuery();
                             }
@@ -129,37 +125,44 @@ namespace pendaftaran.views
                             MessageBox.Show(res.ToString());
 
                             if (res == 1)
-                            {
-                                MessageBox.Show($"Data antrian pada tanggal {dtTanggalLahir.SelectedDate.Value.ToShortDateString()} berhasil dihapus.", "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
-                            }
+                                MessageBox.Show(
+                                    $"Data antrian pada tanggal {dtTanggalLahir.SelectedDate.Value.ToShortDateString()} berhasil dihapus.",
+                                    "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
 
                             displayDataAntrian();
                         }
                         else
                         {
-                            for (int i = 0; i < dtgAntrian.Items.Count; i++)
+                            for (var i = 0; i < dtgAntrian.Items.Count; i++)
                             {
-                                SqlCommand cmd = new SqlCommand("delete from [tb_antrian_poli] where [tgl_berobat] = CONVERT(date, @date, 111);");
-                                cmd.Parameters.AddWithValue("date", dtTanggalLahir.SelectedDate.Value.ToShortDateString());
+                                var cmd = new SqlCommand(
+                                    "delete from [tb_antrian_poli] where [tgl_berobat] = CONVERT(date, @date, 111);");
+                                cmd.Parameters.AddWithValue("date",
+                                    dtTanggalLahir.SelectedDate.Value.ToShortDateString());
                                 res = cmd.ExecuteNonQuery();
                             }
 
                             if (res == 0)
                             {
-                                MessageBox.Show($"Data antrian pada tanggal {dtTanggalLahir.SelectedDate.Value.ToShortDateString()} berhasil dihapus.", "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
+                                MessageBox.Show(
+                                    $"Data antrian pada tanggal {dtTanggalLahir.SelectedDate.Value.ToShortDateString()} berhasil dihapus.",
+                                    "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
                                 displayDataAntrian();
                             }
                         }
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show($"Data antrian pada tanggal {dtTanggalLahir.SelectedDate.Value.ToShortDateString()} gagal dihapus.\n"+ex.Message, "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
+                        MessageBox.Show(
+                            $"Data antrian pada tanggal {dtTanggalLahir.SelectedDate.Value.ToShortDateString()} gagal dihapus.\n" +
+                            ex.Message, "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                 }
             }
             else
             {
-                MessageBox.Show("Data antrian pada hari ini tidak dapat dihapus.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Data antrian pada hari ini tidak dapat dihapus.", "Error", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
             }
         }
     }

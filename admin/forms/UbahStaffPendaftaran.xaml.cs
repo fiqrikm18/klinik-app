@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,8 +8,6 @@ using admin.Mifare;
 using admin.models;
 using admin.Utils;
 using admin.views;
-using PCSC;
-using PCSC.Iso7816;
 
 namespace admin.forms
 {
@@ -34,11 +30,11 @@ namespace admin.forms
         private readonly DaftarPendaftaran df;
         private MPendaftaran _mDaftarBaru = new MPendaftaran(" ", " ", " ", " ", " ", " ");
         private int _noOfErrorsOnScreen;
+        private readonly DBCommand cmd;
 
-        SmartCardOperation sp;
+        private readonly SqlConnection conn;
 
-        SqlConnection conn;
-        DBCommand cmd;
+        private readonly SmartCardOperation sp;
 
         public UbahStaffPendaftaran(string id, string nama, string alamat, string telp, string jenisK,
             DaftarPendaftaran df)
@@ -50,10 +46,13 @@ namespace admin.forms
             conn = DBConnection.dbConnection();
             cmd = new DBCommand(conn);
 
-            if (sp.IsReaderAvailable()) { }
+            if (sp.IsReaderAvailable())
+            {
+            }
             else
             {
-                MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             this.df = df;
@@ -102,12 +101,10 @@ namespace admin.forms
 
                 if (cmd.UpdateDataStaff(id, nama, jenisK, telp, alamat))
                 {
-                    bool isPrinted = false;
+                    var isPrinted = false;
 
                     if (chkCetakKartu.IsChecked == true)
-                    {
                         while (!isPrinted)
-                        {
                             try
                             {
                                 if (!string.IsNullOrEmpty(id))
@@ -151,7 +148,8 @@ namespace admin.forms
 
                                 if (!string.IsNullOrEmpty(alamat))
                                 {
-                                    if (sp.WriteBlockRange(Msb, BlockAlamatFrom, BlockAlamatTo, Util.ToArrayByte64(alamat)))
+                                    if (sp.WriteBlockRange(Msb, BlockAlamatFrom, BlockAlamatTo,
+                                        Util.ToArrayByte64(alamat)))
                                     {
                                     }
                                     else
@@ -188,7 +186,9 @@ namespace admin.forms
                             }
                             catch (Exception)
                             {
-                                var ans = MessageBox.Show("Penulisan kartu gagal, pastikan kartu sudah berada pada jangkauan reader.\nApakah anda ingin menulis kartu lain kali?", "Error",
+                                var ans = MessageBox.Show(
+                                    "Penulisan kartu gagal, pastikan kartu sudah berada pada jangkauan reader.\nApakah anda ingin menulis kartu lain kali?",
+                                    "Error",
                                     MessageBoxButton.YesNo, MessageBoxImage.Error);
 
                                 if (ans == MessageBoxResult.Yes)
@@ -196,8 +196,6 @@ namespace admin.forms
 
                                 sp.isoReaderInit();
                             }
-                        }
-                    }
 
                     MessageBox.Show("Data staff berhasil disimpan.", "Informasi", MessageBoxButton.OK,
                         MessageBoxImage.Information);

@@ -1,29 +1,30 @@
 ﻿<Page x:Class="dokter.views.DataPsien"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:dokter.views"
-      mc:Ignorable="d" 
+      mc:Ignorable="d"
       Title="DataPsien">
 
     <Grid Style="{StaticResource OpenSans}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
-            <TextBlock Text="Data Pasien" FontSize="16" FontWeight="Bold" Foreground="#555555"/>
+            <TextBlock Text="Data Pasien" FontSize="16" FontWeight="Bold" Foreground="#555555" />
         </StackPanel>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
             <DockPanel Background="#F0F0F0">
                 <TextBox x:Name="txtSearchPasien" VerticalAlignment="Center"
-                         HorizontalAlignment="Center" Text="No Identitas" TextChanged="TxtSearchPasien_TextChanged" GotKeyboardFocus="TxtSearchPasien_GotKeyboardFocus"/>
+                         HorizontalAlignment="Center" Text="No Identitas" TextChanged="TxtSearchPasien_TextChanged"
+                         GotKeyboardFocus="TxtSearchPasien_GotKeyboardFocus" />
                 <Button Width="Auto" VerticalAlignment="Center" Margin="5" Padding="5" Background="{x:Null}">
                     <Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Width="20" Height="20"
@@ -38,18 +39,20 @@
         <StackPanel Grid.Row="2">
             <DataGrid x:Name="dtgDataPasien" Height="400" CanUserAddRows="False" AutoGenerateColumns="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding id}" Header="Nomor Identitas" IsReadOnly="True"/>
-                    <DataGridTextColumn Binding="{Binding no_rm}" Header="Nomor Rekam Medis" IsReadOnly="True"/>
-                    <DataGridTextColumn Binding="{Binding nama}" Header="Nama Pasien" IsReadOnly="True" Width="150"/>
-                    <DataGridTextColumn Binding="{Binding golongan_darah}" Header="Golongan Darah" IsReadOnly="True" Width="150"/>
-                    <DataGridTextColumn Binding="{Binding jenis_kelamin}" Header="Jenis Kelamin" IsReadOnly="True" Width="150"/>
+                    <DataGridTextColumn Binding="{Binding id}" Header="Nomor Identitas" IsReadOnly="True" />
+                    <DataGridTextColumn Binding="{Binding no_rm}" Header="Nomor Rekam Medis" IsReadOnly="True" />
+                    <DataGridTextColumn Binding="{Binding nama}" Header="Nama Pasien" IsReadOnly="True" Width="150" />
+                    <DataGridTextColumn Binding="{Binding golongan_darah}" Header="Golongan Darah" IsReadOnly="True"
+                                        Width="150" />
+                    <DataGridTextColumn Binding="{Binding jenis_kelamin}" Header="Jenis Kelamin" IsReadOnly="True"
+                                        Width="150" />
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>
 
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button x:Name="btnDetail" Click="btnDetail_Click" Content="Lihat Detail"/>
-            <Button x:Name="btnPrint" Click="btnPrint_Click" Content="Print Data Pasien" Width="Auto"/>
+            <Button x:Name="btnDetail" Click="btnDetail_Click" Content="Lihat Detail" />
+            <Button x:Name="btnPrint" Click="btnPrint_Click" Content="Print Data Pasien" Width="Auto" />
         </StackPanel>
     </Grid>
 </Page>

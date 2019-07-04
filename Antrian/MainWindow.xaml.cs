@@ -1,33 +1,21 @@
-﻿using Antrian.DBAccess;
-using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Antrian.DBAccess;
+using Antrian.Properties;
 
 namespace Antrian
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    ///     Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        string jenis_antrian = Properties.Settings.Default.antrian;
-        string poliklinik = Properties.Settings.Default.poliklinik;
+        private readonly DBCommand cmd;
 
-        SqlConnection conn;
-        DBCommand cmd;
+        private readonly SqlConnection conn;
+        private readonly string jenis_antrian = Settings.Default.antrian;
+        private readonly string poliklinik = Settings.Default.poliklinik;
 
         //TODO: buat socket server 
         public MainWindow()
@@ -38,12 +26,12 @@ namespace Antrian
 
             Debug.WriteLine($"Kode Poli: {cmd.GetKodePoli()}");
 
-            if(jenis_antrian == "Poliklinik")
+            if (jenis_antrian == "Poliklinik")
             {
                 //MessageBox.Show(jenis_antrian);
-                this.Title = "Antrian Poli " + poliklinik;
+                Title = "Antrian Poli " + poliklinik;
                 lbNamaPoli.Text = "Poli " + poliklinik;
-                tbjudul.Text += ("Poli " + poliklinik);
+                tbjudul.Text += "Poli " + poliklinik;
             }
 
             LoadPeriksa();
@@ -58,7 +46,7 @@ namespace Antrian
 
         private void DisPlayDataGridAntrian()
         {
-            List<models.ModelAntrianPoli> antrian = cmd.GetAntrianPoli();
+            var antrian = cmd.GetAntrianPoli();
             dtgAntrian.ItemsSource = antrian;
         }
     }

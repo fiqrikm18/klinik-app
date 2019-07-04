@@ -1,41 +1,35 @@
-﻿using dokter.DBAccess;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using dokter.DBAccess;
+using dokter.models;
+using dokter.Properties;
+using dokter.views;
 
 namespace dokter.forms
 {
     /// <summary>
-    /// Interaction logic for UpdateRekamMedis.xaml
+    ///     Interaction logic for UpdateRekamMedis.xaml
     /// </summary>
     public partial class UpdateRekamMedis : Window
     {
-        private string no_rm = "";
         private int _noOfErrorsOnScreen;
-        private models.ModelRekamMedis mrm;
-        private SqlConnection conn;
-        private views.ViewRekamMedis vrm;
+        private readonly SqlConnection conn;
+        private ModelRekamMedis mrm;
+        private string no_rm = "";
+        private readonly ViewRekamMedis vrm;
 
         public UpdateRekamMedis()
         {
             InitializeComponent();
-            mrm = new models.ModelRekamMedis(int.Parse(" "), " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ");
+            mrm = new ModelRekamMedis(int.Parse(" "), " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ");
             DataContext = mrm;
             conn = DBConnection.dbConnection();
         }
 
-        public UpdateRekamMedis(string no_rm, views.ViewRekamMedis vrm)
+        public UpdateRekamMedis(string no_rm, ViewRekamMedis vrm)
         {
             InitializeComponent();
             this.no_rm = no_rm;
@@ -43,7 +37,8 @@ namespace dokter.forms
 
             this.vrm = vrm;
             txtRekamMedis.Text = no_rm;
-            mrm = new models.ModelRekamMedis(0, " ", " ", " ", " ", " ", " ", " ", " ", " ", DateTime.Now.ToShortDateString(), " ", " ", " ");
+            mrm = new ModelRekamMedis(0, " ", " ", " ", " ", " ", " ", " ", " ", " ", DateTime.Now.ToShortDateString(),
+                " ", " ", " ");
             DataContext = mrm;
         }
 
@@ -60,8 +55,9 @@ namespace dokter.forms
 
         private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            mrm = new models.ModelRekamMedis(0, " ", " ", " ", " ", " ", " ", " ", " ", " ", DateTime.Now.ToShortDateString(), " ", " ", " ");
-            DBCommand cmd = new DBCommand(conn);
+            mrm = new ModelRekamMedis(0, " ", " ", " ", " ", " ", " ", " ", " ", " ", DateTime.Now.ToShortDateString(),
+                " ", " ", " ");
+            var cmd = new DBCommand(conn);
 
             var no_rm = txtRekamMedis.Text;
             var riwayat_penyakit = txtRiwayat.Text;
@@ -70,29 +66,32 @@ namespace dokter.forms
             var keluhan = textKeluhan.Text;
             var diagnosa = textDiagnosa.Text;
             var tindakan = textTindakan.Text;
-            var id_dokter = Properties.Settings.Default.KodeDokter;
+            var id_dokter = Settings.Default.KodeDokter;
             var kode_poli = cmd.GetKodePoli();
 
             cmd.CloseConnection();
 
             if (CheckTextBox())
             {
-                if (cmd.UpdateDataRekamMedis(no_rm, riwayat_penyakit, alergi, berat_badan, keluhan, diagnosa, tindakan, id_dokter, kode_poli))
+                if (cmd.UpdateDataRekamMedis(no_rm, riwayat_penyakit, alergi, berat_badan, keluhan, diagnosa, tindakan,
+                    id_dokter, kode_poli))
                 {
-
-                    MessageBox.Show("Rekam medis berhasil di update.", "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Rekam medis berhasil di update.", "Informasi", MessageBoxButton.OK,
+                        MessageBoxImage.Information);
                     DataContext = mrm;
                     vrm.DisplayDataPasien(no_rm);
                     Close();
                 }
                 else
                 {
-                    MessageBox.Show("Rekam medis gagal di update.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Rekam medis gagal di update.", "Error", MessageBoxButton.OK,
+                        MessageBoxImage.Error);
                 }
             }
             else
             {
-                MessageBox.Show("Pastikan data yang diinputkan sudah benar.", "Perhatian", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Pastikan data yang diinputkan sudah benar.", "Perhatian", MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
             }
 
             e.Handled = true;
@@ -113,10 +112,8 @@ namespace dokter.forms
 
         private bool CheckTextBox()
         {
-            if (!string.IsNullOrWhiteSpace(textDiagnosa.Text) && !string.IsNullOrWhiteSpace(textTindakan.Text) && !string.IsNullOrWhiteSpace(textDiagnosa.Text))
-            {
-                return true;
-            }
+            if (!string.IsNullOrWhiteSpace(textDiagnosa.Text) && !string.IsNullOrWhiteSpace(textTindakan.Text) &&
+                !string.IsNullOrWhiteSpace(textDiagnosa.Text)) return true;
 
             return false;
         }

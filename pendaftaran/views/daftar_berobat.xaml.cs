@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
 using System.Windows;
 using System.Windows.Controls;
-using PCSC;
-using PCSC.Iso7816;
 using pendaftaran.DBAccess;
 using pendaftaran.Mifare;
 using pendaftaran.models;
@@ -21,9 +17,9 @@ namespace pendaftaran.views
         private const byte Msb = 0x00;
         private readonly byte blockNoRekamMedis = 1;
 
-        SmartCardOperation sp;
+        private readonly SqlConnection conn;
 
-        SqlConnection conn;
+        private readonly SmartCardOperation sp;
 
         #region constructor
 
@@ -31,16 +27,19 @@ namespace pendaftaran.views
         {
             InitializeComponent();
             conn = DBConnection.dbConnection();
-            DBCommand cmd = new DBCommand(conn);
+            var cmd = new DBCommand(conn);
             sp = new SmartCardOperation();
 
-            if (sp.IsReaderAvailable()) { }
+            if (sp.IsReaderAvailable())
+            {
+            }
             else
             {
-                MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
-            List<ComboboxPairs> cbp = cmd.GetPoliklinik();
+            var cbp = cmd.GetPoliklinik();
 
             cbPoliklinik.DisplayMemberPath = "kode_poliklinik";
             cbPoliklinik.SelectedValuePath = "nama_poliklinik";
@@ -54,47 +53,48 @@ namespace pendaftaran.views
 
         private void tambah_antrian(object sender, RoutedEventArgs e)
         {
-            if(!string.IsNullOrWhiteSpace(txtIdPasien.Text) && !string.IsNullOrEmpty(txtIdPasien.Text) && cbPoliklinik.SelectedIndex != 0)
+            if (!string.IsNullOrWhiteSpace(txtIdPasien.Text) && !string.IsNullOrEmpty(txtIdPasien.Text) &&
+                cbPoliklinik.SelectedIndex != 0)
             {
-                var cbp = (ComboboxPairs)cbPoliklinik.SelectedItem;
+                var cbp = (ComboboxPairs) cbPoliklinik.SelectedItem;
                 var policode = cbp.nama_poliklinik;
                 var norm = txtIdPasien.Text;
                 var no_urut = 0;
 
-                DBCommand cmd = new DBCommand(conn);
+                var cmd = new DBCommand(conn);
 
                 if (cmd.CountRmPasienExists(norm) == 1)
                 {
                     var last = cmd.GetLastNoUrut(policode);
 
                     if (last == 0)
-                    {
                         no_urut = 1;
-                    }
                     else
-                    {
                         no_urut = last + 1;
-                    }
 
                     if (cmd.InsertAntrian(norm, no_urut, policode))
                     {
-                        MessageBox.Show("Pasien berhasil didaftarkan.\nNomor Antri: " + no_urut, "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
+                        MessageBox.Show("Pasien berhasil didaftarkan.\nNomor Antri: " + no_urut, "Informasi",
+                            MessageBoxButton.OK, MessageBoxImage.Information);
                         txtIdPasien.Text = "";
                         cbPoliklinik.SelectedIndex = 0;
                     }
                     else
                     {
-                        MessageBox.Show("Pasien gagal didaftarkan.", "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
+                        MessageBox.Show("Pasien gagal didaftarkan.", "Informasi", MessageBoxButton.OK,
+                            MessageBoxImage.Information);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Rekam medis pasien belum teraftar, periksa kembali data pasien.", "Perhatian", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("Rekam medis pasien belum teraftar, periksa kembali data pasien.", "Perhatian",
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
             else
             {
-                MessageBox.Show("Isikan data dengan benar, pastikan semua data telah benar.", "Perhatian", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Isikan data dengan benar, pastikan semua data telah benar.", "Perhatian",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 

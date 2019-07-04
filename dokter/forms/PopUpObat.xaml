@@ -8,14 +8,15 @@
         Title="Data Obat" Height="401.824" Width="467.941" Icon="/dokter;component/images/BMicon.ico">
     <Grid Style="{StaticResource OpenSans}" Margin="20">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
             <StackPanel Background="#F0F0F0" Orientation="Horizontal" Height="45">
-                <TextBox x:Name="txtSearchPasien" VerticalAlignment="Center" GotKeyboardFocus="txtSearchPasien_GotKeyboardFocus" TextChanged="txtSearchPasien_TextChanged"
-                         HorizontalAlignment="Center" Text="Nama obat" Width="248"/>
+                <TextBox x:Name="txtSearchPasien" VerticalAlignment="Center"
+                         GotKeyboardFocus="txtSearchPasien_GotKeyboardFocus" TextChanged="txtSearchPasien_TextChanged"
+                         HorizontalAlignment="Center" Text="Nama obat" Width="248" />
                 <Button Width="Auto" VerticalAlignment="Center" Margin="5" Padding="5" Background="{x:Null}">
                     <Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Width="20" Height="20"
@@ -28,12 +29,13 @@
         </StackPanel>
 
         <StackPanel Grid.Row="1">
-            <DataGrid x:Name="dgDataObat" Height="233" AutoGenerateColumns="False" CanUserAddRows="False" VerticalScrollBarVisibility="Visible" SelectionChanged="dgDataObat_SelectionChanged">
+            <DataGrid x:Name="dgDataObat" Height="233" AutoGenerateColumns="False" CanUserAddRows="False"
+                      VerticalScrollBarVisibility="Visible" SelectionChanged="dgDataObat_SelectionChanged">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding kode_obat}" Header="Kode Obat" IsReadOnly="True"/>
-                    <DataGridTextColumn Binding="{Binding nama_obat}" Header="Nama Obat" IsReadOnly="True"/>
-                    <DataGridTextColumn Binding="{Binding stok}" Header="Stok" IsReadOnly="True"/>
-                    <DataGridTextColumn Binding="{Binding satuan}" Header="Satuan" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding kode_obat}" Header="Kode Obat" IsReadOnly="True" />
+                    <DataGridTextColumn Binding="{Binding nama_obat}" Header="Nama Obat" IsReadOnly="True" />
+                    <DataGridTextColumn Binding="{Binding stok}" Header="Stok" IsReadOnly="True" />
+                    <DataGridTextColumn Binding="{Binding satuan}" Header="Satuan" IsReadOnly="True" />
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>

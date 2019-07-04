@@ -20,7 +20,8 @@
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
             <DockPanel Background="#F0F0F0">
-                <TextBox x:Name="txtSearchPasien" VerticalAlignment="Center" GotKeyboardFocus="TextBoxFocus" TextChanged="TxtSearchPasien_TextChanged"
+                <TextBox x:Name="txtSearchPasien" VerticalAlignment="Center" GotKeyboardFocus="TextBoxFocus"
+                         TextChanged="TxtSearchPasien_TextChanged"
                          HorizontalAlignment="Center" Text="Nama Obat" BorderBrush="{x:Null}" />
                 <Button Width="Auto" VerticalAlignment="Center" Margin="5" Padding="5" Background="{x:Null}">
                     <Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -37,13 +38,13 @@
             <DataGrid x:Name="dtgDataObat" SelectionMode="Extended" VerticalAlignment="Top"
                       HorizontalAlignment="Stretch" AutoGenerateColumns="False" Height="400" CanUserAddRows="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding kode_obat}" Header="Kode Obat" IsReadOnly="True"/>
-                    <DataGridTextColumn Binding="{Binding nama_obat}" Header="Nama Obat" IsReadOnly="True" Width="150"/>
-                    <DataGridTextColumn Binding="{Binding stok}" Header="Stok Obat" IsReadOnly="True"/>
-                    <DataGridTextColumn Binding="{Binding satuan}" Header="Satuan Obat" IsReadOnly="True"/>
-                    <DataGridTextColumn Binding="{Binding harga_beli}" Header="Harga Beli" IsReadOnly="True"/>
-                    <DataGridTextColumn Binding="{Binding harga_jual}" Header="Harga Jual" IsReadOnly="True"/>
-                    <DataGridTextColumn Binding="{Binding harga_resep}" Header="Harga Resep" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding kode_obat}" Header="Kode Obat" IsReadOnly="True" />
+                    <DataGridTextColumn Binding="{Binding nama_obat}" Header="Nama Obat" IsReadOnly="True" Width="150" />
+                    <DataGridTextColumn Binding="{Binding stok}" Header="Stok Obat" IsReadOnly="True" />
+                    <DataGridTextColumn Binding="{Binding satuan}" Header="Satuan Obat" IsReadOnly="True" />
+                    <DataGridTextColumn Binding="{Binding harga_beli}" Header="Harga Beli" IsReadOnly="True" />
+                    <DataGridTextColumn Binding="{Binding harga_jual}" Header="Harga Jual" IsReadOnly="True" />
+                    <DataGridTextColumn Binding="{Binding harga_resep}" Header="Harga Resep" IsReadOnly="True" />
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>
@@ -54,5 +55,5 @@
             <Button x:Name="btn_hapus" Click="btn_hapus_Click" Content="Hapus Obat" />
         </StackPanel>
     </Grid>
-    
+
 </Page>

@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using admin.DBAccess;
 using admin.forms;
-using admin.models;
 
 namespace admin.views
 {
@@ -17,8 +13,8 @@ namespace admin.views
     /// </summary>
     public partial class DaftarPoliklinik : Page
     {
-        SqlConnection conn;
-        DBCommand cmd;
+        private readonly DBCommand cmd;
+        private readonly SqlConnection conn;
 
         public DaftarPoliklinik()
         {
@@ -31,7 +27,7 @@ namespace admin.views
 
         public void displayDataPoliklinik(string nama = null)
         {
-            List<MPoliklinik> poliklinik = cmd.GetDataPoliKlinik();
+            var poliklinik = cmd.GetDataPoliKlinik();
 
             if (string.IsNullOrEmpty(nama))
             {
@@ -39,7 +35,7 @@ namespace admin.views
             }
             else
             {
-                IEnumerable<MPoliklinik> cbp = poliklinik.Where(x => x.nama_poliklinik.ToLower().Contains(nama.ToLower()));
+                var cbp = poliklinik.Where(x => x.nama_poliklinik.ToLower().Contains(nama.ToLower()));
                 dtgDataPoliklinik.ItemsSource = cbp;
             }
         }
@@ -73,19 +69,14 @@ namespace admin.views
                     MessageBoxImage.Warning);
 
                 if (a == MessageBoxResult.Yes)
-                {
                     for (var i = 0; i < dtgDataPoliklinik.SelectedItems.Count; i++)
-                    {
-                        if (cmd.DeleteDataPoliklinik((dtgDataPoliklinik.SelectedCells[0].Column.GetCellContent(dtgDataPoliklinik.SelectedItems[i]) as TextBlock)?.Text))
-                        {
-                            MessageBox.Show("Data poliklinik berhasil dihapus.", "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
-                        }
+                        if (cmd.DeleteDataPoliklinik((dtgDataPoliklinik.SelectedCells[0].Column
+                            .GetCellContent(dtgDataPoliklinik.SelectedItems[i]) as TextBlock)?.Text))
+                            MessageBox.Show("Data poliklinik berhasil dihapus.", "Informasi", MessageBoxButton.OK,
+                                MessageBoxImage.Information);
                         else
-                        {
-                            MessageBox.Show("Data poliklinik gagal dihapus.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                        }
-                    }
-                }
+                            MessageBox.Show("Data poliklinik gagal dihapus.", "Error", MessageBoxButton.OK,
+                                MessageBoxImage.Error);
 
                 displayDataPoliklinik();
                 DBConnection.dbConnection().Close();

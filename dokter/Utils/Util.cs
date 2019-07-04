@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace dokter.Utils
 {
@@ -18,7 +14,7 @@ namespace dokter.Utils
                 len = 16;
 
             for (var i = 0; i < len; i++)
-                bout[i] = (byte)str[i];
+                bout[i] = (byte) str[i];
 
             return bout;
         }
@@ -29,7 +25,7 @@ namespace dokter.Utils
             Array.Clear(bout, 0, 32);
 
             for (var i = 0; i < str.Length; i++)
-                bout[i] = (byte)str[i];
+                bout[i] = (byte) str[i];
 
             return bout;
         }
@@ -40,7 +36,7 @@ namespace dokter.Utils
             Array.Clear(bout, 0, 48);
 
             for (var i = 0; i < str.Length; i++)
-                bout[i] = (byte)str[i];
+                bout[i] = (byte) str[i];
 
             return bout;
         }
@@ -51,7 +47,7 @@ namespace dokter.Utils
             Array.Clear(bout, 0, 64);
 
             for (var i = 0; i < str.Length; i++)
-                bout[i] = (byte)str[i];
+                bout[i] = (byte) str[i];
 
             return bout;
         }

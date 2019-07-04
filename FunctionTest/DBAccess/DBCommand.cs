@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace dokter.DBAccess
 {
-    class DBCommand
+    internal class DBCommand
     {
-        private SqlConnection conn;
+        private readonly SqlConnection conn;
 
         public DBCommand(SqlConnection conn)
         {
@@ -14,22 +15,25 @@ namespace dokter.DBAccess
 
         private void OpenConnection()
         {
-            if (conn.State.Equals(System.Data.ConnectionState.Closed))
+            if (conn.State.Equals(ConnectionState.Closed))
                 conn.Open();
         }
 
         private void CloseConnection()
         {
-            if (conn.State.Equals(System.Data.ConnectionState.Open))
+            if (conn.State.Equals(ConnectionState.Open))
                 conn.Close();
         }
 
-        public bool InsertDataRekamMedis(string no_rm, string riwayat_penyakit, string alergi, string berat_badan, string keluhan, string diagnosa, string tindakan, string id_dokter, string poli)
+        public bool InsertDataRekamMedis(string no_rm, string riwayat_penyakit, string alergi, string berat_badan,
+            string keluhan, string diagnosa, string tindakan, string id_dokter, string poli)
         {
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("INSERT INTO [dbo].[tb_rekam_medis] ([no_rm] ,[riwayat_penyakit] ,[alergi], [berat_badan] ,[keluhan] ,[diagnosa] ,[tindakan] ,[id_dokter] ,[poli]) VALUES (@no_rm,@riwayat_penyakit,@alergi,@berat_badan,@keluhan,@diagnosa,@tindakan,@id_dokter,@poli)", conn);
+                var cmd = new SqlCommand(
+                    "INSERT INTO [dbo].[tb_rekam_medis] ([no_rm] ,[riwayat_penyakit] ,[alergi], [berat_badan] ,[keluhan] ,[diagnosa] ,[tindakan] ,[id_dokter] ,[poli]) VALUES (@no_rm,@riwayat_penyakit,@alergi,@berat_badan,@keluhan,@diagnosa,@tindakan,@id_dokter,@poli)",
+                    conn);
                 cmd.Parameters.AddWithValue("no_rm", no_rm);
                 cmd.Parameters.AddWithValue("riwayat_penyakit", riwayat_penyakit);
                 cmd.Parameters.AddWithValue("alergi", alergi);
@@ -57,7 +61,9 @@ namespace dokter.DBAccess
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("INSERT INTO [dbo].[tb_resep]([kode_resep],[no_rm],[no_resep],[id_dokter]) VALUES(@kode_resep,@no_rm,@no_resep,@id_dokter)", conn);
+                var cmd = new SqlCommand(
+                    "INSERT INTO [dbo].[tb_resep]([kode_resep],[no_rm],[no_resep],[id_dokter]) VALUES(@kode_resep,@no_rm,@no_resep,@id_dokter)",
+                    conn);
                 cmd.Parameters.AddWithValue("kode_resep", kode_resep);
                 cmd.Parameters.AddWithValue("no_rm", no_rm);
                 cmd.Parameters.AddWithValue("no_resep", no_resep);
@@ -81,7 +87,9 @@ namespace dokter.DBAccess
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("INSERT INTO [dbo].[detail_resep]([no_resep],[kode_obat],[jumlah],[keterangan]) VALUES(@no_resep,@kode_obat,@jumlah,@keterangan)", conn);
+                var cmd = new SqlCommand(
+                    "INSERT INTO [dbo].[detail_resep]([no_resep],[kode_obat],[jumlah],[keterangan]) VALUES(@no_resep,@kode_obat,@jumlah,@keterangan)",
+                    conn);
                 cmd.Parameters.AddWithValue("no_resep", kode_resep);
                 cmd.Parameters.AddWithValue("kode_obat", kode_obat);
                 cmd.Parameters.AddWithValue("jumlah", jumlah);

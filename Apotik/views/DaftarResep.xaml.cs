@@ -1,9 +1,8 @@
-﻿using System.Windows.Controls;
-using Apotik.models;
-using System.Collections.Generic;
-using Apotik.DBAccess;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 using System.Diagnostics;
+using System.Windows;
+using System.Windows.Controls;
+using Apotik.DBAccess;
 
 namespace Apotik.views
 {
@@ -12,8 +11,8 @@ namespace Apotik.views
     /// </summary>
     public partial class DaftarResep : Page
     {
-        SqlConnection conn;
-        DBCommand cmd;
+        private readonly DBCommand cmd;
+        private readonly SqlConnection conn;
 
         public DaftarResep()
         {
@@ -26,26 +25,24 @@ namespace Apotik.views
 
         public void DisplayDataAntrianApotek()
         {
-            List<ModelAntrianApotik> antrian = cmd.GetDataAntrianApotik();
+            var antrian = cmd.GetDataAntrianApotik();
             dtgResep.ItemsSource = antrian;
         }
 
-        private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
             var kode_resep = "";
 
             if (dtgResep.SelectedItems.Count > 0)
             {
                 for (var i = 0; i < dtgResep.SelectedItems.Count; i++)
-                {
                     kode_resep = (dtgResep.SelectedCells[2].Column
                             .GetCellContent(dtgResep.SelectedItems[i]) as TextBlock)
                         .Text;
-                }
 
                 Debug.WriteLine(kode_resep);
 
-                views.BuatResep br = new views.BuatResep(kode_resep);
+                var br = new BuatResep(kode_resep);
                 NavigationService.Navigate(br);
             }
         }

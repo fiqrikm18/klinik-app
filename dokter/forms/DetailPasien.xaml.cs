@@ -1,30 +1,19 @@
-﻿using dokter.DBAccess;
-using dokter.models;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using dokter.DBAccess;
 
 namespace dokter.forms
 {
     /// <summary>
-    /// Interaction logic for DetailPasien.xaml
+    ///     Interaction logic for DetailPasien.xaml
     /// </summary>
     public partial class DetailPasien : Window
     {
-        string no_rm;
-        private SqlConnection conn;
-        private DBCommand cmd;
+        private readonly DBCommand cmd;
+        private readonly SqlConnection conn;
+        private string no_rm;
 
         public DetailPasien()
         {
@@ -46,30 +35,29 @@ namespace dokter.forms
 
         public void DisplayDataPasien(string no_rm = null)
         {
-
-            List<ModelPasien> pasien = cmd.GetDataPasien();
+            var pasien = cmd.GetDataPasien();
 
             if (no_rm != null)
             {
-                    var fPasien = pasien.Where(x => x.no_rm.Contains(no_rm)).ToList().First();
-                    txtNoRekamMedis.Text = fPasien.no_rm;
-                    txtNamaPasien.Text = fPasien.nama;
-                    txtGolDarah.Text = fPasien.golongan_darah;
-                    TextAlamat.Text = fPasien.alamat;
-                    txtJenisKelamin.Text = fPasien.jenis_kelamin;
-                    txtTglLahir.Text = DateTime.Parse(fPasien.tgl_lahir).ToString("dd MMM yyyy");
-                    txtNoTelp.Text = fPasien.no_telp;
-                    DisplayDataRekamMedis(no_rm);
+                var fPasien = pasien.Where(x => x.no_rm.Contains(no_rm)).ToList().First();
+                txtNoRekamMedis.Text = fPasien.no_rm;
+                txtNamaPasien.Text = fPasien.nama;
+                txtGolDarah.Text = fPasien.golongan_darah;
+                TextAlamat.Text = fPasien.alamat;
+                txtJenisKelamin.Text = fPasien.jenis_kelamin;
+                txtTglLahir.Text = DateTime.Parse(fPasien.tgl_lahir).ToString("dd MMM yyyy");
+                txtNoTelp.Text = fPasien.no_telp;
+                DisplayDataRekamMedis(no_rm);
             }
         }
 
         private void DisplayDataRekamMedis(string no_rn = null)
         {
-            List<ModelRekamMedis> rekamMedis = cmd.GetAllDataRekamMedisFrom();
+            var rekamMedis = cmd.GetAllDataRekamMedisFrom();
 
             if (no_rn != null)
             {
-                IEnumerable<ModelRekamMedis> fRekamMedis = rekamMedis.Where(x => x.no_rm.Contains(no_rn));
+                var fRekamMedis = rekamMedis.Where(x => x.no_rm.Contains(no_rn));
                 dtgDataRekamMedis.ItemsSource = fRekamMedis;
             }
             else
@@ -81,20 +69,25 @@ namespace dokter.forms
 
         private void btnPrintData_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: Print data pasien
+            var no_rm = txtNoRekamMedis.Text;
+            var rekamMedis = cmd.GetAllDataRekamMedisFrom();
+            if (rekamMedis.Count < 1)
+            {
+                MessageBox.Show("Rekam medis pasien tidak tersedia", "Warning", MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+            }
+            else
+            {
+                var rv = new ReportView(no_rm);
+                rv.Show();
+            }
         }
 
         private void Window_StateChanged(object sender, EventArgs e)
         {
-            if(this.WindowState == WindowState.Maximized)
-            {
-                MainGrid.Margin = new Thickness(35);
-            }
+            if (WindowState == WindowState.Maximized) MainGrid.Margin = new Thickness(35);
 
-            if(this.WindowState == WindowState.Normal)
-            {
-                MainGrid.Margin = new Thickness(20);
-            }
+            if (WindowState == WindowState.Normal) MainGrid.Margin = new Thickness(20);
         }
     }
 }

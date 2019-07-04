@@ -1,12 +1,11 @@
-﻿using System.Windows.Controls;
+﻿using System;
 using System.Data.SqlClient;
 using System.Linq;
-using Apotik.DBAccess;
-using System.Windows.Input;
-using System;
-using System.Data;
 using System.Windows;
-using System.Collections.Generic;
+using System.Windows.Controls;
+using System.Windows.Input;
+using Apotik.DBAccess;
+using Apotik.forms;
 using Apotik.models;
 
 namespace Apotik.views
@@ -16,7 +15,8 @@ namespace Apotik.views
     /// </summary>
     public partial class DaftarObat : Page
     {
-        SqlConnection conn;
+        private readonly SqlConnection conn;
+
         public DaftarObat()
         {
             InitializeComponent();
@@ -28,11 +28,11 @@ namespace Apotik.views
         {
             try
             {
-                DBCommand cmd = new DBCommand(conn);
+                var cmd = new DBCommand(conn);
 
                 if (nama == null)
                 {
-                    List<ModelObat> data = cmd.GetDataObat();
+                    var data = cmd.GetDataObat();
                     dtgDataObat.ItemsSource = data;
                 }
                 else
@@ -45,12 +45,12 @@ namespace Apotik.views
                     //adapter.Fill(dt);
                     //dtgDataObat.ItemsSource = dt.DefaultView;
 
-                    List<ModelObat> data = cmd.GetDataObat();
-                    IEnumerable<ModelObat> dataFiltered = data.Where(x => x.nama_obat.Contains(nama));
+                    var data = cmd.GetDataObat();
+                    var dataFiltered = data.Where(x => x.nama_obat.Contains(nama));
                     dtgDataObat.ItemsSource = dataFiltered;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -70,13 +70,13 @@ namespace Apotik.views
             source.Clear();
         }
 
-        private void btn_add_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void btn_add_Click(object sender, RoutedEventArgs e)
         {
             var to = new TambahObat();
             NavigationService.Navigate(to);
         }
 
-        private void btn_edit_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void btn_edit_Click(object sender, RoutedEventArgs e)
         {
             var kode_obat = "";
             var nama_obat = "";
@@ -120,7 +120,7 @@ namespace Apotik.views
                         .Text;
                 }
 
-                var uo = new forms.UpdateObat(kode_obat, nama_obat, stok, satuan, harga_jual, harga_beli, harga_resep, this);
+                var uo = new UpdateObat(kode_obat, nama_obat, stok, satuan, harga_jual, harga_beli, harga_resep, this);
                 uo.Show();
             }
             else
@@ -129,36 +129,37 @@ namespace Apotik.views
             }
         }
 
-        private void btn_hapus_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void btn_hapus_Click(object sender, RoutedEventArgs e)
         {
-            DBCommand cmd = new DBCommand(conn);
+            var cmd = new DBCommand(conn);
             var kode_obat = "";
 
-            if(dtgDataObat.SelectedItems.Count > 0)
+            if (dtgDataObat.SelectedItems.Count > 0)
             {
-                var msgResult = MessageBox.Show("Apakah anda yakin ingin menghapus data obat?", "Warning", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                var msgResult = MessageBox.Show("Apakah anda yakin ingin menghapus data obat?", "Warning",
+                    MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
-                if(msgResult == MessageBoxResult.Yes)
+                if (msgResult == MessageBoxResult.Yes)
                 {
-                    foreach (ModelObat mo in dtgDataObat.SelectedItems)
-                    {
-                        kode_obat = mo.kode_obat;
-                    }
+                    foreach (ModelObat mo in dtgDataObat.SelectedItems) kode_obat = mo.kode_obat;
 
                     if (cmd.DeleteDataObat(kode_obat))
                     {
-                        MessageBox.Show("Data obat berhasil dihapus.", "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
+                        MessageBox.Show("Data obat berhasil dihapus.", "Informasi", MessageBoxButton.OK,
+                            MessageBoxImage.Information);
                         DisplayDataObat();
                     }
                     else
                     {
-                        MessageBox.Show("Data obat gagal dihapus.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("Data obat gagal dihapus.", "Error", MessageBoxButton.OK,
+                            MessageBoxImage.Error);
                     }
                 }
             }
             else
             {
-                MessageBox.Show("Pilih data obat yang akan dihapus terlebih  dahulu.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Pilih data obat yang akan dihapus terlebih  dahulu.", "Warning", MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
             }
         }
     }

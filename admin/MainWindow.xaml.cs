@@ -1,8 +1,9 @@
-﻿using admin.Mifare;
-using admin.views;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows;
+using admin.Mifare;
+using admin.views;
 
 namespace admin
 {
@@ -11,14 +12,14 @@ namespace admin
     /// </summary>
     public partial class MainWindow : Window
     {
-        private SmartCardOperation sp;
+        private readonly SmartCardOperation sp;
 
         public MainWindow()
         {
             InitializeComponent();
             sp = new SmartCardOperation();
 
-            UserPreferences userPrefs = new UserPreferences();
+            var userPrefs = new UserPreferences();
 
             Height = userPrefs.WindowHeight;
             Width = userPrefs.WindowWidth;
@@ -26,16 +27,19 @@ namespace admin
             Left = userPrefs.WindowLeft;
             WindowState = userPrefs.WindowState;
 
-            if (sp.IsReaderAvailable()) { }
+            if (sp.IsReaderAvailable())
+            {
+            }
             else
             {
-                MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
-            UserPreferences userPrefs = new UserPreferences
+            var userPrefs = new UserPreferences
             {
                 WindowHeight = Height,
                 WindowWidth = Width,
@@ -74,7 +78,14 @@ namespace admin
 
         private void BtnLogout_Click(object sender, RoutedEventArgs e)
         {
-            Environment.Exit(0);
+            Dispatcher.Invoke(() =>
+            {
+                //Properties.Settings.Default.IDStaff = null;
+                var lg = new Login();
+                lg.Show();
+                Close();
+                GC.SuppressFinalize(this);
+            });
         }
     }
 }

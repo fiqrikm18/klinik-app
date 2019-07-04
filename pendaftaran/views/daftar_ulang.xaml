@@ -45,7 +45,8 @@
                     <DataGridTextColumn Binding="{Binding no_identitas}" IsReadOnly="True" Header="No Identitas" />
                     <DataGridTextColumn Binding="{Binding no_rekam_medis}" IsReadOnly="True" Header="No Rekam Medis" />
                     <DataGridTextColumn Binding="{Binding nama}" IsReadOnly="True" Header="Nama Pasien" Width="150" />
-                    <DataGridTextColumn Binding="{Binding golongan_darah}" IsReadOnly="True" Header="Golongan Darah" Width="150" />
+                    <DataGridTextColumn Binding="{Binding golongan_darah}" IsReadOnly="True" Header="Golongan Darah"
+                                        Width="150" />
                     <DataGridTextColumn Binding="{Binding jenis_kelamin}" IsReadOnly="True" Header="Jenis Kelamin" />
                     <DataGridTextColumn Binding="{Binding no_telp}" IsReadOnly="True" Header="Nomor Telepon" />
                     <DataGridTextColumn Binding="{Binding alamat}" IsReadOnly="True" Header="Alamat" Width="250" />
@@ -59,7 +60,7 @@
             <DockPanel Margin="0 0 20 0">
                 <Button x:Name="btn_cekData" Click="Btn_cekData_OnClick" Content="Cek Data Kartu" />
                 <Button x:Name="btn_cetak" Click="Btn_cetak_OnClick" Content="Cetak Kartu" />
-                <Button x:Name="btnPrintLabel" Click="btnPrintLabel_Click" Content="Cetak Label Kartu" Width="Auto" />
+                <Button x:Name="btnPrintLabel" Click="BtnPrintLabel_OnClick" Content="Cetak Label Kartu" Width="Auto" />
             </DockPanel>
             <DockPanel>
                 <Button x:Name="btn_add" Click="TambahPasien" Content="Daftar" />

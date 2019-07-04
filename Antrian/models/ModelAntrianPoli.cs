@@ -1,22 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Antrian.models
+﻿namespace Antrian.models
 {
     public class ModelAntrianPoli
     {
-        public string id { get; set; }
-        public string no_rm { get; set; }
-        public string nama { get; set; }
-        public int no_urut { get; set; }
-        public string poliklinik { get; set; }
-        public string status { get; set; }
-        public string tgl_berobat { get; set; }
-
-        public ModelAntrianPoli(string id, string no_rm, string nama, int no_urut, string poliklinik, string status, string tgl_berobat)
+        public ModelAntrianPoli(string id, string no_rm, string nama, int no_urut, string poliklinik, string status,
+            string tgl_berobat)
         {
             this.id = id;
             this.no_rm = no_rm;
@@ -27,6 +14,16 @@ namespace Antrian.models
             this.tgl_berobat = tgl_berobat;
         }
 
-        ~ModelAntrianPoli() { }
+        public string id { get; set; }
+        public string no_rm { get; set; }
+        public string nama { get; set; }
+        public int no_urut { get; set; }
+        public string poliklinik { get; set; }
+        public string status { get; set; }
+        public string tgl_berobat { get; set; }
+
+        ~ModelAntrianPoli()
+        {
+        }
     }
 }

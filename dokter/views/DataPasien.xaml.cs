@@ -1,30 +1,21 @@
-﻿using dokter.DBAccess;
-using dokter.models;
-using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using dokter.DBAccess;
+using dokter.forms;
+using dokter.models;
 
 namespace dokter.views
 {
     /// <summary>
-    /// Interaction logic for DataPsien.xaml
+    ///     Interaction logic for DataPsien.xaml
     /// </summary>
     public partial class DataPsien : Page
     {
-        DBCommand cmd;
-        SqlConnection conn;
+        private readonly DBCommand cmd;
+        private readonly SqlConnection conn;
 
         public DataPsien()
         {
@@ -37,7 +28,7 @@ namespace dokter.views
 
         public void DisplayDataPasien(string no_id = null)
         {
-            List<ModelPasien> pasien = cmd.GetDataPasien();
+            var pasien = cmd.GetDataPasien();
 
             if (string.IsNullOrEmpty(no_id))
             {
@@ -45,7 +36,7 @@ namespace dokter.views
             }
             else
             {
-                IEnumerable<ModelPasien> filtered = pasien.Where(x => x.id.Contains(no_id));
+                var filtered = pasien.Where(x => x.id.Contains(no_id));
                 dtgDataPasien.ItemsSource = filtered;
             }
         }
@@ -54,10 +45,7 @@ namespace dokter.views
         {
             var nama = sender as TextBox;
 
-            if (nama.Text != "No Identitas")
-            {
-                DisplayDataPasien(nama.Text);
-            }
+            if (nama.Text != "No Identitas") DisplayDataPasien(nama.Text);
         }
 
         private void TxtSearchPasien_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
@@ -70,25 +58,30 @@ namespace dokter.views
         {
             string no_rm = null;
 
-            if(dtgDataPasien.SelectedItems.Count > 0)
+            if (dtgDataPasien.SelectedItems.Count > 0)
             {
-                foreach(ModelPasien mp in dtgDataPasien.SelectedItems)
-                {
-                    no_rm = mp.no_rm;
-                }
+                foreach (ModelPasien mp in dtgDataPasien.SelectedItems) no_rm = mp.no_rm;
 
-                forms.DetailPasien dp = new forms.DetailPasien(no_rm);
+                var dp = new DetailPasien(no_rm);
                 dp.Show();
             }
             else
             {
-                MessageBox.Show("Pilih data pasien terlebih dahulu.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Pilih data pasien terlebih dahulu.", "Warning", MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
             }
         }
 
         private void btnPrint_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: buat fungsi untuk print data pasien
+            var no_rm = "";
+            if (dtgDataPasien.SelectedItems.Count > 0)
+            {
+                foreach (ModelPasien dp in dtgDataPasien.SelectedItems) no_rm = dp.no_rm;
+
+                var rv = new ReportView(no_rm);
+                rv.Show();
+            }
         }
     }
 }

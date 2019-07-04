@@ -6,14 +6,14 @@ namespace admin.models
 {
     public class MPoliklinik : IDataErrorInfo
     {
-        public string kode_poliklinik { get; set; }
-        public string nama_poliklinik { get; set; }
-
         public MPoliklinik(string kode, string nama)
         {
             nama_poliklinik = nama;
             kode_poliklinik = kode;
         }
+
+        public string kode_poliklinik { get; set; }
+        public string nama_poliklinik { get; set; }
 
         public string this[string columnName]
         {

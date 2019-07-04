@@ -1,24 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Apotik.models
+﻿namespace Apotik.models
 {
     public class ModelAntrianApotik
     {
-        public string id { get; set; }
-        public string no_rm { get; set; }
-        public string no_resep { get; set; }
-        public string no_antrian { get; set; }
-        public string status { get; set; }
-        public string tgl_resep { get; set; }
-        public string nama { get; set; }
+        public ModelAntrianApotik()
+        {
+        }
 
-        public ModelAntrianApotik() { }
-
-        public ModelAntrianApotik(string id, string no_rm, string no_resep, string no_antrian, string status, string tgl_resep, string nama)
+        public ModelAntrianApotik(string id, string no_rm, string no_resep, string no_antrian, string status,
+            string tgl_resep, string nama)
         {
             this.id = id;
             this.no_rm = no_rm;
@@ -29,6 +18,16 @@ namespace Apotik.models
             this.nama = nama;
         }
 
-        ~ModelAntrianApotik() { }
+        public string id { get; set; }
+        public string no_rm { get; set; }
+        public string no_resep { get; set; }
+        public string no_antrian { get; set; }
+        public string status { get; set; }
+        public string tgl_resep { get; set; }
+        public string nama { get; set; }
+
+        ~ModelAntrianApotik()
+        {
+        }
     }
 }

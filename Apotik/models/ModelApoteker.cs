@@ -1,20 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Apotik.models
+﻿namespace Apotik.models
 {
     public class ModelApoteker
     {
-        public string id { get; set; }
-        public string nama { get; set; }
-        public string telp { get; set; }
-        public string alamat { get; set; }
-        public string jenisKelamin { get; set; }
-        public string password { get; set; }
-
         public ModelApoteker(string id, string nama, string telp, string alamat, string jenisKelamin, string password)
         {
             this.id = id;
@@ -25,6 +12,15 @@ namespace Apotik.models
             this.password = password;
         }
 
-        ~ModelApoteker() { }
+        public string id { get; set; }
+        public string nama { get; set; }
+        public string telp { get; set; }
+        public string alamat { get; set; }
+        public string jenisKelamin { get; set; }
+        public string password { get; set; }
+
+        ~ModelApoteker()
+        {
+        }
     }
 }

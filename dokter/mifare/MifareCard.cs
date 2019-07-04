@@ -1,11 +1,7 @@
-﻿using PCSC;
-using PCSC.Iso7816;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using PCSC;
+using PCSC.Iso7816;
 
 namespace dokter.mifare
 {
@@ -25,7 +21,7 @@ namespace dokter.mifare
             {
                 CLA = CUSTOM_CLA,
                 Instruction = InstructionCode.ExternalAuthenticate,
-                P1 = (byte)keyStructure,
+                P1 = (byte) keyStructure,
                 P2 = keyNumber,
                 Data = key
             };
@@ -103,7 +99,7 @@ namespace dokter.mifare
 
         private bool IsSuccess(Response response)
         {
-            return response.SW1 == (byte)SW1Code.Normal && response.SW2 == 0x00;
+            return response.SW1 == (byte) SW1Code.Normal && response.SW2 == 0x00;
         }
     }
 }

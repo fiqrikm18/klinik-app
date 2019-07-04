@@ -1,6 +1,7 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows;
-using Apotik.DBAccess;
+using Apotik.views;
 
 namespace Apotik
 {
@@ -15,51 +16,56 @@ namespace Apotik
 
             var userPrefs = new UserPreferences();
 
-            this.Height = userPrefs.WindowHeight;
-            this.Width = userPrefs.WindowWidth;
-            this.Top = userPrefs.WindowTop;
-            this.Left = userPrefs.WindowLeft;
-            this.WindowState = userPrefs.WindowState;
-
+            Height = userPrefs.WindowHeight;
+            Width = userPrefs.WindowWidth;
+            Top = userPrefs.WindowTop;
+            Left = userPrefs.WindowLeft;
+            WindowState = userPrefs.WindowState;
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
             var userPrefs = new UserPreferences();
 
-            userPrefs.WindowHeight = this.Height;
-            userPrefs.WindowWidth = this.Width;
-            userPrefs.WindowTop = this.Top;
-            userPrefs.WindowLeft = this.Left;
-            userPrefs.WindowState = this.WindowState;
+            userPrefs.WindowHeight = Height;
+            userPrefs.WindowWidth = Width;
+            userPrefs.WindowTop = Top;
+            userPrefs.WindowLeft = Left;
+            userPrefs.WindowState = WindowState;
 
             userPrefs.Save();
         }
 
         private void TambahObat(object sender, RoutedEventArgs e)
         {
-            MainFrame.Content = new views.TambahObat();
+            MainFrame.Content = new TambahObat();
         }
 
         private void DaftarObat(object sender, RoutedEventArgs e)
         {
-            MainFrame.Content = new views.DaftarObat();
+            MainFrame.Content = new DaftarObat();
         }
 
         private void DaftarResep(object sender, RoutedEventArgs e)
         {
-            MainFrame.Content = new views.DaftarResep();
+            MainFrame.Content = new DaftarResep();
         }
 
         private void BuatResep(object sender, RoutedEventArgs e)
         {
-            MainFrame.Content = new views.BuatResep();
+            MainFrame.Content = new BuatResep();
         }
 
         private void BtnLogout_Click(object sender, RoutedEventArgs e)
         {
-            Properties.Settings.Default.KodeApoteker = null;
-            Environment.Exit(0);
+            Dispatcher.Invoke(() =>
+            {
+                //Properties.Settings.Default.IDStaff = null;
+                var lg = new Login();
+                lg.Show();
+                Close();
+                GC.SuppressFinalize(this);
+            });
         }
     }
 }

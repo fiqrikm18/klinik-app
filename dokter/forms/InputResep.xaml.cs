@@ -1,42 +1,33 @@
-﻿using dokter.DBAccess;
-using dokter.models;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Data;
+﻿using System.Collections.ObjectModel;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using dokter.DBAccess;
+using dokter.models;
+using dokter.Properties;
+using dokter.views;
 
 namespace dokter.forms
 {
     /// <summary>
-    /// Interaction logic for InputResep.xaml
+    ///     Interaction logic for InputResep.xaml
     /// </summary>
     public partial class InputResep : Window
     {
-        private views.ViewRekamMedis vrm;
-        SqlConnection conn;
-        DBCommand cmd;
-
-        private string kode_obat;
-        private string nama_obat;
-        private string no_rm;
-        private int lstNoResep = 0;
-        private ObservableCollection<ModelDetailResep> dataObat;
-        private string kode_dokter = Properties.Settings.Default.KodeDokter;
-
         private ModelDetailResep _mDetailResep;
         private int _noOfErrorsOnScreen;
+        private readonly DBCommand cmd;
+        private readonly SqlConnection conn;
+        private readonly ObservableCollection<ModelDetailResep> dataObat;
+        private readonly string kode_dokter = Settings.Default.KodeDokter;
+
+        private string kode_obat;
+        private readonly int lstNoResep;
+        private string nama_obat;
+        private readonly string no_rm;
+        private ViewRekamMedis vrm;
 
         public InputResep()
         {
@@ -72,20 +63,16 @@ namespace dokter.forms
             lstNoResep = cmd.GetLastNoResep(no_rm);
 
             if (lstNoResep == 0)
-            {
                 lstNoResep = 1;
-            }
             else
-            {
                 lstNoResep += 1;
-            }
-            var no = (no_rm + '-' + lstNoResep).ToString();
+            var no = no_rm + '-' + lstNoResep;
             txtKodeResep.Text = no;
 
             LoadResep();
         }
 
-        public InputResep(string no_rm, views.ViewRekamMedis vrm)
+        public InputResep(string no_rm, ViewRekamMedis vrm)
         {
             InitializeComponent();
             conn = DBConnection.dbConnection();
@@ -105,20 +92,18 @@ namespace dokter.forms
             lstNoResep = cmd.GetLastNoResep(no_rm);
 
             if (lstNoResep == 0)
-            {
                 lstNoResep = 1;
-            }
             else
-            {
                 lstNoResep += 1;
-            }
-            var no = (no_rm + '-' + lstNoResep).ToString();
+            var no = no_rm + '-' + lstNoResep;
             txtKodeResep.Text = no;
 
             LoadResep();
         }
 
-        ~InputResep() { }
+        ~InputResep()
+        {
+        }
 
         public void FillTextBox(string kode_obat, string nama_obat)
         {
@@ -128,17 +113,15 @@ namespace dokter.forms
 
         public void LoadResep(ModelDetailResep mo = null)
         {
-            if (mo != null)
-            {
-                dataObat.Add(mo);
-            }
+            if (mo != null) dataObat.Add(mo);
 
             dgListObat.ItemsSource = dataObat;
         }
 
         private void btnAddToList_Click(object sender, RoutedEventArgs e)
         {
-            ModelDetailResep mdr = new ModelDetailResep(txtKodeResep.Text, kode_obat, txtObat.Text, txtPemakaian.Text, txtKeterangan.Text, txtJumlah.Text);
+            var mdr = new ModelDetailResep(txtKodeResep.Text, kode_obat, txtObat.Text, txtPemakaian.Text,
+                txtKeterangan.Text, txtJumlah.Text);
             LoadResep(mdr);
             ClearTextBox();
         }
@@ -153,7 +136,7 @@ namespace dokter.forms
 
         private void btnBrowse_Click(object sender, RoutedEventArgs e)
         {
-            PopUpObat po = new PopUpObat(this);
+            var po = new PopUpObat(this);
             po.Show();
         }
 
@@ -165,7 +148,7 @@ namespace dokter.forms
         private void btnSaveRecive_Click(object sender, RoutedEventArgs e)
         {
             var lastNoResep = cmd.GetLastNoResep(no_rm);
-            var kode_resep = txtKodeResep.Text.ToString().ToUpper();
+            var kode_resep = txtKodeResep.Text.ToUpper();
             var kode_obat = "";
             var jumlah = "";
             var pengunaan = "";
@@ -174,19 +157,15 @@ namespace dokter.forms
             //MessageBox.Show(lastNoResep.ToString());
 
             if (lastNoResep == 0)
-            {
                 lastNoResep = 1;
-            }
             else
-            {
                 lastNoResep += 1;
-            }
 
             if (!cmd.IsDataNomorResepExist(no_rm, kode_resep))
             {
                 if (cmd.InsertDataResep(kode_resep, no_rm, lastNoResep.ToString(), kode_dokter))
                 {
-                    bool res = false;
+                    var res = false;
                     foreach (ModelDetailResep dr in dgListObat.ItemsSource)
                     {
                         kode_obat = dr.kode_obat;
@@ -194,10 +173,7 @@ namespace dokter.forms
                         pengunaan = dr.dosis;
                         ket = dr.ket;
 
-                        if (cmd.InsertDetailResep(kode_resep, kode_obat, int.Parse(jumlah), ket, pengunaan))
-                        {
-                            res = true;
-                        }
+                        if (cmd.InsertDetailResep(kode_resep, kode_obat, int.Parse(jumlah), ket, pengunaan)) res = true;
                     }
 
                     if (res)
@@ -205,17 +181,14 @@ namespace dokter.forms
                         var no_urut = cmd.GetLastNoUrutApotik();
 
                         if (no_urut == 0)
-                        {
                             no_urut = 1;
-                        }
                         else
-                        {
                             no_urut += 1;
-                        }
 
                         if (cmd.InsertAntrianApotik(no_rm, kode_resep, no_urut.ToString(), "Antri"))
                         {
-                            MessageBox.Show("Resep berhasil dibuat. Silahkan ambil resep diapotik.", "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
+                            MessageBox.Show("Resep berhasil dibuat. Silahkan ambil resep diapotik.", "Informasi",
+                                MessageBoxButton.OK, MessageBoxImage.Information);
                             Close();
                         }
                         else
@@ -255,13 +228,15 @@ namespace dokter.forms
 
             if (CheckTextBoxEmpty())
             {
-                ModelDetailResep mdr = new ModelDetailResep(txtKodeResep.Text, kode_obat, txtObat.Text, txtPemakaian.Text, txtKeterangan.Text, txtJumlah.Text);
+                var mdr = new ModelDetailResep(txtKodeResep.Text, kode_obat, txtObat.Text, txtPemakaian.Text,
+                    txtKeterangan.Text, txtJumlah.Text);
                 LoadResep(mdr);
                 ClearTextBox();
             }
             else
             {
-                MessageBox.Show("Pastikan data yang di inputkan sudah benar.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Pastikan data yang di inputkan sudah benar.", "Warning", MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
             }
 
             e.Handled = true;
@@ -269,11 +244,10 @@ namespace dokter.forms
 
         private bool CheckTextBoxEmpty()
         {
-            if (!string.IsNullOrEmpty(txtKodeResep.Text) && !string.IsNullOrEmpty(txtObat.Text) && !string.IsNullOrEmpty(txtJumlah.Text)
+            if (!string.IsNullOrEmpty(txtKodeResep.Text) && !string.IsNullOrEmpty(txtObat.Text) &&
+                !string.IsNullOrEmpty(txtJumlah.Text)
                 && !string.IsNullOrEmpty(txtPemakaian.Text))
-            {
                 return true;
-            }
 
             return false;
         }
@@ -282,9 +256,7 @@ namespace dokter.forms
         {
             var source = e.Source as TextBox;
             if (string.IsNullOrEmpty(source.Text) || string.IsNullOrWhiteSpace(source.Text) || source.Text == " ")
-            {
                 source.Clear();
-            }
         }
     }
 }

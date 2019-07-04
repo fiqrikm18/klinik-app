@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -10,9 +8,6 @@ using admin.DBAccess;
 using admin.forms;
 using admin.Mifare;
 using admin.Utils;
-using PCSC;
-using PCSC.Iso7816;
-using admin.models;
 
 namespace admin.views
 {
@@ -32,11 +27,11 @@ namespace admin.views
         private readonly byte BlockPasswordFrom = 25;
         private readonly byte BlockPasswordTo = 26;
         private readonly byte BlockTelp = 17;
+        private readonly DBCommand cmd;
 
-        SmartCardOperation sp;
+        private readonly SqlConnection conn;
 
-        SqlConnection conn;
-        DBCommand cmd;
+        private readonly SmartCardOperation sp;
 
         public DaftarApoteker()
         {
@@ -46,10 +41,13 @@ namespace admin.views
             conn = DBConnection.dbConnection();
             cmd = new DBCommand(conn);
 
-            if (sp.IsReaderAvailable()) { }
+            if (sp.IsReaderAvailable())
+            {
+            }
             else
             {
-                MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             displayDataApoteker();
@@ -71,7 +69,7 @@ namespace admin.views
 
         public void displayDataApoteker(string nama = null)
         {
-            List<MApoteker> apoteker = cmd.GetDataApoteker();
+            var apoteker = cmd.GetDataApoteker();
 
             if (string.IsNullOrEmpty(nama))
             {
@@ -79,7 +77,7 @@ namespace admin.views
             }
             else
             {
-                IEnumerable<MApoteker> filtered = apoteker.Where(x => x.nama_apoteker.ToLower().Contains(nama.ToLower()));
+                var filtered = apoteker.Where(x => x.nama_apoteker.ToLower().Contains(nama.ToLower()));
                 dtgDataApoteker.ItemsSource = filtered;
             }
         }
@@ -119,7 +117,8 @@ namespace admin.views
             }
             else
             {
-                MessageBox.Show("Pilih data yang ingin di ubah terlebih dahulu.", "Perhatian", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Pilih data yang ingin di ubah terlebih dahulu.", "Perhatian", MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
             }
         }
 
@@ -135,17 +134,16 @@ namespace admin.views
                 if (a == MessageBoxResult.Yes)
                 {
                     for (var i = 0; i < dtgDataApoteker.SelectedItems.Count; i++)
-                    {
-                        if (cmd.DeleteDataApoteker((dtgDataApoteker.SelectedCells[0].Column.GetCellContent(dtgDataApoteker.SelectedItems[i]) as TextBlock)?.Text))
-                        {
+                        if (cmd.DeleteDataApoteker((dtgDataApoteker.SelectedCells[0].Column
+                            .GetCellContent(dtgDataApoteker.SelectedItems[i]) as TextBlock)?.Text))
                             res = true;
-                        }
-                    }
 
                     if (res)
-                        MessageBox.Show("Data apoteker berhasil dihapus.", "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
+                        MessageBox.Show("Data apoteker berhasil dihapus.", "Informasi", MessageBoxButton.OK,
+                            MessageBoxImage.Information);
                     else
-                        MessageBox.Show("Data apoteker gagal dihapus.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("Data apoteker gagal dihapus.", "Error", MessageBoxButton.OK,
+                            MessageBoxImage.Error);
                 }
 
                 displayDataApoteker();
@@ -327,9 +325,8 @@ namespace admin.views
                 sp.isoReaderInit();
 
                 if (sp.ClearAllBlock())
-                {
-                    MessageBox.Show("Data Kartu berhasil dihapus.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
+                    MessageBox.Show("Data Kartu berhasil dihapus.", "Info", MessageBoxButton.OK,
+                        MessageBoxImage.Information);
             }
             catch (Exception)
             {

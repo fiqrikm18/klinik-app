@@ -11,10 +11,13 @@ namespace dokter.DBAccess
         ///     create connection to the database
         /// </summary>
         /// <returns></returns>
-        ///
+        private DBConnection()
+        {
+        }
 
-        DBConnection() { }
-        ~DBConnection() { }
+        ~DBConnection()
+        {
+        }
 
         public static SqlConnection dbConnection()
         {

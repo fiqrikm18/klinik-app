@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,8 +8,6 @@ using admin.Mifare;
 using admin.models;
 using admin.Utils;
 using admin.views;
-using PCSC;
-using PCSC.Iso7816;
 
 namespace admin.forms
 {
@@ -34,11 +30,11 @@ namespace admin.forms
         private readonly DaftarPendaftaran dp;
         private MPendaftaran _mDaftarBaru = new MPendaftaran(" ", " ", " ", " ", " ", " ");
         private int _noOfErrorsOnScreen;
+        private readonly DBCommand cmd;
 
-        SmartCardOperation sp;
+        private readonly SqlConnection conn;
 
-        SqlConnection conn;
-        DBCommand cmd;
+        private readonly SmartCardOperation sp;
 
         public TambahStaffPendaftaran(DaftarPendaftaran dp)
         {
@@ -48,10 +44,13 @@ namespace admin.forms
 
             sp = new SmartCardOperation();
 
-            if (sp.IsReaderAvailable()) { }
+            if (sp.IsReaderAvailable())
+            {
+            }
             else
             {
-                MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             conn = DBConnection.dbConnection();
@@ -99,20 +98,18 @@ namespace admin.forms
                 var jenisK = cbJenisKelamin.Text;
                 var password = txtPassword.Text.ToUpper();
 
-                if(cmd.CheckStaffExsist(id) == 1)
+                if (cmd.CheckStaffExsist(id) == 1)
                 {
                     MessageBox.Show("No id sudah terdaftar.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 else
                 {
-                    if(cmd.InsertDataStaff(id, nama, telp, alamat, jenisK, password))
+                    if (cmd.InsertDataStaff(id, nama, telp, alamat, jenisK, password))
                     {
-                        bool isPrinted = false;
+                        var isPrinted = false;
 
                         if (chkCetakKartu.IsChecked == true)
-                        {
                             while (!isPrinted)
-                            {
                                 try
                                 {
                                     if (!string.IsNullOrEmpty(id))
@@ -131,7 +128,8 @@ namespace admin.forms
 
                                     if (!string.IsNullOrEmpty(nama))
                                     {
-                                        if (sp.WriteBlockRange(Msb, BlockNamaFrom, BlockNamaTo, Util.ToArrayByte48(nama)))
+                                        if (sp.WriteBlockRange(Msb, BlockNamaFrom, BlockNamaTo,
+                                            Util.ToArrayByte48(nama)))
                                         {
                                         }
                                         else
@@ -194,7 +192,9 @@ namespace admin.forms
                                 }
                                 catch (Exception)
                                 {
-                                    var ans = MessageBox.Show("Penulisan kartu gagal, pastikan kartu sudah berada pada jangkauan reader.\nApakah anda ingin menulis kartu lain kali?", "Error",
+                                    var ans = MessageBox.Show(
+                                        "Penulisan kartu gagal, pastikan kartu sudah berada pada jangkauan reader.\nApakah anda ingin menulis kartu lain kali?",
+                                        "Error",
                                         MessageBoxButton.YesNo, MessageBoxImage.Error);
 
                                     if (ans == MessageBoxResult.Yes)
@@ -202,8 +202,6 @@ namespace admin.forms
 
                                     sp.isoReaderInit();
                                 }
-                            }
-                        }
 
                         MessageBox.Show("Data staff berhasil disimpan.", "Informasi", MessageBoxButton.OK,
                             MessageBoxImage.Information);
@@ -212,7 +210,8 @@ namespace admin.forms
                     }
                     else
                     {
-                        MessageBox.Show("Data staff gagal disimpan.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("Data staff gagal disimpan.", "Error", MessageBoxButton.OK,
+                            MessageBoxImage.Error);
                     }
                 }
             }

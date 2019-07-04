@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -9,10 +8,6 @@ using admin.DBAccess;
 using admin.forms;
 using admin.Mifare;
 using admin.Utils;
-using PCSC;
-using PCSC.Iso7816;
-using admin.models;
-using System.Linq;
 
 namespace admin.views
 {
@@ -34,11 +29,11 @@ namespace admin.views
         private readonly byte BlockSpesialisasi = 24;
         private readonly byte BlockTelp = 17;
         private readonly byte BlockTugas = 25;
+        private readonly DBCommand cmd;
 
-        SmartCardOperation sp;
+        private readonly SqlConnection conn;
 
-        SqlConnection conn;
-        DBCommand cmd;
+        private readonly SmartCardOperation sp;
 
         public DaftarDokter()
         {
@@ -50,17 +45,19 @@ namespace admin.views
 
             displayDataDokter();
 
-            if (sp.IsReaderAvailable()) { }
+            if (sp.IsReaderAvailable())
+            {
+            }
             else
             {
-                MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
         }
 
         public void displayDataDokter(string nama = null)
         {
-            List<MDokter> dokter = cmd.GetDataDokter();
+            var dokter = cmd.GetDataDokter();
 
             if (string.IsNullOrEmpty(nama))
             {
@@ -68,7 +65,7 @@ namespace admin.views
             }
             else
             {
-                IEnumerable<MDokter> filtered = dokter.Where(x => x.nama.ToLower().Contains(nama.ToLower()));
+                var filtered = dokter.Where(x => x.nama.ToLower().Contains(nama.ToLower()));
                 dtgDataDokter.ItemsSource = filtered;
             }
         }
@@ -128,7 +125,8 @@ namespace admin.views
             }
             else
             {
-                MessageBox.Show("Pilih data yang ingin di ubah terlebih dahulu.", "Perhatian", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Pilih data yang ingin di ubah terlebih dahulu.", "Perhatian", MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
             }
         }
 
@@ -145,19 +143,15 @@ namespace admin.views
 
                     for (var i = 0; i < dtgDataDokter.SelectedItems.Count; i++)
                     {
-                        if (cmd.DeleteDataDokter((dtgDataDokter.SelectedCells[0].Column.GetCellContent(dtgDataDokter.SelectedItems[i]) as TextBlock)?.Text))
-                        {
-                            res = true;
-                        }
+                        if (cmd.DeleteDataDokter((dtgDataDokter.SelectedCells[0].Column
+                            .GetCellContent(dtgDataDokter.SelectedItems[i]) as TextBlock)?.Text)) res = true;
 
                         if (res)
-                        {
-                            MessageBox.Show("Data dokter berhasil dihapus.", "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
-                        }
+                            MessageBox.Show("Data dokter berhasil dihapus.", "Informasi", MessageBoxButton.OK,
+                                MessageBoxImage.Information);
                         else
-                        {
-                            MessageBox.Show("Data dokter gagal dihapus.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                        }
+                            MessageBox.Show("Data dokter gagal dihapus.", "Error", MessageBoxButton.OK,
+                                MessageBoxImage.Error);
                     }
                 }
 
@@ -382,9 +376,8 @@ namespace admin.views
                 //card = new MifareCard(isoReader);
 
                 if (sp.ClearAllBlock())
-                {
-                    MessageBox.Show("Data Kartu berhasil dihapus.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
+                    MessageBox.Show("Data Kartu berhasil dihapus.", "Info", MessageBoxButton.OK,
+                        MessageBoxImage.Information);
             }
             catch (Exception)
             {

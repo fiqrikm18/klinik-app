@@ -1,36 +1,28 @@
-﻿using Apotik.DBAccess;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Apotik.DBAccess;
 using Apotik.mifare;
+using Apotik.models;
+using Apotik.Utils;
 
 namespace Apotik.views
 {
     /// <summary>
-    /// Interaction logic for BuatResep.xaml
+    ///     Interaction logic for BuatResep.xaml
     /// </summary>
     public partial class BuatResep : Page
     {
-        SqlConnection conn;
-        DBCommand cmd;
-        string kode_resep;
-        private byte blockRekamMedis = 1;
+        private readonly byte blockRekamMedis = 1;
+        private readonly DBCommand cmd;
+        private readonly SqlConnection conn;
+        private string kode_resep;
 
-        SmartCardOperation sp;
+        private readonly SmartCardOperation sp;
 
         public BuatResep()
         {
@@ -76,20 +68,17 @@ namespace Apotik.views
 
                     var total = 0;
 
-                    foreach (models.ModelDetailResep dr in dtgDetailResep.ItemsSource)
-                    {
-                        total += dr.sub_total;
-                    }
+                    foreach (ModelDetailResep dr in dtgDetailResep.ItemsSource) total += dr.sub_total;
 
                     Debug.WriteLine(total);
                     txtTotal.Text = total.ToString("C", new CultureInfo("id-ID"));
                 }
                 else
                 {
-                    MessageBox.Show("Kode resep tidak terdaftar, atau belum saatnya dipanggil.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Kode resep tidak terdaftar, atau belum saatnya dipanggil.", "Error",
+                        MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
-
         }
 
         private void DisplayDetailResep(string kode_resep = null)
@@ -103,10 +92,7 @@ namespace Apotik.views
 
         private void btnSelesai_Click(object sender, RoutedEventArgs e)
         {
-            if (cmd.UpdateStatusAntrianApotik(kode_resep))
-            {
-                ClearData();
-            }
+            if (cmd.UpdateStatusAntrianApotik(kode_resep)) ClearData();
         }
 
         private void ClearData()
@@ -127,17 +113,13 @@ namespace Apotik.views
                 if (chkScanKartu.IsChecked ?? true)
                 {
                     if (sp.IsReaderAvailable())
-                    {
                         try
                         {
                             sp.isoReaderInit();
                             var readData = sp.ReadBlock(0x00, blockRekamMedis);
                             var asciiData = "";
 
-                            if (readData != null)
-                            {
-                                asciiData = Utils.Util.ToASCII(readData, 0, 16, false);
-                            }
+                            if (readData != null) asciiData = Util.ToASCII(readData, 0, 16, false);
 
                             kode_resep = cmd.GetKodeResepByRm(asciiData);
 
@@ -146,26 +128,25 @@ namespace Apotik.views
                         }
                         catch (Exception)
                         {
-                            MessageBox.Show("Pastikan reader sudah terpasang dan kartu sudah berada pada jangkauan reader.",
+                            MessageBox.Show(
+                                "Pastikan reader sudah terpasang dan kartu sudah berada pada jangkauan reader.",
                                 "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                             sp.isoReaderInit();
                         }
-                    }
                     else
-                    {
-                        MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
+                        MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.",
+                            "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 else
                 {
-
                     kode_resep = cmd.GetKodeResepByNoUrut();
                     DisplayData(kode_resep);
                 }
             }
             else
             {
-                MessageBox.Show("Tidak ada data antrian pasien.", "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Tidak ada data antrian pasien.", "Informasi", MessageBoxButton.OK,
+                    MessageBoxImage.Information);
             }
         }
 

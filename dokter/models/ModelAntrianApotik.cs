@@ -1,23 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace dokter.models
+﻿namespace dokter.models
 {
     public class ModelAntrianApotik
     {
-        public string id { get; set; }
-        public string no_rm { get; set; }
-        public string no_resep { get; set; }
-        public string no_antrian { get; set; }
-        public string status { get; set; }
-        public string tgl_resep { get; set; }
+        public ModelAntrianApotik()
+        {
+        }
 
-        public ModelAntrianApotik() { }
-
-        public ModelAntrianApotik(string id, string no_rm ,string no_resep, string no_antrian, string status, string tgl_resep)
+        public ModelAntrianApotik(string id, string no_rm, string no_resep, string no_antrian, string status,
+            string tgl_resep)
         {
             this.id = id;
             this.no_rm = no_rm;
@@ -27,6 +17,15 @@ namespace dokter.models
             this.tgl_resep = tgl_resep;
         }
 
-        ~ModelAntrianApotik() { }
+        public string id { get; set; }
+        public string no_rm { get; set; }
+        public string no_resep { get; set; }
+        public string no_antrian { get; set; }
+        public string status { get; set; }
+        public string tgl_resep { get; set; }
+
+        ~ModelAntrianApotik()
+        {
+        }
     }
 }

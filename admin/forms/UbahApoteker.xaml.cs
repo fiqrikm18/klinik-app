@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,8 +8,6 @@ using admin.Mifare;
 using admin.models;
 using admin.Utils;
 using admin.views;
-using PCSC;
-using PCSC.Iso7816;
 
 namespace admin.forms
 {
@@ -34,11 +30,11 @@ namespace admin.forms
         private readonly DaftarApoteker da;
         private MApoteker _mDaftarBaru = new MApoteker(" ", " ", " ", " ", " ");
         private int _noOfErrorsOnScreen;
+        private readonly DBCommand cmd;
 
-        SmartCardOperation sp;
+        private readonly SqlConnection conn;
 
-        SqlConnection conn;
-        DBCommand cmd;
+        private readonly SmartCardOperation sp;
 
         public UbahApoteker(string id, string nama, string alamat, string no_telp, string jenisK, DaftarApoteker ua)
         {
@@ -48,10 +44,13 @@ namespace admin.forms
 
             sp = new SmartCardOperation();
 
-            if (sp.IsReaderAvailable()) { }
+            if (sp.IsReaderAvailable())
+            {
+            }
             else
             {
-                MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             DataContext = new MApoteker(id, nama, no_telp, alamat, " ");
@@ -102,12 +101,10 @@ namespace admin.forms
 
                 if (cmd.UpdateDataApoteker(id, nama, jenisK, telp, alamat))
                 {
-                    bool isPrinted = false;
+                    var isPrinted = false;
 
                     if (chkCetakKartu.IsChecked == true)
-                    {
                         while (!isPrinted)
-                        {
                             try
                             {
                                 if (!string.IsNullOrEmpty(id))
@@ -151,7 +148,8 @@ namespace admin.forms
 
                                 if (!string.IsNullOrEmpty(alamat))
                                 {
-                                    if (sp.WriteBlockRange(Msb, BlockAlamatFrom, BlockAlamatTo, Util.ToArrayByte64(alamat)))
+                                    if (sp.WriteBlockRange(Msb, BlockAlamatFrom, BlockAlamatTo,
+                                        Util.ToArrayByte64(alamat)))
                                     {
                                     }
                                     else
@@ -188,7 +186,9 @@ namespace admin.forms
                             }
                             catch (Exception)
                             {
-                                var ans = MessageBox.Show("Penulisan kartu gagal, pastikan kartu sudah berada pada jangkauan reader.\nApakah anda ingin menulis kartu lain kali?", "Error",
+                                var ans = MessageBox.Show(
+                                    "Penulisan kartu gagal, pastikan kartu sudah berada pada jangkauan reader.\nApakah anda ingin menulis kartu lain kali?",
+                                    "Error",
                                     MessageBoxButton.YesNo, MessageBoxImage.Error);
 
                                 if (ans == MessageBoxResult.Yes)
@@ -196,8 +196,6 @@ namespace admin.forms
 
                                 sp.isoReaderInit();
                             }
-                        }
-                    }
 
                     MessageBox.Show("Berhasil memperbarui data apoteker", "Informasi", MessageBoxButton.OK,
                         MessageBoxImage.Information);
@@ -206,7 +204,8 @@ namespace admin.forms
                 }
                 else
                 {
-                    MessageBox.Show("Gagal memperbarui data apoteker", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Gagal memperbarui data apoteker", "Error", MessageBoxButton.OK,
+                        MessageBoxImage.Error);
                 }
             }
             else

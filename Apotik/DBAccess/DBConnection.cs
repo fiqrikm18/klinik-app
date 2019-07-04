@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Configuration;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Configuration;
 
 namespace Apotik.DBAccess
 {
-    class DBConnection
+    internal class DBConnection
     {
-        static SqlConnection conn;
+        private static SqlConnection conn;
 
         public static SqlConnection dbConnection()
         {
-            if(conn == null)
+            if (conn == null)
             {
-                var connectionString = ConfigurationManager.ConnectionStrings["klinikDatabaseConeection"].ConnectionString;
+                var connectionString =
+                    ConfigurationManager.ConnectionStrings["klinikDatabaseConeection"].ConnectionString;
                 conn = new SqlConnection(connectionString);
             }
 
