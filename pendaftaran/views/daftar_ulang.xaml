@@ -62,6 +62,11 @@
                 <Button x:Name="btn_cetak" Click="Btn_cetak_OnClick" Content="Cetak Kartu" />
                 <Button x:Name="btnPrintLabel" Click="BtnPrintLabel_OnClick" Content="Cetak Label Kartu" Width="Auto" />
             </DockPanel>
+            
+            <DockPanel Margin="0 0 20 0">
+                <Button x:Name="btn_print" Click="btn_print_Click" Content="Print Data Pasien" Width="Auto"/>
+            </DockPanel>
+            
             <DockPanel>
                 <Button x:Name="btn_add" Click="TambahPasien" Content="Daftar" />
                 <Button x:Name="btn_edit" Click="UbahDataPasien" Content="Ubah" />

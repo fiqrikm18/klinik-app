@@ -335,5 +335,20 @@ namespace admin.views
                 sp.isoReaderInit();
             }
         }
+
+        private void btnPrint_Click(object sender, RoutedEventArgs e)
+        {
+            string id = "";
+            if(dtgDataApoteker.SelectedItems.Count > 0)
+            {
+                foreach(models.MApoteker d in dtgDataApoteker.SelectedItems)
+                {
+                    id = d.id_apoteker;
+                }
+
+                forms.PVApoteker pp = new PVApoteker(id);
+                pp.Show();
+            }
+        }
     }
 }

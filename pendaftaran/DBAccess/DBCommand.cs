@@ -29,6 +29,29 @@ namespace pendaftaran.DBAccess
             if (conn.State.Equals(ConnectionState.Open)) conn.Close();
         }
 
+        public DataTable GetDetailPasien(string no_rm)
+        {
+            var dt = new DataTable();
+            try
+            {
+                OpenConnection();
+                var cmd = new SqlCommand("[GetDetailPasien]", conn);
+                cmd.Parameters.AddWithValue("no_rm", no_rm);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                var adp = new SqlDataAdapter(cmd);
+                adp.Fill(dt);
+
+                CloseConnection();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return dt;
+        }
+
         public bool Login(string id, string pass)
         {
             //var res = 0;
@@ -275,7 +298,7 @@ namespace pendaftaran.DBAccess
             try
             {
                 OpenConnection();
-                var cmd = new SqlCommand("select * from tb_pasien", conn);
+                var cmd = new SqlCommand("select * from tb_pasien order by no_rekam_medis asc", conn);
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -348,8 +371,26 @@ namespace pendaftaran.DBAccess
             return false;
         }
 
-        /// <summary>
-        /// TODO: Add function delete antrian with spesific parameters
-        /// </summary>
+        public bool DetleDataAntrian(int id)
+        {
+            try
+            {
+                OpenConnection();
+                SqlCommand cmd = new SqlCommand("delete from tb_antrian_poli where id=@id", conn);
+                cmd.Parameters.AddWithValue("id", id);
+
+                if (cmd.ExecuteNonQuery() == 1)
+                {
+                    return true;
+                }
+
+                CloseConnection();
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return false;
+        }
     }
 }

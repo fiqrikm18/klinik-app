@@ -5,6 +5,7 @@ using System.Windows;
 using pendaftaran.Mifare;
 using pendaftaran.Properties;
 using pendaftaran.views;
+using System.Net.Sockets;
 
 namespace pendaftaran
 {
@@ -15,8 +16,8 @@ namespace pendaftaran
     {
         //static MySqlConnection MsqlConn = null;
         private readonly SmartCardOperation sp;
+        Socket sck;
 
-        //TODO: buat socket client antrian poli
         public MainWindow()
         {
             InitializeComponent();
@@ -40,6 +41,16 @@ namespace pendaftaran
             {
                 MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error",
                     MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            try
+            {
+                sck = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                sck.Connect("192.168.1.105", 13000);
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show("Apliasi antrian tidak aktif, pastikan aplikasi antrian aktif.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 

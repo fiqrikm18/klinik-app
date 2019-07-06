@@ -337,5 +337,20 @@ namespace admin.views
                 sp.isoReaderInit();
             }
         }
+
+        private void btnPrint_Click(object sender, RoutedEventArgs e)
+        {
+            string id = "";
+            if(dtgDataPendaftar.SelectedItems.Count > 0)
+            {
+                foreach(models.MPendaftaran d in dtgDataPendaftar.SelectedItems)
+                {
+                    id = d.id;
+                }
+
+                forms.PVPendaftaran pp = new PVPendaftaran(id);
+                pp.Show();
+            }
+        }
     }
 }

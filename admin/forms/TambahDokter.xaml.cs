@@ -36,6 +36,8 @@ namespace admin.forms
 
         private readonly SqlConnection conn;
 
+        string id = "";
+
         private readonly SmartCardOperation sp;
 
         #region constructor
@@ -111,6 +113,7 @@ namespace admin.forms
 
                 var nama = txtNamaDokter.Text;
                 var id = txtidDokter.Text.ToUpper();
+                this.id = id;
                 var telp = txtTelpDokter.Text;
                 var alamat = TextAlamat.Text;
                 var spesialisasi = txtSpesialisai.Text;
@@ -287,5 +290,11 @@ namespace admin.forms
         }
 
         #endregion
+
+        private void btnPrint_Click(object sender, RoutedEventArgs e)
+        {
+            VDokter vd = new VDokter(id);
+            vd.Show();
+        }
     }
 }

@@ -92,16 +92,23 @@ namespace dokter.views
 
             if (no_rm != null)
             {
+                //MessageBox.Show(cmd.GetNoRmByNoUrut());
                 if (no_rm == cmd.GetNoRmByNoUrut())
                 {
-                    var fPasien = pasien.Where(x => x.no_rm.Contains(no_rm)).ToList().First();
-                    txtNoRekamMedis.Text = fPasien.no_rm;
-                    txtNamaPasien.Text = fPasien.nama;
-                    txtGolDarah.Text = fPasien.golongan_darah;
-                    TextAlamat.Text = fPasien.alamat;
-                    txtJenisKelamin.Text = fPasien.jenis_kelamin;
-                    txtTglLahir.Text = DateTime.Parse(fPasien.tgl_lahir).ToString("dd MMM yyyy");
-                    txtNoTelp.Text = fPasien.no_telp;
+                    var fPasien = pasien.Where(x => x.no_rm.Equals(no_rm)).ToList();
+
+                    //MessageBox.Show(fPasien.ToList().ToString());
+                    foreach(var a in fPasien)
+                    {
+                        txtNoRekamMedis.Text = a.no_rm;
+                        txtNamaPasien.Text = a.nama;
+                        txtGolDarah.Text = a.golongan_darah;
+                        TextAlamat.Text = a.alamat;
+                        txtJenisKelamin.Text = a.jenis_kelamin;
+                        txtTglLahir.Text = DateTime.Parse(a.tgl_lahir).ToString("dd MMM yyyy");
+                        txtNoTelp.Text = a.no_telp;
+                    }
+
                     DisplayDataRekamMedis(no_rm);
                 }
                 else

@@ -34,6 +34,8 @@ namespace admin.forms
 
         private readonly SqlConnection conn;
 
+        string id = "";
+
         private readonly SmartCardOperation sp;
 
         public TambahStaffPendaftaran(DaftarPendaftaran dp)
@@ -93,6 +95,7 @@ namespace admin.forms
             {
                 var nama = txtNamaDokter.Text;
                 var id = txtidDokter.Text.ToUpper();
+                this.id = id;
                 var telp = txtTelpDokter.Text;
                 var alamat = TextAlamat.Text;
                 var jenisK = cbJenisKelamin.Text;
@@ -239,5 +242,11 @@ namespace admin.forms
         }
 
         #endregion
+
+        private void btnPrint_Click(object sender, RoutedEventArgs e)
+        {
+            PVPendaftaran pp = new PVPendaftaran(id);
+            pp.Show();
+        }
     }
 }

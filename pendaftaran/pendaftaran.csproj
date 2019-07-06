@@ -106,6 +106,9 @@
     <Compile Include="forms\PrintPreview.xaml.cs">
       <DependentUpon>PrintPreview.xaml</DependentUpon>
     </Compile>
+    <Compile Include="forms\PVPasien.xaml.cs">
+      <DependentUpon>PVPasien.xaml</DependentUpon>
+    </Compile>
     <Compile Include="forms\ubah_dataPasien.xaml.cs">
       <DependentUpon>ubah_dataPasien.xaml</DependentUpon>
     </Compile>
@@ -119,6 +122,7 @@
     <Compile Include="Mifare\SmartCardOperation.cs" />
     <Compile Include="models\MDaftarBaru.cs" />
     <Compile Include="models\ModelAntrian.cs" />
+    <Compile Include="models\ModelDetailPasien.cs" />
     <Compile Include="models\ModelPasien.cs" />
     <Compile Include="UserPreference.cs" />
     <Compile Include="Utils\Util.cs" />
@@ -135,6 +139,10 @@
       <DependentUpon>daftar_ulang.xaml</DependentUpon>
     </Compile>
     <Page Include="forms\PrintPreview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="forms\PVPasien.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -199,6 +207,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="report\LabelPrint.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="report\ReportDataPasien.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <Resource Include="fonts\OpenSans-Bold.ttf" />

@@ -85,8 +85,8 @@ namespace pendaftaran
             Dispose();
             subscription?.Dispose();
             var lg = new MainWindow();
-            lg.Show();
             Close();
+            lg.Show();
         }
 
         private void Dispose()

@@ -416,5 +416,18 @@ namespace pendaftaran.views
                     MessageBoxImage.Information);
             }
         }
+
+        private void btn_print_Click(object sender, RoutedEventArgs e)
+        {
+            string no_rm = "";
+            if (dtgDataPasien.SelectedItems.Count > 0)
+            {
+                foreach (models.ModelPasien dp in dtgDataPasien.SelectedItems)
+                    no_rm = dp.no_rekam_medis;
+
+                var rv = new forms.PVPasien(no_rm);
+                rv.Show();
+            }
+        }
     }
 }

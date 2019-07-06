@@ -32,6 +32,8 @@ namespace admin.forms
         private int _noOfErrorsOnScreen;
         private readonly DBCommand cmd;
 
+        string id = "";
+
         private readonly SqlConnection conn;
 
         private readonly SmartCardOperation sp;
@@ -95,6 +97,7 @@ namespace admin.forms
             {
                 var id = txtidDokter.Text.ToUpper();
                 var nama = txtNamaDokter.Text;
+                this.id = id;
                 var alamat = TextAlamat.Text;
                 var no_telp = txtTelpDokter.Text;
                 var jenis_kelamin = cbJenisKelamin.Text;
@@ -240,5 +243,11 @@ namespace admin.forms
         }
 
         #endregion
+
+        private void btnPrint_Click(object sender, RoutedEventArgs e)
+        {
+            forms.PVApoteker pa = new PVApoteker(id);
+            pa.Show();
+        }
     }
 }

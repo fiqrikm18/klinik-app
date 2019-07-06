@@ -348,8 +348,13 @@ namespace dokter.DBAccess
                 OpenConnection();
                 var command =
                     new SqlCommand(
-                        "SELECT TOP 1 no_rm FROM tb_antrian_poli WHERE tgl_berobat = CONVERT(date, GETDATE(), 111) AND poliklinik=@poliklinik AND status='Antri' ORDER BY no_urut ASC",
+                        "SELECT TOP 1 no_rm FROM tb_antrian_poli WHERE tgl_berobat = CONVERT(date, GETDATE(), 111) AND poliklinik=@poliklinik AND status='Periksa' ORDER BY no_urut ASC",
                         conn);
+
+                //var command =
+                //    new SqlCommand(
+                //        "SELECT TOP 1 no_rm FROM tb_antrian_poli WHERE tgl_berobat = CONVERT(date, GETDATE(), 111) AND poliklinik=@poliklinik AND status='Antri' ORDER BY no_urut ASC",
+                //        conn);
                 command.Parameters.AddWithValue("poliklinik", GetKodePoli());
 
                 using (var reader = command.ExecuteReader())

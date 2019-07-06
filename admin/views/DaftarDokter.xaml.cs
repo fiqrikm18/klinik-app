@@ -386,5 +386,20 @@ namespace admin.views
                 sp.isoReaderInit();
             }
         }
+
+        private void btnPrint_Click(object sender, RoutedEventArgs e)
+        {
+            string id = "";
+            if(dtgDataDokter.SelectedItems.Count>0)
+            {
+                foreach(models.MDokter md in dtgDataDokter.SelectedItems)
+                {
+                    id = md.id;
+                }
+
+                VDokter vd = new VDokter(id);
+                vd.Show();
+            }
+        }
     }
 }
