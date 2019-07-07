@@ -105,6 +105,8 @@
     <Compile Include="models\ModelDetailResep.cs" />
     <Compile Include="models\ModelObat.cs" />
     <Compile Include="models\ModelResep.cs" />
+    <Compile Include="SckServer\Client.cs" />
+    <Compile Include="SckServer\Listener.cs" />
     <Compile Include="UserPreferences.cs" />
     <Compile Include="Utils\Util.cs" />
     <Compile Include="views\BuatResep.xaml.cs">

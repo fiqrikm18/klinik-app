@@ -8,6 +8,8 @@ using dokter.forms;
 using dokter.mifare;
 using dokter.models;
 using dokter.Utils;
+using System.Net.Sockets;
+using System.Text;
 
 namespace dokter.views
 {
@@ -25,11 +27,24 @@ namespace dokter.views
 
         private SmartCardOperation sp = new SmartCardOperation();
 
+        Socket sck;
+        Socket sck2;
+
         public ViewRekamMedis()
         {
             InitializeComponent();
             conn = DBConnection.dbConnection();
             cmd = new DBCommand(conn);
+
+            try
+            {
+                sck = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                sck2 = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+                sck.Connect("192.168.1.105", 15000);
+                sck.Connect("192.168.1.105", 16000);
+            }
+            catch(Exception) { }
         }
 
         public ViewRekamMedis(string no_rm)
@@ -37,6 +52,16 @@ namespace dokter.views
             InitializeComponent();
             conn = DBConnection.dbConnection();
             cmd = new DBCommand(conn);
+
+            try
+            {
+                sck = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                sck2 = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+                sck.Connect("192.168.1.105", 15000);
+                sck.Connect("192.168.1.105", 16000);
+            }
+            catch(Exception) { }
 
             this.no_rm = no_rm;
             DisplayDataPasien(no_rm);
@@ -212,6 +237,13 @@ namespace dokter.views
                 txtNoTelp.Text = string.Empty;
 
                 dtgDataRekamMedis.ItemsSource = null;
+
+                try
+                {
+                    sck.Send(Encoding.ASCII.GetBytes("Update"));
+                    sck2.Send(Encoding.ASCII.GetBytes("Update"));
+                }
+                catch(Exception) { }
             }
         }
     }

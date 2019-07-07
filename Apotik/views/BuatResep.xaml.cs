@@ -57,26 +57,36 @@ namespace Apotik.views
 
             if (kode_resep != null || string.IsNullOrEmpty(kode_resep) || string.IsNullOrWhiteSpace(kode_resep))
             {
-                if (kode_resep == cmd.GetKodeResepByNoUrut())
+                if (cmd.CountAntrianApotik() > 0)
                 {
-                    var fResep = dataResep.Where(x => x.kode_resep.Contains(kode_resep)).ToList().First();
-                    txtKodeResep.Text = fResep.kode_resep;
-                    txtNamaDokter.Text = fResep.nama_dokter;
-                    txtNamaPasien.Text = fResep.nama_pasien;
-                    txtNoRm.Text = fResep.no_rm;
-                    DisplayDetailResep(fResep.kode_resep);
+                    if (kode_resep == cmd.GetKodeResepByNoUrut())
+                    {
+                        var fResep = dataResep.Where(x => x.kode_resep.Equals(kode_resep)).ToList();
 
-                    var total = 0;
+                        //MessageBox.Show(fResep.no_rm);
 
-                    foreach (ModelDetailResep dr in dtgDetailResep.ItemsSource) total += dr.sub_total;
+                        foreach (var mr in fResep)
+                        {
+                            txtKodeResep.Text = mr.kode_resep;
+                            txtNamaDokter.Text = mr.nama_dokter;
+                            txtNamaPasien.Text = mr.nama_pasien;
+                            txtNoRm.Text = mr.no_rm;
+                        }
 
-                    Debug.WriteLine(total);
-                    txtTotal.Text = total.ToString("C", new CultureInfo("id-ID"));
-                }
-                else
-                {
-                    MessageBox.Show("Kode resep tidak terdaftar, atau belum saatnya dipanggil.", "Error",
-                        MessageBoxButton.OK, MessageBoxImage.Error);
+                        DisplayDetailResep(kode_resep);
+
+                        var total = 0;
+
+                        foreach (ModelDetailResep dr in dtgDetailResep.ItemsSource) total += dr.sub_total;
+
+                        Debug.WriteLine(total);
+                        txtTotal.Text = total.ToString("C", new CultureInfo("id-ID"));
+                    }
+                    else
+                    {
+                        MessageBox.Show("Kode resep tidak terdaftar, atau belum saatnya dipanggil.", "Error",
+                            MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
             }
         }

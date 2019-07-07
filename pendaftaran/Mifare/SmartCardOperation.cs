@@ -9,7 +9,7 @@ namespace pendaftaran.Mifare
     {
         private const byte Msb = 0x00;
         private readonly IContextFactory contextFactory = ContextFactory.Instance;
-        private readonly byte[] key = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+        private readonly byte[] key = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
         private MifareCard card;
         private IsoReader isoReader;
         private string nfcReader;
@@ -125,10 +125,17 @@ namespace pendaftaran.Mifare
 
         public void connect()
         {
-            var ctx = new SCardContext();
-            ctx.Establish(SCardScope.System);
-            var reader = new SCardReader(ctx);
-            reader.Connect(nfcReader, SCardShareMode.Shared, SCardProtocol.Any);
+            try
+            {
+                var ctx = new SCardContext();
+                ctx.Establish(SCardScope.System);
+                var reader = new SCardReader(ctx);
+                reader.Connect(nfcReader, SCardShareMode.Shared, SCardProtocol.Any);
+            }
+            catch(Exception)
+            {
+                //connect();
+            }
         }
 
         public void isoReaderInit()

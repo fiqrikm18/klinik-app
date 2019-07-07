@@ -42,6 +42,7 @@ namespace pendaftaran
             {
                 MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error",
                     MessageBoxButton.OK, MessageBoxImage.Error);
+                Close();
             }
 
             var monitorFactory = MonitorFactory.Instance;
@@ -58,6 +59,8 @@ namespace pendaftaran
         {
             try
             {
+                sp.isoReaderInit();
+
                 if (ev.ToString() == "PCSC.Reactive.Events.CardInserted")
                 {
                     var user = sp.ReadBlock(0x00, BlockId);

@@ -66,7 +66,7 @@ namespace Antrian
             {
                 if(Encoding.ASCII.GetString(data) == "Update")
                 {
-                    DisPlayDataGridAntrian();
+                    LoadPeriksa();
                 }
             });
         }
@@ -74,7 +74,7 @@ namespace Antrian
         public void LoadPeriksa()
         {
             txtNoAntri.Content = cmd.GetNoAntriPeriksa().ToString();
-            txtTotalAntri.Content += cmd.GetTotalPasien().ToString();
+            txtTotalAntri.Content = "Total Pasien Antri: " + cmd.GetTotalPasien().ToString();
             DisPlayDataGridAntrian();
         }
 

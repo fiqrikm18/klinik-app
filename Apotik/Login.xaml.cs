@@ -42,6 +42,8 @@ namespace Apotik
             {
                 MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error",
                     MessageBoxButton.OK, MessageBoxImage.Error);
+                Close();
+                //sp.isoReaderInit();
             }
 
             var monitorFactory = MonitorFactory.Instance;

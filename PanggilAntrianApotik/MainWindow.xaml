@@ -1,0 +1,180 @@
+﻿<Window x:Class="PanggilAntrianApotik.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PanggilAntrianApotik"
+        mc:Ignorable="d"
+       Title="Antrian Poliklinik" Height="720" Width="1200" Icon="images/BMicon.ico"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style x:Key="MyFocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Control}">
+                        <Grid Margin="3 2">
+                            <Rectangle Name="r1" StrokeThickness="1" Stroke="Black" StrokeDashArray="2 2" />
+                            <Border Name="border" Width="{TemplateBinding ActualWidth}"
+                                    Height="{TemplateBinding ActualHeight}" CornerRadius="2" BorderThickness="1" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ShadowStyle">
+            <Setter Property="Control.Foreground" Value="LightGray" />
+        </Style>
+
+        <Style x:Key="SideMenuButton" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Margin" Value="2" />
+            <Setter Property="FontSize" Value="12px" />
+            <Setter Property="FocusVisualStyle" Value="{StaticResource MyFocusVisual}" />
+            <Setter Property="Background" Value="#f0f0f0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border"
+                                BorderThickness="0"
+                                Padding="13"
+                                Background="{TemplateBinding Background}">
+                            <Grid>
+                                <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center" Name="content" />
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="BorderThickness" Value="1" />
+                                <Setter Property="Foreground" Value="white" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#BABABA" />
+                                <Setter Property="Foreground" Value="#FFFFFF" />
+                                <Setter TargetName="content" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <TranslateTransform Y="1.0" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsDefaulted" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#FF282828" />
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#FF282828" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Opacity" Value="0.7" />
+                                <Setter Property="Foreground" Value="Gray" />
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Style="{StaticResource OpenSans}" Background="White">
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2.3*" />
+                <ColumnDefinition Width="6*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Menu -->
+            <Grid Grid.Column="0" Background="White">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0">
+                        <StackPanel Orientation="Horizontal">
+                            <Image x:Name="image" Width="86" Margin="30,11,0,12"
+                                   Source="images/Logo Klinik Bunda Mulya2.jpg" HorizontalAlignment="Center"
+                                   VerticalAlignment="Center" />
+                            <TextBlock x:Name="lbNamaPoli" Text="Apotik" FontWeight="Bold" Margin="10,30,0,32" FontSize="20"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Grid.Row="1" Margin="0 20 0 0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0" Orientation="Horizontal">
+                            <TextBlock x:Name="tbjudul" Text="Antrian " Foreground="Black" Margin="30 0" FontSize="16" FontWeight="Bold"
+                                       />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1">
+                            <DataGrid x:Name="dtgAntrian" Height="430" Margin="30 0" HeadersVisibility="None"
+                                      AutoGenerateColumns="False" CanUserAddRows="False"
+                                      VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Binding="{Binding no_antrian}" FontSize="14" />
+                                    <DataGridTextColumn Binding="{Binding no_rm}" FontSize="14" />
+                                    <DataGridTextColumn Binding="{Binding nama}" FontSize="14" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Grid.Row="2">
+                        <Label Content="Total Antri: " x:Name="txtTotalAntri" Margin="30 20" FontSize="16"
+                               VerticalContentAlignment="Bottom" Foreground="Black" FontWeight="Bold" />
+                    </Grid>
+                </Grid>
+            </Grid>
+            <!-- End Menu -->
+
+            <!-- Frame/Content -->
+            <Grid Grid.Column="1" Background="#FFF1F1F1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" Margin="50">
+                    <TextBlock Text="Selamat Datang Di Klinik Bunda Mulya" VerticalAlignment="Center"
+                               HorizontalAlignment="Center" FontSize="24" FontWeight="Bold" Foreground="#000" />
+                </Grid>
+
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Height="300" Width="300">
+                        <Border Margin="10" BorderBrush="#FFE6E6E6" BorderThickness="0" Background="White">
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="1.5" Color="#FF858585" />
+                            </Border.Effect>
+                        </Border>
+
+                        <Border Margin="10" BorderBrush="{x:Null}" BorderThickness="1">
+                            <StackPanel Orientation="Vertical" Margin="5">
+                                <Label Foreground="#000" Content="Nomor Resep Dibuat" FontSize="16" FontWeight="Bold"
+                                       HorizontalAlignment="Center" Margin="20" />
+                                <Label Foreground="#000" FontSize="72" x:Name="txtNoAntri" Margin="0 30" Content="0"
+                                       VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Content="Panggil Pasien" x:Name="btnPanggil" Click="btnPanggil_Click" Background="White" FontWeight="Bold"/>
+                        <Button Content="Selanjutnya" x:Name="btnNext" Click="btnNext_Click" Background="White" FontWeight="Bold" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+            <!-- End Content -->
+        </Grid>
+    </Grid>
+</Window>

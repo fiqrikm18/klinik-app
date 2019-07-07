@@ -61,7 +61,7 @@ namespace PanggilAntrianPoli.DBAccess
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("update tb_antrian_poli set status='Periksa' where no_urut=@no_urut and tgl_berobat=CONVERT(date, getdate(), 111) and poliklinik=@poli", conn);
+                SqlCommand cmd = new SqlCommand("update tb_antrian_poli set status='Panggil' where no_urut=@no_urut and tgl_berobat=CONVERT(date, getdate(), 111) and poliklinik=@poli", conn);
                 cmd.Parameters.AddWithValue("no_urut", no_urut);
                 cmd.Parameters.AddWithValue("poli", GetKodePoli());
 
@@ -120,7 +120,7 @@ namespace PanggilAntrianPoli.DBAccess
             {
                 OpenConnection();
                 var cmd = new SqlCommand(
-                    "select top 1 no_urut from tb_antrian_poli where poliklinik=@poliklinik and tgl_berobat = CONVERT(date, getdate(), 111) and status='Periksa' order by 1 desc",
+                    "select top 1 no_urut from tb_antrian_poli where poliklinik=@poliklinik and tgl_berobat = CONVERT(date, getdate(), 111) and status='Periksa' or status='Panggil' order by 1 desc",
                     conn);
                 cmd.Parameters.AddWithValue("poliklinik", GetKodePoli());
 

@@ -28,6 +28,7 @@ namespace pendaftaran.views
 
         private readonly SmartCardOperation sp;
         private Socket sck;
+        private Socket sck2;
 
         int no_urut = 0;
         string poli = "";
@@ -44,6 +45,9 @@ namespace pendaftaran.views
             {
                 sck = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 sck.Connect("192.168.1.105", 13000);
+
+                sck2 = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                sck2.Connect("192.168.1.105", 14000);
             }
             catch (Exception ex)
             {
@@ -105,6 +109,7 @@ namespace pendaftaran.views
                         try
                         {
                             sck.Send(Encoding.ASCII.GetBytes("Update"));
+                            sck2.Send(Encoding.ASCII.GetBytes("Update"));
                         }
                         catch (Exception) { }
 

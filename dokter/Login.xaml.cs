@@ -42,6 +42,7 @@ namespace dokter
             {
                 MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error",
                     MessageBoxButton.OK, MessageBoxImage.Error);
+                Close();
             }
 
             var monitorFactory = MonitorFactory.Instance;

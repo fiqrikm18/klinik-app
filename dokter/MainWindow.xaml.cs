@@ -10,7 +10,6 @@ namespace dokter
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
     /// </summary>
-    // TODO: buat socket client antrian poli & apotik
     public partial class MainWindow : Window
     {
         public MainWindow()

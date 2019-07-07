@@ -163,7 +163,7 @@ namespace dokter.DBAccess
             try
             {
                 var cmd = new SqlCommand(
-                    "SELECT tb_pasien.nama as nama, tb_antrian_poli.* FROM tb_antrian_poli LEFT JOIN [tb_pasien] ON tb_antrian_poli.no_rm = tb_pasien.no_rekam_medis WHERE [tgl_berobat]= @tgl_berobat AND [poliklinik]=@poliklinik AND status='Antri' ORDER BY no_urut ASC",
+                    "SELECT tb_pasien.nama as nama, tb_antrian_poli.* FROM tb_antrian_poli LEFT JOIN [tb_pasien] ON tb_antrian_poli.no_rm = tb_pasien.no_rekam_medis WHERE [tgl_berobat]= @tgl_berobat AND [poliklinik]=@poliklinik AND Not status='Selesai' ORDER BY no_urut ASC",
                     conn);
                 cmd.Parameters.AddWithValue("tgl_berobat", tgl_Berobat);
                 cmd.Parameters.AddWithValue("poliklinik", GetKodePoli());
@@ -348,7 +348,7 @@ namespace dokter.DBAccess
                 OpenConnection();
                 var command =
                     new SqlCommand(
-                        "SELECT TOP 1 no_rm FROM tb_antrian_poli WHERE tgl_berobat = CONVERT(date, GETDATE(), 111) AND poliklinik=@poliklinik AND status='Periksa' ORDER BY no_urut ASC",
+                        "SELECT TOP 1 no_rm FROM tb_antrian_poli WHERE tgl_berobat = CONVERT(date, GETDATE(), 111) AND poliklinik=@poliklinik AND status='Panggil' ORDER BY no_urut ASC",
                         conn);
 
                 //var command =
@@ -567,7 +567,7 @@ namespace dokter.DBAccess
                 OpenConnection();
                 var command =
                     new SqlCommand(
-                        "select COUNT(*) from tb_antrian_poli where poliklinik=@poliklinik and tgl_berobat=CONVERT(date, getdate(), 111) and status='Antri'",
+                        "select COUNT(*) from tb_antrian_poli where poliklinik=@poliklinik and tgl_berobat=CONVERT(date, getdate(), 111) and status='Panggil'",
                         conn);
                 command.Parameters.AddWithValue("poliklinik", GetKodePoli());
                 res = int.Parse(command.ExecuteScalar().ToString());
@@ -589,7 +589,7 @@ namespace dokter.DBAccess
             {
                 OpenConnection();
                 var cmd = new SqlCommand(
-                    "select top 1 no_urut from tb_antrian_poli where status='Antri' and tgl_berobat=CONVERT(date, GETDATE(), 111) order by 1 asc",
+                    "select top 1 no_urut from tb_antrian_poli where status='Panggil' and tgl_berobat=CONVERT(date, GETDATE(), 111) order by 1 asc",
                     conn);
 
                 using (var reader = cmd.ExecuteReader())

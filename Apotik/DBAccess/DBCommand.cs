@@ -172,7 +172,7 @@ namespace Apotik.DBAccess
                 OpenConnection();
                 var command =
                     new SqlCommand(
-                        "SELECT TOP 1 no_resep FROM tb_antrian_apotik WHERE tgl_resep = CONVERT(date, GETDATE(), 111) AND status='Antri' ORDER BY no_antrian ASC",
+                        "SELECT TOP 1 no_resep FROM tb_antrian_apotik WHERE tgl_resep = CONVERT(date, GETDATE(), 111) AND status='Panggil' ORDER BY no_antrian ASC",
                         conn);
 
                 using (var reader = command.ExecuteReader())
@@ -338,7 +338,7 @@ namespace Apotik.DBAccess
             {
                 OpenConnection();
                 var cmd = new SqlCommand(
-                    "select count(*) as total_antrian from tb_antrian_apotik where status='Antri' and tgl_resep=convert(date, getdate(), 111)",
+                    "select count(*) as total_antrian from tb_antrian_apotik where status='Panggil' and tgl_resep=convert(date, getdate(), 111)",
                     conn);
                 res = int.Parse(cmd.ExecuteScalar().ToString());
 

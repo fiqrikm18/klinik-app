@@ -93,7 +93,7 @@ namespace Antrian.DBAccess
             {
                 OpenConnection();
                 var cmd = new SqlCommand(
-                    "select top 1 no_urut from tb_antrian_poli where poliklinik=@poliklinik and tgl_berobat = CONVERT(date, getdate(), 111) and status='Periksa' order by 1 desc",
+                    "select top 1 no_urut from tb_antrian_poli where poliklinik=@poliklinik and tgl_berobat = CONVERT(date, getdate(), 111) and status='Periksa' or status='Panggil' order by 1 desc",
                     conn);
                 cmd.Parameters.AddWithValue("poliklinik", GetKodePoli());
 

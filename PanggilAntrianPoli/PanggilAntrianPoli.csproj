@@ -57,7 +57,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DBAccess\ModelAntrianApotik.cs" />
     <Compile Include="models\ModelAntrianPoli.cs" />
+    <Compile Include="SckServer\Client.cs" />
+    <Compile Include="SckServer\Listener.cs" />
     <Compile Include="UserPreferences.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

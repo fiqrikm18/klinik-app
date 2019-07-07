@@ -1,5 +1,9 @@
 ﻿using PanggilAntrianPoli.DBAccess;
+using PanggilAntrianPoli.SckServer;
+using System;
 using System.Data.SqlClient;
+using System.Net.Sockets;
+using System.Text;
 using System.Windows;
 
 namespace PanggilAntrianPoli
@@ -11,6 +15,8 @@ namespace PanggilAntrianPoli
     {
         SqlConnection conn;
         DBCommand cmd;
+        Listener listener;
+        Socket sck;
 
         public MainWindow()
         {
@@ -21,15 +27,56 @@ namespace PanggilAntrianPoli
             tbjudul.Text = "Antrian Poli " + Properties.Settings.Default.Poliklinik;
             LoadDataAntrian();
 
+            try
+            {
+                sck = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                sck.Connect("192.168.1.105", 13000);
+            }
+            catch (Exception)
+            {
+                //Do nothing
+            }
+
             //MessageBox.Show(cmd.GetLastNoUrut().ToString());
 
             var userPrefs = new UserPreferences();
+            listener = new Listener(14000);
+            listener.SocketAccepted += Listener_SocketAccepted;
+            Loaded += MainWindow_Loaded;
 
             Height = userPrefs.WindowHeight;
             Width = userPrefs.WindowWidth;
             Top = userPrefs.WindowTop;
             Left = userPrefs.WindowLeft;
             WindowState = userPrefs.WindowState;
+        }
+
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            listener.Start();
+        }
+
+        private void Listener_SocketAccepted(System.Net.Sockets.Socket e)
+        {
+            Client client = new Client(e);
+            client.Received += Client_Received;
+            client.Disconnected += Client_Disconnected;
+        }
+
+        private void Client_Disconnected(Client sender)
+        {
+
+        }
+
+        private void Client_Received(Client sender, byte[] data)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                if (Encoding.ASCII.GetString(data) == "Update")
+                {
+                    LoadDataAntrian();
+                }
+            });
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -50,6 +97,7 @@ namespace PanggilAntrianPoli
         {
             txtNoAntri.Content = cmd.GetNoAntriPeriksa();
             txtTotalAntri.Content = "Total Pasien Antri: " + cmd.GetTotalPasien();
+
             var antrian = cmd.GetAntrianPoli();
             dtgAntrian.ItemsSource = antrian;
         }
@@ -57,11 +105,20 @@ namespace PanggilAntrianPoli
         private void btnNext_Click(object sender, RoutedEventArgs e)
         {
             var last = int.Parse(txtNoAntri.Content.ToString());
-            
-            if(cmd.UpdateStatusAntrian(last+1))
+
+            if (cmd.UpdateStatusAntrian(last + 1))
             {
                 LoadDataAntrian();
                 //MessageBox.Show(last.ToString());
+
+                try
+                {
+                    sck.Send(Encoding.ASCII.GetBytes("Update"));
+                }
+                catch(Exception)
+                {
+                    //Do nothing
+                }
             }
         }
 
@@ -69,9 +126,17 @@ namespace PanggilAntrianPoli
         {
             var last = cmd.GetLastNoUrut();
 
-            if(cmd.UpdateStatusAntrian(last))
+            if (cmd.UpdateStatusAntrian(last))
             {
                 LoadDataAntrian();
+                try
+                {
+                    sck.Send(Encoding.ASCII.GetBytes("Update"));
+                }
+                catch(Exception)
+                {
+                    //Do nothing
+                }
             }
 
             btnPanggil.IsEnabled = false;
