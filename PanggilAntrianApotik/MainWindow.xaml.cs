@@ -3,6 +3,7 @@ using PanggilAntrianApotik.SckServer;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
@@ -43,7 +44,7 @@ namespace PanggilAntrianApotik
             try
             {
                 sck = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                sck.Connect("192.168.1.105", 16000);
+                sck.Connect(Properties.Settings.Default.SocketServer, Properties.Settings.Default.SocketPort);
             }
             catch(Exception) { }
 
@@ -60,6 +61,8 @@ namespace PanggilAntrianApotik
             Client client = new Client(e);
             client.Received += Client_Received;
             client.Disconnected += Client_Disconnected;
+
+            Debug.WriteLine("Client connected");
         }
 
         private void Client_Disconnected(Client sender)
@@ -71,7 +74,11 @@ namespace PanggilAntrianApotik
         {
             Dispatcher.Invoke(()=>
             {
-                //Update
+                Debug.WriteLine(Encoding.ASCII.GetString(data));
+                if(Encoding.ASCII.GetString(data) == "Update")
+                {
+                    LoadData();
+                }
             });
         }
 
@@ -110,7 +117,8 @@ namespace PanggilAntrianApotik
         {
             var last = cmd.GetLastNoUrut();
 
-            if (cmd.UpdateStatusAntrian(last+1))
+            Debug.WriteLine(last);
+            if (cmd.UpdateStatusAntrian(last))
             {
                 LoadData();
                 //MessageBox.Show(last.ToString());

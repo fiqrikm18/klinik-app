@@ -83,10 +83,10 @@ namespace pendaftaran.views
             try
             {
                 sck = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                sck.Connect("192.168.1.105", 13000);
+                sck.Connect(Properties.Settings.Default.SocketServerAntrianPoli, Properties.Settings.Default.SocketPortAntriaPoli);
 
                 sck2 = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                sck2.Connect("192.168.1.105", 14000);
+                sck2.Connect(Properties.Settings.Default.SocketServerPAntrian, Properties.Settings.Default.SocketPortPAntrian);
             }
             catch (Exception ex)
             {

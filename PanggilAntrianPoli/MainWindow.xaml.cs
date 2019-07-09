@@ -25,12 +25,13 @@ namespace PanggilAntrianPoli
             cmd = new DBCommand(conn);
 
             tbjudul.Text = "Antrian Poli " + Properties.Settings.Default.Poliklinik;
+            lbNamaPoli.Text = "Poli " + Properties.Settings.Default.Poliklinik;
             LoadDataAntrian();
 
             try
             {
                 sck = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                sck.Connect("192.168.1.105", 13000);
+                sck.Connect(Properties.Settings.Default.SocketServer, Properties.Settings.Default.SocketPort);
             }
             catch (Exception)
             {

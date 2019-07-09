@@ -111,7 +111,7 @@ namespace PanggilAntrianApotik.DBAccess
             {
                 OpenConnection();
                 var cmd = new SqlCommand(
-                    "select top 1 no_antrian from tb_antrian_apotik where tgl_resep = convert(varchar(10), getdate(), 111) order by 1 asc",
+                    "select top 1 no_antrian from tb_antrian_apotik where status='Antri' and tgl_resep = convert(varchar(10), getdate(), 111) order by 1 ASC",
                     conn);
 
                 CloseConnection();

@@ -29,6 +29,7 @@ namespace dokter.views
 
         Socket sck;
         Socket sck2;
+        Socket sck3;
 
         public ViewRekamMedis()
         {
@@ -38,11 +39,13 @@ namespace dokter.views
 
             try
             {
-                sck = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                //sck = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 sck2 = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                sck3 = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
-                sck.Connect("192.168.1.105", 15000);
-                sck.Connect("192.168.1.105", 16000);
+                //sck.Connect(Properties.Settings.Default.ScoketServerApotik, Properties.Settings.Default.SockertPortApotik);
+                sck2.Connect(Properties.Settings.Default.SocketServerAntri, Properties.Settings.Default.SocketPortAntri);
+                sck3.Connect(Properties.Settings.Default.SocketPApotik, Properties.Settings.Default.SocketPortPApotik);
             }
             catch(Exception) { }
         }
@@ -55,11 +58,13 @@ namespace dokter.views
 
             try
             {
-                sck = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                //sck = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 sck2 = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                //sck3 = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
-                sck.Connect("192.168.1.105", 15000);
-                sck.Connect("192.168.1.105", 16000);
+                //sck.Connect(Properties.Settings.Default.ScoketServerApotik, Properties.Settings.Default.SockertPortApotik);
+                sck2.Connect(Properties.Settings.Default.SocketServerAntri, Properties.Settings.Default.SocketPortAntri);
+                //sck3.Connect(Properties.Settings.Default.SocketPApotik, Properties.Settings.Default.SocketPortPApotik);
             }
             catch(Exception) { }
 
@@ -227,6 +232,16 @@ namespace dokter.views
         {
             if (cmd.UpdateStatusAntrian(txtNoRekamMedis.Text))
             {
+                try
+                {
+                    //sck.Send(Encoding.ASCII.GetBytes("Update"));
+                    sck2.Send(Encoding.ASCII.GetBytes("Update"));
+                    sck3.Send(Encoding.ASCII.GetBytes("Update"));
+                }
+                catch(Exception ex) {
+                    throw new Exception(ex.Message);
+                }
+
                 txtNoRekamMedis.Text = string.Empty;
                 txtNamaPasien.Text = string.Empty;
                 txtGolDarah.Text = string.Empty;
@@ -237,13 +252,6 @@ namespace dokter.views
                 txtNoTelp.Text = string.Empty;
 
                 dtgDataRekamMedis.ItemsSource = null;
-
-                try
-                {
-                    sck.Send(Encoding.ASCII.GetBytes("Update"));
-                    sck2.Send(Encoding.ASCII.GetBytes("Update"));
-                }
-                catch(Exception) { }
             }
         }
     }

@@ -94,5 +94,29 @@ namespace PanggilAntrianPoli.Properties {
                 this["WindowState"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("192.168.1.105")]
+        public string SocketServer {
+            get {
+                return ((string)(this["SocketServer"]));
+            }
+            set {
+                this["SocketServer"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("13000")]
+        public int SocketPort {
+            get {
+                return ((int)(this["SocketPort"]));
+            }
+            set {
+                this["SocketPort"] = value;
+            }
+        }
     }
 }

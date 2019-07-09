@@ -105,5 +105,53 @@ namespace pendaftaran.Properties {
                 return ((string)(this["db_klinikConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("192.168.1.105")]
+        public string SocketServerAntrianPoli {
+            get {
+                return ((string)(this["SocketServerAntrianPoli"]));
+            }
+            set {
+                this["SocketServerAntrianPoli"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("13000")]
+        public int SocketPortAntriaPoli {
+            get {
+                return ((int)(this["SocketPortAntriaPoli"]));
+            }
+            set {
+                this["SocketPortAntriaPoli"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("192.168.1.105")]
+        public string SocketServerPAntrian {
+            get {
+                return ((string)(this["SocketServerPAntrian"]));
+            }
+            set {
+                this["SocketServerPAntrian"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("14000")]
+        public int SocketPortPAntrian {
+            get {
+                return ((int)(this["SocketPortPAntrian"]));
+            }
+            set {
+                this["SocketPortPAntrian"] = value;
+            }
+        }
     }
 }

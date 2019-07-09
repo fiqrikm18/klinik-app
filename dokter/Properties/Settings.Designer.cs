@@ -117,5 +117,77 @@ namespace dokter.Properties {
                 return ((string)(this["db_klinikConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("192.168.1.105")]
+        public string SocketServerAntri {
+            get {
+                return ((string)(this["SocketServerAntri"]));
+            }
+            set {
+                this["SocketServerAntri"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("192.168.1.105")]
+        public string ScoketServerApotik {
+            get {
+                return ((string)(this["ScoketServerApotik"]));
+            }
+            set {
+                this["ScoketServerApotik"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("16000")]
+        public int SocketPortAntri {
+            get {
+                return ((int)(this["SocketPortAntri"]));
+            }
+            set {
+                this["SocketPortAntri"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("15000")]
+        public int SockertPortApotik {
+            get {
+                return ((int)(this["SockertPortApotik"]));
+            }
+            set {
+                this["SockertPortApotik"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("192.168.1.105")]
+        public string SocketPApotik {
+            get {
+                return ((string)(this["SocketPApotik"]));
+            }
+            set {
+                this["SocketPApotik"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("17000")]
+        public int SocketPortPApotik {
+            get {
+                return ((int)(this["SocketPortPApotik"]));
+            }
+            set {
+                this["SocketPortPApotik"] = value;
+            }
+        }
     }
 }

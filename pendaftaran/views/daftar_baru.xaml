@@ -116,8 +116,8 @@
                             Width="Auto" />
                     <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                         <CheckBox Content="Cetak Kartu" x:Name="chkCetakKartu" Margin="15" IsChecked="True" />
-                        <CheckBox Content="Kartu Baru" x:Name="chkKartuBaru" Margin="15"
-                                  IsEnabled="{Binding ElementName=chkCetakKartu, Path=IsChecked}" />
+                        <!--<CheckBox Content="Kartu Baru" x:Name="chkKartuBaru" Margin="15"
+                                  IsEnabled="{Binding ElementName=chkCetakKartu, Path=IsChecked}" />-->
                     </StackPanel>
                 </StackPanel>
             </StackPanel>

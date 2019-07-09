@@ -110,6 +110,7 @@ namespace Apotik.views
             txtKodeResep.Text = string.Empty;
             txtNamaDokter.Text = string.Empty;
             txtNamaPasien.Text = string.Empty;
+            txtTotal.Text = string.Empty;
             txtNoRm.Text = string.Empty;
             dtgDetailResep.ItemsSource = null;
         }

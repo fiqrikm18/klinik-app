@@ -3,6 +3,7 @@ using Antrian_Apotik.SckServer;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
@@ -65,6 +66,8 @@ namespace Antrian_Apotik
         {
             Dispatcher.Invoke(()=>
             {
+                //MessageBox.Show(data.ToString());
+                Debug.WriteLine(Encoding.ASCII.GetString(data));
                 if(Encoding.ASCII.GetString(data) == "Update")
                 {
                     LoadData();

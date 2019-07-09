@@ -1,7 +1,12 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="PanggilAntrianApotik.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="SocketPort" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">16000</Value>
+    </Setting>
+    <Setting Name="SocketServer" Type="System.String" Scope="User">
+      <Value Profile="(Default)">192.168.1.105</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>
