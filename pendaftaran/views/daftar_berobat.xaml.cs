@@ -22,7 +22,7 @@ namespace pendaftaran.views
     public partial class daftar_berobat : Page
     {
         private const byte Msb = 0x00;
-        private readonly byte blockNoRekamMedis = 1;
+        private readonly byte blockNoRekamMedis = 2;
 
         private readonly SqlConnection conn;
 
@@ -114,7 +114,7 @@ namespace pendaftaran.views
                         catch (Exception) { }
 
                         PrintDocument pd = new PrintDocument();
-                        PaperSize ps = new PaperSize("", 100, 200);
+                        PaperSize ps = new PaperSize("", 300, 540);
 
                         pd.PrintPage += Pd_PrintPage;
                         pd.PrintController = new StandardPrintController();
@@ -152,24 +152,29 @@ namespace pendaftaran.views
             int startX = 50;
             int startY = 55;
             int Offset = 40;
+            graphics.DrawString("SELAMAT DATANG DI", new Font("Courier New", 14), new SolidBrush(Color.Black), startX, startY + Offset);
+            Offset = Offset + 20;
             graphics.DrawString("KLINIK BUNDA MULYA", new Font("Courier New", 14), new SolidBrush(Color.Black), startX, startY + Offset);
+            //Offset = Offset + 20;
+            //graphics.DrawString("Jl. Somawinata Ruko Dream Square 7B", new Font("Courier New", 12), new SolidBrush(Color.Black), startX, startY + Offset);
+            //Offset = Offset + 20;
+            //graphics.DrawString("Tlp. 022-86121090", new Font("Courier New", 12), new SolidBrush(Color.Black), startX, startY + Offset);
             Offset = Offset + 20;
-            graphics.DrawString("Jl. Somawinata Ruko Dream Square 7B", new Font("Courier New", 12), new SolidBrush(Color.Black), startX, startY + Offset);
-            Offset = Offset + 20;
-            graphics.DrawString("Tlp. 022-86121090", new Font("Courier New", 12), new SolidBrush(Color.Black), startX, startY + Offset);
-            Offset = Offset + 20;
-            String underLine = "------------------------------------------";
+            String underLine = "-------------------------------";
             graphics.DrawString(underLine, new Font("Courier New", 10), new SolidBrush(Color.Black), startX, startY + Offset);
 
             Offset = Offset + 20;
+            graphics.DrawString("No. Antrian", new Font("Courier New", 14), new SolidBrush(Color.Black), startX, startY + Offset);
+
+            Offset = Offset + 20;
             //String Source= this.source; 
-            graphics.DrawString(this.no_urut.ToString(), new Font("Courier New", 26, System.Drawing.FontStyle.Bold), new SolidBrush(Color.Black), startX, startY + Offset);
+            graphics.DrawString(this.no_urut.ToString(), new Font("Courier New", 40, System.Drawing.FontStyle.Bold), new SolidBrush(Color.Black), startX, startY + Offset);
 
             Offset = Offset + 20;
             String Grosstotal = "";
 
-            Offset = Offset + 20;
-            underLine = "------------------------------------------";
+            Offset = Offset + 30;
+            underLine = "-------------------------------";
             graphics.DrawString(underLine, new Font("Courier New", 10), new SolidBrush(Color.Black), startX, startY + Offset);
             Offset = Offset + 20;
 
@@ -177,6 +182,8 @@ namespace pendaftaran.views
             Offset = Offset + 20;
             //String DrawnBy = this.drawnBy;
             graphics.DrawString("Poliklinik " + this.poli, new Font("Courier New", 12), new SolidBrush(Color.Black), startX, startY + Offset);
+            Offset = Offset + 20;
+            graphics.DrawString(DateTime.Now.ToShortDateString(), new Font("Courier New", 14), new SolidBrush(Color.Black), startX, startY + Offset);
         }
 
         private void Checkscan_OnUnchecked(object sender, RoutedEventArgs e)

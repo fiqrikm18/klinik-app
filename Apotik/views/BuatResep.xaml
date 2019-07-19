@@ -117,6 +117,9 @@
                         <DataGridTextColumn Binding="{Binding kode_obat}" Header="Kode Obat" IsReadOnly="True" />
                         <DataGridTextColumn Binding="{Binding nama_obat}" Header="Nama Obat" IsReadOnly="True" />
                         <DataGridTextColumn Binding="{Binding jumlah}" Header="Jumlah" IsReadOnly="True" />
+                        <DataGridTextColumn Binding="{Binding dosis}" Header="Dosis" IsReadOnly="True" />
+                        <DataGridTextColumn Binding="{Binding pemakaian}" Header="Aturan Pakai" IsReadOnly="True" />
+                        <DataGridTextColumn Binding="{Binding ket}" Header="Keterangan" IsReadOnly="True" />
                         <DataGridTextColumn Binding="{Binding harga_obat, StringFormat=C, ConverterCulture=id-ID}"
                                             Header="Harga Satuan" IsReadOnly="True" />
                         <DataGridTextColumn Binding="{Binding sub_total, StringFormat=C, ConverterCulture=id-ID}"

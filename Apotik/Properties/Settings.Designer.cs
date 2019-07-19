@@ -94,5 +94,41 @@ namespace Apotik.Properties {
                 this["KodeApoteker"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("COM3")]
+        public string SerialPortName {
+            get {
+                return ((string)(this["SerialPortName"]));
+            }
+            set {
+                this["SerialPortName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("192.168.1.105")]
+        public string SocketAntriApotik {
+            get {
+                return ((string)(this["SocketAntriApotik"]));
+            }
+            set {
+                this["SocketAntriApotik"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("14000")]
+        public int PortAntriApotik {
+            get {
+                return ((int)(this["PortAntriApotik"]));
+            }
+            set {
+                this["PortAntriApotik"] = value;
+            }
+        }
     }
 }

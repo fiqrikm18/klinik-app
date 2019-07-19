@@ -7,6 +7,8 @@ using dokter.DBAccess;
 using dokter.models;
 using dokter.Properties;
 using dokter.views;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace dokter.forms
 {
@@ -15,6 +17,7 @@ namespace dokter.forms
     /// </summary>
     public partial class InputRekamMedis : Window
     {
+        //TODO perbaiki cara input rekam medis
         private int _noOfErrorsOnScreen;
         private readonly SqlConnection conn;
         private ModelRekamMedis mrm;
@@ -75,34 +78,56 @@ namespace dokter.forms
                 " ", " ", " ");
             var cmd = new DBCommand(conn);
 
+            string[] lstDiagnosa = txtKodeDiagnosis.Text.Split(';').ToArray();
+           string[] lstTindakan = txtKodeTindakan.Text.Split(';').ToArray();
+
             var no_rm = txtRekamMedis.Text;
             var riwayat_penyakit = txtRiwayat.Text;
             var berat_badan = txtBeratBadan.Text;
             var alergi = txtAlergi.Text;
             var keluhan = textKeluhan.Text;
-            var diagnosa = textDiagnosa.Text;
-            var tindakan = textTindakan.Text;
+            var diagnosa = "";
+            var tindakan = "";
             var id_dokter = Settings.Default.KodeDokter;
             var kode_poli = cmd.GetKodePoli();
 
             cmd.CloseConnection();
 
+            var res = false;
+
             if (CheckTextBox())
             {
-                if (cmd.InsertDataRekamMedis(no_rm, riwayat_penyakit, alergi, berat_badan, keluhan, diagnosa, tindakan,
-                    id_dokter, kode_poli))
+                for(int i = 0; i< lstDiagnosa.Length-1; i++)
+                {
+                    diagnosa = lstDiagnosa[i];
+                    for(int j =0; j< lstTindakan.Length-1; j++)
+                    {
+                        tindakan = lstTindakan[j];
+                        if(cmd.InsertDataRekamMedis(no_rm, riwayat_penyakit, alergi, berat_badan, keluhan, diagnosa, tindakan, id_dokter, kode_poli))
+                        {
+                            res = true;
+                        }
+                        else
+                        {
+                            res = false;
+                            break;
+                        }
+                    }
+                }
+
+                if(res)
                 {
                     MessageBox.Show("Rekam medis berhasil di tambahkan.", "Informasi", MessageBoxButton.OK,
-                        MessageBoxImage.Information);
-                    DataContext = mrm;
-                    vmr.DisplayDataPasien(no_rm);
-                    Close();
-                }
-                else
+                                MessageBoxImage.Information);
+                }else
                 {
                     MessageBox.Show("Rekam medis gagal di tambahkan.", "Error", MessageBoxButton.OK,
-                        MessageBoxImage.Error);
+                                MessageBoxImage.Error);
                 }
+
+                DataContext = mrm;
+                vmr.DisplayDataPasien(no_rm);
+                Close();
             }
             else
             {
@@ -119,6 +144,30 @@ namespace dokter.forms
                 !string.IsNullOrWhiteSpace(textDiagnosa.Text)) return true;
 
             return false;
+        }
+
+        private void BtnSrcDiag_Click(object sender, RoutedEventArgs e)
+        {
+            PopupDiagnosis pd = new PopupDiagnosis(this);
+            pd.Show();
+        }
+
+        private void BtnSrcTindakan_Click(object sender, RoutedEventArgs e)
+        {
+            PopupTindakan pt = new PopupTindakan(this);
+            pt.Show();
+        }
+
+        public void FillDiagnosis(string kode, string desk)
+        {
+            txtKodeDiagnosis.Text = kode;
+            textDiagnosa.Text = desk;
+        }
+
+        public void FillTindakan(string kode, string desk)
+        {
+            txtKodeTindakan.Text = kode;
+            textTindakan.Text = desk;
         }
     }
 }

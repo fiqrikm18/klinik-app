@@ -35,9 +35,12 @@ namespace dokter.forms
         private void DisplayReport(string no_rm)
         {
             rpt.Reset();
-            var dt = cmd.GetDetailPasien(no_rm);
-            var ds = new ReportDataSource("DetailPasien", dt);
+            var dt = cmd.GetDataPasien(no_rm);
+            var dt1 = cmd.GetDataRekamMedis(no_rm);
+            var ds = new ReportDataSource("DataPasien", dt);
+            var ds1 = new ReportDataSource("DataRekamMedis", dt1);
             rpt.LocalReport.DataSources.Add(ds);
+            rpt.LocalReport.DataSources.Add(ds1);
             rpt.LocalReport.ReportPath = @"report\ReportDataPasien.rdlc";
             rpt.SetDisplayMode(DisplayMode.PrintLayout);
             rpt.RefreshReport();

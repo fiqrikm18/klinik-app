@@ -1,0 +1,29 @@
+﻿<Window x:Class="dokter.forms.PopupDiagnosis"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:dokter.forms"
+        mc:Ignorable="d"
+         WindowStartupLocation="CenterScreen"
+        Background="#FFFBF9F9"
+        Title="FrmTindakan" Height="500" Width="800" AllowsTransparency="True" WindowStyle="None">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBox Name="txtSrc" Grid.Row="0" Width="250" Text="Kode ICD/Diagnosa" HorizontalAlignment="Left" Margin="10" TextChanged="TxtSrc_TextChanged" GotKeyboardFocus="TxtSrc_GotKeyboardFocus"/>
+        <DataGrid Height="350" Grid.Row="1" Margin="10" Name="dtgTindakan" AutoGenerateColumns="False" SelectedCellsChanged="DtgTindakan_SelectedCellsChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding kode}" Header="Kode ICD"/>
+                <DataGridTextColumn Binding="{Binding desk}" Header="Deskripsi/Diagnosa"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Tambah Diagnosa" Width="Auto" Margin="10" HorizontalAlignment="Right" Name="btnDOne" Click="BtnDOne_Click"/>
+            <Button Content="Batal" Margin="10" HorizontalAlignment="Right" Name="btnClose" Click="BtnClose_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

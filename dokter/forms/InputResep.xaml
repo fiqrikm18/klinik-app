@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:dokter.forms"
         mc:Ignorable="d"
-        Title="Input Resep" Height="688.204" Width="843.5" Icon="/dokter;component/images/BMicon.ico"
+        Title="Input Resep" Height="688.204" Width="1152.5" Icon="/dokter;component/images/BMicon.ico"
         WindowStartupLocation="CenterScreen">
     <Grid Style="{StaticResource OpenSans}" Margin="20">
         <Grid.RowDefinitions>
@@ -36,40 +36,37 @@
         <!-- Grid 1 -->
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-
+            <Grid Grid.Column="0" VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition x:Name="column1" Width="Auto" MinWidth="150" />
-                    <ColumnDefinition Width="{Binding ElementName=column1, Path=Width}" MinWidth="352" />
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
-                    <Label Content="No. Rekam Medis:" VerticalAlignment="Center" />
+                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                    <Label Content="No. Resep" VerticalAlignment="Center"/>
                 </StackPanel>
 
-                <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
-                    <TextBlock x:Name="lbNoRM" VerticalAlignment="Center" />
+                <StackPanel Grid.Column="1">
+                    <TextBox Name="txtKodeResep"/>
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition MinWidth="100" Width="150" />
+                    <ColumnDefinition Width="128*" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Margin="20,8,1,8" VerticalAlignment="Center">
+                    <Label Content="No. Rekam Medis" VerticalAlignment="Center"/>
                 </StackPanel>
 
-                <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
-                    <Label Content="Kode Resep:" VerticalAlignment="Center" />
-                </StackPanel>
-
-                <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
-                    <TextBox x:FieldModifier="public" x:Name="txtKodeResep" Width="245"
-                             Validation.Error="Validation_Error"
-                             Text="{Binding UpdateSourceTrigger=LostFocus,
-                        Path=no_resep, NotifyOnSourceUpdated=True,
-                        ValidatesOnDataErrors=True}"
-                             GotKeyboardFocus="TextBoxFocus" />
+                <StackPanel Grid.Column="1" Grid.Row="0" VerticalAlignment="Center">
+                    <TextBlock Name="lbNoRM" VerticalAlignment="Center"/>
                 </StackPanel>
             </Grid>
         </Grid>
@@ -96,7 +93,7 @@
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition MinWidth="150" Width="Auto" />
+                    <ColumnDefinition MinWidth="120" Width="Auto" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
@@ -107,30 +104,47 @@
                 </StackPanel>
 
                 <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal"
-                            Background="{Binding ElementName=txtObat, Path=Background}">
-                    <TextBox x:Name="txtObat" VerticalAlignment="Center" Width="200" Margin="0,3"
+                            Background="{Binding ElementName=txtObat, Path=Background}" Margin="1,8,80,8">
+                    <TextBox x:Name="txtObat" VerticalAlignment="Center" Width="282" Margin="0,3"
                              Validation.Error="Validation_Error"
                              Text="{Binding UpdateSourceTrigger=LostFocus,
                         Path=nama_obat, NotifyOnSourceUpdated=True,
                         ValidatesOnDataErrors=True}"
                              GotKeyboardFocus="TextBoxFocus" />
-                    <Button x:Name="btnBrowse" VerticalAlignment="Center" Margin="0" Width="46"
+                    <Button x:Name="btnBrowse" VerticalAlignment="Center" Margin="0" Width="70"
                             HorizontalAlignment="Right" Content="Cari" Padding="10,10,10,9.7" Height="42"
                             Click="btnBrowse_Click" />
                 </StackPanel>
 
-                <StackPanel Grid.Column="0" Grid.Row="1">
+                <StackPanel Grid.Column="0" Grid.Row="1" VerticalAlignment="Center">
                     <StackPanel>
                         <Label Content="Jumlah:" VerticalAlignment="Center" />
                     </StackPanel>
                 </StackPanel>
 
-                <StackPanel Grid.Column="1" Grid.Row="1">
-                    <TextBox x:Name="txtJumlah" Width="245" Validation.Error="Validation_Error"
+                <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
+                    <TextBox x:Name="txtJumlah" Width="126" Validation.Error="Validation_Error" VerticalAlignment="Center"
                              Text="{Binding UpdateSourceTrigger=LostFocus,
                         Path=jumlah, NotifyOnSourceUpdated=True,
                         ValidatesOnDataErrors=True}"
                              GotKeyboardFocus="TextBoxFocus" />
+
+                    <DockPanel Margin="10 0">
+                        <Label Content="Dosis" Margin="5" VerticalAlignment="Center"/>
+                        <TextBox Width="70" Name="txtDosis" Margin="5"/>
+                        <ComboBox Margin="5" Width="90" Name="cbSatuanDosis" SelectedIndex="0">
+                            <ComboBoxItem Content="Pilih"/>
+                            <ComboBoxItem Content="mg"/>
+                            <ComboBoxItem Content="mg/1cc"/>
+                            <ComboBoxItem Content="mg/2cc"/>
+                            <ComboBoxItem Content="mg/3cc"/>
+                            <ComboBoxItem Content="mg/4cc"/>
+                            <ComboBoxItem Content="mg/5cc"/>
+                            <ComboBoxItem Content="mcg"/>
+                            <ComboBoxItem Content="gram"/>
+                            <ComboBoxItem Content="mL"/>
+                        </ComboBox>
+                    </DockPanel>
                 </StackPanel>
             </Grid>
 
@@ -151,12 +165,65 @@
                     </StackPanel>
                 </StackPanel>
 
-                <StackPanel Grid.Column="1" Grid.Row="0">
-                    <TextBox x:Name="txtPemakaian" Validation.Error="Validation_Error"
+                <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal">
+                    <!--<TextBox x:Name="txtPemakaian" Validation.Error="Validation_Error"
                              Text="{Binding UpdateSourceTrigger=LostFocus,
                         Path=dosis, NotifyOnSourceUpdated=True,
                         ValidatesOnDataErrors=True}"
-                             GotKeyboardFocus="TextBoxFocus" Width="246" />
+                             GotKeyboardFocus="TextBoxFocus" Width="50" />-->
+                    <ComboBox Margin="5" SelectedIndex="0" Name="cbAturanPakai">
+                        <ComboBoxItem Content="Pilih"/>
+                        <ComboBoxItem Content="s.d.d"/>
+                        <ComboBoxItem Content="b.d.d"/>
+                        <ComboBoxItem Content="t.d.d"/>
+                        <ComboBoxItem Content="q.d.d"/>
+                        <ComboBoxItem Content="5.d.d"/>
+                        <ComboBoxItem Content="6.d.d"/>
+                        <ComboBoxItem Content="o.alt. h"/>
+                    </ComboBox>
+                    <ComboBox Margin="5" SelectedIndex="0" Name="cbSediaanObat">
+                        <ComboBoxItem Content="Pilih"/>
+                        <ComboBoxItem Content="ampl."/>
+                        <ComboBoxItem Content="aurist."/>
+                        <ComboBoxItem Content="bol."/>
+                        <ComboBoxItem Content="caps."/>
+                        <ComboBoxItem Content="collut."/>
+                        <ComboBoxItem Content="garg."/>
+                        <ComboBoxItem Content="crem."/>
+                        <ComboBoxItem Content="emuls."/>
+                        <ComboBoxItem Content="pulv."/>
+                        <ComboBoxItem Content="narist."/>
+                        <ComboBoxItem Content="oculent."/>
+                        <ComboBoxItem Content="past.dentifr."/>
+                        <ComboBoxItem Content="pil."/>
+                        <ComboBoxItem Content="pot."/>
+                        <ComboBoxItem Content="pulv."/>
+                        <ComboBoxItem Content="pulv.adsp."/>
+                        <ComboBoxItem Content="sol."/>
+                        <ComboBoxItem Content="tab"/>
+                        <ComboBoxItem Content="tinc."/>
+                    </ComboBox>
+
+                    <TextBox Width="50" Name="txtJumPemakaian"/>
+                    <ComboBox SelectedIndex="0" Margin="5" Name="cbWaktuPemakaian">
+                        <ComboBoxItem Content="Pilih"/>
+                        <ComboBoxItem Content="a merid"/>
+                        <ComboBoxItem Content="an"/>
+                        <ComboBoxItem Content="a.c"/>
+                        <ComboBoxItem Content="p.c"/>
+                        <ComboBoxItem Content="i.s."/>
+                        <ComboBoxItem Content="hd"/>
+                        <ComboBoxItem Content="h xa mat"/>
+                        <ComboBoxItem Content="h.m."/>
+                        <ComboBoxItem Content="hs"/>
+                        <ComboBoxItem Content="hv"/>
+                        <ComboBoxItem Content="m et v"/>
+                        <ComboBoxItem Content="om"/>
+                        <ComboBoxItem Content="on"/>
+                        <ComboBoxItem Content="qh"/>
+                        <ComboBoxItem Content="dc"/>
+                        <ComboBoxItem Content="feb dur"/>
+                    </ComboBox>
                 </StackPanel>
 
                 <StackPanel Grid.Column="0" Grid.Row="1">
@@ -166,11 +233,23 @@
                 </StackPanel>
 
                 <StackPanel Grid.Column="1" Grid.Row="1">
-                    <TextBox x:Name="txtKeterangan" Validation.Error="Validation_Error"
+                    <!--<TextBox x:Name="txtKeterangan" Validation.Error="Validation_Error"
                              Text="{Binding UpdateSourceTrigger=LostFocus,
                         Path=ket, NotifyOnSourceUpdated=True,
                         ValidatesOnDataErrors=True}"
-                             GotKeyboardFocus="TextBoxFocus" Width="246" />
+                             GotKeyboardFocus="TextBoxFocus" Width="246" />-->
+                    <ComboBox SelectedIndex="0" Name="cbTempatPemakaian" Margin="5">
+                        <ComboBoxItem Content="Pilih"/>
+                        <ComboBoxItem Content="Ad.aur"/>
+                        <ComboBoxItem Content="Abdom"/>
+                        <ComboBoxItem Content="Oc"/>
+                        <ComboBoxItem Content="o.D"/>
+                        <ComboBoxItem Content="o.S"/>
+                        <ComboBoxItem Content="Part.dol"/>
+                        <ComboBoxItem Content="u.E"/>
+                        <ComboBoxItem Content="u.P"/>
+                        <ComboBoxItem Content="u.V"/>
+                    </ComboBox>
                 </StackPanel>
             </Grid>
 
@@ -213,7 +292,10 @@
                             Header="Jumlah" Width="150" />
                         <DataGridTextColumn
                             Binding="{Binding dosis, NotifyOnTargetUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            Header="Pemakaian" Width="150" />
+                            Header="Dosis" Width="150" />
+                        <DataGridTextColumn
+                            Binding="{Binding pemakaian, NotifyOnTargetUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Header="Aturan Pakai" Width="150" />
                         <DataGridTextColumn
                             Binding="{Binding ket, NotifyOnTargetUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Header="Keterangan" Width="150" />

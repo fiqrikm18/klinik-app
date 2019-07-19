@@ -10,6 +10,7 @@ using dokter.models;
 using dokter.Utils;
 using System.Net.Sockets;
 using System.Text;
+using System.Diagnostics;
 
 namespace dokter.views
 {
@@ -18,7 +19,7 @@ namespace dokter.views
     /// </summary>
     public partial class ViewRekamMedis : Page
     {
-        private readonly byte blockNoRekamMedis = 1;
+        private readonly byte blockNoRekamMedis = 2;
         private readonly DBCommand cmd;
         private readonly SqlConnection conn;
         private int id;
@@ -39,13 +40,13 @@ namespace dokter.views
 
             try
             {
-                //sck = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                sck2 = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                sck3 = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                sck = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                //sck2 = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                //sck3 = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
-                //sck.Connect(Properties.Settings.Default.ScoketServerApotik, Properties.Settings.Default.SockertPortApotik);
-                sck2.Connect(Properties.Settings.Default.SocketServerAntri, Properties.Settings.Default.SocketPortAntri);
-                sck3.Connect(Properties.Settings.Default.SocketPApotik, Properties.Settings.Default.SocketPortPApotik);
+                sck.Connect(Properties.Settings.Default.ScoketServerApotik, Properties.Settings.Default.SockertPortApotik);
+                //sck2.Connect(Properties.Settings.Default.SocketServerAntri, Properties.Settings.Default.SocketPortAntri);
+                //sck3.Connect(Properties.Settings.Default.SocketPApotik, Properties.Settings.Default.SocketPortPApotik);
             }
             catch(Exception) { }
         }
@@ -58,12 +59,12 @@ namespace dokter.views
 
             try
             {
-                //sck = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                sck2 = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                sck = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                //sck2 = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 //sck3 = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
-                //sck.Connect(Properties.Settings.Default.ScoketServerApotik, Properties.Settings.Default.SockertPortApotik);
-                sck2.Connect(Properties.Settings.Default.SocketServerAntri, Properties.Settings.Default.SocketPortAntri);
+                sck.Connect(Properties.Settings.Default.ScoketServerApotik, Properties.Settings.Default.SockertPortApotik);
+                //sck2.Connect(Properties.Settings.Default.SocketServerAntri, Properties.Settings.Default.SocketPortAntri);
                 //sck3.Connect(Properties.Settings.Default.SocketPApotik, Properties.Settings.Default.SocketPortPApotik);
             }
             catch(Exception) { }
@@ -87,6 +88,7 @@ namespace dokter.views
                             //card = new MifareCard(isoReader);
 
                             var readData = sp.ReadBlock(Msb, blockNoRekamMedis);
+                            Debug.WriteLine(Util.ToASCII(readData, 0, 16, false));
                             if (readData != null)
                                 no_rm = Util.ToASCII(readData, 0, 16, false);
 
@@ -155,7 +157,7 @@ namespace dokter.views
 
             if (no_rn != null)
             {
-                var fRekamMedis = rekamMedis.Where(x => x.no_rm.Contains(no_rn));
+                var fRekamMedis = rekamMedis.Where(x=>x.no_rm.Equals(no_rn));
                 dtgDataRekamMedis.ItemsSource = fRekamMedis;
             }
             else
@@ -234,12 +236,12 @@ namespace dokter.views
             {
                 try
                 {
-                    //sck.Send(Encoding.ASCII.GetBytes("Update"));
-                    sck2.Send(Encoding.ASCII.GetBytes("Update"));
-                    sck3.Send(Encoding.ASCII.GetBytes("Update"));
+                    sck.Send(Encoding.ASCII.GetBytes("Update"));
+                    //sck2.Send(Encoding.ASCII.GetBytes("Update"));
+                    //sck3.Send(Encoding.ASCII.GetBytes("Update"));
                 }
                 catch(Exception ex) {
-                    throw new Exception(ex.Message);
+                    //throw new Exception(ex.Message);
                 }
 
                 txtNoRekamMedis.Text = string.Empty;

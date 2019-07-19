@@ -1,0 +1,49 @@
+﻿<Page x:Class="admin.views.LaporanTransaksiApotik"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:admin.views"
+      mc:Ignorable="d"
+      Title="antrian">
+
+    <Grid Style="{StaticResource OpenSans}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+            <TextBlock FontSize="16" FontWeight="Bold" Text="Daftar Transaksi Apoteker" Foreground="#555555" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center">
+            <Label Content="Filter Berdasarkan Apoteker" VerticalAlignment="Center" />
+            <ComboBox x:Name="cbPoliklinik" Margin="15 0" SelectionChanged="CbPoliklinik_SelectionChanged"
+                      VerticalAlignment="Center" />
+            <Label Content="Filter Berdasarkan Tanggal" VerticalAlignment="Center" />
+            <DatePicker x:Name="dtTanggalLahir" Width="120" HorizontalAlignment="Left" Margin="15 0"
+                        SelectedDateChanged="DtTanggalLahir_SelectedDateChanged" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="2">
+            <DataGrid x:Name="dtgAntrian" SelectionMode="Extended" VerticalAlignment="Top"
+                      HorizontalAlignment="Stretch" AutoGenerateColumns="False" Height="400" CanUserAddRows="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding id}" Visibility="Hidden"></DataGridTextColumn>
+                    <DataGridTextColumn Binding="{Binding nama_apoteker}" Header="Apoteker" Width="150" />
+                    <DataGridTextColumn Binding="{Binding kode_resep}" Header="Kode Resep" Width="150" />
+                    <DataGridTextColumn Binding="{Binding tgl_transaksi}" Header="Tgl Transaksi" Width="150" />
+                    <DataGridTextColumn Binding="{Binding total}" Header="Total Transaksi" Width="150" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Name="btn_Print" Click="Btn_Print_Click" Content="Print Data Transaksi" Width="Auto"/>
+            <Button x:Name="btn_hapus" Click="Btn_hapus_Click" Content="Hapus" />
+        </StackPanel>
+    </Grid>
+</Page>

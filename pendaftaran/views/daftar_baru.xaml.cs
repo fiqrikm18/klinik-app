@@ -33,6 +33,7 @@ namespace pendaftaran.views
         private readonly byte blockNoRekamMedis = 2;
         private readonly byte blockNoTelp = 14;
         private readonly byte blockTglLahir = 16;
+        private readonly byte blockJenisId = 18;
         private readonly byte[] key = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
 
         private MDaftarBaru _mDaftarBaru = new MDaftarBaru(" ", " ", " ", " ", " ");
@@ -134,7 +135,7 @@ namespace pendaftaran.views
                 //DateTime dt = DateTime.ParseExact(, "dd-MM-yyyy", CultureInfo.InvariantCulture);
 
                 var norm = TxtNoRm.Text.ToUpper();
-                this.no_rm = norm;
+                no_rm = norm;
                 var identitas = TxtNoIdentitas.Text;
                 var namaPasien = TxtNamaPasien.Text;
                 var noTelp = TxtNoTelp.Text;
@@ -143,13 +144,34 @@ namespace pendaftaran.views
                 var jenisKelamin = cbJenisKelamin.Text;
                 var poliklinik = policode;
                 var golDarah = cbGolDarah.Text;
+                var jenis_id = "";
+
+                if (chkKtp.IsChecked ?? true)
+                {
+                    jenis_id = chkKtp.Content.ToString();
+                }
+
+                if(chkSim.IsChecked ?? true)
+                {
+                    jenis_id = chkSim.Content.ToString();
+                }
+
+                if(chkKartuPelajar.IsChecked ?? true)
+                {
+                    jenis_id = chkKartuPelajar.Content.ToString();
+                }
+
+                if(chkLainnya.IsChecked ?? true)
+                {
+                    jenis_id = chkLainnya.Content.ToString();
+                }
 
                 if (cmd.CountIdPasienExists(identitas) != 1)
                 {
                     if (cmd.CountRmPasienExists(norm) != 1)
                     {
                         if (cmd.InsertDataPasien(identitas, norm, namaPasien, tglLahir, jenisKelamin, noTelp, alamat,
-                            golDarah))
+                            golDarah, jenis_id))
                         {
                             var last = cmd.GetLastNoUrut(policode);
                             var no_urut = 0;
@@ -160,7 +182,7 @@ namespace pendaftaran.views
                                 no_urut = last + 1;
 
                             this.no_urut = no_urut;
-                            this.poli = cbp.kode_poliklinik;
+                            poli = cbp.kode_poliklinik;
 
                             if (cmd.InsertAntrian(norm, no_urut, policode))
                             {
@@ -177,6 +199,14 @@ namespace pendaftaran.views
                                                     isPrinted = true;
                                                 else
                                                     MessageBox.Show("ID pasien gagal ditulis");
+                                            }
+
+                                            if (!string.IsNullOrEmpty(jenis_id))
+                                            {
+                                                if (sp.WriteBlock(Msb, blockJenisId, Util.ToArrayByte16(jenis_id)))
+                                                    isPrinted = true;
+                                                else
+                                                    MessageBox.Show("Jenis Identitas pasien gagal ditulis");
                                             }
 
                                             if (!string.IsNullOrEmpty(golDarah))
@@ -447,8 +477,12 @@ namespace pendaftaran.views
                     msg += "Nomor Rekam Medis \t: " + Util.ToASCII(rm, 0, 16, false);
 
                 var nId = sp.ReadBlock(Msb, blockIdPasien);
-                if (rm != null)
+                if (nId != null)
                     msg += "\nNomor ID Pasien \t\t: " + Util.ToASCII(nId, 0, 16, false);
+
+                var jId = sp.ReadBlock(Msb, blockJenisId);
+                if (jId != null)
+                    msg += "\nJenis ID Pasien \t\t: " + Util.ToASCII(jId, 0, 16, false);
 
                 var namaP = sp.ReadBlockRange(Msb, blockNamaFrom, blockNamaTo);
                 if (namaP != null)

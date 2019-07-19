@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Antrian.models;
+using Antrian.Properties;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using Antrian.models;
-using Antrian.Properties;
 
 namespace Antrian.DBAccess
 {
@@ -22,29 +22,37 @@ namespace Antrian.DBAccess
 
         public void OpenConnection()
         {
-            if (conn.State.Equals(ConnectionState.Closed)) conn.Open();
+            if (conn.State.Equals(ConnectionState.Closed))
+            {
+                conn.Open();
+            }
         }
 
         public void CloseConnection()
         {
-            if (conn.State.Equals(ConnectionState.Open)) conn.Close();
+            if (conn.State.Equals(ConnectionState.Open))
+            {
+                conn.Close();
+            }
         }
 
         public string GetKodePoli()
         {
-            var kodePoli = "";
-            var poliklinik = Settings.Default.poliklinik;
+            string kodePoli = "";
+            string poliklinik = Settings.Default.poliklinik;
             try
             {
                 OpenConnection();
-                var cmd = new SqlCommand("SELECT TOP 1 [kode_poli] FROM [tb_poliklinik] WHERE [nama_poli]=@nama_poli",
+                SqlCommand cmd = new SqlCommand("SELECT TOP 1 [kode_poli] FROM [tb_poliklinik] WHERE [nama_poli]=@nama_poli",
                     conn);
                 cmd.Parameters.AddWithValue("nama_poli", poliklinik);
 
-                using (var reader = cmd.ExecuteReader())
+                using (SqlDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
+                    {
                         kodePoli = reader["kode_poli"].ToString();
+                    }
                 }
             }
             catch (SqlException ex)
@@ -55,25 +63,54 @@ namespace Antrian.DBAccess
             return kodePoli;
         }
 
-        public List<ModelAntrianPoli> GetAntrianPoli()
+        public List<ModelAntrianApotik> GetAntrianApotik()
         {
-            var antrianPoli = new List<ModelAntrianPoli>();
+            List<ModelAntrianApotik> antrianApotik = new List<ModelAntrianApotik>();
             try
             {
                 OpenConnection();
-                var cmd = new SqlCommand(
-                    "select tb_antrian_poli.*, tb_pasien.nama from tb_antrian_poli join tb_pasien on tb_antrian_poli.no_rm = tb_pasien.no_rekam_medis where tb_antrian_poli.poliklinik = @poli and tb_antrian_poli.tgl_berobat = CONVERT(date, getdate(), 111) and status='Antri'",
+                SqlCommand cmd = new SqlCommand("select tb_antrian.*, tb_pasien.nama from tb_antrian join tb_pasien on tb_antrian.no_rm = tb_pasien.no_rekam_medis where tb_antrian.tgl_berobat = CONVERT(date, getdate(), 111) and tujuan_antrian='Apotik' and status='Antri'", conn);
+
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        antrianApotik.Add(new ModelAntrianApotik(int.Parse(reader["id"].ToString()), reader["no_rm"].ToString(), reader["no_urut"].ToString(),
+                            reader["tujuan_antrian"].ToString(), reader["no_resep"].ToString(), reader["status"].ToString(), reader["tgl_berobat"].ToString(), reader["nama"].ToString()));
+                    }
+                }
+
+                CloseConnection();
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return antrianApotik;
+        }
+
+        public List<ModelAntrianPoli> GetAntrianPoli()
+        {
+            List<ModelAntrianPoli> antrianPoli = new List<ModelAntrianPoli>();
+            try
+            {
+                OpenConnection();
+                SqlCommand cmd = new SqlCommand(
+                    "select tb_antrian.*, tb_pasien.nama from tb_antrian join tb_pasien on tb_antrian.no_rm = tb_pasien.no_rekam_medis where tb_antrian.poliklinik = @poli and tb_antrian.tgl_berobat = CONVERT(date, getdate(), 111) and tujuan_antrian='Poliklinik' and status='Antri'",
                     conn);
                 cmd.Parameters.AddWithValue("poli", GetKodePoli());
 
-                using (var reader = cmd.ExecuteReader())
+                using (SqlDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
+                    {
                         antrianPoli.Add(new ModelAntrianPoli(reader["id"].ToString(), reader["no_rm"].ToString(),
                             reader["nama"].ToString(),
                             int.Parse(reader["no_urut"].ToString()), reader["poliklinik"].ToString(),
                             reader["status"].ToString(),
                             reader["tgl_berobat"].ToString()));
+                    }
                 }
 
                 CloseConnection();
@@ -86,20 +123,49 @@ namespace Antrian.DBAccess
             return antrianPoli;
         }
 
-        public int GetNoAntriPeriksa()
+        public int GetNoAntriApotik()
         {
-            var no_antri = 0;
+            int no_antrian = 0;
             try
             {
                 OpenConnection();
-                var cmd = new SqlCommand(
-                    "select top 1 no_urut from tb_antrian_poli where poliklinik=@poliklinik and tgl_berobat = CONVERT(date, getdate(), 111) and status='Periksa' or status='Panggil' order by 1 desc",
+                SqlCommand cmd = new SqlCommand("select top 1 no_urut from tb_antrian where tujuan_antrian='Apotik' and tgl_berobat = CONVERT(date, getdate(), 111) and status='Periksa' or status='Panggil' order by 1 desc", conn);
+
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        no_antrian = reader.GetInt32(0);
+                    }
+                }
+
+                CloseConnection();
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return no_antrian;
+        }
+
+        public int GetNoAntriPeriksa()
+        {
+            int no_antri = 0;
+            try
+            {
+                OpenConnection();
+                SqlCommand cmd = new SqlCommand(
+                    "select top 1 no_urut from tb_antrian where poliklinik=@poliklinik and tujuan_antrian='Poliklinik' and tgl_berobat = CONVERT(date, getdate(), 111) and status='Periksa' or status='Panggil' order by 1 desc",
                     conn);
                 cmd.Parameters.AddWithValue("poliklinik", GetKodePoli());
 
-                using (var reader = cmd.ExecuteReader())
+                using (SqlDataReader reader = cmd.ExecuteReader())
                 {
-                    while (reader.Read()) no_antri = reader.GetInt32(0);
+                    while (reader.Read())
+                    {
+                        no_antri = reader.GetInt32(0);
+                    }
                 }
 
                 CloseConnection();
@@ -112,14 +178,32 @@ namespace Antrian.DBAccess
             return no_antri;
         }
 
-        public int GetTotalPasien()
+        public int GetTotalApotik()
         {
-            var total = 0;
+            int total = 0;
             try
             {
                 OpenConnection();
-                var cmd = new SqlCommand(
-                    "select count(no_urut) from tb_antrian_poli where status='Antri' and tgl_berobat=CONVERT(date, getdate(), 111) and poliklinik=@poliklinik",
+                SqlCommand cmd = new SqlCommand("select count(no_urut) from tb_antrian where status='Antri' and tgl_berobat=CONVERT(date, getdate(), 111)  and tujuan_antrian = 'Apotik'", conn);
+                total = int.Parse(cmd.ExecuteScalar().ToString());
+                CloseConnection();
+            }
+            catch(SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return total;
+        }
+
+        public int GetTotalPasien()
+        {
+            int total = 0;
+            try
+            {
+                OpenConnection();
+                SqlCommand cmd = new SqlCommand(
+                    "select count(no_urut) from tb_antrian where status='Antri' and tgl_berobat=CONVERT(date, getdate(), 111) and poliklinik=@poliklinik and tujuan_antrian = 'Poliklinik'",
                     conn);
                 cmd.Parameters.AddWithValue("poliklinik", GetKodePoli());
                 total = int.Parse(cmd.ExecuteScalar().ToString());

@@ -38,16 +38,21 @@
       <Value Profile="(Default)">192.168.1.105</Value>
     </Setting>
     <Setting Name="SocketPortAntri" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">16000</Value>
+      <Value Profile="(Default)">13000</Value>
     </Setting>
     <Setting Name="SockertPortApotik" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">15000</Value>
+      <Value Profile="(Default)">14000</Value>
     </Setting>
-    <Setting Name="SocketPApotik" Type="System.String" Scope="User">
-      <Value Profile="(Default)">192.168.1.105</Value>
+    <Setting Name="db_klinikConnectionString1" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;ConnectionString&gt;Data Source=.;Initial Catalog=db_klinik;Integrated Security=True&lt;/ConnectionString&gt;
+  &lt;ProviderName&gt;System.Data.SqlClient&lt;/ProviderName&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">Data Source=.;Initial Catalog=db_klinik;Integrated Security=True</Value>
     </Setting>
-    <Setting Name="SocketPortPApotik" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">17000</Value>
+    <Setting Name="SerialName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">COM3</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -1,9 +1,9 @@
-﻿using System;
+﻿using admin.Mifare;
+using admin.views;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
-using admin.Mifare;
-using admin.views;
 
 namespace admin
 {
@@ -19,27 +19,18 @@ namespace admin
             InitializeComponent();
             sp = new SmartCardOperation();
 
-            var userPrefs = new UserPreferences();
+            UserPreferences userPrefs = new UserPreferences();
 
             Height = userPrefs.WindowHeight;
             Width = userPrefs.WindowWidth;
             Top = userPrefs.WindowTop;
             Left = userPrefs.WindowLeft;
             WindowState = userPrefs.WindowState;
-
-            if (sp.IsReaderAvailable())
-            {
-            }
-            else
-            {
-                MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
-            }
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-            var userPrefs = new UserPreferences
+            UserPreferences userPrefs = new UserPreferences
             {
                 WindowHeight = Height,
                 WindowWidth = Width,
@@ -81,11 +72,16 @@ namespace admin
             Dispatcher.Invoke(() =>
             {
                 //Properties.Settings.Default.IDStaff = null;
-                var lg = new Login();
+                Login lg = new Login();
                 lg.Show();
                 Close();
                 GC.SuppressFinalize(this);
             });
+        }
+
+        private void BtnDataTransaksi_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Content = new LaporanTransaksiApotik();
         }
     }
 }

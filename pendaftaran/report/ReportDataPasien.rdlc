@@ -129,7 +129,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=": " +StrConv(Fields!golongan_darah.Value, vbProperCase)</Value>
+                <Value>=First(Fields!golongan_darah.Value, "DataPasien")</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -140,7 +140,7 @@
         <Top>2.80844cm</Top>
         <Left>3.24492cm</Left>
         <Height>0.6cm</Height>
-        <Width>5.91312cm</Width>
+        <Width>5.675cm</Width>
         <ZIndex>4</ZIndex>
         <Style>
           <Border>
@@ -159,7 +159,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=": " + StrConv(Fields!nama_pasien.Value, vbProperCase)</Value>
+                <Value>=StrConv(First(Fields!nama.Value, "DataPasien"), vbProperCase)</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -170,7 +170,7 @@
         <Top>2.20844cm</Top>
         <Left>3.24492cm</Left>
         <Height>0.6cm</Height>
-        <Width>5.91312cm</Width>
+        <Width>5.675cm</Width>
         <ZIndex>5</ZIndex>
         <Style>
           <Border>
@@ -189,7 +189,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=": " + Fields!no_rekam_medis.Value</Value>
+                <Value>=First(Fields!no_rekam_medis.Value, "DataPasien")</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -200,7 +200,7 @@
         <Top>1.60844cm</Top>
         <Left>3.24492cm</Left>
         <Height>0.6cm</Height>
-        <Width>5.91312cm</Width>
+        <Width>5.675cm</Width>
         <ZIndex>6</ZIndex>
         <Style>
           <Border>
@@ -279,7 +279,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=": " +StrConv(Last(Fields!riwayat_penyakit.Value), vbProperCase)</Value>
+                <Value>=StrConv(Last(Fields!riwayat_penyakit.Value, "DataRekamMedis"), vbProperCase)</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -309,7 +309,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=": " + Last(Fields!berat_badan.Value).ToString() + " kg"</Value>
+                <Value>=Last(Fields!berat_badan.Value, "DataRekamMedis")</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -371,7 +371,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=": " +StrConv(Last(Fields!alergi.Value), vbProperCase)</Value>
+                <Value>=StrConv(Last(Fields!alergi.Value, "DataRekamMedis"), vbProperCase)</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -394,23 +394,505 @@
           <PaddingBottom>2pt</PaddingBottom>
         </Style>
       </Textbox>
-      <Tablix Name="Tablix2">
+      <Textbox Name="Textbox43">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Rekam Medis </Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox43</rd:DefaultName>
+        <Top>6.0668cm</Top>
+        <Height>0.6cm</Height>
+        <Width>2.5cm</Width>
+        <ZIndex>13</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="tanggal_lahir">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>=First(Format(Fields!tanggal_lahir.Value, "dd MMM yyyy"), "DataPasien")</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>tanggal_lahir</rd:DefaultName>
+        <Top>2.17316cm</Top>
+        <Left>13.118cm</Left>
+        <Height>0.6cm</Height>
+        <Width>3.79455cm</Width>
+        <ZIndex>14</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox51">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Tgl Lahir</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox51</rd:DefaultName>
+        <Top>2.17316cm</Top>
+        <Left>9.97417cm</Left>
+        <Height>0.6cm</Height>
+        <Width>3.14382cm</Width>
+        <ZIndex>15</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox52">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Jenis Kelamin</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox52</rd:DefaultName>
+        <Top>1.57316cm</Top>
+        <Left>9.97417cm</Left>
+        <Height>0.6cm</Height>
+        <Width>3.14382cm</Width>
+        <ZIndex>16</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="jenis_kelamin">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>=StrConv(First(Fields!jenis_kelamin.Value, "DataPasien"), vbProperCase)</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>jenis_kelamin</rd:DefaultName>
+        <Top>1.57316cm</Top>
+        <Left>13.118cm</Left>
+        <Height>0.6cm</Height>
+        <Width>3.79455cm</Width>
+        <ZIndex>17</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox55">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Alamat</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox55</rd:DefaultName>
+        <Top>3.40844cm</Top>
+        <Height>0.6cm</Height>
+        <Width>3.24492cm</Width>
+        <ZIndex>18</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="alamat">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>=StrConv(First(Fields!alamat.Value, "DataPasien"), vbProperCase)</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>General</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>alamat</rd:DefaultName>
+        <Top>3.40844cm</Top>
+        <Left>3.24493cm</Left>
+        <Height>1.8cm</Height>
+        <Width>5.675cm</Width>
+        <ZIndex>19</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox14">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>:</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox14</rd:DefaultName>
+        <Top>1.60844cm</Top>
+        <Left>2.99918cm</Left>
+        <Height>0.6cm</Height>
+        <Width>0.38333cm</Width>
+        <ZIndex>20</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox15">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>:</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox14</rd:DefaultName>
+        <Top>3.40844cm</Top>
+        <Left>2.99918cm</Left>
+        <Height>0.6cm</Height>
+        <Width>0.38333cm</Width>
+        <ZIndex>21</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox17">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>:</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox14</rd:DefaultName>
+        <Top>2.20844cm</Top>
+        <Left>2.99918cm</Left>
+        <Height>0.6cm</Height>
+        <Width>0.38333cm</Width>
+        <ZIndex>22</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox22">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>:</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox14</rd:DefaultName>
+        <Top>2.80844cm</Top>
+        <Left>2.99918cm</Left>
+        <Height>0.6cm</Height>
+        <Width>0.38333cm</Width>
+        <ZIndex>23</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox23">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>:</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox14</rd:DefaultName>
+        <Top>1.57316cm</Top>
+        <Left>12.87578cm</Left>
+        <Height>0.6cm</Height>
+        <Width>0.24222cm</Width>
+        <ZIndex>24</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox24">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>:</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox14</rd:DefaultName>
+        <Top>2.17316cm</Top>
+        <Left>12.87577cm</Left>
+        <Height>0.6cm</Height>
+        <Width>0.24222cm</Width>
+        <ZIndex>25</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox25">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>:</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox14</rd:DefaultName>
+        <Top>2.77316cm</Top>
+        <Left>12.87578cm</Left>
+        <Height>0.6cm</Height>
+        <Width>0.24222cm</Width>
+        <ZIndex>26</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox26">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>:</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox14</rd:DefaultName>
+        <Top>3.97316cm</Top>
+        <Left>12.87577cm</Left>
+        <Height>0.6cm</Height>
+        <Width>0.24222cm</Width>
+        <ZIndex>27</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox27">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>:</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox14</rd:DefaultName>
+        <Top>3.37316cm</Top>
+        <Left>12.87577cm</Left>
+        <Height>0.6cm</Height>
+        <Width>0.24222cm</Width>
+        <ZIndex>28</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Tablix Name="Tablix1">
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>3.38251cm</Width>
+              <Width>3.52583cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>3.38251cm</Width>
+              <Width>3.52583cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>3.38251cm</Width>
+              <Width>3.52583cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>3.38251cm</Width>
+              <Width>3.52583cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>3.38251cm</Width>
+              <Width>2.80925cm</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -419,14 +901,14 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox37">
+                    <Textbox Name="Textbox28">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Dokter </Value>
+                              <Value>Dokter</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -437,7 +919,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox37</rd:DefaultName>
+                      <rd:DefaultName>Textbox28</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -454,14 +936,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox39">
+                    <Textbox Name="Textbox32">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Keluhan</Value>
+                              <Value>Anamnesa</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -472,7 +954,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox39</rd:DefaultName>
+                      <rd:DefaultName>Textbox32</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -489,7 +971,7 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox41">
+                    <Textbox Name="Textbox34">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -507,7 +989,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox41</rd:DefaultName>
+                      <rd:DefaultName>Textbox34</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -524,7 +1006,7 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox44">
+                    <Textbox Name="Textbox36">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -542,7 +1024,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox44</rd:DefaultName>
+                      <rd:DefaultName>Textbox36</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -559,7 +1041,7 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox48">
+                    <Textbox Name="Textbox38">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -577,7 +1059,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox48</rd:DefaultName>
+                      <rd:DefaultName>Textbox38</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -606,7 +1088,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=StrConv(Fields!nama_dokter.Value, vbProperCase)</Value>
+                              <Value>="Dr. "+Fields!nama_dokter.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -636,7 +1118,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=StrConv(Fields!keluhan.Value, vbProperCase)</Value>
+                              <Value>=Fields!keluhan.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -666,7 +1148,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=StrConv(Fields!diagnosa.Value,vbProperCase)</Value>
+                              <Value>=Fields!diagnosa.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -696,7 +1178,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=StrConv(Fields!tindakan.Value, vbProperCase)</Value>
+                              <Value>=Fields!tindakan.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -726,7 +1208,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Format(Fields!tgl_pemeriksaan.Value, "dd MMM yyyy")</Value>
+                              <Value>=First(Format(Fields!tgl_pemeriksaan.Value, "dd MMM yyyy"), "DataRekamMedis")</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -772,231 +1254,19 @@
             </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
-        <DataSetName>DetailPasien</DataSetName>
-        <Top>6.70208cm</Top>
+        <DataSetName>DataRekamMedis</DataSetName>
+        <Top>6.6668cm</Top>
         <Height>1.2cm</Height>
         <Width>16.91255cm</Width>
-        <ZIndex>13</ZIndex>
+        <ZIndex>29</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
           </Border>
         </Style>
       </Tablix>
-      <Textbox Name="Textbox43">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>Rekam Medis </Value>
-                <Style>
-                  <FontWeight>Bold</FontWeight>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox43</rd:DefaultName>
-        <Top>6.0668cm</Top>
-        <Height>0.6cm</Height>
-        <Width>2.5cm</Width>
-        <ZIndex>14</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="tanggal_lahir">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>=": " + First(Format(Fields!tanggal_lahir.Value, "dd MMM yyyy"), "DetailPasien")</Value>
-                <Style />
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>tanggal_lahir</rd:DefaultName>
-        <Top>2.17316cm</Top>
-        <Left>13.118cm</Left>
-        <Height>0.6cm</Height>
-        <Width>3.79455cm</Width>
-        <ZIndex>15</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="Textbox51">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>Tgl Lahir</Value>
-                <Style />
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox51</rd:DefaultName>
-        <Top>2.17316cm</Top>
-        <Left>9.97417cm</Left>
-        <Height>0.6cm</Height>
-        <Width>3.14382cm</Width>
-        <ZIndex>16</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="Textbox52">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>Jenis Kelamin</Value>
-                <Style />
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox52</rd:DefaultName>
-        <Top>1.57316cm</Top>
-        <Left>9.97417cm</Left>
-        <Height>0.6cm</Height>
-        <Width>3.14382cm</Width>
-        <ZIndex>17</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="jenis_kelamin">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>=": " +First(Fields!jenis_kelamin.Value, "DetailPasien")</Value>
-                <Style />
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>jenis_kelamin</rd:DefaultName>
-        <Top>1.57316cm</Top>
-        <Left>13.118cm</Left>
-        <Height>0.6cm</Height>
-        <Width>3.79455cm</Width>
-        <ZIndex>18</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="Textbox55">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>Alamat</Value>
-                <Style />
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox55</rd:DefaultName>
-        <Top>3.40844cm</Top>
-        <Height>0.6cm</Height>
-        <Width>3.24492cm</Width>
-        <ZIndex>19</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="alamat">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>=": " +First(Fields!alamat.Value, "DetailPasien")</Value>
-                <Style />
-              </TextRun>
-            </TextRuns>
-            <Style>
-              <TextAlign>General</TextAlign>
-            </Style>
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>alamat</rd:DefaultName>
-        <Top>3.44372cm</Top>
-        <Left>3.24493cm</Left>
-        <Height>1.8cm</Height>
-        <Width>5.91312cm</Width>
-        <ZIndex>20</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
     </ReportItems>
-    <Height>3.11458in</Height>
+    <Height>3.23036in</Height>
     <Style />
   </Body>
   <Width>6.65848in</Width>
@@ -1187,7 +1457,7 @@
     </DataSource>
   </DataSources>
   <DataSets>
-    <DataSet Name="DetailPasien">
+    <DataSet Name="DataPasien">
       <Query>
         <DataSourceName>DataPasien</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
@@ -1197,38 +1467,58 @@
           <DataField>no_rekam_medis</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="nama_pasien">
-          <DataField>nama_pasien</DataField>
+        <Field Name="no_identitas">
+          <DataField>no_identitas</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="jenis_identitas">
+          <DataField>jenis_identitas</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="nama">
+          <DataField>nama</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="golongan_darah">
           <DataField>golongan_darah</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="alamat">
-          <DataField>alamat</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+        <Field Name="tanggal_lahir">
+          <DataField>tanggal_lahir</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
         <Field Name="jenis_kelamin">
           <DataField>jenis_kelamin</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="tanggal_lahir">
-          <DataField>tanggal_lahir</DataField>
+        <Field Name="no_telp">
+          <DataField>no_telp</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="alamat">
+          <DataField>alamat</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="tgl_daftar">
+          <DataField>tgl_daftar</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
-        <Field Name="nama_dokter">
-          <DataField>nama_dokter</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="nama_poli">
-          <DataField>nama_poli</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="id">
-          <DataField>id</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
+      </Fields>
+      <rd:DataSetInfo>
+        <rd:DataSetName>DataPasien</rd:DataSetName>
+        <rd:SchemaPath>D:\TA\prj\klinik-app\dokter\DBAccess\DataPasien.xsd</rd:SchemaPath>
+        <rd:TableName>GetDataPasien</rd:TableName>
+        <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
+        <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>
+        <rd:TableAdapterName>GetDataPasienTableAdapter</rd:TableAdapterName>
+      </rd:DataSetInfo>
+    </DataSet>
+    <DataSet Name="DataRekamMedis">
+      <Query>
+        <DataSourceName>DataPasien</DataSourceName>
+        <CommandText>/* Local Query */</CommandText>
+      </Query>
+      <Fields>
         <Field Name="no_rm">
           <DataField>no_rm</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -1237,16 +1527,16 @@
           <DataField>riwayat_penyakit</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="alergi">
-          <DataField>alergi</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
         <Field Name="berat_badan">
           <DataField>berat_badan</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="keluhan">
           <DataField>keluhan</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="alergi">
+          <DataField>alergi</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="diagnosa">
@@ -1261,8 +1551,16 @@
           <DataField>id_dokter</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="nama_dokter">
+          <DataField>nama_dokter</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="poli">
           <DataField>poli</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="nama_poli">
+          <DataField>nama_poli</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="tgl_pemeriksaan">
@@ -1273,10 +1571,10 @@
       <rd:DataSetInfo>
         <rd:DataSetName>DataPasien</rd:DataSetName>
         <rd:SchemaPath>D:\TA\prj\klinik-app\dokter\DBAccess\DataPasien.xsd</rd:SchemaPath>
-        <rd:TableName>GetDetailPasien</rd:TableName>
+        <rd:TableName>getDataRekamMedis</rd:TableName>
         <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
         <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>
-        <rd:TableAdapterName>GetDetailPasienTableAdapter</rd:TableAdapterName>
+        <rd:TableAdapterName>getDataRekamMedisTableAdapter</rd:TableAdapterName>
       </rd:DataSetInfo>
     </DataSet>
   </DataSets>

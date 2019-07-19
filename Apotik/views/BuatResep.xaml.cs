@@ -17,7 +17,7 @@ namespace Apotik.views
     /// </summary>
     public partial class BuatResep : Page
     {
-        private readonly byte blockRekamMedis = 1;
+        private readonly byte blockRekamMedis = 2;
         private readonly DBCommand cmd;
         private readonly SqlConnection conn;
         private string kode_resep;
@@ -68,7 +68,7 @@ namespace Apotik.views
                         foreach (var mr in fResep)
                         {
                             txtKodeResep.Text = mr.kode_resep;
-                            txtNamaDokter.Text = mr.nama_dokter;
+                            txtNamaDokter.Text = "Dr. " + mr.nama_dokter;
                             txtNamaPasien.Text = mr.nama_pasien;
                             txtNoRm.Text = mr.no_rm;
                         }
@@ -102,7 +102,18 @@ namespace Apotik.views
 
         private void btnSelesai_Click(object sender, RoutedEventArgs e)
         {
-            if (cmd.UpdateStatusAntrianApotik(kode_resep)) ClearData();
+            var total = 0;
+
+            foreach (ModelDetailResep dr in dtgDetailResep.ItemsSource) total += dr.sub_total;
+
+            //MessageBox.Show(total.ToString());
+            if (cmd.CreateTransactionResep(Properties.Settings.Default.KodeApoteker.ToString(), txtKodeResep.Text.ToString(), total))
+            {
+                if (cmd.UpdateStatusAntrianApotik(kode_resep))
+                {
+                    ClearData();
+                }
+            }
         }
 
         private void ClearData()
@@ -131,6 +142,8 @@ namespace Apotik.views
                             var asciiData = "";
 
                             if (readData != null) asciiData = Util.ToASCII(readData, 0, 16, false);
+
+                            Debug.WriteLine(asciiData);
 
                             kode_resep = cmd.GetKodeResepByRm(asciiData);
 

@@ -144,7 +144,7 @@ namespace dokter.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("16000")]
+        [global::System.Configuration.DefaultSettingValueAttribute("13000")]
         public int SocketPortAntri {
             get {
                 return ((int)(this["SocketPortAntri"]));
@@ -156,7 +156,7 @@ namespace dokter.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("15000")]
+        [global::System.Configuration.DefaultSettingValueAttribute("14000")]
         public int SockertPortApotik {
             get {
                 return ((int)(this["SockertPortApotik"]));
@@ -166,27 +166,25 @@ namespace dokter.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("192.168.1.105")]
-        public string SocketPApotik {
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.;Initial Catalog=db_klinik;Integrated Security=True")]
+        public string db_klinikConnectionString1 {
             get {
-                return ((string)(this["SocketPApotik"]));
-            }
-            set {
-                this["SocketPApotik"] = value;
+                return ((string)(this["db_klinikConnectionString1"]));
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("17000")]
-        public int SocketPortPApotik {
+        [global::System.Configuration.DefaultSettingValueAttribute("COM3")]
+        public string SerialName {
             get {
-                return ((int)(this["SocketPortPApotik"]));
+                return ((string)(this["SerialName"]));
             }
             set {
-                this["SocketPortPApotik"] = value;
+                this["SerialName"] = value;
             }
         }
     }

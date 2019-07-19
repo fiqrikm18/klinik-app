@@ -79,7 +79,7 @@
 
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2.3*" />
+                <ColumnDefinition Width="4*" />
                 <ColumnDefinition Width="6*" />
             </Grid.ColumnDefinitions>
 
@@ -118,9 +118,22 @@
                                       AutoGenerateColumns="False" CanUserAddRows="False"
                                       VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Binding="{Binding no_urut}" FontSize="14" />
-                                    <DataGridTextColumn Binding="{Binding no_rm}" FontSize="14" />
-                                    <DataGridTextColumn Binding="{Binding nama}" FontSize="14" />
+                                    <DataGridTextColumn Binding="{Binding no_urut}" FontSize="16" Header="No.Urut"  Foreground="Black">
+                                        <DataGridTextColumn.EditingElementStyle>
+                                            <Style TargetType="TextBox">
+                                                <Setter Property="CharacterCasing" Value="Upper"/>
+                                                <Setter Property="FontSize" Value="14"/>
+                                            </Style>
+                                        </DataGridTextColumn.EditingElementStyle>
+                                    </DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding nama}" FontSize="16" Header="Nama Pasien" Foreground="Black">
+                                        <DataGridTextColumn.EditingElementStyle>
+                                            <Style TargetType="TextBox">
+                                                <Setter Property="CharacterCasing" Value="Upper"/>
+                                                <Setter Property="FontSize" Value="14"/>
+                                            </Style>
+                                        </DataGridTextColumn.EditingElementStyle>
+                                    </DataGridTextColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
                         </StackPanel>
@@ -156,7 +169,7 @@
 
                         <Border Margin="10" BorderBrush="{x:Null}" BorderThickness="1">
                             <StackPanel Orientation="Vertical" Margin="5">
-                                <Label Content="Nomor Sedang Diperiksa" FontSize="16" FontWeight="Bold"
+                                <Label Name="lbTitleNo_Antri" Content="Nomor Sedang Diperiksa" FontSize="16" FontWeight="Bold"
                                        HorizontalAlignment="Center" Margin="20" />
                                 <Label FontSize="72" x:Name="txtNoAntri" Margin="0 30" Content="01"
                                        VerticalAlignment="Center" HorizontalAlignment="Center" />

@@ -59,6 +59,55 @@ namespace Apotik.DBAccess
             return false;
         }
 
+        public int LastAntrian()
+        {
+            int res = 0;
+            try
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("select top 1 no_urut from tb_antrian where tgl_berobat=CONVERT(date, getdate(), 111) and status='Antri' and tujuan_antrian='Apotik' order by 1 asc", conn);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        res = reader.GetInt32(0);
+                    }
+                }
+
+                conn.Close();
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return res;
+        }
+
+        public bool UpdateAntrian()
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("update tb_antrian set status='Panggil' where no_urut=@no_urut and tujuan_antrian='Apotik' and tgl_berobat=convert(date, getdate(), 111)", conn);
+                cmd.Parameters.AddWithValue("no_urut", LastAntrian());
+
+                conn.Open();
+                if (cmd.ExecuteNonQuery() == 1)
+                {
+                    return true;
+                }
+
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return false;
+        }
+
         public bool Login(string id, string pass)
         {
             //var res = 0;
@@ -74,6 +123,31 @@ namespace Apotik.DBAccess
                 CloseConnection();
             }
             catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return false;
+        }
+
+        public bool CreateTransactionResep(string apoteker, string kode_resep, int total)
+        {
+            try
+            {
+                OpenConnection();
+                SqlCommand cmd = new SqlCommand("insert into tb_transaksi(apoteker, kode_resep, total) values(@apoteker, @kode_resep, @total)", conn);
+                cmd.Parameters.AddWithValue("apoteker", apoteker);
+                cmd.Parameters.AddWithValue("kode_resep", kode_resep);
+                cmd.Parameters.AddWithValue("total", total);
+
+                if(cmd.ExecuteNonQuery() == 1)
+                {
+                    return true;
+                }
+
+                CloseConnection();
+            }
+            catch(SqlException ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -116,7 +190,7 @@ namespace Apotik.DBAccess
             {
                 OpenConnection();
                 var cmd = new SqlCommand(
-                    "select ta.*, tp.nama from tb_antrian_apotik ta left join tb_pasien tp on ta.no_rm = tp.no_rekam_medis where ta.tgl_resep = convert(date, getdate(), 111) and  status='Antri' order by  no_antrian asc",
+                    "select ta.*, tp.nama from tb_antrian ta left join tb_pasien tp on ta.no_rm = tp.no_rekam_medis where ta.tgl_berobat = convert(date, getdate(), 111) and  status='Antri' order by  no_urut asc",
                     conn);
 
                 using (var reader = cmd.ExecuteReader())
@@ -124,8 +198,8 @@ namespace Apotik.DBAccess
                     while (reader.Read())
                         antrian.Add(new ModelAntrianApotik(reader["id"].ToString(), reader["no_rm"].ToString(),
                             reader["no_resep"].ToString(),
-                            reader["no_antrian"].ToString(), reader["status"].ToString(),
-                            reader["tgl_resep"].ToString(), reader["nama"].ToString()));
+                            reader["no_urut"].ToString(), reader["status"].ToString(),
+                            reader["tgl_berobat"].ToString(), reader["nama"].ToString()));
                 }
 
                 CloseConnection();
@@ -144,13 +218,13 @@ namespace Apotik.DBAccess
             try
             {
                 OpenConnection();
-                var cmd = new SqlCommand("select top 1 kode_resep from tb_resep where no_rm=@no_rm order by 1 asc",
+                var cmd = new SqlCommand("select top 1 tb_antrian.no_resep from  tb_antrian where tb_antrian.no_rm=@no_rm and tb_antrian.status='Panggil' and tujuan_antrian='Apotik' order by 1 asc",
                     conn);
-                cmd.Parameters.AddWithValue("no_rm", no_rm);
+                cmd.Parameters.AddWithValue("no_rm", "RM001");
 
                 using (var reader = cmd.ExecuteReader())
                 {
-                    while (reader.Read()) kode_resep = reader["kode_resep"].ToString();
+                    while (reader.Read()) kode_resep = reader["no_resep"].ToString();
                 }
 
                 CloseConnection();
@@ -172,7 +246,7 @@ namespace Apotik.DBAccess
                 OpenConnection();
                 var command =
                     new SqlCommand(
-                        "SELECT TOP 1 no_resep FROM tb_antrian_apotik WHERE tgl_resep = CONVERT(date, GETDATE(), 111) AND status='Panggil' ORDER BY no_antrian ASC",
+                        "SELECT TOP 1 no_resep FROM tb_antrian WHERE tgl_berobat = CONVERT(date, GETDATE(), 111) AND status='Panggil' and tujuan_antrian='Apotik' ORDER BY no_urut ASC",
                         conn);
 
                 using (var reader = command.ExecuteReader())
@@ -194,7 +268,7 @@ namespace Apotik.DBAccess
             {
                 OpenConnection();
                 var cmd = new SqlCommand(
-                    "update tb_antrian_apotik set status='Selesai' where no_resep=@no_resep and tgl_resep=convert(date, getdate(), 111)",
+                    "update tb_antrian set status='Selesai' where no_resep=@no_resep and tgl_berobat=convert(date, getdate(), 111)",
                     conn);
                 cmd.Parameters.AddWithValue("no_resep", kode_resep);
 
@@ -255,10 +329,8 @@ namespace Apotik.DBAccess
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
-                        detailResep.Add(new ModelDetailResep(reader["id"].ToString(), reader["no_resep"].ToString(),
-                            reader["kode_obat"].ToString(),
-                            reader["nama_obat"].ToString(), reader["penggunaan"].ToString(), reader["ket"].ToString(),
-                            reader["jumlah"].ToString(), int.Parse(reader["subtotal"].ToString()),
+                        detailResep.Add(new ModelDetailResep(reader["id"].ToString(), reader["no_resep"].ToString(), reader["kode_obat"].ToString(), reader["nama_obat"].ToString(), reader["dosis"].ToString(),
+                            reader["penggunaan"].ToString(), reader["ket"].ToString(), reader["jumlah"].ToString(), int.Parse(reader["subtotal"].ToString()),
                             int.Parse(reader["harga_obat"].ToString()), reader["tgl_buat"].ToString()));
                 }
 
@@ -338,7 +410,7 @@ namespace Apotik.DBAccess
             {
                 OpenConnection();
                 var cmd = new SqlCommand(
-                    "select count(*) as total_antrian from tb_antrian_apotik where status='Panggil' and tgl_resep=convert(date, getdate(), 111)",
+                    "select count(*) as total_antrian from tb_antrian where status='Panggil' and tgl_berobat=convert(date, getdate(), 111)",
                     conn);
                 res = int.Parse(cmd.ExecuteScalar().ToString());
 

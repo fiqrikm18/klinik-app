@@ -39,6 +39,26 @@ namespace dokter.models
             this.nama_pasien = nama_pasien;
         }
 
+        public ModelRekamMedis(string no_rm, string riwayat_penyakit, string alergi, string berat_badan,
+            string keluhan, string diagnosa, string tindakan, string id_dokter, string poli, string tgl_pemeriksaan,
+            string nama_dokter, string nama_poli)
+        {
+            var dt = DateTime.Parse(tgl_pemeriksaan);
+
+            this.no_rm = no_rm;
+            this.riwayat_penyakit = riwayat_penyakit;
+            this.alergi = alergi;
+            this.berat_badan = berat_badan;
+            this.keluhan = keluhan;
+            this.tindakan = tindakan.Replace(";", "\n\n");
+            this.diagnosa = diagnosa.Replace(";", "\n\n");
+            this.id_dokter = id_dokter;
+            this.poli = poli;
+            this.tgl_pemeriksaan = dt.ToString("dd MMM yyyy");
+            this.nama_dokter = nama_dokter;
+            this.nama_poli = nama_poli;
+        }
+
         public int id { get; set; }
         public string no_rm { get; set; }
         public string riwayat_penyakit { get; set; }

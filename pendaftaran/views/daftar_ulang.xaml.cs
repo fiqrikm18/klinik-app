@@ -29,6 +29,7 @@ namespace pendaftaran.views
         private readonly byte blockNoRekamMedis = 2;
         private readonly byte blockNoTelp = 14;
         private readonly byte blockTglLahir = 16;
+        private readonly byte blockJenisId = 18;
 
         public string alamat;
 
@@ -71,8 +72,16 @@ namespace pendaftaran.views
             }
             else
             {
-                var filtered = pasien.Where(x => x.nama.ToLower().Contains(nama.ToLower()));
-                dtgDataPasien.ItemsSource = filtered;
+                if (cbJenisKartu.SelectedIndex != 0)
+                {
+                    var filtered = pasien.Where(x => x.no_identitas.Contains(nama.ToLower()) && x.jenis_id == cbJenisKartu.Text.ToString());
+                    dtgDataPasien.ItemsSource = filtered;
+                }
+                else
+                {
+                    var filtered = pasien.Where(x => x.no_identitas.Contains(nama.ToLower()));
+                    dtgDataPasien.ItemsSource = filtered;
+                }
             }
         }
 
@@ -180,7 +189,7 @@ namespace pendaftaran.views
         {
             var nama = sender as TextBox;
 
-            if (nama.Text != "Nama Pasien")
+            if (nama.Text != "No. Identitas Pasien")
                 DisplayDataPasien(nama.Text);
         }
 
@@ -362,6 +371,10 @@ namespace pendaftaran.views
                 var nId = sp.ReadBlock(Msb, blockIdPasien);
                 if (rm != null)
                     msg += "\nNomor ID Pasien \t\t: " + Util.ToASCII(nId, 0, 16, false);
+
+                var jId = sp.ReadBlock(Msb, blockJenisId);
+                if (jId != null)
+                    msg += "\nJenis ID Pasien \t\t: " + Util.ToASCII(jId, 0, 16, false);
 
                 var namaP = sp.ReadBlockRange(Msb, blockNamaFrom, blockNamaTo);
                 if (namaP != null)

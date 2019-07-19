@@ -27,6 +27,124 @@ namespace admin.DBAccess
             if (conn.State.Equals(ConnectionState.Open)) conn.Close();
         }
 
+        public DataTable DataTableTransaksi()
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                OpenConnection();
+                SqlCommand cmd = new SqlCommand("[GetDataTransaksi]", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                SqlDataAdapter adp = new SqlDataAdapter(cmd);
+                adp.Fill(dt);
+
+                CloseConnection();
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return dt;
+        }
+
+        public DataTable DataTableTransaksiByTgl(string tgl)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                OpenConnection();
+                SqlCommand cmd = new SqlCommand("[GetDataTransaksiByTgl]", conn);
+                cmd.Parameters.AddWithValue("tgl", tgl);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                SqlDataAdapter adp = new SqlDataAdapter(cmd);
+                adp.Fill(dt);
+
+                CloseConnection();
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return dt;
+        }
+
+        public DataTable DataTableTransaksiByApoteker(string apoteker)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                OpenConnection();
+                SqlCommand cmd = new SqlCommand("[GetDataTransaksiByApoteker]", conn);
+                cmd.Parameters.AddWithValue("apoteker", apoteker);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                SqlDataAdapter adp = new SqlDataAdapter(cmd);
+                adp.Fill(dt);
+
+                CloseConnection();
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return dt;
+        }
+
+        public DataTable DataTableTransaksiByApotekerTgl(string apoteker, string tgl)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                OpenConnection();
+                SqlCommand cmd = new SqlCommand("[GetDataTransaksiByApotekerTGL]", conn);
+                cmd.Parameters.AddWithValue("apoteker", apoteker);
+                cmd.Parameters.AddWithValue("tgl", tgl);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                SqlDataAdapter adp = new SqlDataAdapter(cmd);
+                adp.Fill(dt);
+
+                CloseConnection();
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return dt;
+        }
+
+        public List<ModelTransaksi> GetDataTransaksi()
+        {
+            List<ModelTransaksi> transaksi = new List<ModelTransaksi>();
+            try
+            {
+                OpenConnection();
+                SqlCommand cmd = new SqlCommand("select tb_transaksi.*, ta.nama as nama_apoteker from tb_transaksi left join tb_apoteker ta on tb_transaksi.apoteker = ta.id", conn);
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        transaksi.Add(new ModelTransaksi(int.Parse(reader["id"].ToString()), reader["apoteker"].ToString(), reader["nama_apoteker"].ToString(),
+                            reader["kode_resep"].ToString(), int.Parse(reader["total"].ToString()), reader["tgl_transaksi"].ToString()));
+                    }
+                }
+
+                CloseConnection();
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return transaksi;
+        }
+
         public DataTable GetDataApoteker(string id)
         {
             DataTable dt = new DataTable();
@@ -42,7 +160,7 @@ namespace admin.DBAccess
 
                 CloseConnection();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -65,7 +183,7 @@ namespace admin.DBAccess
 
                 CloseConnection();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -88,7 +206,7 @@ namespace admin.DBAccess
 
                 CloseConnection();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }

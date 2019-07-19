@@ -115,8 +115,16 @@
     </Compile>
     <Compile Include="DBAccess\DBCommand.cs" />
     <Compile Include="DBAccess\DBConnection.cs" />
+    <Compile Include="DBAccess\Transaksi.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Transaksi.xsd</DependentUpon>
+    </Compile>
     <Compile Include="forms\PVApoteker.xaml.cs">
       <DependentUpon>PVApoteker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="forms\PVLaporanTransaksi.xaml.cs">
+      <DependentUpon>PVLaporanTransaksi.xaml</DependentUpon>
     </Compile>
     <Compile Include="forms\PVPendaftaran.xaml.cs">
       <DependentUpon>PVPendaftaran.xaml</DependentUpon>
@@ -156,6 +164,8 @@
     <Compile Include="models\ComboboxPairs.cs" />
     <Compile Include="models\MApoteker.cs" />
     <Compile Include="models\MDokter.cs" />
+    <Compile Include="models\ModelApoteker.cs" />
+    <Compile Include="models\ModelTransaksi.cs" />
     <Compile Include="models\MPendaftaran.cs" />
     <Compile Include="models\MPoliklinik.cs" />
     <Compile Include="UserPreferences.cs" />
@@ -173,7 +183,14 @@
     <Compile Include="views\DaftarPoliklinik.xaml.cs">
       <DependentUpon>DaftarPoliklinik.xaml</DependentUpon>
     </Compile>
+    <Compile Include="views\LaporanTransaksiApotik.xaml.cs">
+      <DependentUpon>LaporanTransaksiApotik.xaml</DependentUpon>
+    </Compile>
     <Page Include="forms\PVApoteker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="forms\PVLaporanTransaksi.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -245,6 +262,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="views\LaporanTransaksiApotik.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -273,6 +294,9 @@
     <EmbeddedResource Include="report\LabelPendaftaran.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="report\LaporanTransaksi.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <Resource Include="fonts\OpenSans-Bold.ttf" />
     <Resource Include="fonts\OpenSans-Regular.ttf" />
     <None Include="app.manifest" />
@@ -286,6 +310,17 @@
     </None>
     <None Include="DBAccess\DataStaff.xss">
       <DependentUpon>DataStaff.xsd</DependentUpon>
+    </None>
+    <None Include="DBAccess\Transaksi.xsc">
+      <DependentUpon>Transaksi.xsd</DependentUpon>
+    </None>
+    <None Include="DBAccess\Transaksi.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Transaksi.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="DBAccess\Transaksi.xss">
+      <DependentUpon>Transaksi.xsd</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

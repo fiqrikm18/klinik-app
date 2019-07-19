@@ -109,8 +109,14 @@
     <Compile Include="forms\InputResep.xaml.cs">
       <DependentUpon>InputResep.xaml</DependentUpon>
     </Compile>
+    <Compile Include="forms\PopupDiagnosis.xaml.cs">
+      <DependentUpon>PopupDiagnosis.xaml</DependentUpon>
+    </Compile>
     <Compile Include="forms\PopUpObat.xaml.cs">
       <DependentUpon>PopUpObat.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="forms\PopupTindakan.xaml.cs">
+      <DependentUpon>PopupTindakan.xaml</DependentUpon>
     </Compile>
     <Compile Include="forms\ReportView.xaml.cs">
       <DependentUpon>ReportView.xaml</DependentUpon>
@@ -129,11 +135,13 @@
     <Compile Include="models\ModelAntrian.cs" />
     <Compile Include="models\ModelAntrianApotik.cs" />
     <Compile Include="models\ModelDetailResep.cs" />
+    <Compile Include="models\ModelDiagnosis.cs" />
     <Compile Include="models\ModelDokter.cs" />
     <Compile Include="models\ModelObat.cs" />
     <Compile Include="models\Modelpasien.cs" />
     <Compile Include="models\ModelRekamMedis.cs" />
     <Compile Include="models\ModelResep.cs" />
+    <Compile Include="models\ModelTindakan.cs" />
     <Compile Include="UserPreferences.cs" />
     <Compile Include="Utils\Util.cs" />
     <Compile Include="views\DaftarAntrian.xaml.cs">
@@ -157,7 +165,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="forms\PopupDiagnosis.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="forms\PopUpObat.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="forms\PopupTindakan.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

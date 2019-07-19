@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:dokter.forms"
         mc:Ignorable="d"
-        Title="Input Rekam Medis" Height="657" Width="888.5" Icon="/dokter;component/images/BMicon.ico"
+        Title="Input Rekam Medis" Height="739" Width="888.5" Icon="/dokter;component/images/BMicon.ico"
         WindowStartupLocation="CenterScreen">
     <Grid Style="{StaticResource OpenSans}" Margin="20">
         <Grid.RowDefinitions>
@@ -84,6 +84,10 @@
 
                         <StackPanel Grid.Row="1">
                             <Label Content="Diagnosa" />
+                            <DockPanel>
+                                <TextBox Width="290" Name="txtKodeDiagnosis"/>
+                                <Button Content="Coding Diagnosis" Name="btnSrcDiag" Click="BtnSrcDiag_Click" VerticalAlignment="Center" Margin="5" Width="Auto"/>
+                            </DockPanel>
                             <TextBox x:Name="textDiagnosa" GotKeyboardFocus="TextBoxFocus" Height="100"
                                      TextWrapping="Wrap" AcceptsReturn="True" Width="415"
                                      Text="{Binding UpdateSourceTrigger=LostFocus,
@@ -93,6 +97,10 @@
 
                         <StackPanel Grid.Row="2">
                             <Label Content="Tindakan" />
+                            <DockPanel>
+                                <TextBox Width="290"  Name="txtKodeTindakan"/>
+                                <Button Content="Coding Tindakan" Name="btnSrcTindakan" Click="BtnSrcTindakan_Click" VerticalAlignment="Center" Margin="5" Width="Auto"/>
+                            </DockPanel>
                             <TextBox x:Name="textTindakan" GotKeyboardFocus="TextBoxFocus" Height="100"
                                      TextWrapping="Wrap" AcceptsReturn="True" Width="415"
                                      Text="{Binding UpdateSourceTrigger=LostFocus,

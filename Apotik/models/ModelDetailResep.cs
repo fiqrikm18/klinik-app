@@ -9,7 +9,7 @@ namespace Apotik.models
         {
         }
 
-        public ModelDetailResep(string id, string no_resep, string kode_obat, string dosis, string ket, string jumlah,
+        public ModelDetailResep(string id, string no_resep, string kode_obat, string dosis, string ket, string jumlah, string pemakaian,
             string tgl_buat)
         {
             this.id = id;
@@ -19,9 +19,10 @@ namespace Apotik.models
             this.ket = ket;
             this.jumlah = jumlah;
             this.tgl_buat = tgl_buat;
+            this.pemakaian = pemakaian;
         }
 
-        public ModelDetailResep(string id, string no_resep, string kode_obat, string nama_obat, string dosis,
+        public ModelDetailResep(string id, string no_resep, string kode_obat, string nama_obat, string dosis, string pemakaian,
             string ket, string jumlah, int sub_total, int harga_obat, string tgl_buat)
         {
             this.id = id;
@@ -34,6 +35,7 @@ namespace Apotik.models
             this.sub_total = sub_total;
             this.harga_obat = harga_obat;
             this.tgl_buat = tgl_buat;
+            this.pemakaian = pemakaian;
         }
 
         public string id { get; set; }
@@ -46,6 +48,7 @@ namespace Apotik.models
         public string tgl_buat { get; set; }
         public int sub_total { get; set; }
         public int harga_obat { get; set; }
+        public string pemakaian { get; set; }
 
         /*public string Error
         {
