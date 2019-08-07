@@ -270,7 +270,8 @@ namespace admin.forms
                     }
                     else
                     {
-                        MessageBox.Show("No. telepon harus berupa angkat.", "Peringatan", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        MessageBox.Show("No. telepon harus berupa angkat.", "Peringatan", MessageBoxButton.OK,
+                            MessageBoxImage.Warning);
                     }
                 }
             }

@@ -32,7 +32,7 @@
             <DataGrid x:Name="dtgAntrian" SelectionMode="Extended" VerticalAlignment="Top"
                       HorizontalAlignment="Stretch" AutoGenerateColumns="False" Height="400" CanUserAddRows="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding id}" Visibility="Hidden"></DataGridTextColumn>
+                    <DataGridTextColumn Binding="{Binding id}" Visibility="Hidden" />
                     <DataGridTextColumn Binding="{Binding no_rm}" Header="No Rekam Medis" Width="150" />
                     <DataGridTextColumn Binding="{Binding nama}" Header="Nama Pasien" Width="250" />
                     <DataGridTextColumn Binding="{Binding no_urut}" Header="No Antrian" Width="150" />

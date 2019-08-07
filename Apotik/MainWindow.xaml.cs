@@ -14,7 +14,6 @@ namespace Apotik
     ///     Interaction logic for MainWindow.xaml
     /// </summary>
     /// 
-
     public partial class MainWindow : Window
     {
         private SerialPort sp;
@@ -51,7 +50,8 @@ namespace Apotik
                 //sck = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 //sck.Connect(Properties.Settings.Default.SocketAntriApotik, Properties.Settings.Default.PortAntriApotik);
                 clientApotik = new SimpleTcpClient();
-                clientApotik.Connect(Properties.Settings.Default.SocketAntriApotik, Properties.Settings.Default.PortAntriApotik);
+                clientApotik.Connect(Properties.Settings.Default.SocketAntriApotik,
+                    Properties.Settings.Default.PortAntriApotik);
                 clientApotik.DataReceived += ClientApotik_DataReceived;
             }
             catch (Exception ex)
@@ -111,7 +111,7 @@ namespace Apotik
                 if (!Properties.Settings.Default.IsRemoteConnected)
                 {
                     //int v = 0;
-                    if(int.TryParse(a, out int v))
+                    if (int.TryParse(a, out int v))
                     {
                         clientApotik.WriteLineAndGetReply(a, TimeSpan.FromSeconds(0));
                         Debug.WriteLine(a);
@@ -123,8 +123,8 @@ namespace Apotik
                     {
                         clientApotik.WriteLine(a);
                     }
-                    
-                    if(a == ">>|")
+
+                    if (a == ">>|")
                     {
                         if (cmd.UpdateAntrian())
                         {
@@ -133,7 +133,8 @@ namespace Apotik
                             clientApotik.WriteLine("Update");
                         }
                     }
-                    if(a == "|<<")
+
+                    if (a == "|<<")
                     {
                         if (cmd.UpdateAntrianPrev())
                         {
@@ -142,6 +143,7 @@ namespace Apotik
                         }
                     }
                 }
+
                 //var a = sp.ReadLine().Replace("\r", "");
                 //if (a == "Update")
                 //{

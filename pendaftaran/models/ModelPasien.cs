@@ -3,7 +3,8 @@
     public class ModelPasien
     {
         public ModelPasien(string no_identitas, string no_rekam_medis, string nama, string tanggal_lahir,
-            string jenis_kelamin, string no_telp, string alamat, string tgl_daftar, string golongan_darah, string jenis_kartu)
+            string jenis_kelamin, string no_telp, string alamat, string tgl_daftar, string golongan_darah,
+            string jenis_kartu)
         {
             this.no_identitas = no_identitas;
             this.jenis_id = jenis_kartu;

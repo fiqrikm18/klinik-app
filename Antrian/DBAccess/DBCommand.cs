@@ -43,7 +43,8 @@ namespace Antrian.DBAccess
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("SELECT TOP 1 [kode_poli] FROM [tb_poliklinik] WHERE [nama_poli]=@nama_poli",
+                SqlCommand cmd = new SqlCommand(
+                    "SELECT TOP 1 [kode_poli] FROM [tb_poliklinik] WHERE [nama_poli]=@nama_poli",
                     conn);
                 cmd.Parameters.AddWithValue("nama_poli", poliklinik);
 
@@ -69,14 +70,18 @@ namespace Antrian.DBAccess
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("select tb_antrian.*, tb_pasien.nama from tb_antrian join tb_pasien on tb_antrian.no_rm = tb_pasien.no_rekam_medis where tb_antrian.tgl_berobat = CONVERT(date, getdate(), 111) and tujuan_antrian='Apotik' and status='Antri'", conn);
+                SqlCommand cmd = new SqlCommand(
+                    "select tb_antrian.*, tb_pasien.nama from tb_antrian join tb_pasien on tb_antrian.no_rm = tb_pasien.no_rekam_medis where tb_antrian.tgl_berobat = CONVERT(date, getdate(), 111) and tujuan_antrian='Apotik' and status='Antri'",
+                    conn);
 
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        antrianApotik.Add(new ModelAntrianApotik(int.Parse(reader["id"].ToString()), reader["no_rm"].ToString(), reader["no_urut"].ToString(),
-                            reader["tujuan_antrian"].ToString(), reader["no_resep"].ToString(), reader["status"].ToString(), reader["tgl_berobat"].ToString(), reader["nama"].ToString()));
+                        antrianApotik.Add(new ModelAntrianApotik(int.Parse(reader["id"].ToString()),
+                            reader["no_rm"].ToString(), reader["no_urut"].ToString(),
+                            reader["tujuan_antrian"].ToString(), reader["no_resep"].ToString(),
+                            reader["status"].ToString(), reader["tgl_berobat"].ToString(), reader["nama"].ToString()));
                     }
                 }
 
@@ -129,7 +134,10 @@ namespace Antrian.DBAccess
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("select top 1 no_urut from tb_antrian where tujuan_antrian='Apotik' and tgl_berobat = CONVERT(date, getdate(), 111) and status='Panggil' order by 1 desc", conn);
+                SqlCommand cmd =
+                    new SqlCommand(
+                        "select top 1 no_urut from tb_antrian where tujuan_antrian='Apotik' and tgl_berobat = CONVERT(date, getdate(), 111) and status='Panggil' order by 1 desc",
+                        conn);
 
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
@@ -184,11 +192,14 @@ namespace Antrian.DBAccess
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("select count(no_urut) from tb_antrian where status='Antri' and tgl_berobat=CONVERT(date, getdate(), 111)  and tujuan_antrian = 'Apotik'", conn);
+                SqlCommand cmd =
+                    new SqlCommand(
+                        "select count(no_urut) from tb_antrian where status='Antri' and tgl_berobat=CONVERT(date, getdate(), 111)  and tujuan_antrian = 'Apotik'",
+                        conn);
                 total = int.Parse(cmd.ExecuteScalar().ToString());
                 CloseConnection();
             }
-            catch(SqlException ex)
+            catch (SqlException ex)
             {
                 throw new Exception(ex.Message);
             }

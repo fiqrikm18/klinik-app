@@ -16,8 +16,12 @@ namespace admin.models
         public string total { get; set; }
         public string tgl_transaksi { get; set; }
 
-        public ModelTransaksi() { }
-        public ModelTransaksi(int id, string id_apoteker, string nama_apoteker, string kode_resep, int total, string tgl_transaksi)
+        public ModelTransaksi()
+        {
+        }
+
+        public ModelTransaksi(int id, string id_apoteker, string nama_apoteker, string kode_resep, int total,
+            string tgl_transaksi)
         {
             DateTime dt = DateTime.Parse(tgl_transaksi);
 

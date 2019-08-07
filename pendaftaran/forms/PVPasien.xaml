@@ -8,7 +8,7 @@
         Title="Print Preview" Height="720" Width="1200" WindowStartupLocation="CenterScreen">
     <Grid>
         <WindowsFormsHost>
-            <winForms:ReportViewer x:Name="rpt"/>
+            <winForms:ReportViewer x:Name="rpt" />
         </WindowsFormsHost>
     </Grid>
 </Window>

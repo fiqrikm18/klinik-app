@@ -390,9 +390,9 @@ namespace admin.views
         private void btnPrint_Click(object sender, RoutedEventArgs e)
         {
             string id = "";
-            if(dtgDataDokter.SelectedItems.Count>0)
+            if (dtgDataDokter.SelectedItems.Count > 0)
             {
-                foreach(models.MDokter md in dtgDataDokter.SelectedItems)
+                foreach (models.MDokter md in dtgDataDokter.SelectedItems)
                 {
                     id = md.id;
                 }

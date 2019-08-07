@@ -29,7 +29,8 @@
         </StackPanel>
 
         <StackPanel Grid.Row="1">
-            <DataGrid x:Name="dgDataObat" Height="233" AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Single"
+            <DataGrid x:Name="dgDataObat" Height="233" AutoGenerateColumns="False" CanUserAddRows="False"
+                      SelectionMode="Single"
                       VerticalScrollBarVisibility="Visible" SelectionChanged="dgDataObat_SelectionChanged">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding kode_obat}" Header="Kode Obat" IsReadOnly="True" />

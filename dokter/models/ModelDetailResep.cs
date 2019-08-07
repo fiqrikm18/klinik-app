@@ -10,7 +10,8 @@ namespace dokter.models
         {
         }
 
-        public ModelDetailResep(string id, string no_resep, string kode_obat, string dosis, string pemakaian, string ket, string jumlah,
+        public ModelDetailResep(string id, string no_resep, string kode_obat, string dosis, string pemakaian,
+            string ket, string jumlah,
             string tgl_buat)
         {
             this.id = id;
@@ -23,7 +24,8 @@ namespace dokter.models
             this.pemakaian = pemakaian;
         }
 
-        public ModelDetailResep(string no_resep, string kode_obat, string nama_obat, string dosis, string pemakaian, string ket,
+        public ModelDetailResep(string no_resep, string kode_obat, string nama_obat, string dosis, string pemakaian,
+            string ket,
             string jumlah)
         {
             this.no_resep = no_resep;

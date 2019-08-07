@@ -110,7 +110,8 @@ namespace pendaftaran.DBAccess
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("select count(*) from tb_pendaftaran where id=@id and password=@pass", conn);
+                SqlCommand cmd = new SqlCommand("select count(*) from tb_pendaftaran where id=@id and password=@pass",
+                    conn);
                 cmd.Parameters.AddWithValue("id", id);
                 cmd.Parameters.AddWithValue("pass", pass);
 
@@ -160,7 +161,8 @@ namespace pendaftaran.DBAccess
             {
                 OpenConnection();
 
-                SqlCommand cmd = new SqlCommand("select count(no_identitas) from tb_pasien where no_identitas=@no_identitas",
+                SqlCommand cmd = new SqlCommand(
+                    "select count(no_identitas) from tb_pasien where no_identitas=@no_identitas",
                     conn);
                 cmd.Parameters.AddWithValue("no_identitas", identitas);
                 res = int.Parse(cmd.ExecuteScalar().ToString());
@@ -398,7 +400,6 @@ namespace pendaftaran.DBAccess
         }
 
 
-
         public bool UpdateDataPasien(string nama, string no_telp, string jenis_kelamin, string alamat, string id,
             string gol_darah)
         {
@@ -473,6 +474,7 @@ namespace pendaftaran.DBAccess
             {
                 throw new Exception(ex.Message);
             }
+
             return false;
         }
     }

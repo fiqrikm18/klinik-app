@@ -8,7 +8,8 @@ namespace pendaftaran.models
 {
     class ModelDetailPasien
     {
-        public ModelDetailPasien(string id, string no_rm, string nama, string tgl_lahir, string jenis_kelamin, string no_telp,
+        public ModelDetailPasien(string id, string no_rm, string nama, string tgl_lahir, string jenis_kelamin,
+            string no_telp,
             string alamat, string tgl_daftar, string golongan_darah)
         {
             this.id = id;

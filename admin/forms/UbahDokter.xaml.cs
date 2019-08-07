@@ -147,7 +147,8 @@ namespace admin.forms
 
                                     if (!string.IsNullOrEmpty(nama))
                                     {
-                                        if (sp.WriteBlockRange(Msb, BlockNamaFrom, BlockNamaTo, Util.ToArrayByte48(nama)))
+                                        if (sp.WriteBlockRange(Msb, BlockNamaFrom, BlockNamaTo,
+                                            Util.ToArrayByte48(nama)))
                                         {
                                         }
                                         else
@@ -245,7 +246,8 @@ namespace admin.forms
                 }
                 else
                 {
-                    MessageBox.Show("No. telepon harus berupa angkat.", "Peringatan", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("No. telepon harus berupa angkat.", "Peringatan", MessageBoxButton.OK,
+                        MessageBoxImage.Warning);
                 }
             }
             else

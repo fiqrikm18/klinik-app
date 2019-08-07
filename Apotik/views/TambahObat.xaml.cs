@@ -59,7 +59,8 @@ namespace Apotik.views
                 {
                     if (kodeExist >= 1)
                     {
-                        MessageBox.Show("Kode sudah digunakan.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        MessageBox.Show("Kode sudah digunakan.", "Warning", MessageBoxButton.OK,
+                            MessageBoxImage.Warning);
                     }
                     else
                     {
@@ -80,7 +81,8 @@ namespace Apotik.views
                 }
                 else
                 {
-                    MessageBox.Show("Pastikan data yang di inputkan sudah benar", "Perhatian", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("Pastikan data yang di inputkan sudah benar", "Perhatian", MessageBoxButton.OK,
+                        MessageBoxImage.Warning);
                 }
             }
             else

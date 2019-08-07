@@ -18,6 +18,7 @@ namespace dokter.forms
     /// </summary>
     public partial class InputRekamMedis : Window
     {
+        // TODO: input manual rekam medis
         private int _noOfErrorsOnScreen;
         private readonly SqlConnection conn;
         private ModelRekamMedis mrm;
@@ -79,7 +80,7 @@ namespace dokter.forms
             var cmd = new DBCommand(conn);
 
             string[] lstDiagnosa = txtKodeDiagnosis.Text.Split(';').ToArray();
-           string[] lstTindakan = txtKodeTindakan.Text.Split(';').ToArray();
+            string[] lstTindakan = txtKodeTindakan.Text.Split(';').ToArray();
 
             var riwayat_penyakit = "";
             if (txtRiwayat.Text == string.Empty)
@@ -119,7 +120,8 @@ namespace dokter.forms
                             }
 
                             tindakan = lstTindakan[j];
-                            if (cmd.InsertDataRekamMedis(no_rm, riwayat_penyakit, alergi, berat_badan, keluhan, diagnosa, tindakan, id_dokter, kode_poli))
+                            if (cmd.InsertDataRekamMedis(no_rm, riwayat_penyakit, alergi, berat_badan, keluhan,
+                                diagnosa, tindakan, id_dokter, kode_poli))
                             {
                                 res = true;
                             }
@@ -134,12 +136,12 @@ namespace dokter.forms
                     if (res)
                     {
                         MessageBox.Show("Rekam medis berhasil di tambahkan.", "Informasi", MessageBoxButton.OK,
-                                    MessageBoxImage.Information);
+                            MessageBoxImage.Information);
                     }
                     else
                     {
                         MessageBox.Show("Rekam medis gagal di tambahkan.", "Error", MessageBoxButton.OK,
-                                    MessageBoxImage.Error);
+                            MessageBoxImage.Error);
                     }
 
                     DataContext = mrm;
@@ -149,7 +151,7 @@ namespace dokter.forms
                 else
                 {
                     MessageBox.Show("Berat badan harus berupa angka.", "Perhatian", MessageBoxButton.OK,
-                   MessageBoxImage.Warning);
+                        MessageBoxImage.Warning);
                 }
             }
             else
@@ -195,7 +197,7 @@ namespace dokter.forms
 
         private void TxtKodeDiagnosis_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if(txtKodeDiagnosis.Text == string.Empty)
+            if (txtKodeDiagnosis.Text == string.Empty)
             {
                 textDiagnosa.Text = string.Empty;
             }
@@ -203,9 +205,45 @@ namespace dokter.forms
 
         private void TxtKodeTindakan_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if(txtKodeTindakan.Text == string.Empty)
+            if (txtKodeTindakan.Text == string.Empty)
             {
                 textTindakan.Text = string.Empty;
+            }
+        }
+
+        private void ChkManualInputDiagnosa_OnChecked(object sender, RoutedEventArgs e)
+        {
+            if (chkManualInputDiagnosa.IsChecked ?? true)
+            {
+                txtKodeDiagnosis.IsEnabled = false;
+                btnSrcDiag.IsEnabled = false;
+            }
+        }
+
+        private void ChkManualInputDiagnosa_OnUnchecked(object sender, RoutedEventArgs e)
+        {
+            if (chkManualInputDiagnosa.IsChecked ?? false)
+            {
+                txtKodeDiagnosis.IsEnabled = true;
+                btnSrcDiag.IsEnabled = true;
+            }
+        }
+
+        private void ChkManualInputTindakan_OnChecked(object sender, RoutedEventArgs e)
+        {
+            if (chkManualInputTindakan.IsChecked ?? true)
+            {
+                txtKodeTindakan.IsEnabled = false;
+                btnSrcTindakan.IsEnabled = false;
+            }
+        }
+
+        private void ChkManualInputTindakan_OnUnchecked(object sender, RoutedEventArgs e)
+        {
+            if (chkManualInputTindakan.IsChecked ?? true)
+            {
+                txtKodeTindakan.IsEnabled = true;
+                btnSrcTindakan.IsEnabled = true;
             }
         }
     }

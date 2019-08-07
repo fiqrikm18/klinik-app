@@ -29,6 +29,7 @@ namespace admin.forms
 
         string apoteker = null;
         string tgl = null;
+
         public PVLaporanTransaksi(string apoteker = null, string tgl = null)
         {
             InitializeComponent();
@@ -45,22 +46,22 @@ namespace admin.forms
         public void DisplayReport()
         {
             DataTable dt = null;
-            if(apoteker == null && tgl == null)
+            if (apoteker == null && tgl == null)
             {
                 dt = cmd.DataTableTransaksi();
             }
 
-            if(apoteker == null & tgl != null)
+            if (apoteker == null & tgl != null)
             {
                 dt = cmd.DataTableTransaksiByTgl(tgl);
             }
 
-            if(apoteker != null & tgl == null)
+            if (apoteker != null & tgl == null)
             {
                 dt = cmd.DataTableTransaksiByApoteker(apoteker);
             }
 
-            if(apoteker != null & tgl != null)
+            if (apoteker != null & tgl != null)
             {
                 dt = cmd.DataTableTransaksiByApotekerTgl(apoteker, tgl);
             }

@@ -12,7 +12,10 @@ namespace dokter.models
         public string kode { get; set; }
         public string desk { get; set; }
 
-        public ModelTindakan() { }
+        public ModelTindakan()
+        {
+        }
+
         public ModelTindakan(int id, string kode, string desk)
         {
             this.id = id;

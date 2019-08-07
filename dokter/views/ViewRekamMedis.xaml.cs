@@ -152,7 +152,8 @@ namespace dokter.views
                 //MessageBox.Show(cmd.GetNoRmByNoUrut());
                 if (no_rm == cmd.GetNoRmByNoUrut())
                 {
-                    System.Collections.Generic.List<ModelPasien> fPasien = pasien.Where(x => x.no_rm.Equals(no_rm)).ToList();
+                    System.Collections.Generic.List<ModelPasien> fPasien =
+                        pasien.Where(x => x.no_rm.Equals(no_rm)).ToList();
 
                     //MessageBox.Show(fPasien.ToList().ToString());
                     foreach (ModelPasien a in fPasien)
@@ -286,8 +287,6 @@ namespace dokter.views
                     //throw new Exception(ex.Message);
                     //MessageBox.Show(ex.Message);
                 }
-
-                
             }
         }
     }

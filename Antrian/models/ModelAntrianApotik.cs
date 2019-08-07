@@ -18,7 +18,8 @@ namespace Antrian.models
         public string tgl_berobat { get; set; }
         public string nama { get; set; }
 
-        public ModelAntrianApotik(int id, string no_rm, string no_urut, string tujuan_antrian, string no_resep, string status, string tgl_berobat, string nama)
+        public ModelAntrianApotik(int id, string no_rm, string no_urut, string tujuan_antrian, string no_resep,
+            string status, string tgl_berobat, string nama)
         {
             this.id = id;
             this.no_rm = no_rm;

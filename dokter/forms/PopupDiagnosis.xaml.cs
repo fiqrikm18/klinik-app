@@ -47,14 +47,15 @@ namespace dokter.forms
             }
             else
             {
-                dtgTindakan.ItemsSource = cmd.GetDataDiagnosis().Where(x => x.kode.Contains(src.ToUpper()) || x.desk.Contains(src));
+                dtgTindakan.ItemsSource = cmd.GetDataDiagnosis()
+                    .Where(x => x.kode.Contains(src.ToUpper()) || x.desk.Contains(src));
             }
         }
 
         private void TxtSrc_TextChanged(object sender, TextChangedEventArgs e)
         {
             var src = e.Source as TextBox;
-            if(src.Text != "Kode ICD/Diagnosa" || string.IsNullOrEmpty(src.Text))
+            if (src.Text != "Kode ICD/Diagnosa" || string.IsNullOrEmpty(src.Text))
             {
                 LoadData(src.Text);
             }
@@ -62,9 +63,9 @@ namespace dokter.forms
 
         private void DtgTindakan_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
-            foreach(models.ModelDiagnosis md in dtgTindakan.SelectedItems)
+            foreach (models.ModelDiagnosis md in dtgTindakan.SelectedItems)
             {
-                if(kode == null && desk == null)
+                if (kode == null && desk == null)
                 {
                     kode = md.kode;
                     desk = md.desk;
@@ -79,7 +80,7 @@ namespace dokter.forms
 
         private void BtnDOne_Click(object sender, RoutedEventArgs e)
         {
-            mw.FillDiagnosis(kode+";", desk + ";");
+            mw.FillDiagnosis(kode + ";", desk + ";");
             Close();
         }
 
@@ -90,7 +91,8 @@ namespace dokter.forms
 
         private void TxtSrc_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            if (txtSrc.Text == "Kode ICD/Diagnosa" || !string.IsNullOrEmpty(txtSrc.Text) || !string.IsNullOrWhiteSpace(txtSrc.Text))
+            if (txtSrc.Text == "Kode ICD/Diagnosa" || !string.IsNullOrEmpty(txtSrc.Text) ||
+                !string.IsNullOrWhiteSpace(txtSrc.Text))
             {
                 txtSrc.Text = string.Empty;
             }

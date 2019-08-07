@@ -341,9 +341,9 @@ namespace admin.views
         private void btnPrint_Click(object sender, RoutedEventArgs e)
         {
             string id = "";
-            if(dtgDataPendaftar.SelectedItems.Count > 0)
+            if (dtgDataPendaftar.SelectedItems.Count > 0)
             {
-                foreach(models.MPendaftaran d in dtgDataPendaftar.SelectedItems)
+                foreach (models.MPendaftaran d in dtgDataPendaftar.SelectedItems)
                 {
                     id = d.id;
                 }

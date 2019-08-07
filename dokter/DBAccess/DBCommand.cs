@@ -62,7 +62,9 @@ namespace dokter.DBAccess
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("select count(*) from tb_dokter where id=@id and password=@pass and tugas=@tugas", conn);
+                SqlCommand cmd =
+                    new SqlCommand("select count(*) from tb_dokter where id=@id and password=@pass and tugas=@tugas",
+                        conn);
                 cmd.Parameters.AddWithValue("id", id);
                 cmd.Parameters.AddWithValue("tugas", GetKodePoli());
                 cmd.Parameters.AddWithValue("pass", pass);
@@ -163,7 +165,8 @@ namespace dokter.DBAccess
                 {
                     while (reader.Read())
                     {
-                        data.Add(new ModelDiagnosis(int.Parse(reader["id"].ToString()), reader["kode"].ToString(), reader["deskripsi"].ToString()));
+                        data.Add(new ModelDiagnosis(int.Parse(reader["id"].ToString()), reader["kode"].ToString(),
+                            reader["deskripsi"].ToString()));
                     }
                 }
 
@@ -189,7 +192,8 @@ namespace dokter.DBAccess
                 {
                     while (reader.Read())
                     {
-                        data.Add(new ModelTindakan(int.Parse(reader["id"].ToString()), reader["kode"].ToString(), reader["deskripsi"].ToString()));
+                        data.Add(new ModelTindakan(int.Parse(reader["id"].ToString()), reader["kode"].ToString(),
+                            reader["deskripsi"].ToString()));
                     }
                 }
 
@@ -210,7 +214,8 @@ namespace dokter.DBAccess
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("SELECT TOP 1 [kode_poli] FROM [tb_poliklinik] WHERE [nama_poli]=@nama_poli",
+                SqlCommand cmd = new SqlCommand(
+                    "SELECT TOP 1 [kode_poli] FROM [tb_poliklinik] WHERE [nama_poli]=@nama_poli",
                     conn);
                 cmd.Parameters.AddWithValue("nama_poli", poliklinik);
 
@@ -682,7 +687,8 @@ namespace dokter.DBAccess
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("select top 1 no_resep from tb_resep where no_rm =@no_rm order by 1 desc",
+                SqlCommand cmd = new SqlCommand(
+                    "select top 1 no_resep from tb_resep where no_rm =@no_rm order by 1 desc",
                     conn);
                 cmd.Parameters.AddWithValue("no_rm", no_rm);
 
@@ -734,7 +740,10 @@ namespace dokter.DBAccess
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("select top 1 no_urut from tb_antrian where tgl_berobat=CONVERT(date, getdate(), 111) and poliklinik=@poli and status='Antri' and tujuan_antrian='Poliklinik' order by 1 asc", conn);
+                SqlCommand cmd =
+                    new SqlCommand(
+                        "select top 1 no_urut from tb_antrian where tgl_berobat=CONVERT(date, getdate(), 111) and poliklinik=@poli and status='Antri' and tujuan_antrian='Poliklinik' order by 1 asc",
+                        conn);
                 cmd.Parameters.AddWithValue("poli", GetKodePoli());
 
                 if (conn.State.Equals(ConnectionState.Closed))
@@ -766,7 +775,10 @@ namespace dokter.DBAccess
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("select top 1 no_urut from tb_antrian where tgl_berobat=CONVERT(date, getdate(), 111) and poliklinik=@poli and status='Panggil' and tujuan_antrian='Poliklinik' order by 1 desc", conn);
+                SqlCommand cmd =
+                    new SqlCommand(
+                        "select top 1 no_urut from tb_antrian where tgl_berobat=CONVERT(date, getdate(), 111) and poliklinik=@poli and status='Panggil' and tujuan_antrian='Poliklinik' order by 1 desc",
+                        conn);
                 cmd.Parameters.AddWithValue("poli", GetKodePoli());
 
                 if (conn.State.Equals(ConnectionState.Closed))
@@ -796,7 +808,10 @@ namespace dokter.DBAccess
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("update tb_antrian set status='Antri' where no_urut=@no_urut and poliklinik=@poli and tujuan_antrian='Poliklinik' and status='Panggil' and tgl_berobat=convert(date, getdate(), 111)", conn);
+                SqlCommand cmd =
+                    new SqlCommand(
+                        "update tb_antrian set status='Antri' where no_urut=@no_urut and poliklinik=@poli and tujuan_antrian='Poliklinik' and status='Panggil' and tgl_berobat=convert(date, getdate(), 111)",
+                        conn);
                 cmd.Parameters.AddWithValue("no_urut", LastAntrianPrev());
                 cmd.Parameters.AddWithValue("poli", GetKodePoli());
 
@@ -825,7 +840,10 @@ namespace dokter.DBAccess
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("update tb_antrian set status='Panggil' where no_urut=@no_urut and poliklinik=@poli and tujuan_antrian='Poliklinik' and tgl_berobat=convert(date, getdate(), 111)", conn);
+                SqlCommand cmd =
+                    new SqlCommand(
+                        "update tb_antrian set status='Panggil' where no_urut=@no_urut and poliklinik=@poli and tujuan_antrian='Poliklinik' and tgl_berobat=convert(date, getdate(), 111)",
+                        conn);
                 cmd.Parameters.AddWithValue("no_urut", LastAntrian());
                 cmd.Parameters.AddWithValue("poli", GetKodePoli());
                 if (conn.State.Equals(System.Data.ConnectionState.Closed))
@@ -833,7 +851,7 @@ namespace dokter.DBAccess
                     OpenConnection();
                 }
 
-                if(cmd.ExecuteNonQuery() ==1)
+                if (cmd.ExecuteNonQuery() == 1)
                 {
                     return true;
                 }

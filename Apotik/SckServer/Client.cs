@@ -10,17 +10,9 @@ namespace Apotik.SckServer
 {
     public class Client
     {
-        public string ID
-        {
-            get;
-            private set;
-        }
+        public string ID { get; private set; }
 
-        public IPEndPoint EndPoint
-        {
-            get;
-            private set;
-        }
+        public IPEndPoint EndPoint { get; private set; }
 
         Socket sck;
 
@@ -28,8 +20,8 @@ namespace Apotik.SckServer
         {
             sck = accepted;
             ID = Guid.NewGuid().ToString();
-            EndPoint = (IPEndPoint)sck.RemoteEndPoint;
-            sck.BeginReceive(new byte[] { 0 }, 0, 0, 0, callback, null);
+            EndPoint = (IPEndPoint) sck.RemoteEndPoint;
+            sck.BeginReceive(new byte[] {0}, 0, 0, 0, callback, null);
         }
 
         void callback(IAsyncResult ar)
@@ -47,7 +39,7 @@ namespace Apotik.SckServer
 
                 Received?.Invoke(this, buf);
 
-                sck.BeginReceive(new byte[] { 0 }, 0, 0, 0, callback, null);
+                sck.BeginReceive(new byte[] {0}, 0, 0, 0, callback, null);
             }
             catch (Exception ex)
             {
@@ -65,6 +57,7 @@ namespace Apotik.SckServer
         }
 
         public delegate void ClientReceivedHandler(Client sender, byte[] data);
+
         public delegate void ClientDisconnectedHandler(Client sender);
 
         public event ClientReceivedHandler Received;

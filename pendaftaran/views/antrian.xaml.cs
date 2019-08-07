@@ -130,7 +130,8 @@ namespace pendaftaran.views
             }
             else
             {
-                MessageBox.Show("Data antrian pada hari ini tidak dapat dihapus", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Data antrian pada hari ini tidak dapat dihapus", "Error", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
             }
         }
     }

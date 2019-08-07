@@ -65,7 +65,10 @@ namespace Apotik.DBAccess
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("select top 1 no_urut from tb_antrian where tgl_berobat=CONVERT(date, getdate(), 111) and status='Antri' and tujuan_antrian='Apotik' order by 1 asc", conn);
+                SqlCommand cmd =
+                    new SqlCommand(
+                        "select top 1 no_urut from tb_antrian where tgl_berobat=CONVERT(date, getdate(), 111) and status='Antri' and tujuan_antrian='Apotik' order by 1 asc",
+                        conn);
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -91,7 +94,10 @@ namespace Apotik.DBAccess
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("select top 1 no_urut from tb_antrian where tgl_berobat=CONVERT(date, getdate(), 111) and status='Panggil' and tujuan_antrian='Apotik' order by 1 desc", conn);
+                SqlCommand cmd =
+                    new SqlCommand(
+                        "select top 1 no_urut from tb_antrian where tgl_berobat=CONVERT(date, getdate(), 111) and status='Panggil' and tujuan_antrian='Apotik' order by 1 desc",
+                        conn);
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -115,7 +121,10 @@ namespace Apotik.DBAccess
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("update tb_antrian set status='Antri' where no_urut=@no_urut and tujuan_antrian='Apotik' and tgl_berobat=convert(date, getdate(), 111)", conn);
+                SqlCommand cmd =
+                    new SqlCommand(
+                        "update tb_antrian set status='Antri' where no_urut=@no_urut and tujuan_antrian='Apotik' and tgl_berobat=convert(date, getdate(), 111)",
+                        conn);
                 cmd.Parameters.AddWithValue("no_urut", LastAntrianPrev());
 
                 if (conn.State.Equals(System.Data.ConnectionState.Closed))
@@ -142,7 +151,10 @@ namespace Apotik.DBAccess
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("update tb_antrian set status='Panggil' where no_urut=@no_urut and tujuan_antrian='Apotik' and tgl_berobat=convert(date, getdate(), 111)", conn);
+                SqlCommand cmd =
+                    new SqlCommand(
+                        "update tb_antrian set status='Panggil' where no_urut=@no_urut and tujuan_antrian='Apotik' and tgl_berobat=convert(date, getdate(), 111)",
+                        conn);
                 cmd.Parameters.AddWithValue("no_urut", LastAntrian());
 
                 if (conn.State.Equals(System.Data.ConnectionState.Closed))
@@ -192,19 +204,22 @@ namespace Apotik.DBAccess
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("insert into tb_transaksi(apoteker, kode_resep, total) values(@apoteker, @kode_resep, @total)", conn);
+                SqlCommand cmd =
+                    new SqlCommand(
+                        "insert into tb_transaksi(apoteker, kode_resep, total) values(@apoteker, @kode_resep, @total)",
+                        conn);
                 cmd.Parameters.AddWithValue("apoteker", apoteker);
                 cmd.Parameters.AddWithValue("kode_resep", kode_resep);
                 cmd.Parameters.AddWithValue("total", total);
 
-                if(cmd.ExecuteNonQuery() == 1)
+                if (cmd.ExecuteNonQuery() == 1)
                 {
                     return true;
                 }
 
                 CloseConnection();
             }
-            catch(SqlException ex)
+            catch (SqlException ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -275,7 +290,8 @@ namespace Apotik.DBAccess
             try
             {
                 OpenConnection();
-                var cmd = new SqlCommand("select top 1 tb_antrian.no_resep from  tb_antrian where tb_antrian.no_rm=@no_rm and tb_antrian.status='Panggil' and tujuan_antrian='Apotik' order by 1 desc",
+                var cmd = new SqlCommand(
+                    "select top 1 tb_antrian.no_resep from  tb_antrian where tb_antrian.no_rm=@no_rm and tb_antrian.status='Panggil' and tujuan_antrian='Apotik' order by 1 desc",
                     conn);
                 cmd.Parameters.AddWithValue("no_rm", no_rm);
 
@@ -386,8 +402,10 @@ namespace Apotik.DBAccess
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
-                        detailResep.Add(new ModelDetailResep(reader["id"].ToString(), reader["no_resep"].ToString(), reader["kode_obat"].ToString(), reader["nama_obat"].ToString(), reader["dosis"].ToString(),
-                            reader["penggunaan"].ToString(), reader["ket"].ToString(), reader["jumlah"].ToString(), int.Parse(reader["subtotal"].ToString()),
+                        detailResep.Add(new ModelDetailResep(reader["id"].ToString(), reader["no_resep"].ToString(),
+                            reader["kode_obat"].ToString(), reader["nama_obat"].ToString(), reader["dosis"].ToString(),
+                            reader["penggunaan"].ToString(), reader["ket"].ToString(), reader["jumlah"].ToString(),
+                            int.Parse(reader["subtotal"].ToString()),
                             int.Parse(reader["harga_obat"].ToString()), reader["tgl_buat"].ToString()));
                 }
 

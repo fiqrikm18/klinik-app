@@ -60,16 +60,17 @@ namespace admin.views
             }
             else
             {
-                if(tgl != null && apoteker == null)
+                if (tgl != null && apoteker == null)
                 {
-                    dtgAntrian.ItemsSource = data.Where(x=>x.tgl_transaksi.Equals(tgl));
+                    dtgAntrian.ItemsSource = data.Where(x => x.tgl_transaksi.Equals(tgl));
                 }
 
-                if(tgl == null && apoteker != null)
+                if (tgl == null && apoteker != null)
                 {
-                    dtgAntrian.ItemsSource = data.Where(x=>x.id_apoteker.Equals(apoteker));
+                    dtgAntrian.ItemsSource = data.Where(x => x.id_apoteker.Equals(apoteker));
                 }
-                dtgAntrian.ItemsSource = data.Where(x=>x.tgl_transaksi.Equals(tgl) && x.id_apoteker.Equals(apoteker));
+
+                dtgAntrian.ItemsSource = data.Where(x => x.tgl_transaksi.Equals(tgl) && x.id_apoteker.Equals(apoteker));
             }
 
             //Debug.WriteLine(data.Where(x=> x.tgl_transaksi.Equals(tgl) && x.id_apoteker.Equals(apoteker)));
@@ -87,7 +88,6 @@ namespace admin.views
 
         private void Btn_hapus_Click(object sender, RoutedEventArgs e)
         {
-
         }
 
         private void Btn_Print_Click(object sender, RoutedEventArgs e)

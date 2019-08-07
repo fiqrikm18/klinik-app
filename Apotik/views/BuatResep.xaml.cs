@@ -41,10 +41,13 @@ namespace Apotik.views
             try
             {
                 clientApotik = new SimpleTcpClient();
-                clientApotik.Connect(Properties.Settings.Default.SocketAntriApotik, Properties.Settings.Default.PortAntriApotik);
+                clientApotik.Connect(Properties.Settings.Default.SocketAntriApotik,
+                    Properties.Settings.Default.PortAntriApotik);
                 clientApotik.DataReceived += ClientApotik_DataReceived;
             }
-            catch (Exception) { }
+            catch (Exception)
+            {
+            }
         }
 
         private void ClientApotik_DataReceived(object sender, Message e)
@@ -122,7 +125,8 @@ namespace Apotik.views
             foreach (ModelDetailResep dr in dtgDetailResep.ItemsSource) total += dr.sub_total;
 
             //MessageBox.Show(total.ToString());
-            if (cmd.CreateTransactionResep(Properties.Settings.Default.KodeApoteker.ToString(), txtKodeResep.Text.ToString(), total))
+            if (cmd.CreateTransactionResep(Properties.Settings.Default.KodeApoteker.ToString(),
+                txtKodeResep.Text.ToString(), total))
             {
                 if (cmd.UpdateStatusAntrianApotik(kode_resep))
                 {
@@ -131,7 +135,9 @@ namespace Apotik.views
                         clientApotik.WriteLine("Update");
                     }
                     catch (Exception)
-                    { }
+                    {
+                    }
+
                     ClearData();
                 }
             }

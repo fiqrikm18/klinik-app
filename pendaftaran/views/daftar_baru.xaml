@@ -44,10 +44,11 @@
                 <StackPanel Grid.Column="0" Grid.Row="1" VerticalAlignment="Center">
                     <DockPanel>
                         <Label Content="No.Identitas" />
-                        <CheckBox Content="KTP" Name="chkKtp" VerticalAlignment="Center" Margin="5 0 0 0"/>
-                        <CheckBox Content="SIM" Name="chkSim" VerticalAlignment="Center" Margin="5 0 0 0"/>
-                        <CheckBox Content="Kartu Pelajar" Name="chkKartuPelajar" VerticalAlignment="Center" Margin="5 0 0 0"/>
-                        <CheckBox Content="Lainnya" Name="chkLainnya" VerticalAlignment="Center" Margin="5 0 0 0"/>
+                        <CheckBox Content="KTP" Name="chkKtp" VerticalAlignment="Center" Margin="5 0 0 0" />
+                        <CheckBox Content="SIM" Name="chkSim" VerticalAlignment="Center" Margin="5 0 0 0" />
+                        <CheckBox Content="Kartu Pelajar" Name="chkKartuPelajar" VerticalAlignment="Center"
+                                  Margin="5 0 0 0" />
+                        <CheckBox Content="Lainnya" Name="chkLainnya" VerticalAlignment="Center" Margin="5 0 0 0" />
                     </DockPanel>
                     <TextBox x:Name="TxtNoIdentitas" MaxLength="16" GotKeyboardFocus="TextBoxFocus"
                              Text="{Binding UpdateSourceTrigger=LostFocus,

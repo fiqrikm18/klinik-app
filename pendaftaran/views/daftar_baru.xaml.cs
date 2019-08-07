@@ -36,7 +36,7 @@ namespace pendaftaran.views
         private readonly byte blockNoTelp = 14;
         private readonly byte blockTglLahir = 16;
         private readonly byte blockJenisId = 18;
-        private readonly byte[] key = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
+        private readonly byte[] key = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
 
         private MDaftarBaru _mDaftarBaru = new MDaftarBaru(" ", " ", " ", " ", " ");
 
@@ -77,7 +77,8 @@ namespace pendaftaran.views
             try
             {
                 clientPoli = new SimpleTCP.SimpleTcpClient();
-                clientPoli.Connect(Properties.Settings.Default.SocketServerAntrianPoli, Properties.Settings.Default.SocketPortAntriaPoli);
+                clientPoli.Connect(Properties.Settings.Default.SocketServerAntrianPoli,
+                    Properties.Settings.Default.SocketPortAntriaPoli);
             }
             catch (Exception ex)
             {
@@ -132,7 +133,7 @@ namespace pendaftaran.views
 
             if (checkTextBoxValue() && dtTanggalLahir.SelectedDate != null)
             {
-                ComboboxPairs cbp = (ComboboxPairs)cbPoliklinik.SelectedItem;
+                ComboboxPairs cbp = (ComboboxPairs) cbPoliklinik.SelectedItem;
                 string policode = cbp.nama_poliklinik;
                 //DateTime dt = DateTime.ParseExact(, "dd-MM-yyyy", CultureInfo.InvariantCulture);
 
@@ -184,7 +185,8 @@ namespace pendaftaran.views
                     {
                         if (cmd.CountRmPasienExists(norm) != 1)
                         {
-                            if (cmd.InsertDataPasien(identitas, norm, namaPasien, tglLahir, jenisKelamin, noTelp, alamat,
+                            if (cmd.InsertDataPasien(identitas, norm, namaPasien, tglLahir, jenisKelamin, noTelp,
+                                alamat,
                                 golDarah, jenis_id))
                             {
                                 int last = cmd.GetLastNoUrut(policode);
@@ -214,7 +216,8 @@ namespace pendaftaran.views
                                             {
                                                 if (!string.IsNullOrEmpty(identitas))
                                                 {
-                                                    if (sp.WriteBlock(Msb, blockIdPasien, Util.ToArrayByte16(identitas)))
+                                                    if (sp.WriteBlock(Msb, blockIdPasien,
+                                                        Util.ToArrayByte16(identitas)))
                                                     {
                                                         isPrinted = true;
                                                     }
@@ -357,7 +360,8 @@ namespace pendaftaran.views
 
                                         MessageBox.Show(
                                             "Pasien berhasil didaftarkan.\nKartu pasien berhasil ditulis.\nNomor Antri: " +
-                                            no_urut + "", "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
+                                            no_urut + "", "Informasi", MessageBoxButton.OK,
+                                            MessageBoxImage.Information);
                                         DataContext = _mDaftarBaru;
                                         cbPoliklinik.SelectedIndex = 0;
                                         cbGolDarah.SelectedIndex = 0;
@@ -382,7 +386,9 @@ namespace pendaftaran.views
                                             //sck2.Send(Encoding.ASCII.GetBytes("Update"));
                                             clientPoli.WriteLine("Update");
                                         }
-                                        catch { }
+                                        catch
+                                        {
+                                        }
                                     }
                                     else
                                     {
@@ -400,7 +406,9 @@ namespace pendaftaran.views
                                             //sck2.Send(Encoding.ASCII.GetBytes("Update"));
                                             clientPoli.WriteLine("Update");
                                         }
-                                        catch { }
+                                        catch
+                                        {
+                                        }
 
                                         PrintDocument pd = new PrintDocument();
                                         PaperSize ps = new PaperSize("", 300, 540);
@@ -425,7 +433,9 @@ namespace pendaftaran.views
                                         //sck.Send(Encoding.ASCII.GetBytes("Update"));
                                         clientPoli.WriteLine("Update");
                                     }
-                                    catch { }
+                                    catch
+                                    {
+                                    }
 
                                     PrintDocument pd = new PrintDocument();
                                     PaperSize ps = new PaperSize("", 300, 540);
@@ -461,7 +471,7 @@ namespace pendaftaran.views
                 else
                 {
                     MessageBox.Show("Harap periksa kembali data yang ingin di inputkan, pastikan semua sudah diisi.",
-                    "Perhatian", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        "Perhatian", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
             else
@@ -481,38 +491,47 @@ namespace pendaftaran.views
             int startX = 50;
             int startY = 55;
             int Offset = 40;
-            graphics.DrawString("SELAMAT DATANG DI", new Font("Courier New", 14), new SolidBrush(Color.Black), startX, startY + Offset);
+            graphics.DrawString("SELAMAT DATANG DI", new Font("Courier New", 14), new SolidBrush(Color.Black), startX,
+                startY + Offset);
             Offset = Offset + 20;
-            graphics.DrawString("KLINIK BUNDA MULYA", new Font("Courier New", 14), new SolidBrush(Color.Black), startX, startY + Offset);
+            graphics.DrawString("KLINIK BUNDA MULYA", new Font("Courier New", 14), new SolidBrush(Color.Black), startX,
+                startY + Offset);
             //Offset = Offset + 20;
             //graphics.DrawString("Jl. Somawinata Ruko Dream Square 7B", new Font("Courier New", 12), new SolidBrush(Color.Black), startX, startY + Offset);
             //Offset = Offset + 20;
             //graphics.DrawString("Tlp. 022-86121090", new Font("Courier New", 12), new SolidBrush(Color.Black), startX, startY + Offset);
             Offset = Offset + 20;
             String underLine = "-------------------------------";
-            graphics.DrawString(underLine, new Font("Courier New", 10), new SolidBrush(Color.Black), startX, startY + Offset);
+            graphics.DrawString(underLine, new Font("Courier New", 10), new SolidBrush(Color.Black), startX,
+                startY + Offset);
 
             Offset = Offset + 20;
-            graphics.DrawString("No. Antrian", new Font("Courier New", 14), new SolidBrush(Color.Black), startX, startY + Offset);
+            graphics.DrawString("No. Antrian", new Font("Courier New", 14), new SolidBrush(Color.Black), startX,
+                startY + Offset);
 
             Offset = Offset + 20;
             //String Source= this.source; 
-            graphics.DrawString(this.no_urut.ToString(), new Font("Courier New", 40, System.Drawing.FontStyle.Bold), new SolidBrush(Color.Black), startX, startY + Offset);
+            graphics.DrawString(this.no_urut.ToString(), new Font("Courier New", 40, System.Drawing.FontStyle.Bold),
+                new SolidBrush(Color.Black), startX, startY + Offset);
 
             Offset = Offset + 20;
             String Grosstotal = "";
 
             Offset = Offset + 30;
             underLine = "-------------------------------";
-            graphics.DrawString(underLine, new Font("Courier New", 10), new SolidBrush(Color.Black), startX, startY + Offset);
+            graphics.DrawString(underLine, new Font("Courier New", 10), new SolidBrush(Color.Black), startX,
+                startY + Offset);
             Offset = Offset + 20;
 
-            graphics.DrawString(Grosstotal, new Font("Courier New", 10), new SolidBrush(Color.Black), startX, startY + Offset);
+            graphics.DrawString(Grosstotal, new Font("Courier New", 10), new SolidBrush(Color.Black), startX,
+                startY + Offset);
             Offset = Offset + 20;
             //String DrawnBy = this.drawnBy;
-            graphics.DrawString("Poliklinik " + this.poli, new Font("Courier New", 12), new SolidBrush(Color.Black), startX, startY + Offset);
+            graphics.DrawString("Poliklinik " + this.poli, new Font("Courier New", 12), new SolidBrush(Color.Black),
+                startX, startY + Offset);
             Offset = Offset + 20;
-            graphics.DrawString(DateTime.Now.ToShortDateString(), new Font("Courier New", 14), new SolidBrush(Color.Black), startX, startY + Offset);
+            graphics.DrawString(DateTime.Now.ToShortDateString(), new Font("Courier New", 14),
+                new SolidBrush(Color.Black), startX, startY + Offset);
         }
 
         private void TextBoxFocus(object sender, KeyboardFocusChangedEventArgs e)

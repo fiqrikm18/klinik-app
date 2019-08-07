@@ -1,0 +1,221 @@
+﻿<Window x:Class="Antrian_3_poli.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Antrian_3_poli"
+        Title="Antrian Poliklinik" Height="720" Width="1188" Icon="images/BMicon.ico"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style x:Key="MyFocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Control}">
+                        <Grid Margin="3 2">
+                            <Rectangle Name="r1" StrokeThickness="1" Stroke="Black" StrokeDashArray="2 2" />
+                            <Border Name="border" Width="{TemplateBinding ActualWidth}"
+                                    Height="{TemplateBinding ActualHeight}" CornerRadius="2" BorderThickness="1" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ShadowStyle">
+            <Setter Property="Control.Foreground" Value="LightGray" />
+        </Style>
+
+        <Style x:Key="SideMenuButton" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Margin" Value="2" />
+            <Setter Property="FontSize" Value="12px" />
+            <Setter Property="FocusVisualStyle" Value="{StaticResource MyFocusVisual}" />
+            <Setter Property="Background" Value="#f0f0f0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border"
+                                BorderThickness="0"
+                                Padding="13"
+                                Background="{TemplateBinding Background}">
+                            <Grid>
+                                <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center" Name="content" />
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="BorderThickness" Value="1" />
+                                <Setter Property="Foreground" Value="white" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#BABABA" />
+                                <Setter Property="Foreground" Value="#FFFFFF" />
+                                <Setter TargetName="content" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <TranslateTransform Y="1.0" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsDefaulted" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#FF282828" />
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#FF282828" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Opacity" Value="0.7" />
+                                <Setter Property="Foreground" Value="Gray" />
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Style="{StaticResource OpenSans}" Background="White">
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+
+                <ColumnDefinition Width="6*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Menu -->
+            <Grid Grid.Column="0" Background="White">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0">
+                        <StackPanel Orientation="Horizontal">
+                            <Image x:Name="image" Width="86" Margin="30,11,0,12"
+                                   Source="images/Logo Klinik Bunda Mulya2.jpg" HorizontalAlignment="Center"
+                                   VerticalAlignment="Center" />
+                            <TextBlock x:Name="lbNamaPoli" Text="Antrian Poliklinik" Margin="10,30,0,32" FontSize="20"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Grid.Row="1" Margin="0 20 0 0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0" Orientation="Horizontal">
+                            <TextBlock x:Name="tbjudul" Text="Antrian " Margin="30 0" FontSize="16" FontWeight="Bold"
+                                       Foreground="#555555" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1">
+                            <DataGrid x:Name="dtgAntrian" Height="430" Margin="30 0" HeadersVisibility="None"
+                                      AutoGenerateColumns="False" CanUserAddRows="False"
+                                      VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Binding="{Binding no_urut}" FontSize="16" Header="No.Urut"  Foreground="Black">
+                                        <DataGridTextColumn.EditingElementStyle>
+                                            <Style TargetType="TextBox">
+                                                <Setter Property="CharacterCasing" Value="Upper"/>
+                                                <Setter Property="FontSize" Value="14"/>
+                                            </Style>
+                                        </DataGridTextColumn.EditingElementStyle>
+                                    </DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding nama}" FontSize="16" Header="Nama Pasien" Foreground="Black">
+                                        <DataGridTextColumn.EditingElementStyle>
+                                            <Style TargetType="TextBox">
+                                                <Setter Property="CharacterCasing" Value="Upper"/>
+                                                <Setter Property="FontSize" Value="14"/>
+                                            </Style>
+                                        </DataGridTextColumn.EditingElementStyle>
+                                    </DataGridTextColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Grid.Row="2">
+                        <Label Content="Total Pasien Antri: " x:Name="txtTotalAntri" Margin="30 20" FontSize="16"
+                               VerticalContentAlignment="Bottom" FontWeight="Bold" />
+                    </Grid>
+                </Grid>
+            </Grid>
+            <!-- End Menu -->
+
+            <!-- Frame/Content -->
+            <Grid Grid.Column="1" Background="#FFF1F1F1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" Margin="50">
+                    <TextBlock Text="Selamat Datang Di Klinik Bunda Mulya" VerticalAlignment="Center"
+                               HorizontalAlignment="Center" FontSize="24" FontWeight="Bold" Foreground="#555555" />
+                </Grid>
+
+                <Grid Grid.Row="1" Margin="10">
+                    <TextBlock Text="Nomor Antrian Diperiksa" FontSize="30" Style="{StaticResource OpenSans}" HorizontalAlignment="Center" FontWeight="Bold" Foreground="#555555"/>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Grid Height="300" Width="300">
+                            <Border Margin="10" BorderBrush="#FFE6E6E6" BorderThickness="0" Background="White">
+                                <Border.Effect>
+                                    <DropShadowEffect ShadowDepth="1.5" Color="#FF858585" />
+                                </Border.Effect>
+                            </Border>
+
+                            <Border Margin="10" BorderBrush="{x:Null}" BorderThickness="1">
+                                <StackPanel Orientation="Vertical" Margin="5">
+                                    <Label Name="lbTitleNo_AntriPoliUmum" Content="Poli Umum" FontSize="16" FontWeight="Bold"
+                                       HorizontalAlignment="Center" Margin="20" />
+                                    <Label FontSize="72" x:Name="txtNoAntri" Margin="0 30" Content="0"
+                                       VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+
+                        <Grid Height="300" Width="300">
+                            <Border Margin="10" BorderBrush="#FFE6E6E6" BorderThickness="0" Background="White">
+                                <Border.Effect>
+                                    <DropShadowEffect ShadowDepth="1.5" Color="#FF858585" />
+                                </Border.Effect>
+                            </Border>
+
+                            <Border Margin="10" BorderBrush="{x:Null}" BorderThickness="1">
+                                <StackPanel Orientation="Vertical" Margin="5">
+                                    <Label Name="lbTitleNo_AntriPoliGigi" Content="Poli Gigi" FontSize="16" FontWeight="Bold"
+                                       HorizontalAlignment="Center" Margin="20" />
+                                    <Label FontSize="72" x:Name="txtNoAntriPoliGigi" Margin="0 30" Content="0"
+                                       VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+
+                        <Grid Height="300" Width="300">
+                            <Border Margin="10" BorderBrush="#FFE6E6E6" BorderThickness="0" Background="White">
+                                <Border.Effect>
+                                    <DropShadowEffect ShadowDepth="1.5" Color="#FF858585" />
+                                </Border.Effect>
+                            </Border>
+
+                            <Border Margin="10" BorderBrush="{x:Null}" BorderThickness="1">
+                                <StackPanel Orientation="Vertical" Margin="5">
+                                    <Label Name="lbTitleNo_AntriBidan" Content="Bidan" FontSize="16" FontWeight="Bold"
+                                       HorizontalAlignment="Center" Margin="20" />
+                                    <Label FontSize="72" x:Name="txtNoAntriBidan" Margin="0 30" Content="0"
+                                       VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </StackPanel>
+
+                </Grid>
+            </Grid>
+            <!-- End Content -->
+        </Grid>
+    </Grid>
+</Window>

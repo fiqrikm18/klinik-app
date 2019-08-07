@@ -37,15 +37,16 @@ namespace dokter.forms
             }
             else
             {
-                dtgTindakan.ItemsSource = cmd.GetDataTindakan().Where(x => x.kode.Contains(src.ToUpper()) || x.desk.Contains(src));
+                dtgTindakan.ItemsSource = cmd.GetDataTindakan()
+                    .Where(x => x.kode.Contains(src.ToUpper()) || x.desk.Contains(src));
             }
         }
 
         private void DtgTindakan_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
-            foreach(models.ModelTindakan mt in dtgTindakan.SelectedItems)
+            foreach (models.ModelTindakan mt in dtgTindakan.SelectedItems)
             {
-                if(kode == null && desk == null)
+                if (kode == null && desk == null)
                 {
                     kode = mt.kode;
                     desk = mt.desk;
@@ -62,7 +63,8 @@ namespace dokter.forms
         {
             var src = e.Source as TextBox;
 
-            if(src.Text != "Kode ICD/Prosedur Tindakan" || string.IsNullOrEmpty(src.Text) || string.IsNullOrWhiteSpace(src.Text))
+            if (src.Text != "Kode ICD/Prosedur Tindakan" || string.IsNullOrEmpty(src.Text) ||
+                string.IsNullOrWhiteSpace(src.Text))
             {
                 LoadData(src.Text);
             }
@@ -81,7 +83,8 @@ namespace dokter.forms
 
         private void TxtSrc_GotKeyboardFocus(object sender, System.Windows.Input.KeyboardFocusChangedEventArgs e)
         {
-            if(txtSrc.Text == "Kode ICD/Prosedur Tindakan" || !string.IsNullOrEmpty(txtSrc.Text) || !string.IsNullOrWhiteSpace(txtSrc.Text))
+            if (txtSrc.Text == "Kode ICD/Prosedur Tindakan" || !string.IsNullOrEmpty(txtSrc.Text) ||
+                !string.IsNullOrWhiteSpace(txtSrc.Text))
             {
                 txtSrc.Text = string.Empty;
             }

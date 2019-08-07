@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:admin.forms"
         xmlns:report="clr-namespace:Microsoft.Reporting.WinForms;assembly=Microsoft.ReportViewer.WinForms"
         mc:Ignorable="d"
-        Title="Print Preview" Height="720" Width="1200" 
+        Title="Print Preview" Height="720" Width="1200"
         WindowStartupLocation="CenterScreen" Icon="/admin;component/images/BMicon.ico">
     <Grid>
         <WindowsFormsHost Background="{x:Null}">

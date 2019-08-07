@@ -84,7 +84,8 @@ namespace dokter.views
             }
             else
             {
-                MessageBox.Show("Pilih data yang akan di print", "Perhatian", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Pilih data yang akan di print", "Perhatian", MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
             }
         }
     }

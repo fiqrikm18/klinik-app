@@ -38,10 +38,10 @@
             </DockPanel>
             <DockPanel Margin="10 0 0 0" VerticalAlignment="Center">
                 <ComboBox Name="cbJenisKartu" SelectedIndex="0" Padding="10">
-                    <ComboBoxItem Content="Pilih" IsSelected="True"/>
-                    <ComboBoxItem Content="KTP"/>
-                    <ComboBoxItem Content="SIM"/>
-                    <ComboBoxItem Content="Kartu Pelajar"/>
+                    <ComboBoxItem Content="Pilih" IsSelected="True" />
+                    <ComboBoxItem Content="KTP" />
+                    <ComboBoxItem Content="SIM" />
+                    <ComboBoxItem Content="Kartu Pelajar" />
                 </ComboBox>
             </DockPanel>
         </StackPanel>
@@ -69,14 +69,14 @@
                 <Button x:Name="btn_cekData" Click="Btn_cekData_OnClick" Content="Cek Data" />
                 <Button x:Name="btn_cetak" Click="Btn_cetak_OnClick" Content="Cetak Kartu" />
                 <Button x:Name="btnHapusKartu" Click="BtnHapusKartu_Click" Content="Hapus Data"
-                            Width="Auto" />
+                        Width="Auto" />
                 <Button x:Name="btnPrintLabel" Click="BtnPrintLabel_OnClick" Content="Cetak Label" Width="Auto" />
             </DockPanel>
-            
+
             <DockPanel Margin="0 0 20 0">
-                <Button x:Name="btn_print" Click="btn_print_Click" Content="Print Data Pasien" Width="Auto"/>
+                <Button x:Name="btn_print" Click="btn_print_Click" Content="Print Data Pasien" Width="Auto" />
             </DockPanel>
-            
+
             <DockPanel>
                 <Button x:Name="btn_add" Click="TambahPasien" Content="Daftar" />
                 <Button x:Name="btn_edit" Click="UbahDataPasien" Content="Ubah" />

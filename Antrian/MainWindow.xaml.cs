@@ -18,7 +18,9 @@ namespace Antrian
 
         private readonly SqlConnection conn;
         private readonly string jenis_antrian = Settings.Default.antrian;
+
         private readonly string poliklinik = Settings.Default.poliklinik;
+
         //private Listener listenerPoli;
         //private Listener listenerApotik;
         private SimpleTcpServer serverPoli;
@@ -130,6 +132,7 @@ namespace Antrian
                             LoadPeriksa();
                         }
                     }
+
                     //Debug.WriteLine(a);
                     if (a == "Update")
                     {
@@ -176,7 +179,7 @@ namespace Antrian
                             LoadPeriksa();
                         }
                     }
-                    
+
                     if (a == "Update")
                     {
                         LoadPeriksa();

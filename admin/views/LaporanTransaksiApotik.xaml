@@ -1,8 +1,8 @@
 ﻿<Page x:Class="admin.views.LaporanTransaksiApotik"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:admin.views"
       mc:Ignorable="d"
       Title="antrian">
@@ -32,7 +32,7 @@
             <DataGrid x:Name="dtgAntrian" SelectionMode="Extended" VerticalAlignment="Top"
                       HorizontalAlignment="Stretch" AutoGenerateColumns="False" Height="400" CanUserAddRows="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding id}" Visibility="Hidden"></DataGridTextColumn>
+                    <DataGridTextColumn Binding="{Binding id}" Visibility="Hidden" />
                     <DataGridTextColumn Binding="{Binding nama_apoteker}" Header="Apoteker" Width="150" />
                     <DataGridTextColumn Binding="{Binding kode_resep}" Header="Kode Resep" Width="150" />
                     <DataGridTextColumn Binding="{Binding tgl_transaksi}" Header="Tgl Transaksi" Width="150" />
@@ -42,7 +42,7 @@
         </StackPanel>
 
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Name="btn_Print" Click="Btn_Print_Click" Content="Print Data Transaksi" Width="Auto"/>
+            <Button Name="btn_Print" Click="Btn_Print_Click" Content="Print Data Transaksi" Width="Auto" />
             <Button x:Name="btn_hapus" Click="Btn_hapus_Click" Content="Hapus" />
         </StackPanel>
     </Grid>

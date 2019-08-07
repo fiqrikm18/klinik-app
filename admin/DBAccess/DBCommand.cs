@@ -125,13 +125,18 @@ namespace admin.DBAccess
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("select tb_transaksi.*, ta.nama as nama_apoteker from tb_transaksi left join tb_apoteker ta on tb_transaksi.apoteker = ta.id", conn);
+                SqlCommand cmd =
+                    new SqlCommand(
+                        "select tb_transaksi.*, ta.nama as nama_apoteker from tb_transaksi left join tb_apoteker ta on tb_transaksi.apoteker = ta.id",
+                        conn);
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        transaksi.Add(new ModelTransaksi(int.Parse(reader["id"].ToString()), reader["apoteker"].ToString(), reader["nama_apoteker"].ToString(),
-                            reader["kode_resep"].ToString(), int.Parse(reader["total"].ToString()), reader["tgl_transaksi"].ToString()));
+                        transaksi.Add(new ModelTransaksi(int.Parse(reader["id"].ToString()),
+                            reader["apoteker"].ToString(), reader["nama_apoteker"].ToString(),
+                            reader["kode_resep"].ToString(), int.Parse(reader["total"].ToString()),
+                            reader["tgl_transaksi"].ToString()));
                     }
                 }
 

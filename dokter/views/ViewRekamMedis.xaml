@@ -112,7 +112,7 @@
 
                         <GroupBox BorderThickness="0" Margin="0 0 5 0" HorizontalAlignment="Right">
                             <DockPanel>
-                                <Button x:Name="btnSelesaiPasien"  Click="btnSelesaiPasien_Click" Width="Auto"
+                                <Button x:Name="btnSelesaiPasien" Click="btnSelesaiPasien_Click" Width="Auto"
                                         Content="Selesai Periksa" Background="#FF37A9FF" Foreground="White" />
                             </DockPanel>
                         </GroupBox>
@@ -121,7 +121,8 @@
 
                 <StackPanel Grid.Row="2">
                     <Label x:Name="label" Content="Rekam Medis Pasien" FontWeight="Bold" FontSize="14" />
-                    <DataGrid x:Name="dtgDataRekamMedis" SelectionMode="Extended" VerticalAlignment="Top" VerticalScrollBarVisibility="Visible"
+                    <DataGrid x:Name="dtgDataRekamMedis" SelectionMode="Extended" VerticalAlignment="Top"
+                              VerticalScrollBarVisibility="Visible"
                               HorizontalAlignment="Stretch" AutoGenerateColumns="False" Margin="0 10 10 0" Height="400"
                               CanUserAddRows="False">
                         <DataGrid.Columns>
@@ -160,7 +161,8 @@
 
                             <DataGridTextColumn Binding="{Binding nama_poli}" Header="Poliklinik" IsReadOnly="True"
                                                 Width="100" />
-                            <DataGridTextColumn Binding="{Binding tgl_pemeriksaan, StringFormat={}{0:dd MMM yyyy}}" Header="Tanggal Berobat"
+                            <DataGridTextColumn Binding="{Binding tgl_pemeriksaan, StringFormat={}{0:dd MMM yyyy}}"
+                                                Header="Tanggal Berobat"
                                                 IsReadOnly="True" />
                         </DataGrid.Columns>
                     </DataGrid>

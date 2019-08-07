@@ -36,22 +36,22 @@
         <!-- Grid 1 -->
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
 
             <Grid Grid.Column="0" VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="120"/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="120" />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                    <Label Content="No. Resep" VerticalAlignment="Center"/>
+                    <Label Content="No. Resep" VerticalAlignment="Center" />
                 </StackPanel>
 
                 <StackPanel Grid.Column="1">
-                    <TextBox Name="txtKodeResep"/>
+                    <TextBox Name="txtKodeResep" />
                 </StackPanel>
             </Grid>
 
@@ -62,11 +62,11 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Column="0" Margin="20,8,1,8" VerticalAlignment="Center">
-                    <Label Content="No. Rekam Medis" VerticalAlignment="Center"/>
+                    <Label Content="No. Rekam Medis" VerticalAlignment="Center" />
                 </StackPanel>
 
                 <StackPanel Grid.Column="1" Grid.Row="0" VerticalAlignment="Center">
-                    <TextBlock Name="lbNoRM" VerticalAlignment="Center"/>
+                    <TextBlock Name="lbNoRM" VerticalAlignment="Center" />
                 </StackPanel>
             </Grid>
         </Grid>
@@ -123,26 +123,27 @@
                 </StackPanel>
 
                 <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
-                    <TextBox x:Name="txtJumlah" Width="126" Validation.Error="Validation_Error" VerticalAlignment="Center"
+                    <TextBox x:Name="txtJumlah" Width="126" Validation.Error="Validation_Error"
+                             VerticalAlignment="Center"
                              Text="{Binding UpdateSourceTrigger=LostFocus,
                         Path=jumlah, NotifyOnSourceUpdated=True,
                         ValidatesOnDataErrors=True}"
                              GotKeyboardFocus="TextBoxFocus" />
 
                     <DockPanel Margin="10 0">
-                        <Label Content="Dosis" Margin="5" VerticalAlignment="Center"/>
-                        <TextBox Width="70" Name="txtDosis" Margin="5"/>
+                        <Label Content="Dosis" Margin="5" VerticalAlignment="Center" />
+                        <TextBox Width="70" Name="txtDosis" Margin="5" />
                         <ComboBox Margin="5" Width="90" Name="cbSatuanDosis" SelectedIndex="0">
-                            <ComboBoxItem Content="Pilih"/>
-                            <ComboBoxItem Content="mg"/>
-                            <ComboBoxItem Content="mg/1cc"/>
-                            <ComboBoxItem Content="mg/2cc"/>
-                            <ComboBoxItem Content="mg/3cc"/>
-                            <ComboBoxItem Content="mg/4cc"/>
-                            <ComboBoxItem Content="mg/5cc"/>
-                            <ComboBoxItem Content="mcg"/>
-                            <ComboBoxItem Content="gram"/>
-                            <ComboBoxItem Content="mL"/>
+                            <ComboBoxItem Content="Pilih" />
+                            <ComboBoxItem Content="mg" />
+                            <ComboBoxItem Content="mg/1cc" />
+                            <ComboBoxItem Content="mg/2cc" />
+                            <ComboBoxItem Content="mg/3cc" />
+                            <ComboBoxItem Content="mg/4cc" />
+                            <ComboBoxItem Content="mg/5cc" />
+                            <ComboBoxItem Content="mcg" />
+                            <ComboBoxItem Content="gram" />
+                            <ComboBoxItem Content="mL" />
                         </ComboBox>
                     </DockPanel>
                 </StackPanel>
@@ -172,57 +173,57 @@
                         ValidatesOnDataErrors=True}"
                              GotKeyboardFocus="TextBoxFocus" Width="50" />-->
                     <ComboBox Margin="5" SelectedIndex="0" Name="cbAturanPakai">
-                        <ComboBoxItem Content="Pilih"/>
-                        <ComboBoxItem Content="s.d.d"/>
-                        <ComboBoxItem Content="b.d.d"/>
-                        <ComboBoxItem Content="t.d.d"/>
-                        <ComboBoxItem Content="q.d.d"/>
-                        <ComboBoxItem Content="5.d.d"/>
-                        <ComboBoxItem Content="6.d.d"/>
-                        <ComboBoxItem Content="o.alt. h"/>
+                        <ComboBoxItem Content="Pilih" />
+                        <ComboBoxItem Content="s.d.d" />
+                        <ComboBoxItem Content="b.d.d" />
+                        <ComboBoxItem Content="t.d.d" />
+                        <ComboBoxItem Content="q.d.d" />
+                        <ComboBoxItem Content="5.d.d" />
+                        <ComboBoxItem Content="6.d.d" />
+                        <ComboBoxItem Content="o.alt. h" />
                     </ComboBox>
                     <ComboBox Margin="5" SelectedIndex="0" Name="cbSediaanObat">
-                        <ComboBoxItem Content="Pilih"/>
-                        <ComboBoxItem Content="ampl."/>
-                        <ComboBoxItem Content="aurist."/>
-                        <ComboBoxItem Content="bol."/>
-                        <ComboBoxItem Content="caps."/>
-                        <ComboBoxItem Content="collut."/>
-                        <ComboBoxItem Content="garg."/>
-                        <ComboBoxItem Content="crem."/>
-                        <ComboBoxItem Content="emuls."/>
-                        <ComboBoxItem Content="pulv."/>
-                        <ComboBoxItem Content="narist."/>
-                        <ComboBoxItem Content="oculent."/>
-                        <ComboBoxItem Content="past.dentifr."/>
-                        <ComboBoxItem Content="pil."/>
-                        <ComboBoxItem Content="pot."/>
-                        <ComboBoxItem Content="pulv."/>
-                        <ComboBoxItem Content="pulv.adsp."/>
-                        <ComboBoxItem Content="sol."/>
-                        <ComboBoxItem Content="tab"/>
-                        <ComboBoxItem Content="tinc."/>
+                        <ComboBoxItem Content="Pilih" />
+                        <ComboBoxItem Content="ampl." />
+                        <ComboBoxItem Content="aurist." />
+                        <ComboBoxItem Content="bol." />
+                        <ComboBoxItem Content="caps." />
+                        <ComboBoxItem Content="collut." />
+                        <ComboBoxItem Content="garg." />
+                        <ComboBoxItem Content="crem." />
+                        <ComboBoxItem Content="emuls." />
+                        <ComboBoxItem Content="pulv." />
+                        <ComboBoxItem Content="narist." />
+                        <ComboBoxItem Content="oculent." />
+                        <ComboBoxItem Content="past.dentifr." />
+                        <ComboBoxItem Content="pil." />
+                        <ComboBoxItem Content="pot." />
+                        <ComboBoxItem Content="pulv." />
+                        <ComboBoxItem Content="pulv.adsp." />
+                        <ComboBoxItem Content="sol." />
+                        <ComboBoxItem Content="tab" />
+                        <ComboBoxItem Content="tinc." />
                     </ComboBox>
 
-                    <TextBox Width="50" Name="txtJumPemakaian"/>
+                    <TextBox Width="50" Name="txtJumPemakaian" />
                     <ComboBox SelectedIndex="0" Margin="5" Name="cbWaktuPemakaian">
-                        <ComboBoxItem Content="Pilih"/>
-                        <ComboBoxItem Content="a merid"/>
-                        <ComboBoxItem Content="an"/>
-                        <ComboBoxItem Content="a.c"/>
-                        <ComboBoxItem Content="p.c"/>
-                        <ComboBoxItem Content="i.s."/>
-                        <ComboBoxItem Content="hd"/>
-                        <ComboBoxItem Content="h xa mat"/>
-                        <ComboBoxItem Content="h.m."/>
-                        <ComboBoxItem Content="hs"/>
-                        <ComboBoxItem Content="hv"/>
-                        <ComboBoxItem Content="m et v"/>
-                        <ComboBoxItem Content="om"/>
-                        <ComboBoxItem Content="on"/>
-                        <ComboBoxItem Content="qh"/>
-                        <ComboBoxItem Content="dc"/>
-                        <ComboBoxItem Content="feb dur"/>
+                        <ComboBoxItem Content="Pilih" />
+                        <ComboBoxItem Content="a merid" />
+                        <ComboBoxItem Content="an" />
+                        <ComboBoxItem Content="a.c" />
+                        <ComboBoxItem Content="p.c" />
+                        <ComboBoxItem Content="i.s." />
+                        <ComboBoxItem Content="hd" />
+                        <ComboBoxItem Content="h xa mat" />
+                        <ComboBoxItem Content="h.m." />
+                        <ComboBoxItem Content="hs" />
+                        <ComboBoxItem Content="hv" />
+                        <ComboBoxItem Content="m et v" />
+                        <ComboBoxItem Content="om" />
+                        <ComboBoxItem Content="on" />
+                        <ComboBoxItem Content="qh" />
+                        <ComboBoxItem Content="dc" />
+                        <ComboBoxItem Content="feb dur" />
                     </ComboBox>
                 </StackPanel>
 
@@ -239,16 +240,16 @@
                         ValidatesOnDataErrors=True}"
                              GotKeyboardFocus="TextBoxFocus" Width="246" />-->
                     <ComboBox SelectedIndex="0" Name="cbTempatPemakaian" Margin="5">
-                        <ComboBoxItem Content="Pilih"/>
-                        <ComboBoxItem Content="Ad.aur"/>
-                        <ComboBoxItem Content="Abdom"/>
-                        <ComboBoxItem Content="Oc"/>
-                        <ComboBoxItem Content="o.D"/>
-                        <ComboBoxItem Content="o.S"/>
-                        <ComboBoxItem Content="Part.dol"/>
-                        <ComboBoxItem Content="u.E"/>
-                        <ComboBoxItem Content="u.P"/>
-                        <ComboBoxItem Content="u.V"/>
+                        <ComboBoxItem Content="Pilih" />
+                        <ComboBoxItem Content="Ad.aur" />
+                        <ComboBoxItem Content="Abdom" />
+                        <ComboBoxItem Content="Oc" />
+                        <ComboBoxItem Content="o.D" />
+                        <ComboBoxItem Content="o.S" />
+                        <ComboBoxItem Content="Part.dol" />
+                        <ComboBoxItem Content="u.E" />
+                        <ComboBoxItem Content="u.P" />
+                        <ComboBoxItem Content="u.V" />
                     </ComboBox>
                 </StackPanel>
             </Grid>

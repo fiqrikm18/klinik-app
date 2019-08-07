@@ -74,7 +74,8 @@ namespace pendaftaran.views
             {
                 if (cbJenisKartu.SelectedIndex != 0)
                 {
-                    var filtered = pasien.Where(x => x.no_identitas.Contains(nama.ToLower()) && x.jenis_id == cbJenisKartu.Text.ToString());
+                    var filtered = pasien.Where(x =>
+                        x.no_identitas.Contains(nama.ToLower()) && x.jenis_id == cbJenisKartu.Text.ToString());
                     dtgDataPasien.ItemsSource = filtered;
                 }
                 else

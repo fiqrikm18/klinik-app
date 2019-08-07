@@ -134,7 +134,8 @@ namespace dokter.forms
         private void btnAddToList_Click(object sender, RoutedEventArgs e)
         {
             string dosis = txtDosis + " " + cbSatuanDosis.Text.ToString();
-            string pemakaian = cbAturanPakai.Text + " " + cbSediaanObat.Text + " " + txtJumPemakaian + " " + cbWaktuPemakaian.Text;
+            string pemakaian = cbAturanPakai.Text + " " + cbSediaanObat.Text + " " + txtJumPemakaian + " " +
+                               cbWaktuPemakaian.Text;
 
             MessageBox.Show(dosis);
 
@@ -231,7 +232,8 @@ namespace dokter.forms
                             }
                             else
                             {
-                                MessageBox.Show("Resep gagal dibuat.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                MessageBox.Show("Resep gagal dibuat.", "Error", MessageBoxButton.OK,
+                                    MessageBoxImage.Error);
                             }
                         }
                         else
@@ -247,7 +249,8 @@ namespace dokter.forms
             }
             else
             {
-                MessageBox.Show("Tidak ada list obat dalam resep", "Perhatian", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Tidak ada list obat dalam resep", "Perhatian", MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
             }
         }
 
@@ -278,7 +281,8 @@ namespace dokter.forms
                 //var mdr = new ModelDetailResep(txtKodeResep.Text, kode_obat, txtObat.Text, txtPemakaian.Text, txtKeterangan.Text, txtJumlah.Text);
 
                 string dosis = txtDosis.Text + " " + cbSatuanDosis.Text.ToString();
-                string pemakaian = cbAturanPakai.Text + " " + cbSediaanObat.Text + " " + txtJumPemakaian.Text + " " + cbWaktuPemakaian.Text;
+                string pemakaian = cbAturanPakai.Text + " " + cbSediaanObat.Text + " " + txtJumPemakaian.Text + " " +
+                                   cbWaktuPemakaian.Text;
                 string ket = "";
 
                 if (cbTempatPemakaian.SelectedIndex == 0)
@@ -289,8 +293,10 @@ namespace dokter.forms
                 {
                     ket = cbTempatPemakaian.Text;
                 }
+
                 //Debug.WriteLine(pemakaian);
-                ModelDetailResep mdr = new ModelDetailResep(txtKodeResep.Text, kode_obat, txtObat.Text, dosis, pemakaian, ket, txtJumlah.Text);
+                ModelDetailResep mdr = new ModelDetailResep(txtKodeResep.Text, kode_obat, txtObat.Text, dosis,
+                    pemakaian, ket, txtJumlah.Text);
 
                 LoadResep(mdr);
                 ClearTextBox();
@@ -306,10 +312,11 @@ namespace dokter.forms
 
         private bool CheckTextBoxEmpty()
         {
-            if (!string.IsNullOrEmpty(txtKodeResep.Text) && !string.IsNullOrEmpty(txtObat.Text) && !string.IsNullOrWhiteSpace(txtObat.Text) &&
+            if (!string.IsNullOrEmpty(txtKodeResep.Text) && !string.IsNullOrEmpty(txtObat.Text) &&
+                !string.IsNullOrWhiteSpace(txtObat.Text) &&
                 !string.IsNullOrEmpty(txtJumlah.Text)
                 && !string.IsNullOrEmpty(txtDosis.Text) && !string.IsNullOrEmpty(txtJumPemakaian.Text)
-                    && cbSatuanDosis.SelectedIndex != 0 && cbAturanPakai.SelectedIndex != 0
+                && cbSatuanDosis.SelectedIndex != 0 && cbAturanPakai.SelectedIndex != 0
                 && cbSediaanObat.SelectedIndex != 0 && cbWaktuPemakaian.SelectedIndex != 0)
             {
                 return true;

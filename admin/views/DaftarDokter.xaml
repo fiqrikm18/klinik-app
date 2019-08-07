@@ -37,18 +37,19 @@
         <StackPanel Grid.Row="3">
             <StackPanel Orientation="Horizontal">
                 <DockPanel Margin="10 0">
-                    <Button x:Name="btnTambahDokter" Width="Auto" Click="BtnTambahDokter_OnClick" Content="Tambah Dokter" />
+                    <Button x:Name="btnTambahDokter" Width="Auto" Click="BtnTambahDokter_OnClick"
+                            Content="Tambah Dokter" />
                     <Button x:Name="btnUbahDokter" Width="Auto" Click="BtnUbahDokter_OnClick" Content="Ubah Dokter" />
                     <Button x:Name="btnHapusDokter" Width="Auto" Click="BtnHapusDokter_OnClick" Content="Hapus Dokter" />
                 </DockPanel>
                 <DockPanel Margin="10 0 0 0">
-                    <Button Content="Print Label" x:Name="btnPrint" Click="btnPrint_Click"/>
+                    <Button Content="Print Label" x:Name="btnPrint" Click="btnPrint_Click" />
                     <Button x:Name="btnCetakKartu" Width="Auto" Click="BtnCetakKartu_OnClick"
-                        Content="Cetak Kartu Staff" />
+                            Content="Cetak Kartu Staff" />
                     <Button x:Name="btnCekKartu" Width="Auto" Click="BtnCekKartu_OnClick"
-                        Content="Cek Data Kartu" />
+                            Content="Cek Data Kartu" />
                     <Button x:Name="btnHapusKartu" Width="Auto" Click="BtnHapusKartu_OnClick"
-                        Content="Hapus Data Kartu" />
+                            Content="Hapus Data Kartu" />
                 </DockPanel>
             </StackPanel>
         </StackPanel>

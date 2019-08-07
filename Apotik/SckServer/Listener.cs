@@ -12,17 +12,9 @@ namespace Apotik.SckServer
     {
         Socket s;
 
-        public bool Listening
-        {
-            get;
-            private set;
-        }
+        public bool Listening { get; private set; }
 
-        public int Port
-        {
-            get;
-            private set;
-        }
+        public int Port { get; private set; }
 
         public Listener(int port)
         {
@@ -32,7 +24,7 @@ namespace Apotik.SckServer
 
         public void Start()
         {
-            if(Listening)
+            if (Listening)
                 return;
 
             s.Bind(new IPEndPoint(0, Port));
@@ -60,7 +52,7 @@ namespace Apotik.SckServer
 
         public void Stop()
         {
-            if(!Listening)
+            if (!Listening)
             {
                 return;
             }
@@ -71,6 +63,7 @@ namespace Apotik.SckServer
         }
 
         public delegate void SocketAcceptedHandler(Socket e);
+
         public event SocketAcceptedHandler SocketAccepted;
     }
 }

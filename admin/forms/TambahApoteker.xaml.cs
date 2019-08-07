@@ -174,7 +174,8 @@ namespace admin.forms
 
                                         if (!string.IsNullOrEmpty(jenis_kelamin))
                                         {
-                                            if (sp.WriteBlock(Msb, BlockJenisKelamin, Util.ToArrayByte16(jenis_kelamin)))
+                                            if (sp.WriteBlock(Msb, BlockJenisKelamin,
+                                                Util.ToArrayByte16(jenis_kelamin)))
                                             {
                                             }
                                             else
@@ -224,7 +225,8 @@ namespace admin.forms
                     }
                     else
                     {
-                        MessageBox.Show("No. telepon harus berupa angkat.", "Peringatan", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        MessageBox.Show("No. telepon harus berupa angkat.", "Peringatan", MessageBoxButton.OK,
+                            MessageBoxImage.Warning);
                     }
                 }
             }

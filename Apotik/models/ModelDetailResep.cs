@@ -9,7 +9,8 @@ namespace Apotik.models
         {
         }
 
-        public ModelDetailResep(string id, string no_resep, string kode_obat, string dosis, string ket, string jumlah, string pemakaian,
+        public ModelDetailResep(string id, string no_resep, string kode_obat, string dosis, string ket, string jumlah,
+            string pemakaian,
             string tgl_buat)
         {
             this.id = id;
@@ -22,7 +23,8 @@ namespace Apotik.models
             this.pemakaian = pemakaian;
         }
 
-        public ModelDetailResep(string id, string no_resep, string kode_obat, string nama_obat, string dosis, string pemakaian,
+        public ModelDetailResep(string id, string no_resep, string kode_obat, string nama_obat, string dosis,
+            string pemakaian,
             string ket, string jumlah, int sub_total, int harga_obat, string tgl_buat)
         {
             this.id = id;

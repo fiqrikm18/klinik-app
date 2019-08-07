@@ -6,7 +6,6 @@ using pendaftaran.DBAccess;
 using pendaftaran.Mifare;
 using pendaftaran.models;
 using pendaftaran.Utils;
-
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -44,7 +43,8 @@ namespace pendaftaran.views
             try
             {
                 sck = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                sck.Connect(Properties.Settings.Default.SocketServerAntrianPoli, Properties.Settings.Default.SocketPortAntriaPoli);
+                sck.Connect(Properties.Settings.Default.SocketServerAntrianPoli,
+                    Properties.Settings.Default.SocketPortAntriaPoli);
             }
             catch (Exception ex)
             {
@@ -77,7 +77,7 @@ namespace pendaftaran.views
             if (!string.IsNullOrWhiteSpace(txtIdPasien.Text) && !string.IsNullOrEmpty(txtIdPasien.Text) &&
                 cbPoliklinik.SelectedIndex != 0)
             {
-                var cbp = (ComboboxPairs)cbPoliklinik.SelectedItem;
+                var cbp = (ComboboxPairs) cbPoliklinik.SelectedItem;
                 var policode = cbp.nama_poliklinik;
                 var norm = txtIdPasien.Text;
                 var no_urut = 0;
@@ -107,7 +107,9 @@ namespace pendaftaran.views
                         {
                             sck.Send(Encoding.ASCII.GetBytes("Update"));
                         }
-                        catch (Exception) { }
+                        catch (Exception)
+                        {
+                        }
 
                         PrintDocument pd = new PrintDocument();
                         PaperSize ps = new PaperSize("", 300, 540);
@@ -148,38 +150,47 @@ namespace pendaftaran.views
             int startX = 50;
             int startY = 55;
             int Offset = 40;
-            graphics.DrawString("SELAMAT DATANG DI", new Font("Courier New", 14), new SolidBrush(Color.Black), startX, startY + Offset);
+            graphics.DrawString("SELAMAT DATANG DI", new Font("Courier New", 14), new SolidBrush(Color.Black), startX,
+                startY + Offset);
             Offset = Offset + 20;
-            graphics.DrawString("KLINIK BUNDA MULYA", new Font("Courier New", 14), new SolidBrush(Color.Black), startX, startY + Offset);
+            graphics.DrawString("KLINIK BUNDA MULYA", new Font("Courier New", 14), new SolidBrush(Color.Black), startX,
+                startY + Offset);
             //Offset = Offset + 20;
             //graphics.DrawString("Jl. Somawinata Ruko Dream Square 7B", new Font("Courier New", 12), new SolidBrush(Color.Black), startX, startY + Offset);
             //Offset = Offset + 20;
             //graphics.DrawString("Tlp. 022-86121090", new Font("Courier New", 12), new SolidBrush(Color.Black), startX, startY + Offset);
             Offset = Offset + 20;
             String underLine = "-------------------------------";
-            graphics.DrawString(underLine, new Font("Courier New", 10), new SolidBrush(Color.Black), startX, startY + Offset);
+            graphics.DrawString(underLine, new Font("Courier New", 10), new SolidBrush(Color.Black), startX,
+                startY + Offset);
 
             Offset = Offset + 20;
-            graphics.DrawString("No. Antrian", new Font("Courier New", 14), new SolidBrush(Color.Black), startX, startY + Offset);
+            graphics.DrawString("No. Antrian", new Font("Courier New", 14), new SolidBrush(Color.Black), startX,
+                startY + Offset);
 
             Offset = Offset + 20;
             //String Source= this.source; 
-            graphics.DrawString(this.no_urut.ToString(), new Font("Courier New", 40, System.Drawing.FontStyle.Bold), new SolidBrush(Color.Black), startX, startY + Offset);
+            graphics.DrawString(this.no_urut.ToString(), new Font("Courier New", 40, System.Drawing.FontStyle.Bold),
+                new SolidBrush(Color.Black), startX, startY + Offset);
 
             Offset = Offset + 20;
             String Grosstotal = "";
 
             Offset = Offset + 30;
             underLine = "-------------------------------";
-            graphics.DrawString(underLine, new Font("Courier New", 10), new SolidBrush(Color.Black), startX, startY + Offset);
+            graphics.DrawString(underLine, new Font("Courier New", 10), new SolidBrush(Color.Black), startX,
+                startY + Offset);
             Offset = Offset + 20;
 
-            graphics.DrawString(Grosstotal, new Font("Courier New", 10), new SolidBrush(Color.Black), startX, startY + Offset);
+            graphics.DrawString(Grosstotal, new Font("Courier New", 10), new SolidBrush(Color.Black), startX,
+                startY + Offset);
             Offset = Offset + 20;
             //String DrawnBy = this.drawnBy;
-            graphics.DrawString("Poliklinik " + this.poli, new Font("Courier New", 12), new SolidBrush(Color.Black), startX, startY + Offset);
+            graphics.DrawString("Poliklinik " + this.poli, new Font("Courier New", 12), new SolidBrush(Color.Black),
+                startX, startY + Offset);
             Offset = Offset + 20;
-            graphics.DrawString(DateTime.Now.ToShortDateString(), new Font("Courier New", 14), new SolidBrush(Color.Black), startX, startY + Offset);
+            graphics.DrawString(DateTime.Now.ToShortDateString(), new Font("Courier New", 14),
+                new SolidBrush(Color.Black), startX, startY + Offset);
         }
 
         private void Checkscan_OnUnchecked(object sender, RoutedEventArgs e)

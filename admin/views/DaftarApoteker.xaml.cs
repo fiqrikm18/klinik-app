@@ -339,9 +339,9 @@ namespace admin.views
         private void btnPrint_Click(object sender, RoutedEventArgs e)
         {
             string id = "";
-            if(dtgDataApoteker.SelectedItems.Count > 0)
+            if (dtgDataApoteker.SelectedItems.Count > 0)
             {
-                foreach(models.MApoteker d in dtgDataApoteker.SelectedItems)
+                foreach (models.MApoteker d in dtgDataApoteker.SelectedItems)
                 {
                     id = d.id_apoteker;
                 }

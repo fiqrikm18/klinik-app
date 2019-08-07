@@ -77,10 +77,17 @@
                         </StackPanel>
 
                         <StackPanel Grid.Row="1">
-                            <Label Content="Diagnosa" />
                             <DockPanel>
-                                <TextBox Width="290" Name="txtKodeDiagnosis" TextChanged="TxtKodeDiagnosis_TextChanged"/>
-                                <Button Content="Coding Diagnosis" Name="btnSrcDiag" Click="BtnSrcDiag_Click" VerticalAlignment="Center" Margin="5" Width="Auto"/>
+                                <Label Content="Diagnosa" Margin="0 0 10 0" VerticalAlignment="Center" />
+                                <CheckBox Content="Input Manual" Name="chkManualInputDiagnosa"
+                                          Checked="ChkManualInputDiagnosa_OnChecked"
+                                          Unchecked="ChkManualInputDiagnosa_OnUnchecked"
+                                          VerticalAlignment="Center" />
+                            </DockPanel>
+                            <DockPanel>
+                                <TextBox Width="290" Name="txtKodeDiagnosis" TextChanged="TxtKodeDiagnosis_TextChanged" />
+                                <Button Content="Coding Diagnosis" Name="btnSrcDiag" Click="BtnSrcDiag_Click"
+                                        VerticalAlignment="Center" Margin="5" Width="Auto" />
                             </DockPanel>
                             <TextBox x:Name="textDiagnosa" GotKeyboardFocus="TextBoxFocus" Height="100"
                                      TextWrapping="Wrap" AcceptsReturn="True" Width="415"
@@ -90,10 +97,17 @@
                         </StackPanel>
 
                         <StackPanel Grid.Row="2">
-                            <Label Content="Tindakan" />
                             <DockPanel>
-                                <TextBox Width="290"  Name="txtKodeTindakan" TextChanged="TxtKodeTindakan_TextChanged"/>
-                                <Button Content="Coding Tindakan" Name="btnSrcTindakan" Click="BtnSrcTindakan_Click" VerticalAlignment="Center" Margin="5" Width="Auto"/>
+                                <Label Content="Tindakan" Margin="0 0 10 0" VerticalAlignment="Center" />
+                                <CheckBox Content="Input Manual" Name="chkManualInputTindakan"
+                                          Checked="ChkManualInputTindakan_OnChecked"
+                                          Unchecked="ChkManualInputTindakan_OnUnchecked"
+                                          VerticalAlignment="Center" />
+                            </DockPanel>
+                            <DockPanel>
+                                <TextBox Width="290" Name="txtKodeTindakan" TextChanged="TxtKodeTindakan_TextChanged" />
+                                <Button Content="Coding Tindakan" Name="btnSrcTindakan" Click="BtnSrcTindakan_Click"
+                                        VerticalAlignment="Center" Margin="5" Width="Auto" />
                             </DockPanel>
                             <TextBox x:Name="textTindakan" GotKeyboardFocus="TextBoxFocus" Height="100"
                                      TextWrapping="Wrap" AcceptsReturn="True" Width="415"
