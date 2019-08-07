@@ -9,6 +9,7 @@ using dokter.Properties;
 using dokter.views;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace dokter.forms
 {
@@ -17,7 +18,6 @@ namespace dokter.forms
     /// </summary>
     public partial class InputRekamMedis : Window
     {
-        //TODO perbaiki cara input rekam medis
         private int _noOfErrorsOnScreen;
         private readonly SqlConnection conn;
         private ModelRekamMedis mrm;
@@ -81,8 +81,17 @@ namespace dokter.forms
             string[] lstDiagnosa = txtKodeDiagnosis.Text.Split(';').ToArray();
            string[] lstTindakan = txtKodeTindakan.Text.Split(';').ToArray();
 
+            var riwayat_penyakit = "";
+            if (txtRiwayat.Text == string.Empty)
+            {
+                riwayat_penyakit = "-";
+            }
+            else
+            {
+                riwayat_penyakit = txtRiwayat.Text;
+            }
+
             var no_rm = txtRekamMedis.Text;
-            var riwayat_penyakit = txtRiwayat.Text;
             var berat_badan = txtBeratBadan.Text;
             var alergi = txtAlergi.Text;
             var keluhan = textKeluhan.Text;
@@ -97,37 +106,51 @@ namespace dokter.forms
 
             if (CheckTextBox())
             {
-                for(int i = 0; i< lstDiagnosa.Length-1; i++)
+                if (!Regex.IsMatch(berat_badan, "^[A-Za-z]+$"))
                 {
-                    diagnosa = lstDiagnosa[i];
-                    for(int j =0; j< lstTindakan.Length-1; j++)
+                    for (int i = 0; i < lstDiagnosa.Length - 1; i++)
                     {
-                        tindakan = lstTindakan[j];
-                        if(cmd.InsertDataRekamMedis(no_rm, riwayat_penyakit, alergi, berat_badan, keluhan, diagnosa, tindakan, id_dokter, kode_poli))
+                        diagnosa = lstDiagnosa[i];
+                        for (int j = 0; j < lstTindakan.Length - 1; j++)
                         {
-                            res = true;
-                        }
-                        else
-                        {
-                            res = false;
-                            break;
+                            if (string.IsNullOrEmpty(alergi))
+                            {
+                                alergi = "-";
+                            }
+
+                            tindakan = lstTindakan[j];
+                            if (cmd.InsertDataRekamMedis(no_rm, riwayat_penyakit, alergi, berat_badan, keluhan, diagnosa, tindakan, id_dokter, kode_poli))
+                            {
+                                res = true;
+                            }
+                            else
+                            {
+                                res = false;
+                                break;
+                            }
                         }
                     }
-                }
 
-                if(res)
-                {
-                    MessageBox.Show("Rekam medis berhasil di tambahkan.", "Informasi", MessageBoxButton.OK,
-                                MessageBoxImage.Information);
-                }else
-                {
-                    MessageBox.Show("Rekam medis gagal di tambahkan.", "Error", MessageBoxButton.OK,
-                                MessageBoxImage.Error);
-                }
+                    if (res)
+                    {
+                        MessageBox.Show("Rekam medis berhasil di tambahkan.", "Informasi", MessageBoxButton.OK,
+                                    MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Rekam medis gagal di tambahkan.", "Error", MessageBoxButton.OK,
+                                    MessageBoxImage.Error);
+                    }
 
-                DataContext = mrm;
-                vmr.DisplayDataPasien(no_rm);
-                Close();
+                    DataContext = mrm;
+                    vmr.DisplayDataPasien(no_rm);
+                    Close();
+                }
+                else
+                {
+                    MessageBox.Show("Berat badan harus berupa angka.", "Perhatian", MessageBoxButton.OK,
+                   MessageBoxImage.Warning);
+                }
             }
             else
             {
@@ -168,6 +191,22 @@ namespace dokter.forms
         {
             txtKodeTindakan.Text = kode;
             textTindakan.Text = desk;
+        }
+
+        private void TxtKodeDiagnosis_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if(txtKodeDiagnosis.Text == string.Empty)
+            {
+                textDiagnosa.Text = string.Empty;
+            }
+        }
+
+        private void TxtKodeTindakan_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if(txtKodeTindakan.Text == string.Empty)
+            {
+                textTindakan.Text = string.Empty;
+            }
         }
     }
 }

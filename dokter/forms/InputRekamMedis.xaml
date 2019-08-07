@@ -41,10 +41,7 @@
 
                         <StackPanel Grid.Row="1">
                             <Label Content="Riwayat Penyakit" />
-                            <TextBox x:Name="txtRiwayat" GotKeyboardFocus="TextBoxFocus"
-                                     Text="{Binding UpdateSourceTrigger=LostFocus,
-                        Path=riwayat_penyakit, NotifyOnSourceUpdated=True,
-                        ValidatesOnDataErrors=True}" />
+                            <TextBox x:Name="txtRiwayat" />
                         </StackPanel>
 
                         <StackPanel Grid.Row="2">
@@ -57,10 +54,7 @@
 
                         <StackPanel Grid.Row="3">
                             <Label Content="Alergi" />
-                            <TextBox x:Name="txtAlergi" GotKeyboardFocus="TextBoxFocus"
-                                     Text="{Binding UpdateSourceTrigger=LostFocus,
-                        Path=alergi, NotifyOnSourceUpdated=True,
-                        ValidatesOnDataErrors=True}" />
+                            <TextBox x:Name="txtAlergi" />
                         </StackPanel>
                     </Grid>
                 </StackPanel>
@@ -85,7 +79,7 @@
                         <StackPanel Grid.Row="1">
                             <Label Content="Diagnosa" />
                             <DockPanel>
-                                <TextBox Width="290" Name="txtKodeDiagnosis"/>
+                                <TextBox Width="290" Name="txtKodeDiagnosis" TextChanged="TxtKodeDiagnosis_TextChanged"/>
                                 <Button Content="Coding Diagnosis" Name="btnSrcDiag" Click="BtnSrcDiag_Click" VerticalAlignment="Center" Margin="5" Width="Auto"/>
                             </DockPanel>
                             <TextBox x:Name="textDiagnosa" GotKeyboardFocus="TextBoxFocus" Height="100"
@@ -98,7 +92,7 @@
                         <StackPanel Grid.Row="2">
                             <Label Content="Tindakan" />
                             <DockPanel>
-                                <TextBox Width="290"  Name="txtKodeTindakan"/>
+                                <TextBox Width="290"  Name="txtKodeTindakan" TextChanged="TxtKodeTindakan_TextChanged"/>
                                 <Button Content="Coding Tindakan" Name="btnSrcTindakan" Click="BtnSrcTindakan_Click" VerticalAlignment="Center" Margin="5" Width="Auto"/>
                             </DockPanel>
                             <TextBox x:Name="textTindakan" GotKeyboardFocus="TextBoxFocus" Height="100"

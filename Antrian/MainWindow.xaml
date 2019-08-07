@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Antrian"
         mc:Ignorable="d"
+        Closed="MainWindow_Closed"
         Title="Antrian Poliklinik" Height="720" Width="1200" Icon="images/BMicon.ico"
         WindowStartupLocation="CenterScreen">
     <Window.Resources>

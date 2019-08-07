@@ -34,11 +34,5 @@
     <Setting Name="SocketPortAntriaPoli" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">13000</Value>
     </Setting>
-    <Setting Name="SocketServerPAntrian" Type="System.String" Scope="User">
-      <Value Profile="(Default)">192.168.1.105</Value>
-    </Setting>
-    <Setting Name="SocketPortPAntrian" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">14000</Value>
-    </Setting>
   </Settings>
 </SettingsFile>

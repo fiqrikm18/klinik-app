@@ -97,18 +97,6 @@ namespace Apotik.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("COM3")]
-        public string SerialPortName {
-            get {
-                return ((string)(this["SerialPortName"]));
-            }
-            set {
-                this["SerialPortName"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("192.168.1.105")]
         public string SocketAntriApotik {
             get {
@@ -128,6 +116,30 @@ namespace Apotik.Properties {
             }
             set {
                 this["PortAntriApotik"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsRemoteConnected {
+            get {
+                return ((bool)(this["IsRemoteConnected"]));
+            }
+            set {
+                this["IsRemoteConnected"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("COM3")]
+        public string SerialPortName {
+            get {
+                return ((string)(this["SerialPortName"]));
+            }
+            set {
+                this["SerialPortName"] = value;
             }
         }
     }

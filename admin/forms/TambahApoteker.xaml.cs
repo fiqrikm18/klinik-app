@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.SqlClient;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -109,114 +110,121 @@ namespace admin.forms
                 }
                 else
                 {
-                    if (cmd.InsertDataApoteker(id, nama, no_telp, alamat, jenis_kelamin, password))
+                    if (!Regex.IsMatch(no_telp, "^[A-Za-z]+$"))
                     {
-                        var isPrinted = false;
+                        if (cmd.InsertDataApoteker(id, nama, no_telp, alamat, jenis_kelamin, password))
+                        {
+                            var isPrinted = false;
 
-                        if (chkCetakKartu.IsChecked == true)
-                            while (!isPrinted)
-                                try
-                                {
-                                    if (!string.IsNullOrEmpty(id))
+                            if (chkCetakKartu.IsChecked == true)
+                                while (!isPrinted)
+                                    try
                                     {
-                                        if (sp.WriteBlock(Msb, BlockId, Util.ToArrayByte16(id)))
+                                        if (!string.IsNullOrEmpty(id))
                                         {
+                                            if (sp.WriteBlock(Msb, BlockId, Util.ToArrayByte16(id)))
+                                            {
+                                            }
+                                            else
+                                            {
+                                                MessageBox.Show("Id gagal ditulis.");
+                                            }
                                         }
-                                        else
+
+                                        if (nama.Length > 48)
+                                            nama = nama.Substring(0, 47);
+
+                                        if (!string.IsNullOrEmpty(nama))
                                         {
-                                            MessageBox.Show("Id gagal ditulis.");
+                                            if (sp.WriteBlockRange(Msb, BlockNamaFrom, BlockNamaTo,
+                                                Util.ToArrayByte48(nama)))
+                                            {
+                                            }
+                                            else
+                                            {
+                                                MessageBox.Show("Nama gagal ditulis.");
+                                            }
                                         }
+
+                                        if (!string.IsNullOrEmpty(no_telp))
+                                        {
+                                            if (sp.WriteBlock(Msb, BlockTelp, Util.ToArrayByte16(no_telp)))
+                                            {
+                                            }
+                                            else
+                                            {
+                                                MessageBox.Show("telp gagal ditulis.");
+                                            }
+                                        }
+
+                                        if (alamat.Length > 64)
+                                            alamat = alamat.Substring(0, 67);
+
+                                        if (!string.IsNullOrEmpty(alamat))
+                                        {
+                                            if (sp.WriteBlockRange(Msb, BlockAlamatFrom, BlockAlamatTo,
+                                                Util.ToArrayByte64(alamat)))
+                                            {
+                                            }
+                                            else
+                                            {
+                                                MessageBox.Show("alamat gagal ditulis.");
+                                            }
+                                        }
+
+                                        if (!string.IsNullOrEmpty(jenis_kelamin))
+                                        {
+                                            if (sp.WriteBlock(Msb, BlockJenisKelamin, Util.ToArrayByte16(jenis_kelamin)))
+                                            {
+                                            }
+                                            else
+                                            {
+                                                MessageBox.Show("Jenis kelamin gagal ditulis.");
+                                            }
+                                        }
+
+                                        if (!string.IsNullOrEmpty(id))
+                                        {
+                                            if (sp.WriteBlockRange(Msb, BlockPasswordFrom, BlockPasswordTo,
+                                                Util.ToArrayByte32(Encryptor.MD5Hash(id))))
+                                            {
+                                            }
+                                            else
+                                            {
+                                                MessageBox.Show("Password gagal ditulis.");
+                                            }
+                                        }
+
+                                        isPrinted = true;
+                                        if (isPrinted) break;
+                                    }
+                                    catch (Exception)
+                                    {
+                                        var ans = MessageBox.Show(
+                                            "Penulisan kartu gagal, pastikan kartu sudah berada pada jangkauan reader.\nApakah anda ingin menulis kartu lain kali?",
+                                            "Error",
+                                            MessageBoxButton.YesNo, MessageBoxImage.Error);
+
+                                        if (ans == MessageBoxResult.Yes)
+                                            break;
+
+                                        sp.isoReaderInit();
                                     }
 
-                                    if (nama.Length > 48)
-                                        nama = nama.Substring(0, 47);
-
-                                    if (!string.IsNullOrEmpty(nama))
-                                    {
-                                        if (sp.WriteBlockRange(Msb, BlockNamaFrom, BlockNamaTo,
-                                            Util.ToArrayByte48(nama)))
-                                        {
-                                        }
-                                        else
-                                        {
-                                            MessageBox.Show("Nama gagal ditulis.");
-                                        }
-                                    }
-
-                                    if (!string.IsNullOrEmpty(no_telp))
-                                    {
-                                        if (sp.WriteBlock(Msb, BlockTelp, Util.ToArrayByte16(no_telp)))
-                                        {
-                                        }
-                                        else
-                                        {
-                                            MessageBox.Show("telp gagal ditulis.");
-                                        }
-                                    }
-
-                                    if (alamat.Length > 64)
-                                        alamat = alamat.Substring(0, 67);
-
-                                    if (!string.IsNullOrEmpty(alamat))
-                                    {
-                                        if (sp.WriteBlockRange(Msb, BlockAlamatFrom, BlockAlamatTo,
-                                            Util.ToArrayByte64(alamat)))
-                                        {
-                                        }
-                                        else
-                                        {
-                                            MessageBox.Show("alamat gagal ditulis.");
-                                        }
-                                    }
-
-                                    if (!string.IsNullOrEmpty(jenis_kelamin))
-                                    {
-                                        if (sp.WriteBlock(Msb, BlockJenisKelamin, Util.ToArrayByte16(jenis_kelamin)))
-                                        {
-                                        }
-                                        else
-                                        {
-                                            MessageBox.Show("Jenis kelamin gagal ditulis.");
-                                        }
-                                    }
-
-                                    if (!string.IsNullOrEmpty(id))
-                                    {
-                                        if (sp.WriteBlockRange(Msb, BlockPasswordFrom, BlockPasswordTo,
-                                            Util.ToArrayByte32(Encryptor.MD5Hash(id))))
-                                        {
-                                        }
-                                        else
-                                        {
-                                            MessageBox.Show("Password gagal ditulis.");
-                                        }
-                                    }
-
-                                    isPrinted = true;
-                                    if (isPrinted) break;
-                                }
-                                catch (Exception)
-                                {
-                                    var ans = MessageBox.Show(
-                                        "Penulisan kartu gagal, pastikan kartu sudah berada pada jangkauan reader.\nApakah anda ingin menulis kartu lain kali?",
-                                        "Error",
-                                        MessageBoxButton.YesNo, MessageBoxImage.Error);
-
-                                    if (ans == MessageBoxResult.Yes)
-                                        break;
-
-                                    sp.isoReaderInit();
-                                }
-
-                        MessageBox.Show("Data apoteker berhasil disimpan.", "Informasi", MessageBoxButton.OK,
-                            MessageBoxImage.Information);
-                        da.displayDataApoteker();
-                        Close();
+                            MessageBox.Show("Data apoteker berhasil disimpan.", "Informasi", MessageBoxButton.OK,
+                                MessageBoxImage.Information);
+                            da.displayDataApoteker();
+                            Close();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Data apoteker gagal disimpan.", "Error", MessageBoxButton.OK,
+                                MessageBoxImage.Error);
+                        }
                     }
                     else
                     {
-                        MessageBox.Show("Data apoteker gagal disimpan.", "Error", MessageBoxButton.OK,
-                            MessageBoxImage.Error);
+                        MessageBox.Show("No. telepon harus berupa angkat.", "Peringatan", MessageBoxButton.OK, MessageBoxImage.Warning);
                     }
                 }
             }

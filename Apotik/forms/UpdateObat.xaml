@@ -13,7 +13,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
-            <TextBlock FontSize="16" FontWeight="Bold" Text="Tambah Data Obat" Foreground="#555555" />
+            <TextBlock FontSize="16" FontWeight="Bold" Text="Update Data Obat" Foreground="#555555" />
         </StackPanel>
 
         <Grid Grid.Row="1">

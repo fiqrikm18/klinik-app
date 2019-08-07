@@ -15,7 +15,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <TextBox Name="txtSrc" Grid.Row="0" Width="250" Text="Kode ICD/Prosedur Tindakan" HorizontalAlignment="Left" Margin="10" TextChanged="TxtSrc_TextChanged" GotKeyboardFocus="TxtSrc_GotKeyboardFocus"/>
-        <DataGrid Height="350" Grid.Row="1" Margin="10" Name="dtgTindakan" AutoGenerateColumns="False" SelectedCellsChanged="DtgTindakan_SelectedCellsChanged">
+        <DataGrid Height="350" Grid.Row="1" Margin="10" Name="dtgTindakan" AutoGenerateColumns="False" SelectedCellsChanged="DtgTindakan_SelectedCellsChanged" SelectionMode="Single">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding kode}" Header="Kode ICD"/>
                 <DataGridTextColumn Binding="{Binding desk}" Header="Deskripsi/Tindakan"/>

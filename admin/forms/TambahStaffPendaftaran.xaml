@@ -19,7 +19,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
-            <TextBlock Text="Tambah Data Staff Pendaftaran" FontSize="16" FontWeight="Bold" Foreground="#555555" />
+            <TextBlock Text="Tambah Data Petugas Pendaftaran" FontSize="16" FontWeight="Bold" Foreground="#555555" />
         </StackPanel>
 
         <StackPanel Grid.Row="1">
@@ -37,7 +37,7 @@
                 </Grid.RowDefinitions>
 
                 <StackPanel Grid.Row="0" Grid.Column="0">
-                    <Label Content="ID Staff Pendaftaran" />
+                    <Label Content="ID Petugas Pendaftaran" />
                     <TextBox x:Name="txtidDokter"
                              Validation.Error="Validation_Error"
                              Text="{Binding UpdateSourceTrigger=LostFocus,
@@ -98,7 +98,7 @@
             <Button Content="Simpan" Command="New" />
             <Button Content="Print Label" x:Name="btnPrint" Click="btnPrint_Click" />
             <Button Content="Batal" x:Name="btnBatal" Click="BtnBatal_OnClick" />
-            <CheckBox Content="Buat kartu staff" x:Name="chkCetakKartu" VerticalAlignment="Center" IsChecked="True" />
+            <CheckBox Content="Buat kartu petugas pendaftaran" x:Name="chkCetakKartu" VerticalAlignment="Center" IsChecked="True" />
         </StackPanel>
     </Grid>
 </Window>

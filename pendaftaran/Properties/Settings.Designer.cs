@@ -12,7 +12,7 @@ namespace pendaftaran.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "14.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.9.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -127,30 +127,6 @@ namespace pendaftaran.Properties {
             }
             set {
                 this["SocketPortAntriaPoli"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("192.168.1.105")]
-        public string SocketServerPAntrian {
-            get {
-                return ((string)(this["SocketServerPAntrian"]));
-            }
-            set {
-                this["SocketServerPAntrian"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("14000")]
-        public int SocketPortPAntrian {
-            get {
-                return ((int)(this["SocketPortPAntrian"]));
-            }
-            set {
-                this["SocketPortPAntrian"] = value;
             }
         }
     }

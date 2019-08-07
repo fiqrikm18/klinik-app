@@ -189,58 +189,65 @@ namespace dokter.forms
                 lastNoResep += 1;
             }
 
-            if (!cmd.IsDataNomorResepExist(no_rm, kode_resep))
+            if (dgListObat.Items.Count > 0)
             {
-                if (cmd.InsertDataResep(kode_resep, no_rm, lastNoResep.ToString(), kode_dokter))
+                if (!cmd.IsDataNomorResepExist(no_rm, kode_resep))
                 {
-                    bool res = false;
-                    foreach (ModelDetailResep dr in dgListObat.ItemsSource)
+                    if (cmd.InsertDataResep(kode_resep, no_rm, lastNoResep.ToString(), kode_dokter))
                     {
-                        kode_obat = dr.kode_obat;
-                        jumlah = dr.jumlah;
-                        ket = dr.ket;
-                        dosis = dr.dosis;
-                        pemakaian = dr.pemakaian;
-
-                        if (cmd.InsertDetailResep(kode_resep, kode_obat, int.Parse(jumlah), ket, dosis, pemakaian))
+                        bool res = false;
+                        foreach (ModelDetailResep dr in dgListObat.ItemsSource)
                         {
-                            res = true;
-                        }
-                    }
+                            kode_obat = dr.kode_obat;
+                            jumlah = dr.jumlah;
+                            ket = dr.ket;
+                            dosis = dr.dosis;
+                            pemakaian = dr.pemakaian;
 
-                    if (res)
-                    {
-                        int no_urut = cmd.GetLastNoUrutApotik();
-
-                        if (no_urut == 0)
-                        {
-                            no_urut = 1;
-                        }
-                        else
-                        {
-                            no_urut += 1;
+                            if (cmd.InsertDetailResep(kode_resep, kode_obat, int.Parse(jumlah), ket, dosis, pemakaian))
+                            {
+                                res = true;
+                            }
                         }
 
-                        if (cmd.InsertAntrianApotik(no_rm, kode_resep, no_urut.ToString(), "Antri"))
+                        if (res)
                         {
-                            MessageBox.Show("Resep berhasil dibuat. Silahkan ambil resep diapotik.", "Informasi",
-                                MessageBoxButton.OK, MessageBoxImage.Information);
-                            Close();
+                            int no_urut = cmd.GetLastNoUrutApotik();
+
+                            if (no_urut == 0)
+                            {
+                                no_urut = 1;
+                            }
+                            else
+                            {
+                                no_urut += 1;
+                            }
+
+                            if (cmd.InsertAntrianApotik(no_rm, kode_resep, no_urut.ToString(), "Antri"))
+                            {
+                                MessageBox.Show("Resep berhasil dibuat. Silahkan ambil resep diapotik.", "Informasi",
+                                    MessageBoxButton.OK, MessageBoxImage.Information);
+                                Close();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Resep gagal dibuat.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            }
                         }
                         else
                         {
                             MessageBox.Show("Resep gagal dibuat.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                         }
                     }
-                    else
-                    {
-                        MessageBox.Show("Resep gagal dibuat.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
+                }
+                else
+                {
+                    MessageBox.Show("Kode resep sudah terdaftar.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             else
             {
-                MessageBox.Show("Kode resep sudah terdaftar.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Tidak ada list obat dalam resep", "Perhatian", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -299,7 +306,7 @@ namespace dokter.forms
 
         private bool CheckTextBoxEmpty()
         {
-            if (!string.IsNullOrEmpty(txtKodeResep.Text) && !string.IsNullOrEmpty(txtObat.Text) &&
+            if (!string.IsNullOrEmpty(txtKodeResep.Text) && !string.IsNullOrEmpty(txtObat.Text) && !string.IsNullOrWhiteSpace(txtObat.Text) &&
                 !string.IsNullOrEmpty(txtJumlah.Text)
                 && !string.IsNullOrEmpty(txtDosis.Text) && !string.IsNullOrEmpty(txtJumPemakaian.Text)
                     && cbSatuanDosis.SelectedIndex != 0 && cbAturanPakai.SelectedIndex != 0

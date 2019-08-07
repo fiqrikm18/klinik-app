@@ -1,13 +1,15 @@
-﻿using System;
-using System.ComponentModel;
-using System.Windows;
-using dokter.DBAccess;
+﻿using dokter.DBAccess;
 using dokter.Properties;
 using dokter.views;
+using System;
+using System.ComponentModel;
+using System.Configuration;
+using System.Diagnostics;
 using System.IO.Ports;
 using System.Net.Sockets;
-using System.Data.SqlClient;
 using System.Text;
+using System.Windows;
+using SimpleTCP;
 
 namespace dokter
 {
@@ -16,16 +18,17 @@ namespace dokter
     /// </summary>
     public partial class MainWindow : Window
     {
-        //TODO buat fungsi untuk remote control
-        SerialPort sp;
-        Socket sck;
-        Socket sck2;
-        DBCommand cmd;
+        private SerialPort sp;
+
+        //private Socket sck;
+        //private Socket sck2;
+        SimpleTcpClient clientAntrianPoli;
+        private DBCommand cmd;
 
         public MainWindow()
         {
             InitializeComponent();
-            var role = Settings.Default.Role;
+            string role = Settings.Default.Role;
             lblHeader.Content = "Poli " + role;
 
             cmd = new DBCommand(DBConnection.dbConnection());
@@ -33,29 +36,62 @@ namespace dokter
 
             try
             {
-                sck = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                sck.Connect(Settings.Default.SocketServerAntri, Settings.Default.SocketPortAntri);
+                //sck = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                //sck.Connect(Settings.Default.SocketServerAntri, Settings.Default.SocketPortAntri);
+                clientAntrianPoli = new SimpleTcpClient();
+                clientAntrianPoli.StringEncoder = Encoding.UTF8;
+                clientAntrianPoli.DataReceived += ClientAntrianPoli_DataReceived;
+                clientAntrianPoli.Connect(Settings.Default.SocketServerAntri, Settings.Default.SocketPortAntri);
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
 
-                sck2 = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                sck2.Connect(Settings.Default.ScoketServerApotik, Settings.Default.SockertPortApotik);
-
+            try
+            {
                 sp.DataReceived += Sp_DataReceived;
                 sp.ErrorReceived += Sp_ErrorReceived;
                 sp.Open();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show(ex.Message);
                 InitSerialPort();
             }
 
-            var userPrefs = new UserPreferences();
+            UserPreferences userPrefs = new UserPreferences();
 
             Height = userPrefs.WindowHeight;
             Width = userPrefs.WindowWidth;
             Top = userPrefs.WindowTop;
             Left = userPrefs.WindowLeft;
             WindowState = userPrefs.WindowState;
+        }
+
+        private void ClientAntrianPoli_DataReceived(object sender, Message e)
+        {
+            //throw new NotImplementedException();
+            Dispatcher.Invoke(() =>
+            {
+                var a = e.MessageString.Replace("\u0013", "");
+                Debug.WriteLine(a);
+                if (a == "Connected")
+                {
+                    Settings.Default.IsRemoteConnected = true;
+                    if (Settings.Default.IsRemoteConnected)
+                    {
+                        MessageBox.Show("Connection successfull");
+                    }
+                }
+                else if (a == "Disconnected")
+                {
+                    Settings.Default.IsRemoteConnected = false;
+                    if (!Settings.Default.IsRemoteConnected)
+                    {
+                        MessageBox.Show("Disconnecting successfull");
+                    }
+                }
+            });
         }
 
         private void InitSerialPort()
@@ -74,23 +110,91 @@ namespace dokter
 
         private void Sp_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            //throw new NotImplementedException();
+            //Debug.Write(sp.ReadLine());
             Dispatcher.Invoke(() =>
             {
-                var a = sp.ReadLine().Replace("\r", "");
-                if (a == "Update")
+                string a = sp.ReadLine().Replace("\r", "");
+                //sck.Send(Encoding.ASCII.GetBytes(a));
+                Debug.WriteLine(a);
+                if (Settings.Default.IsRemoteConnected)
                 {
-                    if(cmd.UpdateAntrian())
+                    if (int.TryParse(a, out int v))
                     {
-                        sck.Send(Encoding.ASCII.GetBytes("Update"));
+                        Debug.WriteLine(a);
+                        clientAntrianPoli.WriteLineAndGetReply(a, TimeSpan.FromSeconds(0));
+                    }
+
+                    if (a == ">>|")
+                    {
+                        if (cmd.UpdateAntrian())
+                        {
+                            try
+                            {
+                                Debug.WriteLine(a);
+                                clientAntrianPoli.WriteLine("Update");
+                            }
+                            catch (Exception)
+                            {
+                                // ignored
+                            }
+                        }
+                    }
+                    else if (a == "|<<")
+                    {
+                        //Debug.WriteLine(a);
+                        if (cmd.UpdateAntrianPrev())
+                        {
+                            try
+                            {
+                                Debug.WriteLine(a);
+                                clientAntrianPoli.WriteLine("Update");
+                            }
+                            catch (Exception)
+                            {
+                                // ignored
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    int v;
+                    if (int.TryParse(a, out v))
+                    {
+                        if (v == int.Parse(cmd.GetKodePoli()))
+                        {
+                            Debug.WriteLine(v);
+                            //sck.Send(Encoding.ASCII.GetBytes(a));
+                            try
+                            {
+                                clientAntrianPoli.WriteLineAndGetReply(v.ToString(), TimeSpan.FromSeconds(0));
+                            }
+                            catch (Exception)
+                            {
+                                // ignored
+                            }
+                        }
                     }
                 }
             });
         }
 
+        //private bool SocketConnected(Socket s)
+        //{
+        //    bool a = sck.Poll(1000, SelectMode.SelectRead);
+        //    bool b = (s.Available == 0);
+
+        //    if (a && b)
+        //    {
+        //        return false;
+        //    }
+
+        //    return true;
+        //}
+
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-            var userPrefs = new UserPreferences
+            UserPreferences userPrefs = new UserPreferences
             {
                 WindowHeight = Height,
                 WindowWidth = Width,
@@ -98,7 +202,7 @@ namespace dokter
                 WindowLeft = Left,
                 WindowState = WindowState
             };
-
+            Settings.Default.IsRemoteConnected = false;
             userPrefs.Save();
         }
 
@@ -122,7 +226,7 @@ namespace dokter
             Dispatcher.Invoke(() =>
             {
                 Settings.Default.KodeDokter = null;
-                var lg = new Login();
+                Login lg = new Login();
                 lg.Show();
                 Close();
                 GC.SuppressFinalize(this);

@@ -25,7 +25,7 @@ namespace Antrian.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Umum")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Gigi")]
         public string poliklinik {
             get {
                 return ((string)(this["poliklinik"]));
@@ -37,7 +37,19 @@ namespace Antrian.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Apotik")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsRemoteConnected {
+            get {
+                return ((bool)(this["IsRemoteConnected"]));
+            }
+            set {
+                this["IsRemoteConnected"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Poliklinik")]
         public string antrian {
             get {
                 return ((string)(this["antrian"]));

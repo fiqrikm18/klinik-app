@@ -16,7 +16,6 @@ namespace pendaftaran
     {
         //static MySqlConnection MsqlConn = null;
         private readonly SmartCardOperation sp;
-        Socket sck;
 
         public MainWindow()
         {
@@ -33,25 +32,6 @@ namespace pendaftaran
             Top = userPrefs.WindowTop;
             Left = userPrefs.WindowLeft;
             WindowState = userPrefs.WindowState;
-
-            if (sp.IsReaderAvailable())
-            {
-            }
-            else
-            {
-                MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-
-            try
-            {
-                sck = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                sck.Connect("192.168.1.105", 13000);
-            }
-            catch (Exception ex)
-            {
-                //MessageBox.Show("Apliasi antrian tidak aktif, pastikan aplikasi antrian aktif.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)

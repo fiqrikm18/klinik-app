@@ -62,8 +62,9 @@ namespace dokter.DBAccess
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("select count(*) from tb_dokter where id=@id and password=@pass", conn);
+                SqlCommand cmd = new SqlCommand("select count(*) from tb_dokter where id=@id and password=@pass and tugas=@tugas", conn);
                 cmd.Parameters.AddWithValue("id", id);
+                cmd.Parameters.AddWithValue("tugas", GetKodePoli());
                 cmd.Parameters.AddWithValue("pass", pass);
 
                 if (int.Parse(cmd.ExecuteScalar().ToString()) > 0)
@@ -429,9 +430,13 @@ namespace dokter.DBAccess
             try
             {
                 //SqlCommand cmd = new SqlCommand("select tb_rekam_medis.*, tb_pasien.nama as nama_pasien, tb_dokter.nama as nama_dokter, tb_poliklinik.nama_poli as nama_poli from tb_rekam_medis left join tb_dokter on tb_rekam_medis.id_dokter = tb_dokter.id left join tb_poliklinik on tb_rekam_medis.poli = tb_poliklinik.kode_poli left join tb_pasien on tb_pasien.no_rekam_medis = tb_rekam_medis.no_rm", conn);
-                SqlCommand cmd = new SqlCommand(
-                    "select distinct a.no_rm, a.riwayat_penyakit, a.berat_badan, a.keluhan, a.alergi, STUFF((select distinct ';' + td.deskripsi +'('+td.kode+')' from tb_rekam_medis left join tb_diagnosis td on tb_rekam_medis.diagnosa = td.kode where tgl_pemeriksaan = a.tgl_pemeriksaan FOR XML PATH ('')), 1, 1, '') as diagnosa, stuff((select distinct ';' + tt.deskripsi+'('+tt.kode+')' from tb_rekam_medis a left join tb_tindakan tt on a.tindakan = tt.kode where tgl_pemeriksaan = a.tgl_pemeriksaan FOR XML PATH ('')), 1, 1, '') as tindakan, a.id_dokter, b.nama as nama_dokter, a.poli, c.nama_poli as nama_poli, a.tgl_pemeriksaan from tb_rekam_medis a left join tb_dokter b on a.id_dokter = b.id left join tb_poliklinik c on c.kode_poli = a.poli",
-                    conn);
+                //SqlCommand cmd = new SqlCommand(
+                //    "select distinct a.no_rm, a.riwayat_penyakit, a.berat_badan, a.keluhan, a.alergi, STUFF((select distinct ';' + td.deskripsi +'('+td.kode+')' from tb_rekam_medis left join tb_diagnosis td on tb_rekam_medis.diagnosa = td.kode where tgl_pemeriksaan = a.tgl_pemeriksaan FOR XML PATH ('')), 1, 1, '') as diagnosa, stuff((select distinct ';' + tt.deskripsi+'('+tt.kode+')' from tb_rekam_medis a left join tb_tindakan tt on a.tindakan = tt.kode where tgl_pemeriksaan = a.tgl_pemeriksaan FOR XML PATH ('')), 1, 1, '') as tindakan, a.id_dokter, b.nama as nama_dokter, a.poli, c.nama_poli as nama_poli, a.tgl_pemeriksaan from tb_rekam_medis a left join tb_dokter b on a.id_dokter = b.id left join tb_poliklinik c on c.kode_poli = a.poli",
+                //    conn);
+
+                SqlCommand cmd = new SqlCommand("[getDataRekamMedis]", conn);
+                cmd.Parameters.AddWithValue("no_rm", no_rm);
+                cmd.CommandType = CommandType.StoredProcedure;
 
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
@@ -465,7 +470,7 @@ namespace dokter.DBAccess
                 OpenConnection();
                 SqlCommand command =
                     new SqlCommand(
-                        "SELECT TOP 1 no_rm FROM tb_antrian WHERE tgl_berobat = CONVERT(date, GETDATE(), 111) AND poliklinik=@poliklinik AND status='Panggil' ORDER BY no_urut ASC",
+                        "SELECT TOP 1 no_rm FROM tb_antrian WHERE tgl_berobat = CONVERT(date, GETDATE(), 111) AND poliklinik=@poliklinik AND status='Panggil' ORDER BY no_urut DESC",
                         conn);
 
                 //var command =
@@ -729,7 +734,13 @@ namespace dokter.DBAccess
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("select top 1 no_urut from tb_antrian where tgl_berobat=CONVERT(date, getdate(), 111) and poliklinik='001' and status='Antri' and tujuan_antrian='Poliklinik' order by 1 asc", conn);
+                SqlCommand cmd = new SqlCommand("select top 1 no_urut from tb_antrian where tgl_berobat=CONVERT(date, getdate(), 111) and poliklinik=@poli and status='Antri' and tujuan_antrian='Poliklinik' order by 1 asc", conn);
+                cmd.Parameters.AddWithValue("poli", GetKodePoli());
+
+                if (conn.State.Equals(ConnectionState.Closed))
+                {
+                    OpenConnection();
+                }
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -749,14 +760,75 @@ namespace dokter.DBAccess
             return res;
         }
 
+        public int LastAntrianPrev()
+        {
+            int res = 0;
+            try
+            {
+                OpenConnection();
+                SqlCommand cmd = new SqlCommand("select top 1 no_urut from tb_antrian where tgl_berobat=CONVERT(date, getdate(), 111) and poliklinik=@poli and status='Panggil' and tujuan_antrian='Poliklinik' order by 1 desc", conn);
+                cmd.Parameters.AddWithValue("poli", GetKodePoli());
+
+                if (conn.State.Equals(ConnectionState.Closed))
+                {
+                    OpenConnection();
+                }
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        res = reader.GetInt32(0);
+                    }
+                }
+
+                CloseConnection();
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return res;
+        }
+
+        public bool UpdateAntrianPrev()
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("update tb_antrian set status='Antri' where no_urut=@no_urut and poliklinik=@poli and tujuan_antrian='Poliklinik' and status='Panggil' and tgl_berobat=convert(date, getdate(), 111)", conn);
+                cmd.Parameters.AddWithValue("no_urut", LastAntrianPrev());
+                cmd.Parameters.AddWithValue("poli", GetKodePoli());
+
+                if (conn.State.Equals(ConnectionState.Closed))
+                {
+                    OpenConnection();
+                }
+
+                if (cmd.ExecuteNonQuery() == 1)
+                {
+                    return true;
+                }
+
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return false;
+        }
+
         public bool UpdateAntrian()
         {
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("update tb_antrian set status='Panggil' where no_urut=@no_urut and tujuan_antrian='Poliklinik' and tgl_berobat=convert(date, getdate(), 111)", conn);
+                SqlCommand cmd = new SqlCommand("update tb_antrian set status='Panggil' where no_urut=@no_urut and poliklinik=@poli and tujuan_antrian='Poliklinik' and tgl_berobat=convert(date, getdate(), 111)", conn);
                 cmd.Parameters.AddWithValue("no_urut", LastAntrian());
-                if(conn.State.Equals(System.Data.ConnectionState.Closed))
+                cmd.Parameters.AddWithValue("poli", GetKodePoli());
+                if (conn.State.Equals(System.Data.ConnectionState.Closed))
                 {
                     OpenConnection();
                 }
@@ -783,7 +855,7 @@ namespace dokter.DBAccess
             {
                 OpenConnection();
                 SqlCommand cmd = new SqlCommand(
-                    "select top 1 no_urut from tb_antrian where status='Panggil' and tgl_berobat=CONVERT(date, GETDATE(), 111) order by 1 asc",
+                    "select top 1 no_urut from tb_antrian where status='Panggil' and tgl_berobat=CONVERT(date, GETDATE(), 111) order by 1 desc",
                     conn);
 
                 using (SqlDataReader reader = cmd.ExecuteReader())
@@ -810,9 +882,10 @@ namespace dokter.DBAccess
             {
                 OpenConnection();
                 SqlCommand cmd = new SqlCommand(
-                    "update tb_antrian set status='Selesai' where no_rm=@no_rm and no_urut=@no_urut and tujuan_antrian='Poliklinik' and tgl_berobat=convert(date, getdate(), 111)",
+                    "update tb_antrian set status='Selesai' where no_rm=@no_rm and poliklinik=@poli and no_urut=@no_urut and tujuan_antrian='Poliklinik' and tgl_berobat=convert(date, getdate(), 111)",
                     conn);
                 cmd.Parameters.AddWithValue("no_rm", no_rm);
+                cmd.Parameters.AddWithValue("poli", GetKodePoli());
                 cmd.Parameters.AddWithValue("no_urut", GetLastAntrianPoli());
                 CloseConnection();
                 OpenConnection();

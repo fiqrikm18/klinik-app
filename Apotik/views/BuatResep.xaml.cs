@@ -9,6 +9,7 @@ using Apotik.DBAccess;
 using Apotik.mifare;
 using Apotik.models;
 using Apotik.Utils;
+using SimpleTCP;
 
 namespace Apotik.views
 {
@@ -23,6 +24,7 @@ namespace Apotik.views
         private string kode_resep;
 
         private readonly SmartCardOperation sp;
+        SimpleTcpClient clientApotik;
 
         public BuatResep()
         {
@@ -35,6 +37,19 @@ namespace Apotik.views
             lbApoteker.Content += "\t" + apoteker.nama;
 
             //MessageBox.Show(cmd.GetKodeResepByRm("RM00"));
+
+            try
+            {
+                clientApotik = new SimpleTcpClient();
+                clientApotik.Connect(Properties.Settings.Default.SocketAntriApotik, Properties.Settings.Default.PortAntriApotik);
+                clientApotik.DataReceived += ClientApotik_DataReceived;
+            }
+            catch (Exception) { }
+        }
+
+        private void ClientApotik_DataReceived(object sender, Message e)
+        {
+            //throw new NotImplementedException();
         }
 
         public BuatResep(string kode_resep)
@@ -111,6 +126,12 @@ namespace Apotik.views
             {
                 if (cmd.UpdateStatusAntrianApotik(kode_resep))
                 {
+                    try
+                    {
+                        clientApotik.WriteLine("Update");
+                    }
+                    catch (Exception)
+                    { }
                     ClearData();
                 }
             }

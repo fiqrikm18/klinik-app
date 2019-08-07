@@ -20,14 +20,17 @@
     <Setting Name="KodeApoteker" Type="System.String" Scope="User">
       <Value Profile="(Default)">AP001</Value>
     </Setting>
-    <Setting Name="SerialPortName" Type="System.String" Scope="User">
-      <Value Profile="(Default)">COM3</Value>
-    </Setting>
     <Setting Name="SocketAntriApotik" Type="System.String" Scope="User">
       <Value Profile="(Default)">192.168.1.105</Value>
     </Setting>
     <Setting Name="PortAntriApotik" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">14000</Value>
+    </Setting>
+    <Setting Name="IsRemoteConnected" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="SerialPortName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">COM3</Value>
     </Setting>
   </Settings>
 </SettingsFile>

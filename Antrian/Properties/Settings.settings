@@ -3,7 +3,10 @@
   <Profiles />
   <Settings>
     <Setting Name="poliklinik" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Umum</Value>
+      <Value Profile="(Default)">Gigi</Value>
+    </Setting>
+    <Setting Name="IsRemoteConnected" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="antrian" Type="System.String" Scope="User">
       <Value Profile="(Default)">Apotik</Value>

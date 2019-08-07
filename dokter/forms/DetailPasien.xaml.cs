@@ -53,7 +53,7 @@ namespace dokter.forms
 
         private void DisplayDataRekamMedis(string no_rn = null)
         {
-            var rekamMedis = cmd.GetAllDataRekamMedisFrom();
+            var rekamMedis = cmd.GetAllDataRekamMedisFrom(no_rn);
 
             if (no_rn != null)
             {

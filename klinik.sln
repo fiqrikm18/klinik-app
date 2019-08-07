@@ -18,17 +18,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "admin", "admin\admin.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dokter", "dokter\dokter.csproj", "{CB9532CA-5CB3-40AD-9ED2-DD138129FE5C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionTest", "FunctionTest\FunctionTest.csproj", "{9B85CA56-3007-4525-A1E0-8C50B9C589A8}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Antrian", "Antrian\Antrian.csproj", "{14B87D15-D2AF-47ED-B2B9-9BCF195769AA}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ui design", "ui design\ui design.csproj", "{9DCC0493-D3A9-4CB9-95E8-F67B56DFAFCD}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PanggilAntrianPoli", "PanggilAntrianPoli\PanggilAntrianPoli.csproj", "{46A59C8C-2B25-4E7E-8F7E-BEBF0A37A113}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardWriter", "CardWriter\CardWriter.csproj", "{0A83E0D1-EF0E-4BE2-9229-03D1BF59B4E7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PanggilAntrianApotik", "PanggilAntrianApotik\PanggilAntrianApotik.csproj", "{3B4D0808-F004-4718-9522-907E1DE6CCE7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -52,30 +42,10 @@ Global
 		{CB9532CA-5CB3-40AD-9ED2-DD138129FE5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB9532CA-5CB3-40AD-9ED2-DD138129FE5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CB9532CA-5CB3-40AD-9ED2-DD138129FE5C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9B85CA56-3007-4525-A1E0-8C50B9C589A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9B85CA56-3007-4525-A1E0-8C50B9C589A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9B85CA56-3007-4525-A1E0-8C50B9C589A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9B85CA56-3007-4525-A1E0-8C50B9C589A8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{14B87D15-D2AF-47ED-B2B9-9BCF195769AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{14B87D15-D2AF-47ED-B2B9-9BCF195769AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14B87D15-D2AF-47ED-B2B9-9BCF195769AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14B87D15-D2AF-47ED-B2B9-9BCF195769AA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9DCC0493-D3A9-4CB9-95E8-F67B56DFAFCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9DCC0493-D3A9-4CB9-95E8-F67B56DFAFCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9DCC0493-D3A9-4CB9-95E8-F67B56DFAFCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9DCC0493-D3A9-4CB9-95E8-F67B56DFAFCD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{46A59C8C-2B25-4E7E-8F7E-BEBF0A37A113}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{46A59C8C-2B25-4E7E-8F7E-BEBF0A37A113}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{46A59C8C-2B25-4E7E-8F7E-BEBF0A37A113}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{46A59C8C-2B25-4E7E-8F7E-BEBF0A37A113}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0A83E0D1-EF0E-4BE2-9229-03D1BF59B4E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0A83E0D1-EF0E-4BE2-9229-03D1BF59B4E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0A83E0D1-EF0E-4BE2-9229-03D1BF59B4E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0A83E0D1-EF0E-4BE2-9229-03D1BF59B4E7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3B4D0808-F004-4718-9522-907E1DE6CCE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3B4D0808-F004-4718-9522-907E1DE6CCE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3B4D0808-F004-4718-9522-907E1DE6CCE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3B4D0808-F004-4718-9522-907E1DE6CCE7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

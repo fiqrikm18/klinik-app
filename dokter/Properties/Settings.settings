@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="Role" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Umum</Value>
+      <Value Profile="(Default)">Gigi</Value>
     </Setting>
     <Setting Name="WindowState" Type="System.Windows.WindowState" Scope="User">
       <Value Profile="(Default)">Normal</Value>
@@ -53,6 +53,12 @@
     </Setting>
     <Setting Name="SerialName" Type="System.String" Scope="User">
       <Value Profile="(Default)">COM3</Value>
+    </Setting>
+    <Setting Name="IsRemoteConnected" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="setupAnrian" Type="System.String" Scope="User">
+      <Value Profile="(Default)">3o1</Value>
     </Setting>
   </Settings>
 </SettingsFile>

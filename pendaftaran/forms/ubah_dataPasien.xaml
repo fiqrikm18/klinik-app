@@ -9,7 +9,7 @@
         Icon="/pendaftaran;component/images/BMicon.ico">
     <Grid Style="{StaticResource OpenSans}" Margin="20">
         <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0">
-            <Label FontSize="16" FontWeight="Bold" Foreground="#555555">Perbarui Data Pasien</Label>
+            <Label FontSize="16" FontWeight="Bold" Foreground="#555555">Ubah Data Pasien</Label>
             <Grid>
                 <Grid.CommandBindings>
                     <CommandBinding Command="New" CanExecute="AddPasien_CanExecute" Executed="AddPasien_Executed" />

@@ -1,11 +1,11 @@
 ﻿using Apotik.DBAccess;
 using Apotik.views;
+using SimpleTCP;
 using System;
 using System.ComponentModel;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.IO.Ports;
-using System.Net.Sockets;
-using System.Text;
 using System.Windows;
 
 namespace Apotik
@@ -18,10 +18,12 @@ namespace Apotik
     public partial class MainWindow : Window
     {
         private SerialPort sp;
-        Socket sck;
+        private SimpleTcpClient clientApotik;
 
-        SqlConnection conn;
-        DBCommand cmd;
+        //Socket sck;
+
+        private SqlConnection conn;
+        private DBCommand cmd;
 
         public MainWindow()
         {
@@ -37,14 +39,25 @@ namespace Apotik
                 sp.DataReceived += Sp_DataReceived;
                 sp.ErrorReceived += Sp_ErrorReceived;
                 sp.Open();
-
-                sck = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                sck.Connect(Properties.Settings.Default.SocketAntriApotik, Properties.Settings.Default.PortAntriApotik);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
                 InitSerialPort();
+            }
+
+            try
+            {
+                //sck = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                //sck.Connect(Properties.Settings.Default.SocketAntriApotik, Properties.Settings.Default.PortAntriApotik);
+                clientApotik = new SimpleTcpClient();
+                clientApotik.Connect(Properties.Settings.Default.SocketAntriApotik, Properties.Settings.Default.PortAntriApotik);
+                clientApotik.DataReceived += ClientApotik_DataReceived;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                //InitSerialPort();
             }
 
             Height = userPrefs.WindowHeight;
@@ -54,6 +67,33 @@ namespace Apotik
             WindowState = userPrefs.WindowState;
         }
 
+        private void ClientApotik_DataReceived(object sender, Message e)
+        {
+            //throw new NotImplementedException();
+            //Debug.WriteLine(e.MessageString);
+            var a = e.MessageString.Replace("\u0013", "");
+            if (a == "Connected")
+            {
+                Debug.WriteLine(a);
+                Properties.Settings.Default.IsRemoteConnected = true;
+                if (Properties.Settings.Default.IsRemoteConnected)
+                {
+                    MessageBox.Show("Connection Successful");
+                    Debug.WriteLine(Properties.Settings.Default.IsRemoteConnected);
+                }
+            }
+            else if (a == "Disconnected")
+            {
+                Debug.WriteLine(a);
+                Properties.Settings.Default.IsRemoteConnected = false;
+                if (!Properties.Settings.Default.IsRemoteConnected)
+                {
+                    MessageBox.Show("Disconnecting Successful");
+                    Debug.WriteLine(Properties.Settings.Default.IsRemoteConnected);
+                }
+            }
+        }
+
         private void Sp_ErrorReceived(object sender, SerialErrorReceivedEventArgs e)
         {
             //throw new NotImplementedException();
@@ -61,17 +101,56 @@ namespace Apotik
 
         private void Sp_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
+            Debug.WriteLine(sp.ReadLine().Replace("\r", ""));
             //throw new NotImplementedException();
             Dispatcher.Invoke(() =>
             {
-                var a = sp.ReadLine().Replace("\r", "");
-                if (a == "Update")
+                //Debug.WriteLine(sp.ReadLine());
+                string a = sp.ReadLine().Replace("\r", "");
+                //Debug.WriteLine(Properties.Settings.Default.IsRemoteConnected);
+                if (!Properties.Settings.Default.IsRemoteConnected)
                 {
-                    if (cmd.UpdateAntrian())
+                    //int v = 0;
+                    if(int.TryParse(a, out int v))
                     {
-                        sck.Send(Encoding.ASCII.GetBytes("Update"));
+                        clientApotik.WriteLineAndGetReply(a, TimeSpan.FromSeconds(0));
+                        Debug.WriteLine(a);
                     }
                 }
+                else
+                {
+                    if (int.TryParse(a, out int v))
+                    {
+                        clientApotik.WriteLine(a);
+                    }
+                    
+                    if(a == ">>|")
+                    {
+                        if (cmd.UpdateAntrian())
+                        {
+                            Debug.WriteLine(a);
+                            //sck.Send(Encoding.ASCII.GetBytes("Update"));
+                            clientApotik.WriteLine("Update");
+                        }
+                    }
+                    if(a == "|<<")
+                    {
+                        if (cmd.UpdateAntrianPrev())
+                        {
+                            Debug.WriteLine(a);
+                            clientApotik.WriteLine("Update");
+                        }
+                    }
+                }
+                //var a = sp.ReadLine().Replace("\r", "");
+                //if (a == "Update")
+                //{
+                //    if (cmd.UpdateAntrian())
+                //    {
+                //        //sck.Send(Encoding.ASCII.GetBytes("Update"));
+                //        clientApotik.WriteLine("Update");
+                //    }
+                //}
             });
         }
 
@@ -94,7 +173,7 @@ namespace Apotik
                 WindowLeft = Left,
                 WindowState = WindowState
             };
-
+            Properties.Settings.Default.IsRemoteConnected = false;
             userPrefs.Save();
         }
 

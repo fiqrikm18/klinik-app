@@ -442,5 +442,26 @@ namespace pendaftaran.views
                 rv.Show();
             }
         }
+
+        private void BtnHapusKartu_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                sp.isoReaderInit();
+                //card = new MifareCard(isoReader);
+
+                if (sp.ClearAllBlock())
+                {
+                    MessageBox.Show("Data pada kartu berhasil dihapus.", "Info", MessageBoxButton.OK,
+                        MessageBoxImage.Information);
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Terjadi kesalahan, pastikan kartu sudah berada pada jangkauan reader.\n",
+                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                sp.isoReaderInit();
+            }
+        }
     }
 }

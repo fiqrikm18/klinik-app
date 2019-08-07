@@ -129,7 +129,7 @@ namespace Antrian.DBAccess
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("select top 1 no_urut from tb_antrian where tujuan_antrian='Apotik' and tgl_berobat = CONVERT(date, getdate(), 111) and status='Periksa' or status='Panggil' order by 1 desc", conn);
+                SqlCommand cmd = new SqlCommand("select top 1 no_urut from tb_antrian where tujuan_antrian='Apotik' and tgl_berobat = CONVERT(date, getdate(), 111) and status='Panggil' order by 1 desc", conn);
 
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
@@ -156,7 +156,7 @@ namespace Antrian.DBAccess
             {
                 OpenConnection();
                 SqlCommand cmd = new SqlCommand(
-                    "select top 1 no_urut from tb_antrian where poliklinik=@poliklinik and tujuan_antrian='Poliklinik' and tgl_berobat = CONVERT(date, getdate(), 111) and status='Periksa' or status='Panggil' order by 1 desc",
+                    "select top 1 no_urut from tb_antrian where poliklinik=@poliklinik and tujuan_antrian='Poliklinik' and tgl_berobat = CONVERT(date, getdate(), 111) and status='Panggil' order by 1 desc",
                     conn);
                 cmd.Parameters.AddWithValue("poliklinik", GetKodePoli());
 

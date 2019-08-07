@@ -1,16 +1,16 @@
-﻿using System;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using dokter.DBAccess;
+﻿using dokter.DBAccess;
 using dokter.forms;
 using dokter.mifare;
 using dokter.models;
+using dokter.Properties;
 using dokter.Utils;
-using System.Net.Sockets;
-using System.Text;
+using SimpleTCP;
+using System;
+using System.Data.SqlClient;
 using System.Diagnostics;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace dokter.views
 {
@@ -28,9 +28,12 @@ namespace dokter.views
 
         private SmartCardOperation sp = new SmartCardOperation();
 
-        Socket sck;
-        Socket sck2;
-        Socket sck3;
+        //Socket sck;
+        //Socket sck2;
+        //Socket sck3;
+
+        private SimpleTcpClient clientApotik;
+        private SimpleTcpClient clientPoli;
 
         public ViewRekamMedis()
         {
@@ -40,15 +43,23 @@ namespace dokter.views
 
             try
             {
-                sck = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                //sck = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 //sck2 = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                //sck3 = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                ////sck3 = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
-                sck.Connect(Properties.Settings.Default.ScoketServerApotik, Properties.Settings.Default.SockertPortApotik);
+                //sck.Connect(Properties.Settings.Default.ScoketServerApotik, Properties.Settings.Default.SockertPortApotik);
                 //sck2.Connect(Properties.Settings.Default.SocketServerAntri, Properties.Settings.Default.SocketPortAntri);
-                //sck3.Connect(Properties.Settings.Default.SocketPApotik, Properties.Settings.Default.SocketPortPApotik);
+                ////sck3.Connect(Properties.Settings.Default.SocketPApotik, Properties.Settings.Default.SocketPortPApotik);
+                //clientApotik = new SimpleTcpClient();
+                //clientApotik.Connect(Properties.Settings.Default.ScoketServerApotik, Properties.Settings.Default.SockertPortApotik);
+
+                clientPoli = new SimpleTcpClient();
+                clientPoli.Connect(Settings.Default.SocketServerAntri, Settings.Default.SocketPortAntri);
             }
-            catch(Exception) { }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         public ViewRekamMedis(string no_rm)
@@ -59,15 +70,23 @@ namespace dokter.views
 
             try
             {
-                sck = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                //sck = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 //sck2 = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                //sck3 = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                ////sck3 = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
-                sck.Connect(Properties.Settings.Default.ScoketServerApotik, Properties.Settings.Default.SockertPortApotik);
+                //sck.Connect(Properties.Settings.Default.ScoketServerApotik, Properties.Settings.Default.SockertPortApotik);
                 //sck2.Connect(Properties.Settings.Default.SocketServerAntri, Properties.Settings.Default.SocketPortAntri);
-                //sck3.Connect(Properties.Settings.Default.SocketPApotik, Properties.Settings.Default.SocketPortPApotik);
+                ////sck3.Connect(Properties.Settings.Default.SocketPApotik, Properties.Settings.Default.SocketPortPApotik);
+                //clientApotik = new SimpleTcpClient();
+                //clientApotik.Connect(Properties.Settings.Default.ScoketServerApotik, Properties.Settings.Default.SockertPortApotik);
+
+                clientPoli = new SimpleTcpClient();
+                clientPoli.Connect(Settings.Default.SocketServerAntri, Settings.Default.SocketPortAntri);
             }
-            catch(Exception) { }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
 
             this.no_rm = no_rm;
             DisplayDataPasien(no_rm);
@@ -82,15 +101,18 @@ namespace dokter.views
                     sp = new SmartCardOperation();
 
                     if (sp.IsReaderAvailable())
+                    {
                         try
                         {
                             sp.isoReaderInit();
                             //card = new MifareCard(isoReader);
 
-                            var readData = sp.ReadBlock(Msb, blockNoRekamMedis);
+                            byte[] readData = sp.ReadBlock(Msb, blockNoRekamMedis);
                             Debug.WriteLine(Util.ToASCII(readData, 0, 16, false));
                             if (readData != null)
+                            {
                                 no_rm = Util.ToASCII(readData, 0, 16, false);
+                            }
 
                             DisplayDataPasien(no_rm);
                         }
@@ -101,9 +123,12 @@ namespace dokter.views
                                 "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                             sp.isoReaderInit();
                         }
+                    }
                     else
+                    {
                         MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.",
                             "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
                 else
                 {
@@ -120,17 +145,17 @@ namespace dokter.views
 
         public void DisplayDataPasien(string no_rm = null)
         {
-            var pasien = cmd.GetDataPasien();
+            System.Collections.Generic.List<ModelPasien> pasien = cmd.GetDataPasien();
 
             if (no_rm != null)
             {
                 //MessageBox.Show(cmd.GetNoRmByNoUrut());
                 if (no_rm == cmd.GetNoRmByNoUrut())
                 {
-                    var fPasien = pasien.Where(x => x.no_rm.Equals(no_rm)).ToList();
+                    System.Collections.Generic.List<ModelPasien> fPasien = pasien.Where(x => x.no_rm.Equals(no_rm)).ToList();
 
                     //MessageBox.Show(fPasien.ToList().ToString());
-                    foreach(var a in fPasien)
+                    foreach (ModelPasien a in fPasien)
                     {
                         txtNoRekamMedis.Text = a.no_rm;
                         txtNamaPasien.Text = a.nama;
@@ -153,12 +178,12 @@ namespace dokter.views
 
         private void DisplayDataRekamMedis(string no_rn = null)
         {
-            var rekamMedis = cmd.GetAllDataRekamMedisFrom();
+            System.Collections.Generic.List<ModelRekamMedis> rekamMedis = cmd.GetAllDataRekamMedisFrom(no_rn);
 
             if (no_rn != null)
             {
-                var fRekamMedis = rekamMedis.Where(x=>x.no_rm.Equals(no_rn));
-                dtgDataRekamMedis.ItemsSource = fRekamMedis;
+                //System.Collections.Generic.IEnumerable<ModelRekamMedis> fRekamMedis = rekamMedis.Where(x => x.no_rm.Equals(no_rn));
+                dtgDataRekamMedis.ItemsSource = rekamMedis;
             }
             else
             {
@@ -181,7 +206,7 @@ namespace dokter.views
         {
             if (!string.IsNullOrWhiteSpace(txtNoRekamMedis.Text) || !string.IsNullOrEmpty(txtNoRekamMedis.Text))
             {
-                var irm = new InputRekamMedis(txtNoRekamMedis.Text, this);
+                InputRekamMedis irm = new InputRekamMedis(txtNoRekamMedis.Text, this);
                 irm.Show();
             }
             else
@@ -196,7 +221,10 @@ namespace dokter.views
             if (dtgDataRekamMedis.SelectedItems.Count > 0)
             {
                 id = 0;
-                foreach (ModelRekamMedis md in dtgDataRekamMedis.SelectedItems) id = md.id;
+                foreach (ModelRekamMedis md in dtgDataRekamMedis.SelectedItems)
+                {
+                    id = md.id;
+                }
 
                 if (cmd.DeleteRekamMedis(id))
                 {
@@ -220,7 +248,7 @@ namespace dokter.views
         {
             if (!string.IsNullOrWhiteSpace(txtNoRekamMedis.Text) || !string.IsNullOrEmpty(txtNoRekamMedis.Text))
             {
-                var irs = new InputResep(txtNoRekamMedis.Text, this);
+                InputResep irs = new InputResep(txtNoRekamMedis.Text, this);
                 irs.Show();
             }
             else
@@ -234,16 +262,6 @@ namespace dokter.views
         {
             if (cmd.UpdateStatusAntrian(txtNoRekamMedis.Text))
             {
-                try
-                {
-                    sck.Send(Encoding.ASCII.GetBytes("Update"));
-                    //sck2.Send(Encoding.ASCII.GetBytes("Update"));
-                    //sck3.Send(Encoding.ASCII.GetBytes("Update"));
-                }
-                catch(Exception ex) {
-                    //throw new Exception(ex.Message);
-                }
-
                 txtNoRekamMedis.Text = string.Empty;
                 txtNamaPasien.Text = string.Empty;
                 txtGolDarah.Text = string.Empty;
@@ -254,6 +272,22 @@ namespace dokter.views
                 txtNoTelp.Text = string.Empty;
 
                 dtgDataRekamMedis.ItemsSource = null;
+
+                try
+                {
+                    //sck.Send(Encoding.ASCII.GetBytes("Update"));
+                    //sck2.Send(Encoding.ASCII.GetBytes("Update"));
+                    //sck3.Send(Encoding.ASCII.GetBytes("Update"));
+                    //clientApotik.WriteLine("Update");
+                    clientPoli.WriteLineAndGetReply("Update", TimeSpan.FromSeconds(0));
+                }
+                catch (Exception)
+                {
+                    //throw new Exception(ex.Message);
+                    //MessageBox.Show(ex.Message);
+                }
+
+                
             }
         }
     }

@@ -66,9 +66,11 @@
 
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
             <DockPanel Margin="0 0 20 0">
-                <Button x:Name="btn_cekData" Click="Btn_cekData_OnClick" Content="Cek Data Kartu" />
+                <Button x:Name="btn_cekData" Click="Btn_cekData_OnClick" Content="Cek Data" />
                 <Button x:Name="btn_cetak" Click="Btn_cetak_OnClick" Content="Cetak Kartu" />
-                <Button x:Name="btnPrintLabel" Click="BtnPrintLabel_OnClick" Content="Cetak Label Kartu" Width="Auto" />
+                <Button x:Name="btnHapusKartu" Click="BtnHapusKartu_Click" Content="Hapus Data"
+                            Width="Auto" />
+                <Button x:Name="btnPrintLabel" Click="BtnPrintLabel_OnClick" Content="Cetak Label" Width="Auto" />
             </DockPanel>
             
             <DockPanel Margin="0 0 20 0">

@@ -45,9 +45,6 @@ namespace pendaftaran.views
             {
                 sck = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 sck.Connect(Properties.Settings.Default.SocketServerAntrianPoli, Properties.Settings.Default.SocketPortAntriaPoli);
-
-                sck2 = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                sck2.Connect(Properties.Settings.Default.SocketServerPAntrian, Properties.Settings.Default.SocketPortPAntrian);
             }
             catch (Exception ex)
             {
@@ -109,7 +106,6 @@ namespace pendaftaran.views
                         try
                         {
                             sck.Send(Encoding.ASCII.GetBytes("Update"));
-                            sck2.Send(Encoding.ASCII.GetBytes("Update"));
                         }
                         catch (Exception) { }
 

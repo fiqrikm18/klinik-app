@@ -82,6 +82,10 @@ namespace dokter.views
                 var rv = new ReportView(no_rm);
                 rv.Show();
             }
+            else
+            {
+                MessageBox.Show("Pilih data yang akan di print", "Perhatian", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
     }
 }
