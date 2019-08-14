@@ -9,11 +9,11 @@ namespace pendaftaran.Mifare
     {
         private const byte Msb = 0x00;
         private readonly IContextFactory contextFactory = ContextFactory.Instance;
-        private readonly byte[] key = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
+        private readonly byte[] key = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+        private readonly string[] readerNames;
         private MifareCard card;
         private IsoReader isoReader;
         private string nfcReader;
-        private readonly string[] readerNames;
 
         public SmartCardOperation()
         {
@@ -32,10 +32,7 @@ namespace pendaftaran.Mifare
 
         public bool IsReaderAvailable()
         {
-            if (NoReaderAvailable(readerNames))
-            {
-                return false;
-            }
+            if (NoReaderAvailable(readerNames)) return false;
 
             nfcReader = readerNames[0];
             if (string.IsNullOrEmpty(nfcReader)) return false;
@@ -132,7 +129,7 @@ namespace pendaftaran.Mifare
                 var reader = new SCardReader(ctx);
                 reader.Connect(nfcReader, SCardShareMode.Shared, SCardProtocol.Any);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 //connect();
             }

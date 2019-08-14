@@ -1,20 +1,22 @@
-﻿using pendaftaran.DBAccess;
-using pendaftaran.Mifare;
-using pendaftaran.models;
-using pendaftaran.Utils;
-using System;
+﻿using System;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Globalization;
-using System.Net.Sockets;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using pendaftaran.DBAccess;
+using pendaftaran.forms;
+using pendaftaran.models;
+using pendaftaran.Mifare;
+using pendaftaran.Properties;
+using pendaftaran.Utils;
+using SimpleTCP;
+using FontStyle = System.Drawing.FontStyle;
 
 namespace pendaftaran.views
 {
@@ -29,28 +31,28 @@ namespace pendaftaran.views
         private readonly byte blockAlamatTo = 12;
         private readonly byte blockGolDarah = 13;
         private readonly byte blockIdPasien = 1;
+        private readonly byte blockJenisId = 18;
         private readonly byte blockJenisKelamin = 17;
         private readonly byte blockNamaFrom = 4;
         private readonly byte blockNamaTo = 6;
         private readonly byte blockNoRekamMedis = 2;
         private readonly byte blockNoTelp = 14;
         private readonly byte blockTglLahir = 16;
-        private readonly byte blockJenisId = 18;
+
+        private readonly SqlConnection conn;
         private readonly byte[] key = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+
+        private readonly SmartCardOperation sp;
 
         private MDaftarBaru _mDaftarBaru = new MDaftarBaru(" ", " ", " ", " ", " ");
 
         //private static MySqlConnection MsqlConn = null;
         private int _noOfErrorsOnScreen;
 
-        private readonly SqlConnection conn;
-
-        private readonly SmartCardOperation sp;
+        private readonly SimpleTcpClient clientPoli;
         private string no_rm;
-        private int no_urut = 0;
+        private int no_urut;
         private string poli = "";
-
-        SimpleTCP.SimpleTcpClient clientPoli;
 
         #region constructor
 
@@ -76,17 +78,17 @@ namespace pendaftaran.views
 
             try
             {
-                clientPoli = new SimpleTCP.SimpleTcpClient();
-                clientPoli.Connect(Properties.Settings.Default.SocketServerAntrianPoli,
-                    Properties.Settings.Default.SocketPortAntriaPoli);
+                clientPoli = new SimpleTcpClient();
+                clientPoli.Connect(Settings.Default.SocketServerAntrianPoli,
+                    Settings.Default.SocketPortAntriaPoli);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
 
-            DBCommand dbcmd = new DBCommand(conn);
-            System.Collections.Generic.List<ComboboxPairs> cbp = dbcmd.GetPoliklinik();
+            var dbcmd = new DBCommand(conn);
+            var cbp = dbcmd.GetPoliklinik();
 
             cbPoliklinik.DisplayMemberPath = "kode_poliklinik";
             cbPoliklinik.SelectedValuePath = "nama_poliklinik";
@@ -98,7 +100,7 @@ namespace pendaftaran.views
 
         private void btnPrintLabel_Click(object sender, RoutedEventArgs e)
         {
-            forms.PrintPreview pv = new forms.PrintPreview(no_rm);
+            var pv = new PrintPreview(no_rm);
             pv.Show();
         }
 
@@ -107,13 +109,9 @@ namespace pendaftaran.views
         private void Validation_Error(object sender, ValidationErrorEventArgs e)
         {
             if (e.Action == ValidationErrorEventAction.Added)
-            {
                 _noOfErrorsOnScreen++;
-            }
             else
-            {
                 _noOfErrorsOnScreen--;
-            }
         }
 
         private void AddPasien_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -125,29 +123,29 @@ namespace pendaftaran.views
         private void AddPasien_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             _mDaftarBaru = new MDaftarBaru(" ", " ", " ", " ", " ");
-            CultureInfo ci = CultureInfo.CreateSpecificCulture(CultureInfo.CurrentCulture.Name);
+            var ci = CultureInfo.CreateSpecificCulture(CultureInfo.CurrentCulture.Name);
             ci.DateTimeFormat.ShortDatePattern = "yyyy-MM-dd";
             Thread.CurrentThread.CurrentCulture = ci;
 
-            DBCommand cmd = new DBCommand(conn);
+            var cmd = new DBCommand(conn);
 
             if (checkTextBoxValue() && dtTanggalLahir.SelectedDate != null)
             {
-                ComboboxPairs cbp = (ComboboxPairs) cbPoliklinik.SelectedItem;
-                string policode = cbp.nama_poliklinik;
+                var cbp = (ComboboxPairs) cbPoliklinik.SelectedItem;
+                var policode = cbp.nama_poliklinik;
                 //DateTime dt = DateTime.ParseExact(, "dd-MM-yyyy", CultureInfo.InvariantCulture);
 
-                string norm = TxtNoRm.Text.ToUpper();
+                var norm = TxtNoRm.Text.ToUpper();
                 no_rm = norm;
-                string identitas = TxtNoIdentitas.Text;
-                string namaPasien = TxtNamaPasien.Text;
-                string noTelp = TxtNoTelp.Text;
-                string alamat = TextAlamat.Text;
-                string tglLahir = dtTanggalLahir.SelectedDate.Value.Date.ToString("yyyy-MM-dd");
-                string jenisKelamin = cbJenisKelamin.Text;
-                string poliklinik = policode;
-                string golDarah = cbGolDarah.Text;
-                string jenis_id = "";
+                var identitas = TxtNoIdentitas.Text;
+                var namaPasien = TxtNamaPasien.Text;
+                var noTelp = TxtNoTelp.Text;
+                var alamat = TextAlamat.Text;
+                var tglLahir = dtTanggalLahir.SelectedDate.Value.Date.ToString("yyyy-MM-dd");
+                var jenisKelamin = cbJenisKelamin.Text;
+                var poliklinik = policode;
+                var golDarah = cbGolDarah.Text;
+                var jenis_id = "";
 
                 Debug.WriteLine(norm.Length);
                 Debug.WriteLine(identitas.Length);
@@ -159,27 +157,15 @@ namespace pendaftaran.views
                 Debug.WriteLine(golDarah.Length);
 
 
-                if (chkKtp.IsChecked ?? true)
-                {
-                    jenis_id = chkKtp.Content.ToString();
-                }
+                if (chkKtp.IsChecked ?? true) jenis_id = chkKtp.Content.ToString();
 
-                if (chkSim.IsChecked ?? true)
-                {
-                    jenis_id = chkSim.Content.ToString();
-                }
+                if (chkSim.IsChecked ?? true) jenis_id = chkSim.Content.ToString();
 
-                if (chkKartuPelajar.IsChecked ?? true)
-                {
-                    jenis_id = chkKartuPelajar.Content.ToString();
-                }
+                if (chkKartuPelajar.IsChecked ?? true) jenis_id = chkKartuPelajar.Content.ToString();
 
-                if (chkLainnya.IsChecked ?? true)
-                {
-                    jenis_id = chkLainnya.Content.ToString();
-                }
+                if (chkLainnya.IsChecked ?? true) jenis_id = chkLainnya.Content.ToString();
 
-                if (!Regex.IsMatch(identitas, "^[A-Za-z]+$") && !Regex.IsMatch(noTelp, "^[A-Za-z]+$"))
+                if (!Regex.IsMatch(identitas, "^[A-Za-z]+$") && !Regex.IsMatch(noTelp, "^[A-Za-z]+$") && Regex.IsMatch(namaPasien, "^[A-Za-z]+$"))
                 {
                     if (cmd.CountIdPasienExists(identitas) != 1)
                     {
@@ -189,54 +175,41 @@ namespace pendaftaran.views
                                 alamat,
                                 golDarah, jenis_id))
                             {
-                                int last = cmd.GetLastNoUrut(policode);
-                                int no_urut = 0;
+                                var last = cmd.GetLastNoUrut(policode);
+                                var no_urut = 0;
 
                                 if (last == 0)
-                                {
                                     no_urut = 1;
-                                }
                                 else
-                                {
                                     no_urut = last + 1;
-                                }
 
                                 this.no_urut = no_urut;
                                 poli = cbp.kode_poliklinik;
 
                                 if (cmd.InsertAntrian(norm, no_urut, policode))
                                 {
-                                    bool isPrinted = false;
+                                    var isPrinted = false;
 
                                     if (chkCetakKartu.IsChecked == true)
                                     {
                                         while (!isPrinted)
-                                        {
                                             try
                                             {
                                                 if (!string.IsNullOrEmpty(identitas))
                                                 {
                                                     if (sp.WriteBlock(Msb, blockIdPasien,
                                                         Util.ToArrayByte16(identitas)))
-                                                    {
                                                         isPrinted = true;
-                                                    }
                                                     else
-                                                    {
                                                         MessageBox.Show("ID pasien gagal ditulis");
-                                                    }
                                                 }
 
                                                 if (!string.IsNullOrEmpty(jenis_id))
                                                 {
                                                     if (sp.WriteBlock(Msb, blockJenisId, Util.ToArrayByte16(jenis_id)))
-                                                    {
                                                         isPrinted = true;
-                                                    }
                                                     else
-                                                    {
                                                         MessageBox.Show("Jenis Identitas pasien gagal ditulis");
-                                                    }
                                                 }
 
                                                 if (!string.IsNullOrEmpty(golDarah))
@@ -254,109 +227,72 @@ namespace pendaftaran.views
                                                 if (!string.IsNullOrEmpty(norm))
                                                 {
                                                     if (sp.WriteBlock(Msb, blockNoRekamMedis, Util.ToArrayByte16(norm)))
-                                                    {
                                                         isPrinted = true;
-                                                    }
                                                     else
-                                                    {
                                                         MessageBox.Show("Nomor rekam medis gagal ditulis");
-                                                    }
                                                 }
 
-                                                if (namaPasien.Length > 48)
-                                                {
-                                                    namaPasien = namaPasien.Substring(0, 47);
-                                                }
+                                                if (namaPasien.Length > 48) namaPasien = namaPasien.Substring(0, 47);
 
                                                 if (!string.IsNullOrEmpty(namaPasien))
                                                 {
                                                     if (sp.WriteBlockRange(Msb, blockNamaFrom, blockNamaTo,
                                                         Util.ToArrayByte48(namaPasien)))
-                                                    {
                                                         isPrinted = true;
-                                                    }
                                                     else
-                                                    {
                                                         MessageBox.Show("Nama pasien gagal ditulis");
-                                                    }
                                                 }
 
                                                 if (!string.IsNullOrEmpty(tglLahir))
                                                 {
                                                     if (sp.WriteBlock(Msb, blockTglLahir, Util.ToArrayByte16(tglLahir)))
-                                                    {
                                                         isPrinted = true;
-                                                    }
                                                     else
-                                                    {
                                                         MessageBox.Show("Tanggal lahir pasien gagal ditulis");
-                                                    }
                                                 }
 
                                                 if (!string.IsNullOrEmpty(jenisKelamin))
                                                 {
                                                     if (sp.WriteBlock(Msb, blockJenisKelamin,
                                                         Util.ToArrayByte16(jenisKelamin)))
-                                                    {
                                                         isPrinted = true;
-                                                    }
                                                     else
-                                                    {
                                                         MessageBox.Show("Jenis kelamin pasien gagal ditulis");
-                                                    }
                                                 }
 
                                                 if (!string.IsNullOrEmpty(noTelp))
                                                 {
                                                     if (sp.WriteBlock(Msb, blockNoTelp, Util.ToArrayByte16(noTelp)))
-                                                    {
                                                         isPrinted = true;
-                                                    }
                                                     else
-                                                    {
                                                         MessageBox.Show("Nomor telepon pasien gagal ditulis");
-                                                    }
                                                 }
 
-                                                if (alamat.Length > 64)
-                                                {
-                                                    alamat = alamat.Substring(0, 63);
-                                                }
+                                                if (alamat.Length > 64) alamat = alamat.Substring(0, 63);
 
                                                 if (!string.IsNullOrEmpty(alamat))
                                                 {
                                                     if (sp.WriteBlockRange(Msb, blockAlamatForm, blockAlamatTo,
                                                         Util.ToArrayByte64(alamat)))
-                                                    {
                                                         isPrinted = true;
-                                                    }
                                                     else
-                                                    {
                                                         MessageBox.Show("Alamat pasien gagal ditulis");
-                                                    }
                                                 }
 
                                                 isPrinted = true;
-                                                if (isPrinted)
-                                                {
-                                                    break;
-                                                }
+                                                if (isPrinted) break;
                                             }
                                             catch (Exception)
                                             {
-                                                MessageBoxResult ans = MessageBox.Show(
+                                                var ans = MessageBox.Show(
                                                     "Penulisan kartu gagal, pastikan kartu sudah berada pada jangkauan reader.\nApakah anda ingin menulis kartu lain kali?",
                                                     "Error",
                                                     MessageBoxButton.YesNo, MessageBoxImage.Error);
 
-                                                if (ans == MessageBoxResult.Yes)
-                                                {
-                                                    break;
-                                                }
+                                                if (ans == MessageBoxResult.Yes) break;
 
                                                 sp.isoReaderInit();
                                             }
-                                        }
 
                                         MessageBox.Show(
                                             "Pasien berhasil didaftarkan.\nKartu pasien berhasil ditulis.\nNomor Antri: " +
@@ -368,8 +304,8 @@ namespace pendaftaran.views
                                         cbJenisKelamin.SelectedIndex = 0;
                                         cbPoliklinik.SelectedIndex = 0;
 
-                                        PrintDocument pd = new PrintDocument();
-                                        PaperSize ps = new PaperSize("", 300, 540);
+                                        var pd = new PrintDocument();
+                                        var ps = new PaperSize("", 300, 540);
 
                                         pd.PrintPage += Pd_PrintPage;
                                         pd.PrintController = new StandardPrintController();
@@ -410,8 +346,8 @@ namespace pendaftaran.views
                                         {
                                         }
 
-                                        PrintDocument pd = new PrintDocument();
-                                        PaperSize ps = new PaperSize("", 300, 540);
+                                        var pd = new PrintDocument();
+                                        var ps = new PaperSize("", 300, 540);
 
                                         pd.PrintPage += Pd_PrintPage;
                                         pd.PrintController = new StandardPrintController();
@@ -437,8 +373,8 @@ namespace pendaftaran.views
                                     {
                                     }
 
-                                    PrintDocument pd = new PrintDocument();
-                                    PaperSize ps = new PaperSize("", 300, 540);
+                                    var pd = new PrintDocument();
+                                    var ps = new PaperSize("", 300, 540);
 
                                     pd.PrintPage += Pd_PrintPage;
                                     pd.PrintController = new StandardPrintController();
@@ -485,12 +421,12 @@ namespace pendaftaran.views
 
         private void Pd_PrintPage(object sender, PrintPageEventArgs e)
         {
-            Graphics graphics = e.Graphics;
-            Font font = new Font("Courier New", 10);
-            float fontHeight = font.GetHeight();
-            int startX = 50;
-            int startY = 55;
-            int Offset = 40;
+            var graphics = e.Graphics;
+            var font = new Font("Courier New", 10);
+            var fontHeight = font.GetHeight();
+            var startX = 50;
+            var startY = 55;
+            var Offset = 40;
             graphics.DrawString("SELAMAT DATANG DI", new Font("Courier New", 14), new SolidBrush(Color.Black), startX,
                 startY + Offset);
             Offset = Offset + 20;
@@ -501,7 +437,7 @@ namespace pendaftaran.views
             //Offset = Offset + 20;
             //graphics.DrawString("Tlp. 022-86121090", new Font("Courier New", 12), new SolidBrush(Color.Black), startX, startY + Offset);
             Offset = Offset + 20;
-            String underLine = "-------------------------------";
+            var underLine = "-------------------------------";
             graphics.DrawString(underLine, new Font("Courier New", 10), new SolidBrush(Color.Black), startX,
                 startY + Offset);
 
@@ -511,11 +447,11 @@ namespace pendaftaran.views
 
             Offset = Offset + 20;
             //String Source= this.source; 
-            graphics.DrawString(this.no_urut.ToString(), new Font("Courier New", 40, System.Drawing.FontStyle.Bold),
+            graphics.DrawString(no_urut.ToString(), new Font("Courier New", 40, FontStyle.Bold),
                 new SolidBrush(Color.Black), startX, startY + Offset);
 
             Offset = Offset + 20;
-            String Grosstotal = "";
+            var Grosstotal = "";
 
             Offset = Offset + 30;
             underLine = "-------------------------------";
@@ -527,7 +463,7 @@ namespace pendaftaran.views
                 startY + Offset);
             Offset = Offset + 20;
             //String DrawnBy = this.drawnBy;
-            graphics.DrawString("Poliklinik " + this.poli, new Font("Courier New", 12), new SolidBrush(Color.Black),
+            graphics.DrawString("Poliklinik " + poli, new Font("Courier New", 12), new SolidBrush(Color.Black),
                 startX, startY + Offset);
             Offset = Offset + 20;
             graphics.DrawString(DateTime.Now.ToShortDateString(), new Font("Courier New", 14),
@@ -536,11 +472,9 @@ namespace pendaftaran.views
 
         private void TextBoxFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            TextBox source = e.Source as TextBox;
+            var source = e.Source as TextBox;
             if (string.IsNullOrEmpty(source.Text) || string.IsNullOrWhiteSpace(source.Text) || source.Text == " ")
-            {
                 source.Clear();
-            }
         }
 
         private bool checkTextBoxValue()
@@ -554,9 +488,7 @@ namespace pendaftaran.views
                 !string.IsNullOrWhiteSpace(TextAlamat.Text) && cbGolDarah.SelectedIndex != 0 &&
                 !string.IsNullOrWhiteSpace(dtTanggalLahir.SelectedDate.ToString()) && cbPoliklinik.SelectedIndex != 0 &&
                 cbJenisKelamin.SelectedIndex != 0)
-            {
                 return true;
-            }
 
             return false;
         }
@@ -572,60 +504,33 @@ namespace pendaftaran.views
                 sp.isoReaderInit();
                 //card = new MifareCard(isoReader);
 
-                string msg = "";
-                byte[] rm = sp.ReadBlock(Msb, blockNoRekamMedis);
-                if (rm != null)
-                {
-                    msg += "Nomor Rekam Medis \t: " + Util.ToASCII(rm, 0, 16, false);
-                }
+                var msg = "";
+                var rm = sp.ReadBlock(Msb, blockNoRekamMedis);
+                if (rm != null) msg += "Nomor Rekam Medis \t: " + Util.ToASCII(rm, 0, 16, false);
 
-                byte[] nId = sp.ReadBlock(Msb, blockIdPasien);
-                if (nId != null)
-                {
-                    msg += "\nNomor ID Pasien \t\t: " + Util.ToASCII(nId, 0, 16, false);
-                }
+                var nId = sp.ReadBlock(Msb, blockIdPasien);
+                if (nId != null) msg += "\nNomor ID Pasien \t\t: " + Util.ToASCII(nId, 0, 16, false);
 
-                byte[] jId = sp.ReadBlock(Msb, blockJenisId);
-                if (jId != null)
-                {
-                    msg += "\nJenis ID Pasien \t\t: " + Util.ToASCII(jId, 0, 16, false);
-                }
+                var jId = sp.ReadBlock(Msb, blockJenisId);
+                if (jId != null) msg += "\nJenis ID Pasien \t\t: " + Util.ToASCII(jId, 0, 16, false);
 
-                byte[] namaP = sp.ReadBlockRange(Msb, blockNamaFrom, blockNamaTo);
-                if (namaP != null)
-                {
-                    msg += "\nNama Pasien \t\t: " + Util.ToASCII(namaP, 0, 48, false);
-                }
+                var namaP = sp.ReadBlockRange(Msb, blockNamaFrom, blockNamaTo);
+                if (namaP != null) msg += "\nNama Pasien \t\t: " + Util.ToASCII(namaP, 0, 48, false);
 
-                byte[] gDarah = sp.ReadBlock(Msb, blockGolDarah);
-                if (gDarah != null)
-                {
-                    msg += "\nGolongan Darah \t\t: " + Util.ToASCII(gDarah, 0, 16, false);
-                }
+                var gDarah = sp.ReadBlock(Msb, blockGolDarah);
+                if (gDarah != null) msg += "\nGolongan Darah \t\t: " + Util.ToASCII(gDarah, 0, 16, false);
 
-                byte[] nTelp = sp.ReadBlock(Msb, blockNoTelp);
-                if (nTelp != null)
-                {
-                    msg += "\nNomor Telepon Pasien \t: " + Util.ToASCII(nTelp, 0, 16, false);
-                }
+                var nTelp = sp.ReadBlock(Msb, blockNoTelp);
+                if (nTelp != null) msg += "\nNomor Telepon Pasien \t: " + Util.ToASCII(nTelp, 0, 16, false);
 
-                byte[] alamatP = sp.ReadBlockRange(Msb, blockAlamatForm, blockAlamatTo);
-                if (alamatP != null)
-                {
-                    msg += "\nAlamat Pasien \t\t: " + Util.ToASCII(alamatP, 0, 64, false);
-                }
+                var alamatP = sp.ReadBlockRange(Msb, blockAlamatForm, blockAlamatTo);
+                if (alamatP != null) msg += "\nAlamat Pasien \t\t: " + Util.ToASCII(alamatP, 0, 64, false);
 
-                byte[] tglHarie = sp.ReadBlock(Msb, blockTglLahir);
-                if (tglHarie != null)
-                {
-                    msg += "\nTanggal Lahir \t\t: " + Util.ToASCII(tglHarie, 0, 16, false);
-                }
+                var tglHarie = sp.ReadBlock(Msb, blockTglLahir);
+                if (tglHarie != null) msg += "\nTanggal Lahir \t\t: " + Util.ToASCII(tglHarie, 0, 16, false);
 
-                byte[] jk = sp.ReadBlock(Msb, blockJenisKelamin);
-                if (jk != null)
-                {
-                    msg += "\nJenis Kelamin \t\t: " + Util.ToASCII(jk, 0, 16, false);
-                }
+                var jk = sp.ReadBlock(Msb, blockJenisKelamin);
+                if (jk != null) msg += "\nJenis Kelamin \t\t: " + Util.ToASCII(jk, 0, 16, false);
 
                 MessageBox.Show(msg, "Informasi Kartu Pasien", MessageBoxButton.OK, MessageBoxImage.Information);
             }
@@ -645,10 +550,8 @@ namespace pendaftaran.views
                 //card = new MifareCard(isoReader);
 
                 if (sp.ClearAllBlock())
-                {
                     MessageBox.Show("Data pada kartu berhasil dihapus.", "Info", MessageBoxButton.OK,
                         MessageBoxImage.Information);
-                }
             }
             catch (Exception)
             {

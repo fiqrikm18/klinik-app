@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using pendaftaran.DBAccess;
 using pendaftaran.forms;
+using pendaftaran.models;
 using pendaftaran.Mifare;
 using pendaftaran.Utils;
 
@@ -23,24 +24,24 @@ namespace pendaftaran.views
         private readonly byte blockAlamatTo = 12;
         private readonly byte blockGolDarah = 13;
         private readonly byte blockIdPasien = 1;
+        private readonly byte blockJenisId = 18;
         private readonly byte blockJenisKelamin = 17;
         private readonly byte blockNamaFrom = 4;
         private readonly byte blockNamaTo = 6;
         private readonly byte blockNoRekamMedis = 2;
         private readonly byte blockNoTelp = 14;
         private readonly byte blockTglLahir = 16;
-        private readonly byte blockJenisId = 18;
-
-        public string alamat;
 
         private readonly SqlConnection conn;
+        private readonly SmartCardOperation sp;
+
+        public string alamat;
         public string golDarah;
         public string jenisK;
         public string namaP;
         public string noidP;
         public string normP;
         public string noTelp;
-        private readonly SmartCardOperation sp;
         public string tglLahir;
 
         public daftar_ulang()
@@ -416,12 +417,9 @@ namespace pendaftaran.views
             if (dtgDataPasien.SelectedItems.Count > 0)
             {
                 var no_rm = "";
-                foreach (models.ModelPasien mp in dtgDataPasien.SelectedItems)
-                {
-                    no_rm = mp.no_rekam_medis;
-                }
+                foreach (ModelPasien mp in dtgDataPasien.SelectedItems) no_rm = mp.no_rekam_medis;
 
-                forms.PrintPreview pv = new forms.PrintPreview(no_rm);
+                var pv = new PrintPreview(no_rm);
                 pv.Show();
             }
             else
@@ -433,13 +431,13 @@ namespace pendaftaran.views
 
         private void btn_print_Click(object sender, RoutedEventArgs e)
         {
-            string no_rm = "";
+            var no_rm = "";
             if (dtgDataPasien.SelectedItems.Count > 0)
             {
-                foreach (models.ModelPasien dp in dtgDataPasien.SelectedItems)
+                foreach (ModelPasien dp in dtgDataPasien.SelectedItems)
                     no_rm = dp.no_rekam_medis;
 
-                var rv = new forms.PVPasien(no_rm);
+                var rv = new PVPasien(no_rm);
                 rv.Show();
             }
         }
@@ -452,10 +450,8 @@ namespace pendaftaran.views
                 //card = new MifareCard(isoReader);
 
                 if (sp.ClearAllBlock())
-                {
                     MessageBox.Show("Data pada kartu berhasil dihapus.", "Info", MessageBoxButton.OK,
                         MessageBoxImage.Information);
-                }
             }
             catch (Exception)
             {

@@ -27,10 +27,7 @@ namespace pendaftaran.models
 
         #region IDataErrorInfo members
 
-        string IDataErrorInfo.Error
-        {
-            get { throw new NotImplementedException(); }
-        }
+        string IDataErrorInfo.Error => throw new NotImplementedException();
 
         public string this[string columnName]
         {

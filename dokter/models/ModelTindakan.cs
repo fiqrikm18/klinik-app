@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace dokter.models
+﻿namespace dokter.models
 {
-    class ModelTindakan
+    internal class ModelTindakan
     {
-        public int id { get; set; }
-        public string kode { get; set; }
-        public string desk { get; set; }
-
         public ModelTindakan()
         {
         }
@@ -22,5 +12,9 @@ namespace dokter.models
             this.kode = kode;
             this.desk = desk;
         }
+
+        public int id { get; set; }
+        public string kode { get; set; }
+        public string desk { get; set; }
     }
 }

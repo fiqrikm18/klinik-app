@@ -1,16 +1,16 @@
-﻿using dokter.DBAccess;
+﻿using System;
+using System.Data.SqlClient;
+using System.Diagnostics;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using dokter.DBAccess;
 using dokter.forms;
 using dokter.mifare;
 using dokter.models;
 using dokter.Properties;
 using dokter.Utils;
 using SimpleTCP;
-using System;
-using System.Data.SqlClient;
-using System.Diagnostics;
-using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace dokter.views
 {
@@ -22,18 +22,18 @@ namespace dokter.views
         private readonly byte blockNoRekamMedis = 2;
         private readonly DBCommand cmd;
         private readonly SqlConnection conn;
-        private int id;
         private readonly byte Msb = 0x00;
-        private string no_rm = "";
-
-        private SmartCardOperation sp = new SmartCardOperation();
 
         //Socket sck;
         //Socket sck2;
         //Socket sck3;
 
         private SimpleTcpClient clientApotik;
-        private SimpleTcpClient clientPoli;
+        private readonly SimpleTcpClient clientPoli;
+        private int id;
+        private string no_rm = "";
+
+        private SmartCardOperation sp = new SmartCardOperation();
 
         public ViewRekamMedis()
         {
@@ -101,18 +101,14 @@ namespace dokter.views
                     sp = new SmartCardOperation();
 
                     if (sp.IsReaderAvailable())
-                    {
                         try
                         {
                             sp.isoReaderInit();
                             //card = new MifareCard(isoReader);
 
-                            byte[] readData = sp.ReadBlock(Msb, blockNoRekamMedis);
+                            var readData = sp.ReadBlock(Msb, blockNoRekamMedis);
                             Debug.WriteLine(Util.ToASCII(readData, 0, 16, false));
-                            if (readData != null)
-                            {
-                                no_rm = Util.ToASCII(readData, 0, 16, false);
-                            }
+                            if (readData != null) no_rm = Util.ToASCII(readData, 0, 16, false);
 
                             DisplayDataPasien(no_rm);
                         }
@@ -123,12 +119,9 @@ namespace dokter.views
                                 "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                             sp.isoReaderInit();
                         }
-                    }
                     else
-                    {
                         MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.",
                             "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
                 }
                 else
                 {
@@ -145,18 +138,18 @@ namespace dokter.views
 
         public void DisplayDataPasien(string no_rm = null)
         {
-            System.Collections.Generic.List<ModelPasien> pasien = cmd.GetDataPasien();
+            var pasien = cmd.GetDataPasien();
 
             if (no_rm != null)
             {
                 //MessageBox.Show(cmd.GetNoRmByNoUrut());
                 if (no_rm == cmd.GetNoRmByNoUrut())
                 {
-                    System.Collections.Generic.List<ModelPasien> fPasien =
+                    var fPasien =
                         pasien.Where(x => x.no_rm.Equals(no_rm)).ToList();
 
                     //MessageBox.Show(fPasien.ToList().ToString());
-                    foreach (ModelPasien a in fPasien)
+                    foreach (var a in fPasien)
                     {
                         txtNoRekamMedis.Text = a.no_rm;
                         txtNamaPasien.Text = a.nama;
@@ -179,7 +172,7 @@ namespace dokter.views
 
         private void DisplayDataRekamMedis(string no_rn = null)
         {
-            System.Collections.Generic.List<ModelRekamMedis> rekamMedis = cmd.GetAllDataRekamMedisFrom(no_rn);
+            var rekamMedis = cmd.GetAllDataRekamMedisFrom(no_rn);
 
             if (no_rn != null)
             {
@@ -207,7 +200,7 @@ namespace dokter.views
         {
             if (!string.IsNullOrWhiteSpace(txtNoRekamMedis.Text) || !string.IsNullOrEmpty(txtNoRekamMedis.Text))
             {
-                InputRekamMedis irm = new InputRekamMedis(txtNoRekamMedis.Text, this);
+                var irm = new InputRekamMedis(txtNoRekamMedis.Text, this);
                 irm.Show();
             }
             else
@@ -222,10 +215,7 @@ namespace dokter.views
             if (dtgDataRekamMedis.SelectedItems.Count > 0)
             {
                 id = 0;
-                foreach (ModelRekamMedis md in dtgDataRekamMedis.SelectedItems)
-                {
-                    id = md.id;
-                }
+                foreach (ModelRekamMedis md in dtgDataRekamMedis.SelectedItems) id = md.id;
 
                 if (cmd.DeleteRekamMedis(id))
                 {
@@ -249,7 +239,7 @@ namespace dokter.views
         {
             if (!string.IsNullOrWhiteSpace(txtNoRekamMedis.Text) || !string.IsNullOrEmpty(txtNoRekamMedis.Text))
             {
-                InputResep irs = new InputResep(txtNoRekamMedis.Text, this);
+                var irs = new InputResep(txtNoRekamMedis.Text, this);
                 irs.Show();
             }
             else

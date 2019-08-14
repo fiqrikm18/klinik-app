@@ -18,8 +18,11 @@ namespace admin
     public partial class Login : Window
     {
         private readonly byte BlockId = 1;
+        private readonly byte BlockId2 = 12;
         private readonly byte BlockPasswordFrom = 2;
         private readonly byte BlockPasswordTo = 4;
+        private readonly byte BlockPasswordFrom2 = 25;
+        private readonly byte BlockPasswordTo2 = 26;
         private readonly DBCommand cmd;
         private readonly SqlConnection conn;
         private readonly SmartCardOperation sp = new SmartCardOperation();
@@ -62,17 +65,32 @@ namespace admin
                 {
                     //Debug.WriteLine(ev.ToString());
                     var user = sp.ReadBlock(0x00, BlockId);
+                    var user2 = sp.ReadBlock(0x00, BlockId2);
                     var pass = sp.ReadBlockRange(0x00, BlockPasswordFrom, BlockPasswordTo);
+                    var pass2 = sp.ReadBlockRange(0x00, BlockPasswordFrom2, BlockPasswordTo2);
 
 
-                    //MessageBox.Show(Utils.Util.ToASCII(user, 0, user.Length, false));
-                    //MessageBox.Show(Utils.Util.ToASCII(pass, 0, pass.Length, false));
+                    //MessageBox.Show(Utils.Util.ToASCII(user2, 0, user.Length, false));
+                    //MessageBox.Show(Utils.Util.ToASCII(pass2, 0, pass2.Length, false));
 
                     if (cmd.Login(Util.ToASCII(user, 0, user.Length), Util.ToASCII(pass, 0, pass.Length)))
+                    {
+                        Properties.Settings.Default.role = "admin";
                         Dispatcher.Invoke(() => { sh(); });
+                    }
                     else
-                        MessageBox.Show("Admin tidak terdaftar, hubungi administrator untuk mendaftar.", "Error",
-                            MessageBoxButton.OK, MessageBoxImage.Error);
+                    {
+                        if (cmd.LoginK(Util.ToASCII(user2, 0, user2.Length), Util.ToASCII(pass2, 0, pass2.Length)))
+                        {
+                            Properties.Settings.Default.role = "keuangan";
+                            Dispatcher.Invoke(() => { sh(); });
+                        }
+                        else
+                        {
+                            MessageBox.Show("Admin tidak terdaftar, hubungi administrator untuk mendaftar.", "Error",
+                                MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+                    }
                 }
             }
             catch (Exception)
@@ -120,6 +138,11 @@ namespace admin
         {
             //Properties.Settings.Default.KodeDokter = null;
             Environment.Exit(0);
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Properties.Settings.Default.role = "";
         }
     }
 }

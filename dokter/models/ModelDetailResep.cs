@@ -47,10 +47,7 @@ namespace dokter.models
         public string tgl_buat { get; set; }
         public string pemakaian { get; set; }
 
-        public string Error
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public string Error => throw new NotImplementedException();
 
         public string this[string columnName]
         {

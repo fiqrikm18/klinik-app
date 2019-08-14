@@ -138,6 +138,9 @@
     <Compile Include="forms\TambahDokter.xaml.cs">
       <DependentUpon>TambahDokter.xaml</DependentUpon>
     </Compile>
+    <Compile Include="forms\TambahKeuangan.xaml.cs">
+      <DependentUpon>TambahKeuangan.xaml</DependentUpon>
+    </Compile>
     <Compile Include="forms\TambahPoliklinik.xaml.cs">
       <DependentUpon>TambahPoliklinik.xaml</DependentUpon>
     </Compile>
@@ -153,6 +156,9 @@
     <Compile Include="forms\UbahStaffPendaftaran.xaml.cs">
       <DependentUpon>UbahStaffPendaftaran.xaml</DependentUpon>
     </Compile>
+    <Compile Include="forms\UpdateKeuangan.xaml.cs">
+      <DependentUpon>UpdateKeuangan.xaml</DependentUpon>
+    </Compile>
     <Compile Include="forms\VDokter.xaml.cs">
       <DependentUpon>VDokter.xaml</DependentUpon>
     </Compile>
@@ -165,6 +171,7 @@
     <Compile Include="Mifare\MifareCard.cs" />
     <Compile Include="Mifare\SmartCardOperation.cs" />
     <Compile Include="models\ComboboxPairs.cs" />
+    <Compile Include="models\Keuangan.cs" />
     <Compile Include="models\MApoteker.cs" />
     <Compile Include="models\MDokter.cs" />
     <Compile Include="models\ModelApoteker.cs" />
@@ -179,6 +186,9 @@
     </Compile>
     <Compile Include="views\DaftarDokter.xaml.cs">
       <DependentUpon>DaftarDokter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\DaftarKeuangan.xaml.cs">
+      <DependentUpon>DaftarKeuangan.xaml</DependentUpon>
     </Compile>
     <Compile Include="views\DaftarPendaftaran.xaml.cs">
       <DependentUpon>DaftarPendaftaran.xaml</DependentUpon>
@@ -209,6 +219,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="forms\TambahKeuangan.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="forms\TambahPoliklinik.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -226,6 +240,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="forms\UbahStaffPendaftaran.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="forms\UpdateKeuangan.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -254,6 +272,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="views\DaftarDokter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\DaftarKeuangan.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -26,9 +26,9 @@ namespace Apotik.mifare
                 Data = key
             };
 
-            Debug.WriteLine($"Load Authentication Keys: {BitConverter.ToString(loadKeyCmd.ToArray())}");
+            //Debug.WriteLine($"Load Authentication Keys: {BitConverter.ToString(loadKeyCmd.ToArray())}");
             var response = _isoreader.Transmit(loadKeyCmd);
-            Debug.WriteLine($"SW1 SW2 = {response.SW1:X2} {response.SW2:X2}");
+            //Debug.WriteLine($"SW1 SW2 = {response.SW1:X2} {response.SW2:X2}");
 
             return IsSuccess(response);
         }
@@ -52,9 +52,9 @@ namespace Apotik.mifare
                 Data = authBlock.ToArray()
             };
 
-            Debug.WriteLine($"General Authenticate: {BitConverter.ToString(authenticateCmd.ToArray())}");
+            //Debug.WriteLine($"General Authenticate: {BitConverter.ToString(authenticateCmd.ToArray())}");
             var response = _isoreader.Transmit(authenticateCmd);
-            Debug.WriteLine($"SW1 SW2 = {response.SW1:X2} {response.SW2:X2}");
+            //Debug.WriteLine($"SW1 SW2 = {response.SW1:X2} {response.SW2:X2}");
 
             return IsSuccess(response);
         }
@@ -70,9 +70,9 @@ namespace Apotik.mifare
                 Data = data
             };
 
-            Debug.WriteLine($"Update Binary: {BitConverter.ToString(updateBinaryCmd.ToArray())}");
+            //Debug.WriteLine($"Update Binary: {BitConverter.ToString(updateBinaryCmd.ToArray())}");
             var response = _isoreader.Transmit(updateBinaryCmd);
-            Debug.WriteLine($"Sw1 SW2 = {response.SW1:X2} {response.SW2:X2}");
+            //Debug.WriteLine($"Sw1 SW2 = {response.SW1:X2} {response.SW2:X2}");
 
             return IsSuccess(response);
         }
@@ -88,9 +88,9 @@ namespace Apotik.mifare
                 Le = size
             };
 
-            Debug.WriteLine($"Read Binary: {BitConverter.ToString(readBinaryCmd.ToArray())}");
+            //Debug.WriteLine($"Read Binary: {BitConverter.ToString(readBinaryCmd.ToArray())}");
             var response = _isoreader.Transmit(readBinaryCmd);
-            Debug.WriteLine($"SW1 SW2 = {response.SW1:X2} {response.SW2:X2}\nData: {response.GetData()}");
+            //Debug.WriteLine($"SW1 SW2 = {response.SW1:X2} {response.SW2:X2}\nData: {response.GetData()}");
 
             return IsSuccess(response)
                 ? response.GetData() ?? new byte[0]

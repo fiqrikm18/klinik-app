@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using admin.DBAccess;
 using admin.forms;
+using admin.models;
 using admin.Mifare;
 using admin.Utils;
 
@@ -340,15 +341,12 @@ namespace admin.views
 
         private void btnPrint_Click(object sender, RoutedEventArgs e)
         {
-            string id = "";
+            var id = "";
             if (dtgDataPendaftar.SelectedItems.Count > 0)
             {
-                foreach (models.MPendaftaran d in dtgDataPendaftar.SelectedItems)
-                {
-                    id = d.id;
-                }
+                foreach (MPendaftaran d in dtgDataPendaftar.SelectedItems) id = d.id;
 
-                forms.PVPendaftaran pp = new PVPendaftaran(id);
+                var pp = new PVPendaftaran(id);
                 pp.Show();
             }
         }

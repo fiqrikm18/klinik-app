@@ -5,8 +5,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using admin.DBAccess;
-using admin.Mifare;
 using admin.models;
+using admin.Mifare;
 using admin.Utils;
 using admin.views;
 
@@ -28,14 +28,14 @@ namespace admin.forms
         private readonly byte BlockPasswordFrom = 25;
         private readonly byte BlockPasswordTo = 26;
         private readonly byte BlockTelp = 17;
-        private readonly DaftarPendaftaran df;
-        private MPendaftaran _mDaftarBaru = new MPendaftaran(" ", " ", " ", " ", " ", " ");
-        private int _noOfErrorsOnScreen;
         private readonly DBCommand cmd;
 
         private readonly SqlConnection conn;
+        private readonly DaftarPendaftaran df;
 
         private readonly SmartCardOperation sp;
+        private MPendaftaran _mDaftarBaru = new MPendaftaran(" ", " ", " ", " ", " ", " ");
+        private int _noOfErrorsOnScreen;
 
         public UbahStaffPendaftaran(string id, string nama, string alamat, string telp, string jenisK,
             DaftarPendaftaran df)

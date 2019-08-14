@@ -43,7 +43,7 @@
 
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button x:Name="btn_add" Click="TambahPasien" Content="Daftar" />
-            <Button x:Name="btn_hapus" Click="HapusDataPasien" Content="Hapus" />
+            <!--<Button x:Name="btn_hapus" Click="HapusDataPasien" Content="Hapus" />-->
         </StackPanel>
     </Grid>
 </Page>

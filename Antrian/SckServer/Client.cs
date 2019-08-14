@@ -1,20 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Antrian.SckServer
 {
     public class Client
     {
-        public string ID { get; private set; }
+        public delegate void ClientDisconnectedHandler(Client sender);
 
-        public IPEndPoint EndPoint { get; private set; }
+        public delegate void ClientReceivedHandler(Client sender, byte[] data);
 
-        Socket sck;
+        private readonly Socket sck;
 
         public Client(Socket accepted)
         {
@@ -24,18 +20,19 @@ namespace Antrian.SckServer
             sck.BeginReceive(new byte[] {0}, 0, 0, 0, callback, null);
         }
 
-        void callback(IAsyncResult ar)
+        public string ID { get; }
+
+        public IPEndPoint EndPoint { get; }
+
+        private void callback(IAsyncResult ar)
         {
             try
             {
                 sck.EndReceive(ar);
-                byte[] buf = new byte[8192];
-                int rec = sck.Receive(buf, buf.Length, 0);
+                var buf = new byte[8192];
+                var rec = sck.Receive(buf, buf.Length, 0);
 
-                if (rec < buf.Length)
-                {
-                    Array.Resize<byte>(ref buf, rec);
-                }
+                if (rec < buf.Length) Array.Resize(ref buf, rec);
 
                 Received?.Invoke(this, buf);
 
@@ -55,10 +52,6 @@ namespace Antrian.SckServer
             sck.Close();
             sck.Dispose();
         }
-
-        public delegate void ClientReceivedHandler(Client sender, byte[] data);
-
-        public delegate void ClientDisconnectedHandler(Client sender);
 
         public event ClientReceivedHandler Received;
         public event ClientDisconnectedHandler Disconnected;

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
@@ -91,9 +90,9 @@ namespace pendaftaran.views
         {
             var cbp = (ComboboxPairs) cbPoliklinik.SelectedItem;
             policode = cbp.nama_poliklinik;
-            DBCommand cmd = new DBCommand(conn);
+            var cmd = new DBCommand(conn);
 
-            CultureInfo ci = CultureInfo.CreateSpecificCulture(CultureInfo.CurrentCulture.Name);
+            var ci = CultureInfo.CreateSpecificCulture(CultureInfo.CurrentCulture.Name);
             ci.DateTimeFormat.ShortDatePattern = "dd-MM-yyyy";
             Thread.CurrentThread.CurrentCulture = ci;
 
@@ -102,29 +101,19 @@ namespace pendaftaran.views
                 var res = false;
                 //MessageBox.Show("asdasd");
                 foreach (ModelAntrian an in dtgAntrian.ItemsSource)
-                {
                     if (cmd.DetleDataAntrian(int.Parse(an.id)))
-                    {
                         res = true;
-                    }
                     else
-                    {
                         break;
-                    }
-                }
 
                 if (res)
-                {
                     MessageBox.Show(
                         $"Daftar antrian pada tanggal {dtTanggalLahir.Text} berhasil dihapus.",
                         "Informasi", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
                 else
-                {
                     MessageBox.Show(
                         $"Sebagian antriaan pada tanggal {dtTanggalLahir.Text} gagal dihapus.",
                         "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
 
                 displayDataAntrian(null, dtTanggalLahir.Text);
             }

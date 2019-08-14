@@ -5,8 +5,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using admin.DBAccess;
-using admin.Mifare;
 using admin.models;
+using admin.Mifare;
 using admin.Utils;
 using admin.views;
 
@@ -30,16 +30,16 @@ namespace admin.forms
         private readonly byte BlockSpesialisasi = 24;
 
         private readonly byte BlockTelp = 17;
-
-        //private readonly byte BlockTugas = 25;
-        private readonly DaftarDokter dd;
-        private MDokter _mDaftarBaru = new MDokter(" ", " ", " ", " ", " ", " ");
-        private int _noOfErrorsOnScreen;
         private readonly DBCommand cmd;
 
         private readonly SqlConnection conn;
 
+        //private readonly byte BlockTugas = 25;
+        private readonly DaftarDokter dd;
+
         private readonly SmartCardOperation sp;
+        private MDokter _mDaftarBaru = new MDokter(" ", " ", " ", " ", " ", " ");
+        private int _noOfErrorsOnScreen;
 
         #region constructor
 

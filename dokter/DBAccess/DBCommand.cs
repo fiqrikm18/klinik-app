@@ -1,9 +1,9 @@
-﻿using dokter.models;
-using dokter.Properties;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using dokter.models;
+using dokter.Properties;
 
 namespace dokter.DBAccess
 {
@@ -62,17 +62,14 @@ namespace dokter.DBAccess
             try
             {
                 OpenConnection();
-                SqlCommand cmd =
+                var cmd =
                     new SqlCommand("select count(*) from tb_dokter where id=@id and password=@pass and tugas=@tugas",
                         conn);
                 cmd.Parameters.AddWithValue("id", id);
                 cmd.Parameters.AddWithValue("tugas", GetKodePoli());
                 cmd.Parameters.AddWithValue("pass", pass);
 
-                if (int.Parse(cmd.ExecuteScalar().ToString()) > 0)
-                {
-                    return true;
-                }
+                if (int.Parse(cmd.ExecuteScalar().ToString()) > 0) return true;
 
                 CloseConnection();
             }
@@ -86,15 +83,15 @@ namespace dokter.DBAccess
 
         public DataTable GetDataPasien(string no_rm)
         {
-            DataTable dt = new DataTable();
+            var dt = new DataTable();
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("[GetDataPasien]", conn);
+                var cmd = new SqlCommand("[GetDataPasien]", conn);
                 cmd.Parameters.AddWithValue("no_rm", no_rm);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                SqlDataAdapter adp = new SqlDataAdapter(cmd);
+                var adp = new SqlDataAdapter(cmd);
                 adp.Fill(dt);
 
                 CloseConnection();
@@ -109,15 +106,15 @@ namespace dokter.DBAccess
 
         public DataTable GetDataRekamMedis(string no_rm)
         {
-            DataTable dt = new DataTable();
+            var dt = new DataTable();
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("[getDataRekamMedis]", conn);
+                var cmd = new SqlCommand("[getDataRekamMedis]", conn);
                 cmd.Parameters.AddWithValue("no_rm", no_rm);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                SqlDataAdapter adp = new SqlDataAdapter(cmd);
+                var adp = new SqlDataAdapter(cmd);
                 adp.Fill(dt);
 
                 CloseConnection();
@@ -132,15 +129,15 @@ namespace dokter.DBAccess
 
         public DataTable GetDetailPasien(string no_rm)
         {
-            DataTable dt = new DataTable();
+            var dt = new DataTable();
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("[GetDetailPasien]", conn);
+                var cmd = new SqlCommand("[GetDetailPasien]", conn);
                 cmd.Parameters.AddWithValue("no_rm", no_rm);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                SqlDataAdapter adp = new SqlDataAdapter(cmd);
+                var adp = new SqlDataAdapter(cmd);
                 adp.Fill(dt);
 
                 CloseConnection();
@@ -155,19 +152,17 @@ namespace dokter.DBAccess
 
         public List<ModelDiagnosis> GetDataDiagnosis()
         {
-            List<ModelDiagnosis> data = new List<ModelDiagnosis>();
+            var data = new List<ModelDiagnosis>();
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("select * from tb_diagnosis order by kode asc", conn);
+                var cmd = new SqlCommand("select * from tb_diagnosis order by kode asc", conn);
 
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
-                    {
                         data.Add(new ModelDiagnosis(int.Parse(reader["id"].ToString()), reader["kode"].ToString(),
                             reader["deskripsi"].ToString()));
-                    }
                 }
 
                 CloseConnection();
@@ -182,19 +177,17 @@ namespace dokter.DBAccess
 
         public List<ModelTindakan> GetDataTindakan()
         {
-            List<ModelTindakan> data = new List<ModelTindakan>();
+            var data = new List<ModelTindakan>();
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("select * from tb_tindakan order by kode asc", conn);
+                var cmd = new SqlCommand("select * from tb_tindakan order by kode asc", conn);
 
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
-                    {
                         data.Add(new ModelTindakan(int.Parse(reader["id"].ToString()), reader["kode"].ToString(),
                             reader["deskripsi"].ToString()));
-                    }
                 }
 
                 CloseConnection();
@@ -209,22 +202,19 @@ namespace dokter.DBAccess
 
         public string GetKodePoli()
         {
-            string kodePoli = "";
-            string poliklinik = Settings.Default.Role;
+            var kodePoli = "";
+            var poliklinik = Settings.Default.Role;
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand(
+                var cmd = new SqlCommand(
                     "SELECT TOP 1 [kode_poli] FROM [tb_poliklinik] WHERE [nama_poli]=@nama_poli",
                     conn);
                 cmd.Parameters.AddWithValue("nama_poli", poliklinik);
 
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                using (var reader = cmd.ExecuteReader())
                 {
-                    while (reader.Read())
-                    {
-                        kodePoli = reader["kode_poli"].ToString();
-                    }
+                    while (reader.Read()) kodePoli = reader["kode_poli"].ToString();
                 }
             }
             catch (SqlException ex)
@@ -237,23 +227,21 @@ namespace dokter.DBAccess
 
         public List<ModelObat> GetDataObat()
         {
-            List<ModelObat> obat = new List<ModelObat>();
+            var obat = new List<ModelObat>();
             OpenConnection();
 
             try
             {
-                SqlCommand cmd = new SqlCommand("select * from tb_obat", conn);
+                var cmd = new SqlCommand("select * from tb_obat", conn);
 
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
-                    {
                         obat.Add(new ModelObat(reader["kode_obat"].ToString(), reader["nama_obat"].ToString(),
                             int.Parse(reader["stok"].ToString()),
                             reader["satuan"].ToString(), reader["harga_beli"].ToString(),
                             reader["harga_jual"].ToString(),
                             reader["harga_resep"].ToString(), reader["tgl_insert"].ToString()));
-                    }
                 }
 
                 CloseConnection();
@@ -268,26 +256,24 @@ namespace dokter.DBAccess
 
         public List<ModelAntrian> GetDataAntrian(string tgl_Berobat)
         {
-            List<ModelAntrian> antrian = new List<ModelAntrian>();
+            var antrian = new List<ModelAntrian>();
             OpenConnection();
 
             try
             {
-                SqlCommand cmd = new SqlCommand(
+                var cmd = new SqlCommand(
                     "SELECT tb_pasien.nama as nama, tb_antrian.* FROM tb_antrian LEFT JOIN [tb_pasien] ON tb_antrian.no_rm = tb_pasien.no_rekam_medis WHERE [tgl_berobat]= @tgl_berobat AND [poliklinik]=@poliklinik and tujuan_antrian='Poliklinik' AND Not status='Selesai' ORDER BY no_urut ASC",
                     conn);
                 cmd.Parameters.AddWithValue("tgl_berobat", tgl_Berobat);
                 cmd.Parameters.AddWithValue("poliklinik", GetKodePoli());
 
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
-                    {
                         antrian.Add(new ModelAntrian(reader["id"].ToString(), reader["no_rm"].ToString(),
                             reader["nama"].ToString(), int.Parse(reader["no_urut"].ToString()),
                             reader["poliklinik"].ToString(), reader["status"].ToString(),
                             reader["tgl_berobat"].ToString()));
-                    }
                 }
             }
             catch (Exception ex)
@@ -301,22 +287,20 @@ namespace dokter.DBAccess
 
         public List<ModelDokter> GetDataDokter()
         {
-            List<ModelDokter> dokter = new List<ModelDokter>();
+            var dokter = new List<ModelDokter>();
 
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("SELECT * FROM tb_dokter", conn);
+                var cmd = new SqlCommand("SELECT * FROM tb_dokter", conn);
 
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
-                    {
                         dokter.Add(new ModelDokter(reader["id"].ToString(), reader["nama"].ToString(),
                             reader["telp"].ToString(),
                             reader["spesialisasi"].ToString(), reader["alamat"].ToString(),
                             reader["password"].ToString()));
-                    }
                 }
 
                 CloseConnection();
@@ -331,23 +315,21 @@ namespace dokter.DBAccess
 
         public List<ModelDokter> GetDataDokter(string id)
         {
-            List<ModelDokter> dokter = new List<ModelDokter>();
+            var dokter = new List<ModelDokter>();
 
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("SELECT * FROM tb_dokter WHERE id=@id", conn);
+                var cmd = new SqlCommand("SELECT * FROM tb_dokter WHERE id=@id", conn);
                 cmd.Parameters.AddWithValue("id", id);
 
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
-                    {
                         dokter.Add(new ModelDokter(reader["id"].ToString(), reader["nama"].ToString(),
                             reader["telp"].ToString(),
                             reader["spesialisasi"].ToString(), reader["alamat"].ToString(),
                             reader["password"].ToString()));
-                    }
                 }
 
                 CloseConnection();
@@ -362,24 +344,22 @@ namespace dokter.DBAccess
 
         public List<ModelPasien> GetDataPasien()
         {
-            List<ModelPasien> pasien = new List<ModelPasien>();
+            var pasien = new List<ModelPasien>();
 
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("select * from tb_pasien", conn);
+                var cmd = new SqlCommand("select * from tb_pasien", conn);
 
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
-                    {
                         pasien.Add(new ModelPasien(reader["no_identitas"].ToString(),
                             reader["no_rekam_medis"].ToString(), reader["nama"].ToString(),
                             reader["tanggal_lahir"].ToString(), reader["jenis_kelamin"].ToString(),
                             reader["no_telp"].ToString(),
                             reader["alamat"].ToString(), reader["tgl_daftar"].ToString(),
                             reader["golongan_darah"].ToString(), reader["jenis_identitas"].ToString()));
-                    }
                 }
 
                 CloseConnection();
@@ -394,20 +374,19 @@ namespace dokter.DBAccess
 
         public List<ModelRekamMedis> GetDataRekamMedis()
         {
-            List<ModelRekamMedis> rekam_medis = new List<ModelRekamMedis>();
+            var rekam_medis = new List<ModelRekamMedis>();
             OpenConnection();
 
             try
             {
                 //SqlCommand cmd = new SqlCommand("select tb_rekam_medis.*, tb_pasien.nama as nama_pasien, tb_dokter.nama as nama_dokter, tb_poliklinik.nama_poli as nama_poli from tb_rekam_medis left join tb_dokter on tb_rekam_medis.id_dokter = tb_dokter.id left join tb_poliklinik on tb_rekam_medis.poli = tb_poliklinik.kode_poli left join tb_pasien on tb_pasien.no_rekam_medis = tb_rekam_medis.no_rm", conn);
-                SqlCommand cmd = new SqlCommand(
+                var cmd = new SqlCommand(
                     "select top 1 tb_rekam_medis.*, tb_pasien.nama as nama_pasien, tb_dokter.nama as nama_dokter, tb_poliklinik.nama_poli as nama_poli from tb_rekam_medis left join tb_dokter on tb_rekam_medis.id_dokter = tb_dokter.id left join tb_poliklinik on tb_rekam_medis.poli = tb_poliklinik.kode_poli left join tb_pasien on tb_pasien.no_rekam_medis = tb_rekam_medis.no_rm order by tgl_pemeriksaan DESC",
                     conn);
 
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
-                    {
                         rekam_medis.Add(new ModelRekamMedis(int.Parse(reader["id"].ToString()),
                             reader["no_rm"].ToString(), reader["riwayat_penyakit"].ToString(),
                             reader["alergi"].ToString(), reader["berat_badan"].ToString(), reader["keluhan"].ToString(),
@@ -415,7 +394,6 @@ namespace dokter.DBAccess
                             reader["id_dokter"].ToString(), reader["poli"].ToString(),
                             reader["tgl_pemeriksaan"].ToString(), reader["nama_dokter"].ToString(),
                             reader["nama_poli"].ToString(), reader["nama_pasien"].ToString()));
-                    }
                 }
             }
             catch (Exception ex)
@@ -429,7 +407,7 @@ namespace dokter.DBAccess
 
         public List<ModelRekamMedis> GetAllDataRekamMedisFrom(string no_rm = null)
         {
-            List<ModelRekamMedis> rekam_medis = new List<ModelRekamMedis>();
+            var rekam_medis = new List<ModelRekamMedis>();
             OpenConnection();
 
             try
@@ -439,14 +417,13 @@ namespace dokter.DBAccess
                 //    "select distinct a.no_rm, a.riwayat_penyakit, a.berat_badan, a.keluhan, a.alergi, STUFF((select distinct ';' + td.deskripsi +'('+td.kode+')' from tb_rekam_medis left join tb_diagnosis td on tb_rekam_medis.diagnosa = td.kode where tgl_pemeriksaan = a.tgl_pemeriksaan FOR XML PATH ('')), 1, 1, '') as diagnosa, stuff((select distinct ';' + tt.deskripsi+'('+tt.kode+')' from tb_rekam_medis a left join tb_tindakan tt on a.tindakan = tt.kode where tgl_pemeriksaan = a.tgl_pemeriksaan FOR XML PATH ('')), 1, 1, '') as tindakan, a.id_dokter, b.nama as nama_dokter, a.poli, c.nama_poli as nama_poli, a.tgl_pemeriksaan from tb_rekam_medis a left join tb_dokter b on a.id_dokter = b.id left join tb_poliklinik c on c.kode_poli = a.poli",
                 //    conn);
 
-                SqlCommand cmd = new SqlCommand("[getDataRekamMedis]", conn);
+                var cmd = new SqlCommand("[getDataRekamMedis]", conn);
                 cmd.Parameters.AddWithValue("no_rm", no_rm);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
-                    {
                         rekam_medis.Add(new ModelRekamMedis(
                             reader["no_rm"].ToString(), reader["riwayat_penyakit"].ToString(),
                             reader["alergi"].ToString(), reader["berat_badan"].ToString(), reader["keluhan"].ToString(),
@@ -454,7 +431,6 @@ namespace dokter.DBAccess
                             reader["id_dokter"].ToString(), reader["poli"].ToString(),
                             reader["tgl_pemeriksaan"].ToString(), reader["nama_dokter"].ToString(),
                             reader["nama_poli"].ToString()));
-                    }
                 }
             }
             catch (Exception ex)
@@ -468,12 +444,12 @@ namespace dokter.DBAccess
 
         public string GetNoRmByNoUrut()
         {
-            string no_rm = "";
+            var no_rm = "";
 
             try
             {
                 OpenConnection();
-                SqlCommand command =
+                var command =
                     new SqlCommand(
                         "SELECT TOP 1 no_rm FROM tb_antrian WHERE tgl_berobat = CONVERT(date, GETDATE(), 111) AND poliklinik=@poliklinik AND status='Panggil' ORDER BY no_urut DESC",
                         conn);
@@ -484,12 +460,9 @@ namespace dokter.DBAccess
                 //        conn);
                 command.Parameters.AddWithValue("poliklinik", GetKodePoli());
 
-                using (SqlDataReader reader = command.ExecuteReader())
+                using (var reader = command.ExecuteReader())
                 {
-                    while (reader.Read())
-                    {
-                        no_rm = reader["no_rm"].ToString();
-                    }
+                    while (reader.Read()) no_rm = reader["no_rm"].ToString();
                 }
             }
             catch (SqlException ex)
@@ -506,7 +479,7 @@ namespace dokter.DBAccess
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand(
+                var cmd = new SqlCommand(
                     "INSERT INTO [dbo].[tb_rekam_medis] ([no_rm] ,[riwayat_penyakit] ,[alergi], [berat_badan] ,[keluhan] ,[diagnosa] ,[tindakan] ,[id_dokter] ,[poli]) VALUES (@no_rm,@riwayat_penyakit,@alergi,@berat_badan,@keluhan,@diagnosa,@tindakan,@id_dokter,@poli)",
                     conn);
                 cmd.Parameters.AddWithValue("no_rm", no_rm);
@@ -518,12 +491,9 @@ namespace dokter.DBAccess
                 cmd.Parameters.AddWithValue("tindakan", tindakan);
                 cmd.Parameters.AddWithValue("id_dokter", id_dokter);
                 cmd.Parameters.AddWithValue("poli", poli);
-                int res = cmd.ExecuteNonQuery();
+                var res = cmd.ExecuteNonQuery();
 
-                if (res == 1)
-                {
-                    return true;
-                }
+                if (res == 1) return true;
 
                 CloseConnection();
             }
@@ -540,19 +510,16 @@ namespace dokter.DBAccess
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand(
+                var cmd = new SqlCommand(
                     "INSERT INTO [dbo].[tb_resep]([kode_resep],[no_rm],[no_resep],[id_dokter]) VALUES(@kode_resep,@no_rm,@no_resep,@id_dokter)",
                     conn);
                 cmd.Parameters.AddWithValue("kode_resep", kode_resep);
                 cmd.Parameters.AddWithValue("no_rm", no_rm);
                 cmd.Parameters.AddWithValue("no_resep", no_resep);
                 cmd.Parameters.AddWithValue("id_dokter", id_dokter);
-                int res = cmd.ExecuteNonQuery();
+                var res = cmd.ExecuteNonQuery();
 
-                if (res == 1)
-                {
-                    return true;
-                }
+                if (res == 1) return true;
 
                 CloseConnection();
             }
@@ -569,17 +536,14 @@ namespace dokter.DBAccess
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand(
+                var cmd = new SqlCommand(
                     "select count(kode_resep) from tb_resep where no_rm =@no_rm and kode_resep=@kode_resep order by 1 desc",
                     conn);
                 cmd.Parameters.AddWithValue("no_rm", no_rm);
                 cmd.Parameters.AddWithValue("kode_resep", kode_resep);
-                int res = int.Parse(cmd.ExecuteScalar().ToString());
+                var res = int.Parse(cmd.ExecuteScalar().ToString());
 
-                if (res > 0)
-                {
-                    return true;
-                }
+                if (res > 0) return true;
 
                 CloseConnection();
             }
@@ -597,7 +561,7 @@ namespace dokter.DBAccess
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand(
+                var cmd = new SqlCommand(
                     "INSERT INTO [dbo].[tb_detail_resep]([no_resep],[kode_obat],[jumlah],[ket], [penggunaan], [dosis]) VALUES(@no_resep,@kode_obat,@jumlah,@ket, @penggunaan, @dosis)",
                     conn);
                 cmd.Parameters.AddWithValue("no_resep", kode_resep);
@@ -606,12 +570,9 @@ namespace dokter.DBAccess
                 cmd.Parameters.AddWithValue("ket", keterangan);
                 cmd.Parameters.AddWithValue("dosis", dosis);
                 cmd.Parameters.AddWithValue("penggunaan", penggunaan);
-                int res = cmd.ExecuteNonQuery();
+                var res = cmd.ExecuteNonQuery();
 
-                if (res == 1)
-                {
-                    return true;
-                }
+                if (res == 1) return true;
 
                 CloseConnection();
             }
@@ -628,7 +589,7 @@ namespace dokter.DBAccess
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand(
+                var cmd = new SqlCommand(
                     "INSERT INTO tb_antrian(no_rm, no_resep, no_urut, status, tujuan_antrian) values(@no_rm, @no_resep, @no_urut, @status, 'Apotik')",
                     conn);
                 cmd.Parameters.AddWithValue("no_rm", no_rm);
@@ -636,10 +597,7 @@ namespace dokter.DBAccess
                 cmd.Parameters.AddWithValue("no_urut", no_urut);
                 cmd.Parameters.AddWithValue("status", status);
 
-                if (cmd.ExecuteNonQuery() == 1)
-                {
-                    return true;
-                }
+                if (cmd.ExecuteNonQuery() == 1) return true;
 
                 CloseConnection();
             }
@@ -653,21 +611,18 @@ namespace dokter.DBAccess
 
         public int GetLastNoUrutApotik()
         {
-            int res = 0;
+            var res = 0;
 
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand(
+                var cmd = new SqlCommand(
                     "select top 1 no_urut from tb_antrian where tgl_berobat = convert(varchar(10), getdate(), 111) and tujuan_antrian='Apotik' order by 1 desc",
                     conn);
 
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                using (var reader = cmd.ExecuteReader())
                 {
-                    while (reader.Read())
-                    {
-                        res = reader.GetInt32(0);
-                    }
+                    while (reader.Read()) res = reader.GetInt32(0);
                 }
 
                 CloseConnection();
@@ -682,22 +637,19 @@ namespace dokter.DBAccess
 
         public int GetLastNoResep(string no_rm)
         {
-            int res = 0;
+            var res = 0;
 
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand(
+                var cmd = new SqlCommand(
                     "select top 1 no_resep from tb_resep where no_rm =@no_rm order by 1 desc",
                     conn);
                 cmd.Parameters.AddWithValue("no_rm", no_rm);
 
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                using (var reader = cmd.ExecuteReader())
                 {
-                    while (reader.Read())
-                    {
-                        res = reader.GetInt32(0);
-                    }
+                    while (reader.Read()) res = reader.GetInt32(0);
                 }
 
                 CloseConnection();
@@ -712,12 +664,12 @@ namespace dokter.DBAccess
 
         public int CountDataAntrian()
         {
-            int res = 0;
+            var res = 0;
 
             try
             {
                 OpenConnection();
-                SqlCommand command =
+                var command =
                     new SqlCommand(
                         "select COUNT(*) from tb_antrian where poliklinik=@poliklinik and tgl_berobat=CONVERT(date, getdate(), 111) and status='Panggil'",
                         conn);
@@ -736,27 +688,21 @@ namespace dokter.DBAccess
 
         public int LastAntrian()
         {
-            int res = 0;
+            var res = 0;
             try
             {
                 OpenConnection();
-                SqlCommand cmd =
+                var cmd =
                     new SqlCommand(
                         "select top 1 no_urut from tb_antrian where tgl_berobat=CONVERT(date, getdate(), 111) and poliklinik=@poli and status='Antri' and tujuan_antrian='Poliklinik' order by 1 asc",
                         conn);
                 cmd.Parameters.AddWithValue("poli", GetKodePoli());
 
-                if (conn.State.Equals(ConnectionState.Closed))
-                {
-                    OpenConnection();
-                }
+                if (conn.State.Equals(ConnectionState.Closed)) OpenConnection();
 
                 using (var reader = cmd.ExecuteReader())
                 {
-                    while (reader.Read())
-                    {
-                        res = reader.GetInt32(0);
-                    }
+                    while (reader.Read()) res = reader.GetInt32(0);
                 }
 
                 conn.Close();
@@ -771,27 +717,21 @@ namespace dokter.DBAccess
 
         public int LastAntrianPrev()
         {
-            int res = 0;
+            var res = 0;
             try
             {
                 OpenConnection();
-                SqlCommand cmd =
+                var cmd =
                     new SqlCommand(
                         "select top 1 no_urut from tb_antrian where tgl_berobat=CONVERT(date, getdate(), 111) and poliklinik=@poli and status='Panggil' and tujuan_antrian='Poliklinik' order by 1 desc",
                         conn);
                 cmd.Parameters.AddWithValue("poli", GetKodePoli());
 
-                if (conn.State.Equals(ConnectionState.Closed))
-                {
-                    OpenConnection();
-                }
+                if (conn.State.Equals(ConnectionState.Closed)) OpenConnection();
 
                 using (var reader = cmd.ExecuteReader())
                 {
-                    while (reader.Read())
-                    {
-                        res = reader.GetInt32(0);
-                    }
+                    while (reader.Read()) res = reader.GetInt32(0);
                 }
 
                 CloseConnection();
@@ -808,22 +748,16 @@ namespace dokter.DBAccess
         {
             try
             {
-                SqlCommand cmd =
+                var cmd =
                     new SqlCommand(
                         "update tb_antrian set status='Antri' where no_urut=@no_urut and poliklinik=@poli and tujuan_antrian='Poliklinik' and status='Panggil' and tgl_berobat=convert(date, getdate(), 111)",
                         conn);
                 cmd.Parameters.AddWithValue("no_urut", LastAntrianPrev());
                 cmd.Parameters.AddWithValue("poli", GetKodePoli());
 
-                if (conn.State.Equals(ConnectionState.Closed))
-                {
-                    OpenConnection();
-                }
+                if (conn.State.Equals(ConnectionState.Closed)) OpenConnection();
 
-                if (cmd.ExecuteNonQuery() == 1)
-                {
-                    return true;
-                }
+                if (cmd.ExecuteNonQuery() == 1) return true;
 
                 conn.Close();
             }
@@ -840,21 +774,15 @@ namespace dokter.DBAccess
             try
             {
                 OpenConnection();
-                SqlCommand cmd =
+                var cmd =
                     new SqlCommand(
                         "update tb_antrian set status='Panggil' where no_urut=@no_urut and poliklinik=@poli and tujuan_antrian='Poliklinik' and tgl_berobat=convert(date, getdate(), 111)",
                         conn);
                 cmd.Parameters.AddWithValue("no_urut", LastAntrian());
                 cmd.Parameters.AddWithValue("poli", GetKodePoli());
-                if (conn.State.Equals(System.Data.ConnectionState.Closed))
-                {
-                    OpenConnection();
-                }
+                if (conn.State.Equals(ConnectionState.Closed)) OpenConnection();
 
-                if (cmd.ExecuteNonQuery() == 1)
-                {
-                    return true;
-                }
+                if (cmd.ExecuteNonQuery() == 1) return true;
 
                 CloseConnection();
             }
@@ -868,20 +796,17 @@ namespace dokter.DBAccess
 
         public int GetLastAntrianPoli()
         {
-            int res = 0;
+            var res = 0;
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand(
+                var cmd = new SqlCommand(
                     "select top 1 no_urut from tb_antrian where status='Panggil' and tgl_berobat=CONVERT(date, GETDATE(), 111) order by 1 desc",
                     conn);
 
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                using (var reader = cmd.ExecuteReader())
                 {
-                    while (reader.Read())
-                    {
-                        res = reader.GetInt32(0);
-                    }
+                    while (reader.Read()) res = reader.GetInt32(0);
                 }
 
                 CloseConnection();
@@ -899,7 +824,7 @@ namespace dokter.DBAccess
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand(
+                var cmd = new SqlCommand(
                     "update tb_antrian set status='Selesai' where no_rm=@no_rm and poliklinik=@poli and no_urut=@no_urut and tujuan_antrian='Poliklinik' and tgl_berobat=convert(date, getdate(), 111)",
                     conn);
                 cmd.Parameters.AddWithValue("no_rm", no_rm);
@@ -908,10 +833,7 @@ namespace dokter.DBAccess
                 CloseConnection();
                 OpenConnection();
 
-                if (cmd.ExecuteNonQuery() == 1)
-                {
-                    return true;
-                }
+                if (cmd.ExecuteNonQuery() == 1) return true;
 
                 CloseConnection();
             }
@@ -928,13 +850,10 @@ namespace dokter.DBAccess
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("DELETE FROM [dbo].[tb_rekam_medis] WHERE id=@id", conn);
+                var cmd = new SqlCommand("DELETE FROM [dbo].[tb_rekam_medis] WHERE id=@id", conn);
                 cmd.Parameters.AddWithValue("id", id);
 
-                if (cmd.ExecuteNonQuery() == 1)
-                {
-                    return true;
-                }
+                if (cmd.ExecuteNonQuery() == 1) return true;
 
                 CloseConnection();
             }
@@ -952,7 +871,7 @@ namespace dokter.DBAccess
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand(
+                var cmd = new SqlCommand(
                     "UPDATE [dbo].[tb_rekam_medis] set [riwayat_penyakit]=@riwayat_penyakit ,[alergi]=@alergi, [berat_badan]=@berat_badan ,[keluhan]=@keluhan ,[diagnosa]=@diagnosa ,[tindakan]=@tindakan ,[id_dokter]=@id_dokter ,[poli]=@poli where [no_rm]=@no_rm",
                     conn);
                 cmd.Parameters.AddWithValue("no_rm", no_rm);
@@ -964,12 +883,9 @@ namespace dokter.DBAccess
                 cmd.Parameters.AddWithValue("tindakan", tindakan);
                 cmd.Parameters.AddWithValue("id_dokter", id_dokter);
                 cmd.Parameters.AddWithValue("poli", poli);
-                int res = cmd.ExecuteNonQuery();
+                var res = cmd.ExecuteNonQuery();
 
-                if (res == 1)
-                {
-                    return true;
-                }
+                if (res == 1) return true;
 
                 CloseConnection();
             }

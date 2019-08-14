@@ -7,7 +7,7 @@
             string jenis_kartu)
         {
             this.no_identitas = no_identitas;
-            this.jenis_id = jenis_kartu;
+            jenis_id = jenis_kartu;
             this.no_rekam_medis = no_rekam_medis;
             this.nama = nama;
             this.tanggal_lahir = tanggal_lahir;

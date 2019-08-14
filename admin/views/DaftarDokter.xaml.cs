@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using admin.DBAccess;
 using admin.forms;
+using admin.models;
 using admin.Mifare;
 using admin.Utils;
 
@@ -389,15 +390,12 @@ namespace admin.views
 
         private void btnPrint_Click(object sender, RoutedEventArgs e)
         {
-            string id = "";
+            var id = "";
             if (dtgDataDokter.SelectedItems.Count > 0)
             {
-                foreach (models.MDokter md in dtgDataDokter.SelectedItems)
-                {
-                    id = md.id;
-                }
+                foreach (MDokter md in dtgDataDokter.SelectedItems) id = md.id;
 
-                VDokter vd = new VDokter(id);
+                var vd = new VDokter(id);
                 vd.Show();
             }
         }

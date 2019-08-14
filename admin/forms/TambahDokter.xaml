@@ -108,7 +108,7 @@
 
         <StackPanel Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Orientation="Horizontal">
             <Button Content="Simpan" Command="New" />
-            <Button Content="Print Label" x:Name="btnPrint" Click="btnPrint_Click" />
+            <!--<Button Content="Print Label" x:Name="btnPrint" Click="btnPrint_Click" />-->
             <Button Content="Batal" x:Name="btnBatal" Click="BtnBatal_OnClick" />
             <CheckBox Content="Buat kartu dokter" x:Name="chkChekKartu" VerticalAlignment="Center" IsChecked="True" />
         </StackPanel>

@@ -61,21 +61,18 @@ namespace Apotik.DBAccess
 
         public int LastAntrian()
         {
-            int res = 0;
+            var res = 0;
             try
             {
                 OpenConnection();
-                SqlCommand cmd =
+                var cmd =
                     new SqlCommand(
                         "select top 1 no_urut from tb_antrian where tgl_berobat=CONVERT(date, getdate(), 111) and status='Antri' and tujuan_antrian='Apotik' order by 1 asc",
                         conn);
 
                 using (var reader = cmd.ExecuteReader())
                 {
-                    while (reader.Read())
-                    {
-                        res = reader.GetInt32(0);
-                    }
+                    while (reader.Read()) res = reader.GetInt32(0);
                 }
 
                 CloseConnection();
@@ -90,21 +87,18 @@ namespace Apotik.DBAccess
 
         public int LastAntrianPrev()
         {
-            int res = 0;
+            var res = 0;
             try
             {
                 OpenConnection();
-                SqlCommand cmd =
+                var cmd =
                     new SqlCommand(
                         "select top 1 no_urut from tb_antrian where tgl_berobat=CONVERT(date, getdate(), 111) and status='Panggil' and tujuan_antrian='Apotik' order by 1 desc",
                         conn);
 
                 using (var reader = cmd.ExecuteReader())
                 {
-                    while (reader.Read())
-                    {
-                        res = reader.GetInt32(0);
-                    }
+                    while (reader.Read()) res = reader.GetInt32(0);
                 }
 
                 CloseConnection();
@@ -121,21 +115,15 @@ namespace Apotik.DBAccess
         {
             try
             {
-                SqlCommand cmd =
+                var cmd =
                     new SqlCommand(
                         "update tb_antrian set status='Antri' where no_urut=@no_urut and tujuan_antrian='Apotik' and tgl_berobat=convert(date, getdate(), 111)",
                         conn);
                 cmd.Parameters.AddWithValue("no_urut", LastAntrianPrev());
 
-                if (conn.State.Equals(System.Data.ConnectionState.Closed))
-                {
-                    OpenConnection();
-                }
+                if (conn.State.Equals(ConnectionState.Closed)) OpenConnection();
 
-                if (cmd.ExecuteNonQuery() == 1)
-                {
-                    return true;
-                }
+                if (cmd.ExecuteNonQuery() == 1) return true;
 
                 CloseConnection();
             }
@@ -151,21 +139,15 @@ namespace Apotik.DBAccess
         {
             try
             {
-                SqlCommand cmd =
+                var cmd =
                     new SqlCommand(
                         "update tb_antrian set status='Panggil' where no_urut=@no_urut and tujuan_antrian='Apotik' and tgl_berobat=convert(date, getdate(), 111)",
                         conn);
                 cmd.Parameters.AddWithValue("no_urut", LastAntrian());
 
-                if (conn.State.Equals(System.Data.ConnectionState.Closed))
-                {
-                    OpenConnection();
-                }
+                if (conn.State.Equals(ConnectionState.Closed)) OpenConnection();
 
-                if (cmd.ExecuteNonQuery() == 1)
-                {
-                    return true;
-                }
+                if (cmd.ExecuteNonQuery() == 1) return true;
 
                 CloseConnection();
             }
@@ -204,7 +186,7 @@ namespace Apotik.DBAccess
             try
             {
                 OpenConnection();
-                SqlCommand cmd =
+                var cmd =
                     new SqlCommand(
                         "insert into tb_transaksi(apoteker, kode_resep, total) values(@apoteker, @kode_resep, @total)",
                         conn);
@@ -212,10 +194,7 @@ namespace Apotik.DBAccess
                 cmd.Parameters.AddWithValue("kode_resep", kode_resep);
                 cmd.Parameters.AddWithValue("total", total);
 
-                if (cmd.ExecuteNonQuery() == 1)
-                {
-                    return true;
-                }
+                if (cmd.ExecuteNonQuery() == 1) return true;
 
                 CloseConnection();
             }

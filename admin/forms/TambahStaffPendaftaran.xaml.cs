@@ -5,8 +5,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using admin.DBAccess;
-using admin.Mifare;
 using admin.models;
+using admin.Mifare;
 using admin.Utils;
 using admin.views;
 
@@ -28,16 +28,16 @@ namespace admin.forms
         private readonly byte BlockPasswordFrom = 25;
         private readonly byte BlockPasswordTo = 26;
         private readonly byte BlockTelp = 17;
-        private readonly DaftarPendaftaran dp;
-        private MPendaftaran _mDaftarBaru = new MPendaftaran(" ", " ", " ", " ", " ", " ");
-        private int _noOfErrorsOnScreen;
         private readonly DBCommand cmd;
 
         private readonly SqlConnection conn;
-
-        string id = "";
+        private readonly DaftarPendaftaran dp;
 
         private readonly SmartCardOperation sp;
+        private MPendaftaran _mDaftarBaru = new MPendaftaran(" ", " ", " ", " ", " ", " ");
+        private int _noOfErrorsOnScreen;
+
+        private string id = "";
 
         public TambahStaffPendaftaran(DaftarPendaftaran dp)
         {
@@ -63,6 +63,12 @@ namespace admin.forms
         private void BtnBatal_OnClick(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void btnPrint_Click(object sender, RoutedEventArgs e)
+        {
+            var pp = new PVPendaftaran(id);
+            pp.Show();
         }
 
         #region members UI Control & CRUD Operations
@@ -251,11 +257,5 @@ namespace admin.forms
         }
 
         #endregion
-
-        private void btnPrint_Click(object sender, RoutedEventArgs e)
-        {
-            PVPendaftaran pp = new PVPendaftaran(id);
-            pp.Show();
-        }
     }
 }

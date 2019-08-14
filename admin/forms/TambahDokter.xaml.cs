@@ -5,8 +5,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using admin.DBAccess;
-using admin.Mifare;
 using admin.models;
+using admin.Mifare;
 using admin.Utils;
 using admin.views;
 
@@ -30,16 +30,16 @@ namespace admin.forms
         private readonly byte BlockSpesialisasi = 24;
         private readonly byte BlockTelp = 17;
         private readonly byte BlockTugas = 25;
-        private readonly DaftarDokter dd;
-        private MDokter _mDaftarBaru = new MDokter(" ", " ", " ", " ", " ", " ");
-        private int _noOfErrorsOnScreen;
         private readonly DBCommand cmd;
 
         private readonly SqlConnection conn;
-
-        string id = "";
+        private readonly DaftarDokter dd;
 
         private readonly SmartCardOperation sp;
+        private MDokter _mDaftarBaru = new MDokter(" ", " ", " ", " ", " ", " ");
+        private int _noOfErrorsOnScreen;
+
+        private string id = "";
 
         #region constructor
 
@@ -77,6 +77,12 @@ namespace admin.forms
         private void BtnBatal_OnClick(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void btnPrint_Click(object sender, RoutedEventArgs e)
+        {
+            var vd = new VDokter(id);
+            vd.Show();
         }
 
         #region members UI Control & CRUD Operations
@@ -299,11 +305,5 @@ namespace admin.forms
         }
 
         #endregion
-
-        private void btnPrint_Click(object sender, RoutedEventArgs e)
-        {
-            VDokter vd = new VDokter(id);
-            vd.Show();
-        }
     }
 }

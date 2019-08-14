@@ -74,10 +74,7 @@ namespace dokter.models
         public string tgl_pemeriksaan { get; set; }
         public string nama_pasien { get; set; }
 
-        public string Error
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public string Error => throw new NotImplementedException();
 
         #region IDataErrorInfo
 

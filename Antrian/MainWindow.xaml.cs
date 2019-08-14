@@ -1,11 +1,13 @@
-﻿using Antrian.DBAccess;
-using Antrian.Properties;
-using SimpleTCP;
+﻿using System;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Media;
 using System.Net;
+using System.Net.Sockets;
 using System.Windows;
+using Antrian.DBAccess;
+using Antrian.Properties;
+using SimpleTCP;
 
 namespace Antrian
 {
@@ -20,11 +22,11 @@ namespace Antrian
         private readonly string jenis_antrian = Settings.Default.antrian;
 
         private readonly string poliklinik = Settings.Default.poliklinik;
+        private readonly SimpleTcpServer serverApotik;
 
         //private Listener listenerPoli;
         //private Listener listenerApotik;
-        private SimpleTcpServer serverPoli;
-        private SimpleTcpServer serverApotik;
+        private readonly SimpleTcpServer serverPoli;
 
         public MainWindow()
         {
@@ -75,24 +77,24 @@ namespace Antrian
             Closed += MainWindow_Closed;
         }
 
-        private void MainWindow_Closed(object sender, System.EventArgs e)
+        private void MainWindow_Closed(object sender, EventArgs e)
         {
             //throw new System.NotImplementedException();
             Settings.Default.IsRemoteConnected = false;
         }
 
-        private void ServerApotik_ClientConnected(object sender, System.Net.Sockets.TcpClient e)
+        private void ServerApotik_ClientConnected(object sender, TcpClient e)
         {
             Debug.WriteLine("Connected {0}", e.Client);
         }
 
-        private void ServerPoli_ClientConnected(object sender, System.Net.Sockets.TcpClient e)
+        private void ServerPoli_ClientConnected(object sender, TcpClient e)
         {
             //throw new System.NotImplementedException();
             Debug.WriteLine("Connected {0}", e.Client);
         }
 
-        private void ServerApotik_ClientDisconnected(object sender, System.Net.Sockets.TcpClient e)
+        private void ServerApotik_ClientDisconnected(object sender, TcpClient e)
         {
             //throw new System.NotImplementedException();
         }
@@ -105,7 +107,7 @@ namespace Antrian
                 //Debug.WriteLine(e.MessageString);
                 //e.ReplyLine(e.MessageString);
 
-                string a = e.MessageString.Replace("\u0013", "");
+                var a = e.MessageString.Replace("\u0013", "");
                 Debug.WriteLine(a);
                 if (!Settings.Default.IsRemoteConnected)
                 {
@@ -122,7 +124,7 @@ namespace Antrian
                 }
                 else
                 {
-                    if (int.TryParse(a, out int v) && v == 0)
+                    if (int.TryParse(a, out var v) && v == 0)
                     {
                         Settings.Default.IsRemoteConnected = false;
                         if (!Settings.Default.IsRemoteConnected)
@@ -134,15 +136,12 @@ namespace Antrian
                     }
 
                     //Debug.WriteLine(a);
-                    if (a == "Update")
-                    {
-                        LoadPeriksa();
-                    }
+                    if (a == "Update") LoadPeriksa();
                 }
             });
         }
 
-        private void ServerPoli_ClientDisconnected(object sender, System.Net.Sockets.TcpClient e)
+        private void ServerPoli_ClientDisconnected(object sender, TcpClient e)
         {
             //throw new System.NotImplementedException();
         }
@@ -155,7 +154,7 @@ namespace Antrian
                 //Debug.WriteLine(e.MessageString);
                 //e.ReplyLine(e.MessageString);
 
-                string a = e.MessageString.Replace("\u0013", "");
+                var a = e.MessageString.Replace("\u0013", "");
                 Debug.WriteLine(a);
                 if (!Settings.Default.IsRemoteConnected)
                 {
@@ -169,7 +168,7 @@ namespace Antrian
                 }
                 else
                 {
-                    if (int.TryParse(a, out int v) && v == 0)
+                    if (int.TryParse(a, out var v) && v == 0)
                     {
                         Settings.Default.IsRemoteConnected = false;
                         if (!Settings.Default.IsRemoteConnected)
@@ -180,11 +179,7 @@ namespace Antrian
                         }
                     }
 
-                    if (a == "Update")
-                    {
-                        LoadPeriksa();
-                        //MessageBox.Show(data.ToString());
-                    }
+                    if (a == "Update") LoadPeriksa();
                 }
             });
         }
@@ -201,15 +196,8 @@ namespace Antrian
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             if (jenis_antrian == "Apotik")
-            {
-                //listenerApotik.Start();
                 serverApotik.Start(IPAddress.Parse("0.0.0.0"), 14000);
-            }
-            else if (jenis_antrian == "Poliklinik")
-            {
-                //listenerPoli.Start();
-                serverPoli.Start(IPAddress.Parse("0.0.0.0"), 13000);
-            }
+            else if (jenis_antrian == "Poliklinik") serverPoli.Start(IPAddress.Parse("0.0.0.0"), 13000);
         }
 
         //private void Listener_SocketAccepted(System.Net.Sockets.Socket e)
@@ -245,17 +233,17 @@ namespace Antrian
             if (jenis_antrian == "Poliklinik")
             {
                 txtNoAntri.Content = cmd.GetNoAntriPeriksa().ToString();
-                txtTotalAntri.Content = "Total Pasien Antri: " + cmd.GetTotalPasien().ToString();
+                txtTotalAntri.Content = "Total Pasien Antri: " + cmd.GetTotalPasien();
                 DisPlayDataGridAntrian();
-                SoundPlayer snd = new SoundPlayer(Properties.Resources.Two_Tone_Doorbell_SoundBible_com_1238551671);
+                var snd = new SoundPlayer(Properties.Resources.Two_Tone_Doorbell_SoundBible_com_1238551671);
                 snd.Play();
             }
             else if (jenis_antrian == "Apotik")
             {
                 txtNoAntri.Content = cmd.GetNoAntriApotik().ToString();
-                txtTotalAntri.Content = "Total antrian apotik: " + cmd.GetTotalApotik().ToString();
+                txtTotalAntri.Content = "Total antrian apotik: " + cmd.GetTotalApotik();
                 DisPlayDataGridAntrian();
-                SoundPlayer snd = new SoundPlayer(Properties.Resources.Two_Tone_Doorbell_SoundBible_com_1238551671);
+                var snd = new SoundPlayer(Properties.Resources.Two_Tone_Doorbell_SoundBible_com_1238551671);
                 snd.Play();
             }
         }
@@ -264,12 +252,12 @@ namespace Antrian
         {
             if (jenis_antrian == "Poliklinik")
             {
-                System.Collections.Generic.List<models.ModelAntrianPoli> antrian = cmd.GetAntrianPoli();
+                var antrian = cmd.GetAntrianPoli();
                 dtgAntrian.ItemsSource = antrian;
             }
             else if (jenis_antrian == "Apotik")
             {
-                System.Collections.Generic.List<models.ModelAntrianApotik> antrian = cmd.GetAntrianApotik();
+                var antrian = cmd.GetAntrianApotik();
                 dtgAntrian.ItemsSource = antrian;
             }
         }

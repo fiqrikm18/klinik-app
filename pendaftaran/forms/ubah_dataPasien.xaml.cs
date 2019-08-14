@@ -6,13 +6,13 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using PCSC;
-using PCSC.Iso7816;
 using pendaftaran.DBAccess;
-using pendaftaran.Mifare;
 using pendaftaran.models;
+using pendaftaran.Mifare;
 using pendaftaran.Utils;
 using pendaftaran.views;
+using PCSC;
+using PCSC.Iso7816;
 
 namespace pendaftaran.forms
 {

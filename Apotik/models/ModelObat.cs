@@ -32,10 +32,7 @@ namespace Apotik.models
 
         #region IDataErrorInfo
 
-        public string Error
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public string Error => throw new NotImplementedException();
 
         public string this[string columnName]
         {

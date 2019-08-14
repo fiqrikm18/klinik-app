@@ -13,12 +13,12 @@ namespace admin.forms
     /// </summary>
     public partial class TambahPoliklinik : Window
     {
-        private readonly DaftarPoliklinik dp;
-        private MPoliklinik _mDaftarBaru = new MPoliklinik(" ", " ");
-        private int _noOfErrorsOnScreen;
         private readonly DBCommand cmd;
 
         private readonly SqlConnection conn;
+        private readonly DaftarPoliklinik dp;
+        private MPoliklinik _mDaftarBaru = new MPoliklinik(" ", " ");
+        private int _noOfErrorsOnScreen;
 
         public TambahPoliklinik(DaftarPoliklinik dp)
         {

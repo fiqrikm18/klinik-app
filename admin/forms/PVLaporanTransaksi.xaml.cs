@@ -1,34 +1,20 @@
-﻿using admin.DBAccess;
-using Microsoft.Reporting.WinForms;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Common;
+﻿using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using admin.DBAccess;
+using Microsoft.Reporting.WinForms;
 
 namespace admin.forms
 {
     /// <summary>
-    /// Interaction logic for PVLaporanTransaksi.xaml
+    ///     Interaction logic for PVLaporanTransaksi.xaml
     /// </summary>
     public partial class PVLaporanTransaksi : Window
     {
-        SqlConnection conn;
-        DBCommand cmd;
-
-        string apoteker = null;
-        string tgl = null;
+        private readonly string apoteker;
+        private readonly DBCommand cmd;
+        private readonly SqlConnection conn;
+        private readonly string tgl;
 
         public PVLaporanTransaksi(string apoteker = null, string tgl = null)
         {
@@ -46,25 +32,13 @@ namespace admin.forms
         public void DisplayReport()
         {
             DataTable dt = null;
-            if (apoteker == null && tgl == null)
-            {
-                dt = cmd.DataTableTransaksi();
-            }
+            if (apoteker == null && tgl == null) dt = cmd.DataTableTransaksi();
 
-            if (apoteker == null & tgl != null)
-            {
-                dt = cmd.DataTableTransaksiByTgl(tgl);
-            }
+            if ((apoteker == null) & (tgl != null)) dt = cmd.DataTableTransaksiByTgl(tgl);
 
-            if (apoteker != null & tgl == null)
-            {
-                dt = cmd.DataTableTransaksiByApoteker(apoteker);
-            }
+            if ((apoteker != null) & (tgl == null)) dt = cmd.DataTableTransaksiByApoteker(apoteker);
 
-            if (apoteker != null & tgl != null)
-            {
-                dt = cmd.DataTableTransaksiByApotekerTgl(apoteker, tgl);
-            }
+            if ((apoteker != null) & (tgl != null)) dt = cmd.DataTableTransaksiByApotekerTgl(apoteker, tgl);
 
             rpt.Reset();
             var ds = new ReportDataSource("DataTransaksi", dt);

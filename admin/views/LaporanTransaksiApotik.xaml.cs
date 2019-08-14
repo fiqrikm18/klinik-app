@@ -1,36 +1,25 @@
-﻿using admin.DBAccess;
-using admin.models;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Data.SqlClient;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using admin.DBAccess;
+using admin.forms;
+using admin.models;
 
 namespace admin.views
 {
     /// <summary>
-    /// Interaction logic for LaporanTransaksiApotik.xaml
+    ///     Interaction logic for LaporanTransaksiApotik.xaml
     /// </summary>
     public partial class LaporanTransaksiApotik : Page
     {
-        SqlConnection conn;
-        DBCommand cmd;
-
-        string apoteker = null;
-        string tgl = null;
+        private string apoteker;
+        private readonly DBCommand cmd;
+        private readonly SqlConnection conn;
+        private string tgl;
 
         public LaporanTransaksiApotik()
         {
@@ -61,14 +50,10 @@ namespace admin.views
             else
             {
                 if (tgl != null && apoteker == null)
-                {
                     dtgAntrian.ItemsSource = data.Where(x => x.tgl_transaksi.Equals(tgl));
-                }
 
                 if (tgl == null && apoteker != null)
-                {
                     dtgAntrian.ItemsSource = data.Where(x => x.id_apoteker.Equals(apoteker));
-                }
 
                 dtgAntrian.ItemsSource = data.Where(x => x.tgl_transaksi.Equals(tgl) && x.id_apoteker.Equals(apoteker));
             }
@@ -92,7 +77,7 @@ namespace admin.views
 
         private void Btn_Print_Click(object sender, RoutedEventArgs e)
         {
-            forms.PVLaporanTransaksi lt = new forms.PVLaporanTransaksi(apoteker, tgl);
+            var lt = new PVLaporanTransaksi(apoteker, tgl);
             lt.Show();
         }
 

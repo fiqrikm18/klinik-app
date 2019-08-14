@@ -15,11 +15,11 @@ namespace dokter.forms
     /// </summary>
     public partial class UpdateRekamMedis : Window
     {
-        private int _noOfErrorsOnScreen;
         private readonly SqlConnection conn;
+        private readonly ViewRekamMedis vrm;
+        private int _noOfErrorsOnScreen;
         private ModelRekamMedis mrm;
         private string no_rm = "";
-        private readonly ViewRekamMedis vrm;
 
         public UpdateRekamMedis()
         {

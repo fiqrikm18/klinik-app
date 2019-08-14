@@ -25,5 +25,8 @@
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
       <Value Profile="(Default)">Data Source=192.168.1.105,1433\SQLEXPRESS;Initial Catalog=db_klinik;User ID=admin;Password=fkm1396</Value>
     </Setting>
+    <Setting Name="role" Type="System.String" Scope="User">
+      <Value Profile="(Default)">admin</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

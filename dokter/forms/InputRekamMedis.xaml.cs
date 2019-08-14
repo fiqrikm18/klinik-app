@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Data.SqlClient;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -7,9 +9,6 @@ using dokter.DBAccess;
 using dokter.models;
 using dokter.Properties;
 using dokter.views;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace dokter.forms
 {
@@ -18,12 +17,14 @@ namespace dokter.forms
     /// </summary>
     public partial class InputRekamMedis : Window
     {
+        private readonly SqlConnection conn;
+
+        private readonly ViewRekamMedis vmr;
+
         // TODO: input manual rekam medis
         private int _noOfErrorsOnScreen;
-        private readonly SqlConnection conn;
         private ModelRekamMedis mrm;
         private string no_rm = "";
-        private readonly ViewRekamMedis vmr;
 
         public InputRekamMedis()
         {
@@ -79,18 +80,14 @@ namespace dokter.forms
                 " ", " ", " ");
             var cmd = new DBCommand(conn);
 
-            string[] lstDiagnosa = txtKodeDiagnosis.Text.Split(';').ToArray();
-            string[] lstTindakan = txtKodeTindakan.Text.Split(';').ToArray();
+            var lstDiagnosa = txtKodeDiagnosis.Text.Split(';').ToArray();
+            var lstTindakan = txtKodeTindakan.Text.Split(';').ToArray();
 
             var riwayat_penyakit = "";
             if (txtRiwayat.Text == string.Empty)
-            {
                 riwayat_penyakit = "-";
-            }
             else
-            {
                 riwayat_penyakit = txtRiwayat.Text;
-            }
 
             var no_rm = txtRekamMedis.Text;
             var berat_badan = txtBeratBadan.Text;
@@ -109,15 +106,12 @@ namespace dokter.forms
             {
                 if (!Regex.IsMatch(berat_badan, "^[A-Za-z]+$"))
                 {
-                    for (int i = 0; i < lstDiagnosa.Length - 1; i++)
+                    for (var i = 0; i < lstDiagnosa.Length - 1; i++)
                     {
                         diagnosa = lstDiagnosa[i];
-                        for (int j = 0; j < lstTindakan.Length - 1; j++)
+                        for (var j = 0; j < lstTindakan.Length - 1; j++)
                         {
-                            if (string.IsNullOrEmpty(alergi))
-                            {
-                                alergi = "-";
-                            }
+                            if (string.IsNullOrEmpty(alergi)) alergi = "-";
 
                             tindakan = lstTindakan[j];
                             if (cmd.InsertDataRekamMedis(no_rm, riwayat_penyakit, alergi, berat_badan, keluhan,
@@ -134,15 +128,11 @@ namespace dokter.forms
                     }
 
                     if (res)
-                    {
                         MessageBox.Show("Rekam medis berhasil di tambahkan.", "Informasi", MessageBoxButton.OK,
                             MessageBoxImage.Information);
-                    }
                     else
-                    {
                         MessageBox.Show("Rekam medis gagal di tambahkan.", "Error", MessageBoxButton.OK,
                             MessageBoxImage.Error);
-                    }
 
                     DataContext = mrm;
                     vmr.DisplayDataPasien(no_rm);
@@ -173,13 +163,13 @@ namespace dokter.forms
 
         private void BtnSrcDiag_Click(object sender, RoutedEventArgs e)
         {
-            PopupDiagnosis pd = new PopupDiagnosis(this);
+            var pd = new PopupDiagnosis(this);
             pd.Show();
         }
 
         private void BtnSrcTindakan_Click(object sender, RoutedEventArgs e)
         {
-            PopupTindakan pt = new PopupTindakan(this);
+            var pt = new PopupTindakan(this);
             pt.Show();
         }
 
@@ -197,54 +187,12 @@ namespace dokter.forms
 
         private void TxtKodeDiagnosis_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (txtKodeDiagnosis.Text == string.Empty)
-            {
-                textDiagnosa.Text = string.Empty;
-            }
+            if (txtKodeDiagnosis.Text == string.Empty) textDiagnosa.Text = string.Empty;
         }
 
         private void TxtKodeTindakan_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (txtKodeTindakan.Text == string.Empty)
-            {
-                textTindakan.Text = string.Empty;
-            }
-        }
-
-        private void ChkManualInputDiagnosa_OnChecked(object sender, RoutedEventArgs e)
-        {
-            if (chkManualInputDiagnosa.IsChecked ?? true)
-            {
-                txtKodeDiagnosis.IsEnabled = false;
-                btnSrcDiag.IsEnabled = false;
-            }
-        }
-
-        private void ChkManualInputDiagnosa_OnUnchecked(object sender, RoutedEventArgs e)
-        {
-            if (chkManualInputDiagnosa.IsChecked ?? false)
-            {
-                txtKodeDiagnosis.IsEnabled = true;
-                btnSrcDiag.IsEnabled = true;
-            }
-        }
-
-        private void ChkManualInputTindakan_OnChecked(object sender, RoutedEventArgs e)
-        {
-            if (chkManualInputTindakan.IsChecked ?? true)
-            {
-                txtKodeTindakan.IsEnabled = false;
-                btnSrcTindakan.IsEnabled = false;
-            }
-        }
-
-        private void ChkManualInputTindakan_OnUnchecked(object sender, RoutedEventArgs e)
-        {
-            if (chkManualInputTindakan.IsChecked ?? true)
-            {
-                txtKodeTindakan.IsEnabled = true;
-                btnSrcTindakan.IsEnabled = true;
-            }
+            if (txtKodeTindakan.Text == string.Empty) textTindakan.Text = string.Empty;
         }
     }
 }

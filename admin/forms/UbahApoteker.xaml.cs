@@ -5,8 +5,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using admin.DBAccess;
-using admin.Mifare;
 using admin.models;
+using admin.Mifare;
 using admin.Utils;
 using admin.views;
 
@@ -28,14 +28,14 @@ namespace admin.forms
         private readonly byte BlockPasswordFrom = 25;
         private readonly byte BlockPasswordTo = 26;
         private readonly byte BlockTelp = 17;
-        private readonly DaftarApoteker da;
-        private MApoteker _mDaftarBaru = new MApoteker(" ", " ", " ", " ", " ");
-        private int _noOfErrorsOnScreen;
         private readonly DBCommand cmd;
 
         private readonly SqlConnection conn;
+        private readonly DaftarApoteker da;
 
         private readonly SmartCardOperation sp;
+        private MApoteker _mDaftarBaru = new MApoteker(" ", " ", " ", " ", " ");
+        private int _noOfErrorsOnScreen;
 
         public UbahApoteker(string id, string nama, string alamat, string no_telp, string jenisK, DaftarApoteker ua)
         {

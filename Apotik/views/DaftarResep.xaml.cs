@@ -4,9 +4,6 @@ using System.Windows;
 using System.Windows.Controls;
 using Apotik.DBAccess;
 using Apotik.SckServer;
-using System.Text;
-using System.Net.Sockets;
-using System;
 
 namespace Apotik.views
 {
@@ -17,7 +14,7 @@ namespace Apotik.views
     {
         private readonly DBCommand cmd;
         private readonly SqlConnection conn;
-        Listener listener;
+        private Listener listener;
 
         public DaftarResep()
         {

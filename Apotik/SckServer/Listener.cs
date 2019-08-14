@@ -1,26 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Apotik.SckServer
 {
-    class Listener
+    internal class Listener
     {
-        Socket s;
+        public delegate void SocketAcceptedHandler(Socket e);
 
-        public bool Listening { get; private set; }
-
-        public int Port { get; private set; }
+        private Socket s;
 
         public Listener(int port)
         {
             Port = port;
             s = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         }
+
+        public bool Listening { get; private set; }
+
+        public int Port { get; }
 
         public void Start()
         {
@@ -38,7 +36,7 @@ namespace Apotik.SckServer
         {
             try
             {
-                Socket s = this.s.EndAccept(ar);
+                var s = this.s.EndAccept(ar);
 
                 SocketAccepted?.Invoke(s);
 
@@ -52,17 +50,12 @@ namespace Apotik.SckServer
 
         public void Stop()
         {
-            if (!Listening)
-            {
-                return;
-            }
+            if (!Listening) return;
 
             s.Close();
             s.Dispose();
             s = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         }
-
-        public delegate void SocketAcceptedHandler(Socket e);
 
         public event SocketAcceptedHandler SocketAccepted;
     }

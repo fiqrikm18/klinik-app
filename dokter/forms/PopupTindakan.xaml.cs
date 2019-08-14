@@ -1,22 +1,24 @@
-﻿using dokter.DBAccess;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using dokter.DBAccess;
+using dokter.models;
 
 namespace dokter.forms
 {
     /// <summary>
-    /// Interaction logic for PopupTindakan.xaml
+    ///     Interaction logic for PopupTindakan.xaml
     /// </summary>
     public partial class PopupTindakan : Window
     {
-        private InputRekamMedis mw;
-        private string kode = null;
-        private string desk = null;
+        private readonly DBCommand cmd;
 
-        SqlConnection conn;
-        DBCommand cmd;
+        private readonly SqlConnection conn;
+        private string desk;
+        private string kode;
+        private readonly InputRekamMedis mw;
 
         public PopupTindakan(InputRekamMedis mw)
         {
@@ -32,20 +34,15 @@ namespace dokter.forms
         public void LoadData(string src = null)
         {
             if (string.IsNullOrEmpty(src) || string.IsNullOrWhiteSpace(src))
-            {
                 dtgTindakan.ItemsSource = cmd.GetDataTindakan();
-            }
             else
-            {
                 dtgTindakan.ItemsSource = cmd.GetDataTindakan()
                     .Where(x => x.kode.Contains(src.ToUpper()) || x.desk.Contains(src));
-            }
         }
 
         private void DtgTindakan_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
-            foreach (models.ModelTindakan mt in dtgTindakan.SelectedItems)
-            {
+            foreach (ModelTindakan mt in dtgTindakan.SelectedItems)
                 if (kode == null && desk == null)
                 {
                     kode = mt.kode;
@@ -56,7 +53,6 @@ namespace dokter.forms
                     kode += ";" + mt.kode;
                     desk += ";\n" + mt.desk;
                 }
-            }
         }
 
         private void TxtSrc_TextChanged(object sender, TextChangedEventArgs e)
@@ -65,9 +61,7 @@ namespace dokter.forms
 
             if (src.Text != "Kode ICD/Prosedur Tindakan" || string.IsNullOrEmpty(src.Text) ||
                 string.IsNullOrWhiteSpace(src.Text))
-            {
                 LoadData(src.Text);
-            }
         }
 
         private void BtnDOne_Click(object sender, RoutedEventArgs e)
@@ -81,13 +75,11 @@ namespace dokter.forms
             Close();
         }
 
-        private void TxtSrc_GotKeyboardFocus(object sender, System.Windows.Input.KeyboardFocusChangedEventArgs e)
+        private void TxtSrc_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             if (txtSrc.Text == "Kode ICD/Prosedur Tindakan" || !string.IsNullOrEmpty(txtSrc.Text) ||
                 !string.IsNullOrWhiteSpace(txtSrc.Text))
-            {
                 txtSrc.Text = string.Empty;
-            }
         }
     }
 }

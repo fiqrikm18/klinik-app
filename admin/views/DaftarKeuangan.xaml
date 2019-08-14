@@ -1,11 +1,11 @@
-﻿<Page x:Class="admin.views.DaftarApoteker"
+﻿<Page x:Class="admin.views.DaftarKeuangan"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:admin.views"
-      mc:Ignorable="d"
-      Title="DaftarApoteker">
+      mc:Ignorable="d" 
+      Title="DaftarKeuangan">
 
     <Grid Style="{StaticResource OpenSans}">
         <Grid.RowDefinitions>
@@ -16,13 +16,13 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
-            <TextBlock FontSize="16" FontWeight="Bold" Text="Daftar Apoteker" Foreground="#555555" />
+            <TextBlock FontSize="16" FontWeight="Bold" Text="Keuangan" Foreground="#555555" />
         </StackPanel>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
             <DockPanel Background="#F0F0F0">
                 <TextBox x:Name="txtSearchPasien" TextChanged="TxtSearchPasien_TextChanged" VerticalAlignment="Center"
-                         HorizontalAlignment="Center" Text="Nama Apoteker" GotKeyboardFocus="TextBoxFocus" />
+                         HorizontalAlignment="Center" Text="Nama" GotKeyboardFocus="TxtSearchPasien_GotKeyboardFocus" />
                 <Button Width="Auto" VerticalAlignment="Center" Margin="5" Padding="5" Background="{x:Null}">
                     <Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Width="20" Height="20"
@@ -37,34 +37,34 @@
         <StackPanel Grid.Row="3">
             <StackPanel Orientation="Horizontal">
                 <DockPanel Margin="10 0">
-                    <Button x:Name="btnTambahApoteker" Width="Auto" Click="BtnTambahApoteker_OnClick"
-                            Content="Tambah Data Apoteker" />
-                    <Button x:Name="btnUbahApoteker" Width="Auto" Click="BtnUbahApoteker_OnClick"
-                            Content="Ubah Data Apoteker" />
-                    <Button x:Name="btnHapusApoteker" Width="Auto" Click="BtnHapusApoteker_OnClick"
-                            Content="Hapus Data Apoteker" />
+                    <Button x:Name="btnTambahApoteker" Width="Auto" Click="BtnTambahApoteker_Click"
+                            Content="Tambah Data Keuangan" />
+                    <Button x:Name="btnUbahApoteker" Width="Auto" Click="BtnUbahApoteker_Click"
+                            Content="Ubah Data Keuangan" />
+                    <Button x:Name="btnHapusApoteker" Width="Auto" Click="BtnHapusApoteker_Click"
+                            Content="Hapus Data Keuangan" />
                 </DockPanel>
                 <DockPanel Margin="10 0 0 0">
-                    <Button Content="Print Label" x:Name="btnPrint" Click="btnPrint_Click" />
-                    <Button x:Name="btnCetakKartu" Width="Auto" Click="BtnCetakKartu_OnClick"
-                            Content="Cetak Kartu Staff" />
-                    <Button x:Name="btnCekKartu" Width="Auto" Click="BtnCekKartu_OnClick"
+                    <Button Content="Print Label" x:Name="btnPrint" Click="BtnPrint_Click" />
+                    <Button x:Name="btnCetakKartu" Width="Auto" Click="BtnCetakKartu_Click"
+                            Content="Cetak Kartu Keuangan" />
+                    <Button x:Name="btnCekKartu" Width="Auto" Click="BtnCekKartu_Click"
                             Content="Cek Data Kartu" />
-                    <Button x:Name="btnHapusKartu" Width="Auto" Click="BtnHapusKartu_OnClick"
+                    <Button x:Name="btnHapusKartu" Width="Auto" Click="BtnHapusKartu_Click"
                             Content="Hapus Data Kartu" />
                 </DockPanel>
             </StackPanel>
         </StackPanel>
 
         <StackPanel Grid.Row="2">
-            <DataGrid x:Name="dtgDataApoteker" SelectionMode="Extended" VerticalAlignment="Top"
+            <DataGrid x:Name="dtgDataKeuangan" SelectionMode="Extended" VerticalAlignment="Top"
                       HorizontalAlignment="Stretch" AutoGenerateColumns="False" Height="400" CanUserAddRows="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding id_apoteker}" IsReadOnly="True" Header="ID Apoteker" />
-                    <DataGridTextColumn Binding="{Binding nama_apoteker}" IsReadOnly="True" Header="Nama" Width="150" />
+                    <DataGridTextColumn Binding="{Binding id}" IsReadOnly="True" Header="ID" />
+                    <DataGridTextColumn Binding="{Binding nama}" IsReadOnly="True" Header="Nama" Width="150" />
                     <DataGridTextColumn Binding="{Binding jenis_kelamin}" IsReadOnly="True" Header="Jenis Kelamin"
                                         Width="150" />
-                    <DataGridTextColumn Binding="{Binding no_telp}" IsReadOnly="True" Header="Telepon" Width="150" />
+                    <DataGridTextColumn Binding="{Binding telp}" IsReadOnly="True" Header="Telepon" Width="150" />
                     <DataGridTextColumn Binding="{Binding alamat}" IsReadOnly="True" Header="Alamat" Width="250" />
                 </DataGrid.Columns>
             </DataGrid>

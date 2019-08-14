@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using admin.DBAccess;
 using admin.forms;
+using admin.models;
 using admin.Mifare;
 using admin.Utils;
 
@@ -338,15 +339,12 @@ namespace admin.views
 
         private void btnPrint_Click(object sender, RoutedEventArgs e)
         {
-            string id = "";
+            var id = "";
             if (dtgDataApoteker.SelectedItems.Count > 0)
             {
-                foreach (models.MApoteker d in dtgDataApoteker.SelectedItems)
-                {
-                    id = d.id_apoteker;
-                }
+                foreach (MApoteker d in dtgDataApoteker.SelectedItems) id = d.id_apoteker;
 
-                forms.PVApoteker pp = new PVApoteker(id);
+                var pp = new PVApoteker(id);
                 pp.Show();
             }
         }

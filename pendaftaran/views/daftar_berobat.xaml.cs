@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Data.SqlClient;
+using System.Drawing;
+using System.Drawing.Printing;
+using System.Net.Sockets;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using pendaftaran.DBAccess;
-using pendaftaran.Mifare;
 using pendaftaran.models;
+using pendaftaran.Mifare;
+using pendaftaran.Properties;
 using pendaftaran.Utils;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
-using System.Windows.Documents;
-using System.Drawing.Printing;
-using System.Drawing;
+using FontStyle = System.Drawing.FontStyle;
 
 namespace pendaftaran.views
 {
@@ -26,11 +26,11 @@ namespace pendaftaran.views
         private readonly SqlConnection conn;
 
         private readonly SmartCardOperation sp;
-        private Socket sck;
-        private Socket sck2;
 
-        int no_urut = 0;
-        string poli = "";
+        private int no_urut;
+        private string poli = "";
+        private readonly Socket sck;
+        private Socket sck2;
 
         #region constructor
 
@@ -43,8 +43,8 @@ namespace pendaftaran.views
             try
             {
                 sck = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                sck.Connect(Properties.Settings.Default.SocketServerAntrianPoli,
-                    Properties.Settings.Default.SocketPortAntriaPoli);
+                sck.Connect(Settings.Default.SocketServerAntrianPoli,
+                    Settings.Default.SocketPortAntriaPoli);
             }
             catch (Exception ex)
             {
@@ -94,7 +94,7 @@ namespace pendaftaran.views
                         no_urut = last + 1;
 
                     this.no_urut = no_urut;
-                    this.poli = cbp.kode_poliklinik;
+                    poli = cbp.kode_poliklinik;
 
                     if (cmd.InsertAntrian(norm, no_urut, policode))
                     {
@@ -111,8 +111,8 @@ namespace pendaftaran.views
                         {
                         }
 
-                        PrintDocument pd = new PrintDocument();
-                        PaperSize ps = new PaperSize("", 300, 540);
+                        var pd = new PrintDocument();
+                        var ps = new PaperSize("", 300, 540);
 
                         pd.PrintPage += Pd_PrintPage;
                         pd.PrintController = new StandardPrintController();
@@ -144,12 +144,12 @@ namespace pendaftaran.views
 
         private void Pd_PrintPage(object sender, PrintPageEventArgs e)
         {
-            Graphics graphics = e.Graphics;
-            Font font = new Font("Courier New", 10);
-            float fontHeight = font.GetHeight();
-            int startX = 50;
-            int startY = 55;
-            int Offset = 40;
+            var graphics = e.Graphics;
+            var font = new Font("Courier New", 10);
+            var fontHeight = font.GetHeight();
+            var startX = 50;
+            var startY = 55;
+            var Offset = 40;
             graphics.DrawString("SELAMAT DATANG DI", new Font("Courier New", 14), new SolidBrush(Color.Black), startX,
                 startY + Offset);
             Offset = Offset + 20;
@@ -160,7 +160,7 @@ namespace pendaftaran.views
             //Offset = Offset + 20;
             //graphics.DrawString("Tlp. 022-86121090", new Font("Courier New", 12), new SolidBrush(Color.Black), startX, startY + Offset);
             Offset = Offset + 20;
-            String underLine = "-------------------------------";
+            var underLine = "-------------------------------";
             graphics.DrawString(underLine, new Font("Courier New", 10), new SolidBrush(Color.Black), startX,
                 startY + Offset);
 
@@ -170,11 +170,11 @@ namespace pendaftaran.views
 
             Offset = Offset + 20;
             //String Source= this.source; 
-            graphics.DrawString(this.no_urut.ToString(), new Font("Courier New", 40, System.Drawing.FontStyle.Bold),
+            graphics.DrawString(no_urut.ToString(), new Font("Courier New", 40, FontStyle.Bold),
                 new SolidBrush(Color.Black), startX, startY + Offset);
 
             Offset = Offset + 20;
-            String Grosstotal = "";
+            var Grosstotal = "";
 
             Offset = Offset + 30;
             underLine = "-------------------------------";
@@ -186,7 +186,7 @@ namespace pendaftaran.views
                 startY + Offset);
             Offset = Offset + 20;
             //String DrawnBy = this.drawnBy;
-            graphics.DrawString("Poliklinik " + this.poli, new Font("Courier New", 12), new SolidBrush(Color.Black),
+            graphics.DrawString("Poliklinik " + poli, new Font("Courier New", 12), new SolidBrush(Color.Black),
                 startX, startY + Offset);
             Offset = Offset + 20;
             graphics.DrawString(DateTime.Now.ToShortDateString(), new Font("Courier New", 14),

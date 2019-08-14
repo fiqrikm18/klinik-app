@@ -1,14 +1,12 @@
-﻿using dokter.DBAccess;
-using dokter.Properties;
-using dokter.views;
-using System;
+﻿using System;
 using System.ComponentModel;
-using System.Configuration;
 using System.Diagnostics;
 using System.IO.Ports;
-using System.Net.Sockets;
 using System.Text;
 using System.Windows;
+using dokter.DBAccess;
+using dokter.Properties;
+using dokter.views;
 using SimpleTCP;
 
 namespace dokter
@@ -18,17 +16,16 @@ namespace dokter
     /// </summary>
     public partial class MainWindow : Window
     {
-        private SerialPort sp;
-
         //private Socket sck;
         //private Socket sck2;
-        SimpleTcpClient clientAntrianPoli;
-        private DBCommand cmd;
+        private readonly SimpleTcpClient clientAntrianPoli;
+        private readonly DBCommand cmd;
+        private SerialPort sp;
 
         public MainWindow()
         {
             InitializeComponent();
-            string role = Settings.Default.Role;
+            var role = Settings.Default.Role;
             lblHeader.Content = "Poli " + role;
 
             cmd = new DBCommand(DBConnection.dbConnection());
@@ -59,7 +56,7 @@ namespace dokter
                 InitSerialPort();
             }
 
-            UserPreferences userPrefs = new UserPreferences();
+            var userPrefs = new UserPreferences();
 
             Height = userPrefs.WindowHeight;
             Width = userPrefs.WindowWidth;
@@ -78,25 +75,19 @@ namespace dokter
                 if (a == "Connected")
                 {
                     Settings.Default.IsRemoteConnected = true;
-                    if (Settings.Default.IsRemoteConnected)
-                    {
-                        MessageBox.Show("Connection successfull");
-                    }
+                    if (Settings.Default.IsRemoteConnected) MessageBox.Show("Connection successfull");
                 }
                 else if (a == "Disconnected")
                 {
                     Settings.Default.IsRemoteConnected = false;
-                    if (!Settings.Default.IsRemoteConnected)
-                    {
-                        MessageBox.Show("Disconnecting successfull");
-                    }
+                    if (!Settings.Default.IsRemoteConnected) MessageBox.Show("Disconnecting successfull");
                 }
             });
         }
 
         private void InitSerialPort()
         {
-            sp = new SerialPort()
+            sp = new SerialPort
             {
                 BaudRate = 9600,
                 PortName = Settings.Default.SerialName
@@ -113,12 +104,12 @@ namespace dokter
             //Debug.Write(sp.ReadLine());
             Dispatcher.Invoke(() =>
             {
-                string a = sp.ReadLine().Replace("\r", "");
+                var a = sp.ReadLine().Replace("\r", "");
                 //sck.Send(Encoding.ASCII.GetBytes(a));
                 Debug.WriteLine(a);
                 if (Settings.Default.IsRemoteConnected)
                 {
-                    if (int.TryParse(a, out int v))
+                    if (int.TryParse(a, out var v))
                     {
                         Debug.WriteLine(a);
                         clientAntrianPoli.WriteLineAndGetReply(a, TimeSpan.FromSeconds(0));
@@ -127,7 +118,6 @@ namespace dokter
                     if (a == ">>|")
                     {
                         if (cmd.UpdateAntrian())
-                        {
                             try
                             {
                                 Debug.WriteLine(a);
@@ -137,13 +127,11 @@ namespace dokter
                             {
                                 // ignored
                             }
-                        }
                     }
                     else if (a == "|<<")
                     {
                         //Debug.WriteLine(a);
                         if (cmd.UpdateAntrianPrev())
-                        {
                             try
                             {
                                 Debug.WriteLine(a);
@@ -153,14 +141,12 @@ namespace dokter
                             {
                                 // ignored
                             }
-                        }
                     }
                 }
                 else
                 {
                     int v;
                     if (int.TryParse(a, out v))
-                    {
                         if (v == int.Parse(cmd.GetKodePoli()))
                         {
                             Debug.WriteLine(v);
@@ -174,7 +160,6 @@ namespace dokter
                                 // ignored
                             }
                         }
-                    }
                 }
             });
         }
@@ -194,7 +179,7 @@ namespace dokter
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-            UserPreferences userPrefs = new UserPreferences
+            var userPrefs = new UserPreferences
             {
                 WindowHeight = Height,
                 WindowWidth = Width,
@@ -226,7 +211,7 @@ namespace dokter
             Dispatcher.Invoke(() =>
             {
                 Settings.Default.KodeDokter = null;
-                Login lg = new Login();
+                var lg = new Login();
                 lg.Show();
                 Close();
                 GC.SuppressFinalize(this);

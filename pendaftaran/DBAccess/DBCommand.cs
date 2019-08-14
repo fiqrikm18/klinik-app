@@ -1,8 +1,8 @@
-﻿using pendaftaran.models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using pendaftaran.models;
 
 namespace pendaftaran.DBAccess
 {
@@ -21,31 +21,25 @@ namespace pendaftaran.DBAccess
 
         public void OpenConnection()
         {
-            if (conn.State.Equals(ConnectionState.Closed))
-            {
-                conn.Open();
-            }
+            if (conn.State.Equals(ConnectionState.Closed)) conn.Open();
         }
 
         public void CloseConnection()
         {
-            if (conn.State.Equals(ConnectionState.Open))
-            {
-                conn.Close();
-            }
+            if (conn.State.Equals(ConnectionState.Open)) conn.Close();
         }
 
         public DataTable GetDataPasien(string no_rm)
         {
-            DataTable dt = new DataTable();
+            var dt = new DataTable();
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("[GetDataPasien]", conn);
+                var cmd = new SqlCommand("[GetDataPasien]", conn);
                 cmd.Parameters.AddWithValue("no_rm", no_rm);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                SqlDataAdapter adp = new SqlDataAdapter(cmd);
+                var adp = new SqlDataAdapter(cmd);
                 adp.Fill(dt);
 
                 CloseConnection();
@@ -60,15 +54,15 @@ namespace pendaftaran.DBAccess
 
         public DataTable GetDataRekamMedis(string no_rm)
         {
-            DataTable dt = new DataTable();
+            var dt = new DataTable();
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("[getDataRekamMedis]", conn);
+                var cmd = new SqlCommand("[getDataRekamMedis]", conn);
                 cmd.Parameters.AddWithValue("no_rm", no_rm);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                SqlDataAdapter adp = new SqlDataAdapter(cmd);
+                var adp = new SqlDataAdapter(cmd);
                 adp.Fill(dt);
 
                 CloseConnection();
@@ -83,15 +77,15 @@ namespace pendaftaran.DBAccess
 
         public DataTable GetDetailPasien(string no_rm)
         {
-            DataTable dt = new DataTable();
+            var dt = new DataTable();
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("[GetDetailPasien]", conn);
+                var cmd = new SqlCommand("[GetDetailPasien]", conn);
                 cmd.Parameters.AddWithValue("no_rm", no_rm);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                SqlDataAdapter adp = new SqlDataAdapter(cmd);
+                var adp = new SqlDataAdapter(cmd);
                 adp.Fill(dt);
 
                 CloseConnection();
@@ -110,15 +104,12 @@ namespace pendaftaran.DBAccess
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("select count(*) from tb_pendaftaran where id=@id and password=@pass",
+                var cmd = new SqlCommand("select count(*) from tb_pendaftaran where id=@id and password=@pass",
                     conn);
                 cmd.Parameters.AddWithValue("id", id);
                 cmd.Parameters.AddWithValue("pass", pass);
 
-                if (int.Parse(cmd.ExecuteScalar().ToString()) > 0)
-                {
-                    return true;
-                }
+                if (int.Parse(cmd.ExecuteScalar().ToString()) > 0) return true;
 
                 CloseConnection();
             }
@@ -132,15 +123,15 @@ namespace pendaftaran.DBAccess
 
         public DataTable GetReportDataPasien(string no_rm)
         {
-            DataTable dt = new DataTable();
+            var dt = new DataTable();
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("GetDataPasien", conn);
+                var cmd = new SqlCommand("GetDataPasien", conn);
                 cmd.Parameters.AddWithValue("no_rm", no_rm);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                SqlDataAdapter adp = new SqlDataAdapter(cmd);
+                var adp = new SqlDataAdapter(cmd);
                 adp.Fill(dt);
 
                 CloseConnection();
@@ -155,13 +146,13 @@ namespace pendaftaran.DBAccess
 
         public int CountIdPasienExists(string identitas)
         {
-            int res = 0;
+            var res = 0;
 
             try
             {
                 OpenConnection();
 
-                SqlCommand cmd = new SqlCommand(
+                var cmd = new SqlCommand(
                     "select count(no_identitas) from tb_pasien where no_identitas=@no_identitas",
                     conn);
                 cmd.Parameters.AddWithValue("no_identitas", identitas);
@@ -179,13 +170,13 @@ namespace pendaftaran.DBAccess
 
         public int CountRmPasienExists(string no_rm)
         {
-            int res = 0;
+            var res = 0;
 
             try
             {
                 OpenConnection();
 
-                SqlCommand cmd = new SqlCommand(
+                var cmd = new SqlCommand(
                     "select count(no_rekam_medis) from tb_pasien where no_rekam_medis=@no_rekam_medis", conn);
                 cmd.Parameters.AddWithValue("no_rekam_medis", no_rm);
                 res = int.Parse(cmd.ExecuteScalar().ToString());
@@ -207,7 +198,7 @@ namespace pendaftaran.DBAccess
             {
                 OpenConnection();
 
-                SqlCommand cmd = new SqlCommand(
+                var cmd = new SqlCommand(
                     "insert into tb_pasien (no_identitas, jenis_identitas,  no_rekam_medis, nama, tanggal_lahir, jenis_kelamin, no_telp, alamat, golongan_darah) values(@no_identitas, @jenis_identitas, @no_rekam_medis, @nama, @tanggal_lahir, @jenis_kelamin, @no_telp, @alamat, @golongan_darah)",
                     conn);
                 //@no_identitas, @no_rekam_medis, @nama, @tanggal_lahir, @jenis_kelamin, @no_telp, @alamat
@@ -220,13 +211,10 @@ namespace pendaftaran.DBAccess
                 cmd.Parameters.AddWithValue("no_telp", no_telp);
                 cmd.Parameters.AddWithValue("alamat", alamat);
                 cmd.Parameters.AddWithValue("golongan_darah", golongan_darah);
-                int res = cmd.ExecuteNonQuery();
+                var res = cmd.ExecuteNonQuery();
 
                 CloseConnection();
-                if (res == 1)
-                {
-                    return true;
-                }
+                if (res == 1) return true;
             }
             catch (Exception ex)
             {
@@ -241,7 +229,7 @@ namespace pendaftaran.DBAccess
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand(
+                var cmd = new SqlCommand(
                     "insert into tb_antrian(no_rm, no_urut, poliklinik, status, tujuan_antrian) values(@no_rm, @no_urut, @poliklinik, @status, @tujuan_antrian)",
                     conn);
                 //@no_rm, @no_urut, @poliklinik, @status
@@ -250,13 +238,10 @@ namespace pendaftaran.DBAccess
                 cmd.Parameters.AddWithValue("poliklinik", poliklinik);
                 cmd.Parameters.AddWithValue("status", status);
                 cmd.Parameters.AddWithValue("tujuan_antrian", "Poliklinik");
-                int res = cmd.ExecuteNonQuery();
+                var res = cmd.ExecuteNonQuery();
 
                 CloseConnection();
-                if (res == 1)
-                {
-                    return true;
-                }
+                if (res == 1) return true;
             }
             catch (Exception ex)
             {
@@ -268,22 +253,19 @@ namespace pendaftaran.DBAccess
 
         public int GetLastNoUrut(string policode)
         {
-            int res = 0;
+            var res = 0;
 
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand(
+                var cmd = new SqlCommand(
                     "select top 1 no_urut from tb_antrian where poliklinik = @policode and tgl_berobat = convert(varchar(10), getdate(), 111) order by 1 desc",
                     conn);
                 cmd.Parameters.AddWithValue("policode", policode);
 
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                using (var reader = cmd.ExecuteReader())
                 {
-                    while (reader.Read())
-                    {
-                        res = reader.GetInt32(0);
-                    }
+                    while (reader.Read()) res = reader.GetInt32(0);
                 }
 
                 CloseConnection();
@@ -298,33 +280,28 @@ namespace pendaftaran.DBAccess
 
         public List<ModelAntrian> GetDataAntrian(string tgl_berobat)
         {
-            List<ModelAntrian> antrian = new List<ModelAntrian>();
+            var antrian = new List<ModelAntrian>();
             OpenConnection();
 
             try
             {
                 OpenConnection();
 
-                if (string.IsNullOrEmpty(tgl_berobat))
-                {
-                    tgl_berobat = DateTime.Now.ToString("yyyy-MM-dd");
-                }
+                if (string.IsNullOrEmpty(tgl_berobat)) tgl_berobat = DateTime.Now.ToString("yyyy-MM-dd");
 
-                SqlCommand cmd = new SqlCommand(
+                var cmd = new SqlCommand(
                     "SELECT tb_pasien.nama as nama, tb_poliklinik.nama_poli as poli, tb_antrian.* FROM tb_antrian LEFT JOIN [tb_pasien] ON tb_antrian.no_rm = tb_pasien.no_rekam_medis left join tb_poliklinik on tb_poliklinik.kode_poli = tb_antrian.poliklinik where tgl_berobat=@tgl_berobat and tb_antrian.tujuan_antrian='Poliklinik' order by poliklinik",
                     conn);
                 cmd.Parameters.AddWithValue("tgl_berobat", tgl_berobat);
 
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
-                    {
                         antrian.Add(new ModelAntrian(reader["id"].ToString(), reader["no_rm"].ToString(),
                             reader["nama"].ToString(),
                             int.Parse(reader["no_urut"].ToString()), reader["poliklinik"].ToString(),
                             reader["poli"].ToString(),
                             reader["status"].ToString(), reader["tgl_berobat"].ToString()));
-                    }
                 }
 
                 CloseConnection();
@@ -339,7 +316,7 @@ namespace pendaftaran.DBAccess
 
         public List<ComboboxPairs> GetPoliklinik()
         {
-            List<ComboboxPairs> cbp = new List<ComboboxPairs>
+            var cbp = new List<ComboboxPairs>
             {
                 new ComboboxPairs("Pilih", "Pilih")
             };
@@ -348,13 +325,11 @@ namespace pendaftaran.DBAccess
             {
                 OpenConnection();
 
-                SqlCommand cmd = new SqlCommand("select * from tb_poliklinik", conn);
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                var cmd = new SqlCommand("select * from tb_poliklinik", conn);
+                using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
-                    {
                         cbp.Add(new ComboboxPairs(reader["nama_poli"].ToString(), reader["kode_poli"].ToString()));
-                    }
                 }
 
                 CloseConnection();
@@ -369,24 +344,22 @@ namespace pendaftaran.DBAccess
 
         public List<ModelPasien> GetDataPasien()
         {
-            List<ModelPasien> pasien = new List<ModelPasien>();
+            var pasien = new List<ModelPasien>();
 
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("select * from tb_pasien order by no_rekam_medis asc", conn);
+                var cmd = new SqlCommand("select * from tb_pasien order by no_rekam_medis asc", conn);
 
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
-                    {
                         pasien.Add(new ModelPasien(reader["no_identitas"].ToString(),
                             reader["no_rekam_medis"].ToString(), reader["nama"].ToString(),
                             DateTime.Parse(reader["tanggal_lahir"].ToString()).ToString("dd MMM yyyy"),
                             reader["jenis_kelamin"].ToString(), reader["no_telp"].ToString(),
                             reader["alamat"].ToString(), reader["tgl_daftar"].ToString(),
                             reader["golongan_darah"].ToString(), reader["jenis_identitas"].ToString()));
-                    }
                 }
 
                 CloseConnection();
@@ -407,7 +380,7 @@ namespace pendaftaran.DBAccess
             {
                 OpenConnection();
 
-                SqlCommand cmd = new SqlCommand(
+                var cmd = new SqlCommand(
                     "update tb_pasien set nama=@namaPasien, jenis_kelamin=@jenisKelamin, no_telp=@noTelp, alamat=@alamat, golongan_darah=@golongan_darah where no_identitas=@identitas",
                     conn);
                 cmd.Parameters.AddWithValue("golongan_darah", gol_darah);
@@ -417,10 +390,7 @@ namespace pendaftaran.DBAccess
                 cmd.Parameters.AddWithValue("alamat", alamat);
                 cmd.Parameters.AddWithValue("identitas", id);
 
-                if (cmd.ExecuteNonQuery() == 1)
-                {
-                    return true;
-                }
+                if (cmd.ExecuteNonQuery() == 1) return true;
 
                 CloseConnection();
             }
@@ -437,13 +407,10 @@ namespace pendaftaran.DBAccess
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("delete from tb_pasien where no_rekam_medis=@no_rekam_medis", conn);
+                var cmd = new SqlCommand("delete from tb_pasien where no_rekam_medis=@no_rekam_medis", conn);
                 cmd.Parameters.AddWithValue("no_rekam_medis", no_rm);
 
-                if (cmd.ExecuteNonQuery() == 1)
-                {
-                    return true;
-                }
+                if (cmd.ExecuteNonQuery() == 1) return true;
 
                 CloseConnection();
             }
@@ -460,13 +427,10 @@ namespace pendaftaran.DBAccess
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("delete from tb_antrian where id=@id", conn);
+                var cmd = new SqlCommand("delete from tb_antrian where id=@id", conn);
                 cmd.Parameters.AddWithValue("id", id);
 
-                if (cmd.ExecuteNonQuery() == 1)
-                {
-                    return true;
-                }
+                if (cmd.ExecuteNonQuery() == 1) return true;
 
                 CloseConnection();
             }

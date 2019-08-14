@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using Apotik.DBAccess;
 using Apotik.mifare;
 using Apotik.models;
+using Apotik.Properties;
 using Apotik.Utils;
 using SimpleTCP;
 
@@ -21,10 +22,10 @@ namespace Apotik.views
         private readonly byte blockRekamMedis = 2;
         private readonly DBCommand cmd;
         private readonly SqlConnection conn;
-        private string kode_resep;
 
         private readonly SmartCardOperation sp;
-        SimpleTcpClient clientApotik;
+        private readonly SimpleTcpClient clientApotik;
+        private string kode_resep;
 
         public BuatResep()
         {
@@ -41,18 +42,13 @@ namespace Apotik.views
             try
             {
                 clientApotik = new SimpleTcpClient();
-                clientApotik.Connect(Properties.Settings.Default.SocketAntriApotik,
-                    Properties.Settings.Default.PortAntriApotik);
+                clientApotik.Connect(Settings.Default.SocketAntriApotik,
+                    Settings.Default.PortAntriApotik);
                 clientApotik.DataReceived += ClientApotik_DataReceived;
             }
             catch (Exception)
             {
             }
-        }
-
-        private void ClientApotik_DataReceived(object sender, Message e)
-        {
-            //throw new NotImplementedException();
         }
 
         public BuatResep(string kode_resep)
@@ -69,12 +65,16 @@ namespace Apotik.views
             DisplayData(kode_resep);
         }
 
+        private void ClientApotik_DataReceived(object sender, Message e)
+        {
+            //throw new NotImplementedException();
+        }
+
         public void DisplayData(string kode_resep = null)
         {
             var dataResep = cmd.GetDataResep();
 
             if (kode_resep != null || string.IsNullOrEmpty(kode_resep) || string.IsNullOrWhiteSpace(kode_resep))
-            {
                 if (cmd.CountAntrianApotik() > 0)
                 {
                     if (kode_resep == cmd.GetKodeResepByNoUrut())
@@ -106,7 +106,6 @@ namespace Apotik.views
                             MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
-            }
         }
 
         private void DisplayDetailResep(string kode_resep = null)
@@ -125,9 +124,8 @@ namespace Apotik.views
             foreach (ModelDetailResep dr in dtgDetailResep.ItemsSource) total += dr.sub_total;
 
             //MessageBox.Show(total.ToString());
-            if (cmd.CreateTransactionResep(Properties.Settings.Default.KodeApoteker.ToString(),
-                txtKodeResep.Text.ToString(), total))
-            {
+            if (cmd.CreateTransactionResep(Settings.Default.KodeApoteker,
+                txtKodeResep.Text, total))
                 if (cmd.UpdateStatusAntrianApotik(kode_resep))
                 {
                     try
@@ -140,7 +138,6 @@ namespace Apotik.views
 
                     ClearData();
                 }
-            }
         }
 
         private void ClearData()

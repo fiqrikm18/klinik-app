@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace pendaftaran.models
+﻿namespace pendaftaran.models
 {
-    class ModelDetailPasien
+    internal class ModelDetailPasien
     {
         public ModelDetailPasien(string id, string no_rm, string nama, string tgl_lahir, string jenis_kelamin,
             string no_telp,

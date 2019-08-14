@@ -5,7 +5,6 @@ using System.Windows;
 using pendaftaran.Mifare;
 using pendaftaran.Properties;
 using pendaftaran.views;
-using System.Net.Sockets;
 
 namespace pendaftaran
 {
