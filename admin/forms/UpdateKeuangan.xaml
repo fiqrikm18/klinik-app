@@ -5,8 +5,88 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:admin.forms"
         mc:Ignorable="d"
-        Title="UpdateKeuangan" Height="450" Width="800">
-    <Grid>
-        
+        Title="Update Keuangan" Height="520" Width="850" WindowStartupLocation="CenterScreen"
+        Icon="/admin;component/images/BMicon.ico">
+    <Grid Style="{StaticResource OpenSans}" Margin="25">
+        <Grid.CommandBindings>
+            <CommandBinding Command="New" CanExecute="AddApoteker_CanExecute" Executed="AddApoteker_Executed" />
+        </Grid.CommandBindings>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+            <TextBlock Text="Update Data Bagian Keuangan" FontSize="16" FontWeight="Bold" Foreground="#555555" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Grid.Column="0">
+                    <Label Content="ID" />
+                    <TextBox x:Name="txtidDokter" IsEnabled="False"
+                             Validation.Error="Validation_Error"
+                             Text="{Binding UpdateSourceTrigger=LostFocus,
+                        Path=id, NotifyOnSourceUpdated=True,
+                        ValidatesOnDataErrors=True}"
+                             GotKeyboardFocus="TextBoxFocus" />
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" Grid.Column="0">
+                    <Label Content="Nama" />
+                    <TextBox x:Name="txtNamaDokter" MaxLength="50"
+                             Validation.Error="Validation_Error"
+                             Text="{Binding UpdateSourceTrigger=LostFocus,
+                        Path=nama, NotifyOnSourceUpdated=True,
+                        ValidatesOnDataErrors=True}" />
+                </StackPanel>
+
+                <StackPanel Grid.Row="2" Grid.Column="0">
+                    <Label Content="Alamat" />
+                    <TextBox x:Name="TextAlamat" Height="100" AcceptsReturn="True" TextWrapping="Wrap" MaxLength="150"
+                             Text="{Binding UpdateSourceTrigger=LostFocus,
+                        Path=alamat, NotifyOnSourceUpdated=True,
+                        ValidatesOnDataErrors=True}" />
+                </StackPanel>
+
+                <StackPanel Grid.Row="0" Grid.Column="1">
+                    <Label Content="Telepon" />
+                    <TextBox x:Name="txtTelpDokter" MaxLength="12"
+                             Validation.Error="Validation_Error"
+                             Text="{Binding UpdateSourceTrigger=LostFocus,
+                        Path=telp, NotifyOnSourceUpdated=True,
+                        ValidatesOnDataErrors=True}" />
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" Grid.Column="1">
+                    <Label Content="Jenis Kelamin" />
+                    <ComboBox x:Name="cbJenisKelamin" SelectedIndex="0" Background="{x:Null}" BorderBrush="{x:Null}">
+                        <ComboBoxItem Content="Pria" />
+                        <ComboBoxItem Content="Wanita" />
+                    </ComboBox>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Orientation="Horizontal">
+            <Button Content="Simpan" Command="New" />
+            <Button Content="Batal" x:Name="btnBatal" Click="BtnBatal_Click" />
+            <CheckBox Content="Update kartu akses" x:Name="chkCetakKartu" VerticalAlignment="Center"
+                      IsChecked="True" />
+        </StackPanel>
     </Grid>
 </Window>

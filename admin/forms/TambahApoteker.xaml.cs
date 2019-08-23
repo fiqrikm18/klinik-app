@@ -5,8 +5,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using admin.DBAccess;
-using admin.models;
 using admin.Mifare;
+using admin.models;
 using admin.Utils;
 using admin.views;
 
@@ -116,7 +116,7 @@ namespace admin.forms
                 }
                 else
                 {
-                    if (!Regex.IsMatch(no_telp, "^[A-Za-z]+$"))
+                    if (!Regex.IsMatch(no_telp, "^[A-Za-z]+$") && Regex.IsMatch(nama, "^[A-Za-z]+$"))
                     {
                         if (cmd.InsertDataApoteker(id, nama, no_telp, alamat, jenis_kelamin, password))
                         {
@@ -231,14 +231,15 @@ namespace admin.forms
                     }
                     else
                     {
-                        MessageBox.Show("No. telepon harus berupa angkat.", "Peringatan", MessageBoxButton.OK,
+                        MessageBox.Show("Periksa kembali data yang akan di inputkan.", "Peringatan",
+                            MessageBoxButton.OK,
                             MessageBoxImage.Warning);
                     }
                 }
             }
             else
             {
-                MessageBox.Show("Periksa kembali data yang akan di inputkan.", "Informasi", MessageBoxButton.OK,
+                MessageBox.Show("Periksa kembali data yang akan di inputkan.", "Perhatian", MessageBoxButton.OK,
                     MessageBoxImage.Warning);
             }
 

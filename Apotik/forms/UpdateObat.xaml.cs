@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Text.RegularExpressions;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Apotik.DBAccess;
@@ -14,7 +15,7 @@ namespace Apotik.forms
     {
         private readonly DaftarObat daftarObat = new DaftarObat();
         private int _noOfErrorsOnScreen;
-        private ModelObat mo = new ModelObat(" ", " ", " ", " ", " ", " ", " ");
+        private readonly ModelObat mo = new ModelObat(" ", " ", " ", " ", " ", " ", " ");
 
         public UpdateObat(string kode_obat, string nama_obat, string stok, string satuan, string harga_jual,
             string harga_beli, string harga_resep, DaftarObat d)
@@ -52,20 +53,30 @@ namespace Apotik.forms
                 var harga_resep = txtHargaResep.Text;
                 var satuan = cbSatuan.Text;
 
-                var cmd = new DBCommand(DBConnection.dbConnection());
-
-                var res = cmd.UpdateDataObat(kode_obat, nama_obat, satuan, stok, harga_jual, harga_beli, harga_resep);
-
-                if (res)
+                if (!Regex.IsMatch(harga_beli, "^[A-Za-z]+$") && !Regex.IsMatch(harga_jual, "^[A-Za-z]+$") &&
+                    !Regex.IsMatch(harga_resep, "^[A-Za-z]+$") && !Regex.IsMatch(stok, "^[A-Za-z]+$"))
                 {
-                    MessageBox.Show("Data obat berhasil update.", "Informasi", MessageBoxButton.OK,
-                        MessageBoxImage.Information);
-                    daftarObat.DisplayDataObat();
-                    Close();
+                    var cmd = new DBCommand(DBConnection.dbConnection());
+
+                    var res = cmd.UpdateDataObat(kode_obat, nama_obat, satuan, stok, harga_jual, harga_beli,
+                        harga_resep);
+
+                    if (res)
+                    {
+                        MessageBox.Show("Data obat berhasil update.", "Informasi", MessageBoxButton.OK,
+                            MessageBoxImage.Information);
+                        daftarObat.DisplayDataObat();
+                        Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Data obat gagal update.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("Data obat gagal update.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Pastikan data yang di inputkan sudah benar", "Perhatian", MessageBoxButton.OK,
+                        MessageBoxImage.Warning);
                 }
             }
             else
@@ -74,7 +85,7 @@ namespace Apotik.forms
                     MessageBoxImage.Error);
             }
 
-            mo = new ModelObat(" ", " ", " ", " ", " ", " ", " ");
+            //mo = new ModelObat(" ", " ", " ", " ", " ", " ", " ");
             DataContext = mo;
             e.Handled = true;
         }

@@ -46,7 +46,7 @@ namespace dokter.forms
             }
             else
             {
-                var filter = data.Where(x => x.nama_obat.Contains(nama));
+                var filter = data.Where(x => x.nama_obat.ToLower().Contains(nama.ToLower()));
                 dgDataObat.ItemsSource = filter;
             }
         }

@@ -1,9 +1,11 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Windows;
 using admin.DBAccess;
 using admin.Mifare;
+using admin.Properties;
 using admin.Utils;
 using PCSC;
 using PCSC.Monitoring;
@@ -20,8 +22,8 @@ namespace admin
         private readonly byte BlockId = 1;
         private readonly byte BlockId2 = 12;
         private readonly byte BlockPasswordFrom = 2;
-        private readonly byte BlockPasswordTo = 4;
         private readonly byte BlockPasswordFrom2 = 25;
+        private readonly byte BlockPasswordTo = 4;
         private readonly byte BlockPasswordTo2 = 26;
         private readonly DBCommand cmd;
         private readonly SqlConnection conn;
@@ -75,14 +77,14 @@ namespace admin
 
                     if (cmd.Login(Util.ToASCII(user, 0, user.Length), Util.ToASCII(pass, 0, pass.Length)))
                     {
-                        Properties.Settings.Default.role = "admin";
+                        Settings.Default.role = "admin";
                         Dispatcher.Invoke(() => { sh(); });
                     }
                     else
                     {
                         if (cmd.LoginK(Util.ToASCII(user2, 0, user2.Length), Util.ToASCII(pass2, 0, pass2.Length)))
                         {
-                            Properties.Settings.Default.role = "keuangan";
+                            Settings.Default.role = "keuangan";
                             Dispatcher.Invoke(() => { sh(); });
                         }
                         else
@@ -93,10 +95,11 @@ namespace admin
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                MessageBox.Show("Pastikan reader sudah terpasang dan kartu sudah berada pada jangkauan reader.",
-                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                //MessageBox.Show("Pastikan reader sudah terpasang dan kartu sudah berada pada jangkauan reader.",
+                //    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message);
                 sp.isoReaderInit();
             }
         }
@@ -140,9 +143,9 @@ namespace admin
             Environment.Exit(0);
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
-            Properties.Settings.Default.role = "";
+            Settings.Default.role = "";
         }
     }
 }

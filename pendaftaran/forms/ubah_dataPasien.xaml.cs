@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Globalization;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using pendaftaran.DBAccess;
-using pendaftaran.models;
-using pendaftaran.Mifare;
-using pendaftaran.Utils;
-using pendaftaran.views;
 using PCSC;
 using PCSC.Iso7816;
+using pendaftaran.DBAccess;
+using pendaftaran.Mifare;
+using pendaftaran.models;
+using pendaftaran.Utils;
+using pendaftaran.views;
 
 namespace pendaftaran.forms
 {
@@ -24,10 +25,15 @@ namespace pendaftaran.forms
         private const byte Msb = 0x00;
         private readonly byte blockAlamatForm = 8;
         private readonly byte blockAlamatTo = 12;
+        //private readonly byte blockGolDarah = 13;
+        //private readonly byte blockIdPasien = 1;
+        //private readonly byte blockJenisId = 18;
         private readonly byte blockJenisKelamin = 17;
         private readonly byte blockNamaFrom = 4;
         private readonly byte blockNamaTo = 6;
+        //private readonly byte blockNoRekamMedis = 2;
         private readonly byte blockNoTelp = 14;
+        //private readonly byte blockTglLahir = 16;
 
         private readonly IContextFactory contextFactory = ContextFactory.Instance;
         private readonly daftar_ulang du;
@@ -69,7 +75,8 @@ namespace pendaftaran.forms
             this.alamat = alamat;
             this.du = du;
 
-            if (jk == "Pria") cbJenisKelamin.SelectedIndex = 0;
+            if (jk == "Pria")
+                cbJenisKelamin.SelectedIndex = 0;
             else if (jk == "Wanita") cbJenisKelamin.SelectedIndex = 1;
 
             cbGolDarah.Text = golDarah;
@@ -109,103 +116,109 @@ namespace pendaftaran.forms
         {
             _mDaftarBaru = new MDaftarBaru(" ", "", "", " ", " ");
 
-            if (checkTextBoxValue())
+            var ci = CultureInfo.CreateSpecificCulture(CultureInfo.CurrentCulture.Name);
+            ci.DateTimeFormat.ShortDatePattern = "yyyy-MM-dd";
+            Thread.CurrentThread.CurrentCulture = ci;
+
+            //DateTime dt = DateTime.ParseExact(, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+
+            var identitas = TxtNoIdentitas.Text;
+            var namaPasien = TxtNamaPasien.Text;
+            var noTelp = TxtNoTelp.Text;
+            var alamat = TextAlamat.Text;
+            var gd = cbGolDarah.Text;
+            var jenisKelamin = cbJenisKelamin.Text;
+            conn = DBConnection.dbConnection();
+            var cmd = new DBCommand(conn);
+
+            if (!Regex.IsMatch(identitas, "^[A-Za-z]+$") && !Regex.IsMatch(noTelp, "^[A-Za-z]+$") &&
+                Regex.IsMatch(namaPasien, @"^[a-zA-Z\s]*$"))
             {
-                var ci = CultureInfo.CreateSpecificCulture(CultureInfo.CurrentCulture.Name);
-                ci.DateTimeFormat.ShortDatePattern = "yyyy-MM-dd";
-                Thread.CurrentThread.CurrentCulture = ci;
-
-                //DateTime dt = DateTime.ParseExact(, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-
-                var identitas = TxtNoIdentitas.Text;
-                var namaPasien = TxtNamaPasien.Text;
-                var noTelp = TxtNoTelp.Text;
-                var alamat = TextAlamat.Text;
-                var gd = cbGolDarah.Text;
-                var jenisKelamin = cbJenisKelamin.Text;
-                conn = DBConnection.dbConnection();
-                var cmd = new DBCommand(conn);
-
-                if (cmd.UpdateDataPasien(namaPasien, noTelp, jenisKelamin, alamat, identitas, gd))
+                if (checkTextBoxValue())
                 {
-                    var isPrinted = false;
-                    if (chkUpdateKartu.IsChecked == true)
-                        while (!isPrinted)
-                            try
-                            {
-                                if (namaPasien.Length > 48)
-                                    namaPasien = namaPasien.Substring(0, 47);
-
-                                if (!string.IsNullOrEmpty(namaPasien))
+                    if (cmd.UpdateDataPasien(namaPasien, noTelp, jenisKelamin, alamat, identitas, gd))
+                    {
+                        var isPrinted = false;
+                        if (chkUpdateKartu.IsChecked == true)
+                            while (!isPrinted)
+                                try
                                 {
-                                    if (WriteBlockRange(Msb, blockNamaFrom, blockNamaTo,
-                                        Util.ToArrayByte48(namaPasien)))
+                                    if (namaPasien.Length > 48) namaPasien = namaPasien.Substring(0, 47);
+
+                                    if (!string.IsNullOrEmpty(namaPasien))
                                     {
+                                        if (WriteBlockRange(Msb, blockNamaFrom, blockNamaTo,
+                                            Util.ToArrayByte48(namaPasien)))
+                                        {
+                                        }
+                                        else
+                                        {
+                                            MessageBox.Show("Nama pasien gagal ditulis");
+                                        }
                                     }
-                                    else
+
+                                    if (alamat.Length > 64) alamat = alamat.Substring(0, 63);
+
+                                    if (!string.IsNullOrEmpty(alamat))
                                     {
-                                        MessageBox.Show("Nama pasien gagal ditulis");
+                                        if (WriteBlockRange(Msb, blockAlamatForm, blockAlamatTo,
+                                            Util.ToArrayByte64(alamat)))
+                                        {
+                                        }
+                                        else
+                                        {
+                                            MessageBox.Show("Alamat pasien gagal ditulis");
+                                        }
                                     }
+
+                                    if (string.IsNullOrEmpty(noTelp))
+                                    {
+                                        if (WriteBlock(Msb, blockNoTelp, Util.ToArrayByte16(noTelp)))
+                                        {
+                                        }
+                                        else
+                                        {
+                                            MessageBox.Show("Nomor telepon pasien gagal ditulis");
+                                        }
+                                    }
+
+                                    if (string.IsNullOrEmpty(jenisKelamin))
+                                    {
+                                        if (WriteBlock(Msb, blockJenisKelamin, Util.ToArrayByte16(jenisKelamin)))
+                                        {
+                                        }
+                                        else
+                                        {
+                                            MessageBox.Show("Jenis Kelamin pasien gagal ditulis");
+                                        }
+                                    }
+
+                                    isPrinted = true;
+                                    if (isPrinted) break;
+                                }
+                                catch (Exception)
+                                {
+                                    var ans = MessageBox.Show(
+                                        "Penulisan kartu gagal, pastikan kartu sudah berada pada jangkauan reader.\nApakah anda ingin menulis kartu lain kali?",
+                                        "Error",
+                                        MessageBoxButton.YesNo, MessageBoxImage.Error);
+
+                                    if (ans == MessageBoxResult.Yes) break;
+
+                                    isoReaderInit();
                                 }
 
-                                if (alamat.Length > 64)
-                                    alamat = alamat.Substring(0, 63);
-
-                                if (!string.IsNullOrEmpty(alamat))
-                                {
-                                    if (WriteBlockRange(Msb, blockAlamatForm, blockAlamatTo,
-                                        Util.ToArrayByte64(alamat)))
-                                    {
-                                    }
-                                    else
-                                    {
-                                        MessageBox.Show("Alamat pasien gagal ditulis");
-                                    }
-                                }
-
-                                if (string.IsNullOrEmpty(noTelp))
-                                {
-                                    if (WriteBlock(Msb, blockNoTelp, Util.ToArrayByte16(noTelp)))
-                                    {
-                                    }
-                                    else
-                                    {
-                                        MessageBox.Show("Nomor telepon pasien gagal ditulis");
-                                    }
-                                }
-
-                                if (string.IsNullOrEmpty(jenisKelamin))
-                                {
-                                    if (WriteBlock(Msb, blockJenisKelamin, Util.ToArrayByte16(jenisKelamin)))
-                                    {
-                                    }
-                                    else
-                                    {
-                                        MessageBox.Show("Jenis Kelamin pasien gagal ditulis");
-                                    }
-                                }
-
-                                isPrinted = true;
-                                if (isPrinted) break;
-                            }
-                            catch (Exception)
-                            {
-                                var ans = MessageBox.Show(
-                                    "Penulisan kartu gagal, pastikan kartu sudah berada pada jangkauan reader.\nApakah anda ingin menulis kartu lain kali?",
-                                    "Error",
-                                    MessageBoxButton.YesNo, MessageBoxImage.Error);
-
-                                if (ans == MessageBoxResult.Yes)
-                                    break;
-
-                                isoReaderInit();
-                            }
+                        MessageBox.Show("Berhasil memperbarui data pasien.", "Informasi", MessageBoxButton.OK,
+                            MessageBoxImage.Information);
+                        du.DisplayDataPasien();
+                        Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Harap periksa kembali data yang diinputkan.", "Warning", MessageBoxButton.OK,
+                            MessageBoxImage.Warning);
+                    }
                 }
-
-                MessageBox.Show("Berhasil memperbarui data pasien.", "Informasi", MessageBoxButton.OK,
-                    MessageBoxImage.Information);
-                du.DisplayDataPasien();
-                Close();
             }
             else
             {
@@ -213,9 +226,12 @@ namespace pendaftaran.forms
                     MessageBoxImage.Warning);
             }
 
-            DataContext = _mDaftarBaru;
-            if (jk == "Pria") cbJenisKelamin.SelectedIndex = 0;
+
+            //DataContext = _mDaftarBaru;
+            if (jk == "Pria")
+                cbJenisKelamin.SelectedIndex = 0;
             else if (jk == "Wanita") cbJenisKelamin.SelectedIndex = 1;
+
             e.Handled = true;
         }
 
@@ -227,9 +243,9 @@ namespace pendaftaran.forms
 
         private bool checkTextBoxValue()
         {
-//            if (TxtNoRm.Text == " " && TxtNoIdentitas.Text == " " && TxtNamaPasien.Text == " " &&
-//                TxtNoTelp.Text == " " && TextAlamat.Text == " " &&
-//                dtTanggalLahir.SelectedDate.ToString() == null) return false;
+            //            if (TxtNoRm.Text == " " && TxtNoIdentitas.Text == " " && TxtNamaPasien.Text == " " &&
+            //                TxtNoTelp.Text == " " && TextAlamat.Text == " " &&
+            //                dtTanggalLahir.SelectedDate.ToString() == null) return false;
 
             if (!string.IsNullOrWhiteSpace(TxtNoRm.Text) && !string.IsNullOrWhiteSpace(TxtNoIdentitas.Text) &&
                 !string.IsNullOrWhiteSpace(TxtNamaPasien.Text) && !string.IsNullOrWhiteSpace(TxtNoTelp.Text) &&
@@ -283,8 +299,10 @@ namespace pendaftaran.forms
 
                 Array.Copy(data, count * 16, blockData, 0, 16);
 
-                if (WriteBlock(msb, i, blockData)) count++;
-                else return false;
+                if (WriteBlock(msb, i, blockData))
+                    count++;
+                else
+                    return false;
             }
 
             return true;
@@ -368,6 +386,7 @@ namespace pendaftaran.forms
             for (i = blockFrom; i <= blockTo; i++)
             {
                 if ((i + 1) % 4 == 0) continue;
+
                 nBlock++;
             }
 
@@ -375,6 +394,7 @@ namespace pendaftaran.forms
             for (i = blockFrom; i <= blockTo; i++)
             {
                 if ((i + 1) % 4 == 0) continue;
+
                 Array.Copy(ReadBlock(msb, i), 0, dataOut, count * 16, 16);
                 count++;
             }

@@ -11,8 +11,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using pendaftaran.DBAccess;
 using pendaftaran.forms;
-using pendaftaran.models;
 using pendaftaran.Mifare;
+using pendaftaran.models;
 using pendaftaran.Properties;
 using pendaftaran.Utils;
 using SimpleTCP;
@@ -39,6 +39,8 @@ namespace pendaftaran.views
         private readonly byte blockNoTelp = 14;
         private readonly byte blockTglLahir = 16;
 
+        private readonly SimpleTcpClient clientPoli;
+
         private readonly SqlConnection conn;
         private readonly byte[] key = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
 
@@ -48,8 +50,6 @@ namespace pendaftaran.views
 
         //private static MySqlConnection MsqlConn = null;
         private int _noOfErrorsOnScreen;
-
-        private readonly SimpleTcpClient clientPoli;
         private string no_rm;
         private int no_urut;
         private string poli = "";
@@ -165,7 +165,8 @@ namespace pendaftaran.views
 
                 if (chkLainnya.IsChecked ?? true) jenis_id = chkLainnya.Content.ToString();
 
-                if (!Regex.IsMatch(identitas, "^[A-Za-z]+$") && !Regex.IsMatch(noTelp, "^[A-Za-z]+$") && Regex.IsMatch(namaPasien, "^[A-Za-z]+$"))
+                if (!Regex.IsMatch(identitas, "^[A-Za-z]+$") && !Regex.IsMatch(noTelp, "^[A-Za-z]+$") &&
+                    Regex.IsMatch(namaPasien, @"^[a-zA-Z\s]*$"))
                 {
                     if (cmd.CountIdPasienExists(identitas) != 1)
                     {

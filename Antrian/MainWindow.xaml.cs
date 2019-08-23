@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data.SqlClient;
-using System.Diagnostics;
 using System.Media;
 using System.Net;
 using System.Net.Sockets;
@@ -35,7 +34,7 @@ namespace Antrian
             cmd = new DBCommand(conn);
 
             //Debug.WriteLine($"Kode Poli: {cmd.GetKodePoli()}");
-            Debug.WriteLine(jenis_antrian);
+            //Debug.WriteLine(jenis_antrian);
 
             if (jenis_antrian == "Poliklinik")
             {
@@ -85,13 +84,13 @@ namespace Antrian
 
         private void ServerApotik_ClientConnected(object sender, TcpClient e)
         {
-            Debug.WriteLine("Connected {0}", e.Client);
+            //Debug.WriteLine("Connected {0}", e.Client);
         }
 
         private void ServerPoli_ClientConnected(object sender, TcpClient e)
         {
             //throw new System.NotImplementedException();
-            Debug.WriteLine("Connected {0}", e.Client);
+            //Debug.WriteLine("Connected {0}", e.Client);
         }
 
         private void ServerApotik_ClientDisconnected(object sender, TcpClient e)
@@ -108,7 +107,7 @@ namespace Antrian
                 //e.ReplyLine(e.MessageString);
 
                 var a = e.MessageString.Replace("\u0013", "");
-                Debug.WriteLine(a);
+                //Debug.WriteLine(a);
                 if (!Settings.Default.IsRemoteConnected)
                 {
                     if (int.Parse(a) == 4)
@@ -116,7 +115,7 @@ namespace Antrian
                         Settings.Default.IsRemoteConnected = true;
                         if (Settings.Default.IsRemoteConnected)
                         {
-                            Debug.WriteLine(Settings.Default.IsRemoteConnected);
+                            //Debug.WriteLine(Settings.Default.IsRemoteConnected);
                             e.ReplyLine("Connected");
                             LoadPeriksa();
                         }
@@ -124,12 +123,13 @@ namespace Antrian
                 }
                 else
                 {
-                    if (int.TryParse(a, out var v) && v == 0)
+                    var v = 0;
+                    if (int.TryParse(a, out v) && v == 0)
                     {
                         Settings.Default.IsRemoteConnected = false;
                         if (!Settings.Default.IsRemoteConnected)
                         {
-                            Debug.WriteLine(Settings.Default.IsRemoteConnected);
+                            //Debug.WriteLine(Settings.Default.IsRemoteConnected);
                             e.ReplyLine("Disconnected");
                             LoadPeriksa();
                         }
@@ -155,14 +155,14 @@ namespace Antrian
                 //e.ReplyLine(e.MessageString);
 
                 var a = e.MessageString.Replace("\u0013", "");
-                Debug.WriteLine(a);
+                //Debug.WriteLine(a);
                 if (!Settings.Default.IsRemoteConnected)
                 {
                     if (int.Parse(a) == int.Parse(cmd.GetKodePoli()))
                     {
                         Settings.Default.IsRemoteConnected = true;
                         e.ReplyLine("Connected");
-                        Debug.WriteLine(Settings.Default.IsRemoteConnected);
+                        //Debug.WriteLine(Settings.Default.IsRemoteConnected);
                         LoadPeriksa();
                     }
                 }
@@ -174,7 +174,7 @@ namespace Antrian
                         if (!Settings.Default.IsRemoteConnected)
                         {
                             e.ReplyLine("Disconnected");
-                            Debug.WriteLine(Settings.Default.IsRemoteConnected);
+                            //Debug.WriteLine(Settings.Default.IsRemoteConnected);
                             LoadPeriksa();
                         }
                     }

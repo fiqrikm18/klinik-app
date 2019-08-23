@@ -48,7 +48,7 @@
 
                 <StackPanel Grid.Row="1" Grid.Column="0">
                     <Label Content="Nama" />
-                    <TextBox x:Name="txtNamaDokter"
+                    <TextBox x:Name="txtNamaDokter" MaxLength="50"
                              Validation.Error="Validation_Error"
                              Text="{Binding UpdateSourceTrigger=LostFocus,
                         Path=nama_apoteker, NotifyOnSourceUpdated=True,
@@ -57,7 +57,7 @@
 
                 <StackPanel Grid.Row="2" Grid.Column="0">
                     <Label Content="Alamat" />
-                    <TextBox x:Name="TextAlamat" Height="100" AcceptsReturn="True" TextWrapping="Wrap"
+                    <TextBox x:Name="TextAlamat" Height="100" AcceptsReturn="True" TextWrapping="Wrap" MaxLength="150"
                              Text="{Binding UpdateSourceTrigger=LostFocus,
                         Path=alamat, NotifyOnSourceUpdated=True,
                         ValidatesOnDataErrors=True}" />
@@ -84,7 +84,7 @@
 
         <StackPanel Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Orientation="Horizontal">
             <Button Content="Simpan" Command="New" />
-            <Button Content="Batal" x:Name="btnBatal" Click="BtnBatal_OnClick" />
+            <Button Content="Batal" x:Name="btnBatal" Click="BtnBatal_Click" />
             <CheckBox Content="Update kartu apoteker" x:Name="chkCetakKartu" VerticalAlignment="Center"
                       IsChecked="True" />
         </StackPanel>

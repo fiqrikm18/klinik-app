@@ -20,6 +20,7 @@ namespace dokter.views
     public partial class ViewRekamMedis : Page
     {
         private readonly byte blockNoRekamMedis = 2;
+        private readonly SimpleTcpClient clientPoli;
         private readonly DBCommand cmd;
         private readonly SqlConnection conn;
         private readonly byte Msb = 0x00;
@@ -28,8 +29,7 @@ namespace dokter.views
         //Socket sck2;
         //Socket sck3;
 
-        private SimpleTcpClient clientApotik;
-        private readonly SimpleTcpClient clientPoli;
+        //private SimpleTcpClient clientApotik;
         private int id;
         private string no_rm = "";
 

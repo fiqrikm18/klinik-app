@@ -20,11 +20,11 @@ namespace Apotik.views
     public partial class BuatResep : Page
     {
         private readonly byte blockRekamMedis = 2;
+        private readonly SimpleTcpClient clientApotik;
         private readonly DBCommand cmd;
         private readonly SqlConnection conn;
 
         private readonly SmartCardOperation sp;
-        private readonly SimpleTcpClient clientApotik;
         private string kode_resep;
 
         public BuatResep()

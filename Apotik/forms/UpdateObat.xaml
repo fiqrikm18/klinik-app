@@ -46,7 +46,7 @@
 
             <StackPanel Grid.Row="1" Grid.Column="0">
                 <Label Content="Nama Obat" />
-                <TextBox x:Name="txtNamaObat"
+                <TextBox x:Name="txtNamaObat" MaxLength="50"
                          Validation.Error="Validation_Error"
                          Text="{Binding UpdateSourceTrigger=LostFocus,
                         Path=nama_obat, NotifyOnSourceUpdated=True,

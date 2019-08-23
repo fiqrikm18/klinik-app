@@ -1,9 +1,9 @@
-﻿using admin.models;
-using admin.Utils;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using admin.models;
+using admin.Utils;
 
 namespace admin.DBAccess
 {
@@ -19,32 +19,26 @@ namespace admin.DBAccess
 
         public void OpenConnection()
         {
-            if (conn.State.Equals(ConnectionState.Closed))
-            {
-                conn.Open();
-            }
+            if (conn.State.Equals(ConnectionState.Closed)) conn.Open();
         }
 
         public void CloseConnection()
         {
-            if (conn.State.Equals(ConnectionState.Open))
-            {
-                conn.Close();
-            }
+            if (conn.State.Equals(ConnectionState.Open)) conn.Close();
         }
 
         public DataTable DataTableTransaksi()
         {
-            DataTable dt = new DataTable();
+            var dt = new DataTable();
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("[GetDataTransaksi]", conn)
+                var cmd = new SqlCommand("[GetDataTransaksi]", conn)
                 {
                     CommandType = CommandType.StoredProcedure
                 };
 
-                SqlDataAdapter adp = new SqlDataAdapter(cmd);
+                var adp = new SqlDataAdapter(cmd);
                 adp.Fill(dt);
 
                 CloseConnection();
@@ -59,15 +53,15 @@ namespace admin.DBAccess
 
         public DataTable DataTableTransaksiByTgl(string tgl)
         {
-            DataTable dt = new DataTable();
+            var dt = new DataTable();
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("[GetDataTransaksiByTgl]", conn);
+                var cmd = new SqlCommand("[GetDataTransaksiByTgl]", conn);
                 cmd.Parameters.AddWithValue("tgl", tgl);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                SqlDataAdapter adp = new SqlDataAdapter(cmd);
+                var adp = new SqlDataAdapter(cmd);
                 adp.Fill(dt);
 
                 CloseConnection();
@@ -82,15 +76,15 @@ namespace admin.DBAccess
 
         public DataTable DataTableTransaksiByApoteker(string apoteker)
         {
-            DataTable dt = new DataTable();
+            var dt = new DataTable();
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("[GetDataTransaksiByApoteker]", conn);
+                var cmd = new SqlCommand("[GetDataTransaksiByApoteker]", conn);
                 cmd.Parameters.AddWithValue("apoteker", apoteker);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                SqlDataAdapter adp = new SqlDataAdapter(cmd);
+                var adp = new SqlDataAdapter(cmd);
                 adp.Fill(dt);
 
                 CloseConnection();
@@ -105,16 +99,16 @@ namespace admin.DBAccess
 
         public DataTable DataTableTransaksiByApotekerTgl(string apoteker, string tgl)
         {
-            DataTable dt = new DataTable();
+            var dt = new DataTable();
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("[GetDataTransaksiByApotekerTGL]", conn);
+                var cmd = new SqlCommand("[GetDataTransaksiByApotekerTGL]", conn);
                 cmd.Parameters.AddWithValue("apoteker", apoteker);
                 cmd.Parameters.AddWithValue("tgl", tgl);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                SqlDataAdapter adp = new SqlDataAdapter(cmd);
+                var adp = new SqlDataAdapter(cmd);
                 adp.Fill(dt);
 
                 CloseConnection();
@@ -127,22 +121,22 @@ namespace admin.DBAccess
             return dt;
         }
 
-        public List<Keuangan> GetDataKeuangan()
+        public List<ModelKeuangan> GetDataKeuangan()
         {
-            List<Keuangan> keuangan = new List<Keuangan>();
+            var keuangan = new List<ModelKeuangan>();
 
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("select * from tb_keuangan", conn);
+                var cmd = new SqlCommand("select * from tb_keuangan", conn);
 
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
-                    {
-                        keuangan.Add(new Keuangan(reader["id"].ToString(), reader["nama"].ToString(), reader["telp"].ToString(),
-                            reader["jenis_kelamin"].ToString(), reader["password"].ToString(), reader["alamat"].ToString()));
-                    }
+                        keuangan.Add(new ModelKeuangan(reader["id"].ToString(), reader["nama"].ToString(),
+                            reader["telp"].ToString(),
+                            reader["jenis_kelamin"].ToString(), reader["password"].ToString(),
+                            reader["alamat"].ToString()));
                 }
 
                 CloseConnection();
@@ -157,23 +151,21 @@ namespace admin.DBAccess
 
         public List<ModelTransaksi> GetDataTransaksi()
         {
-            List<ModelTransaksi> transaksi = new List<ModelTransaksi>();
+            var transaksi = new List<ModelTransaksi>();
             try
             {
                 OpenConnection();
-                SqlCommand cmd =
+                var cmd =
                     new SqlCommand(
                         "select tb_transaksi.*, ta.nama as nama_apoteker from tb_transaksi left join tb_apoteker ta on tb_transaksi.apoteker = ta.id",
                         conn);
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
-                    {
                         transaksi.Add(new ModelTransaksi(int.Parse(reader["id"].ToString()),
                             reader["apoteker"].ToString(), reader["nama_apoteker"].ToString(),
                             reader["kode_resep"].ToString(), int.Parse(reader["total"].ToString()),
                             reader["tgl_transaksi"].ToString()));
-                    }
                 }
 
                 CloseConnection();
@@ -188,15 +180,37 @@ namespace admin.DBAccess
 
         public DataTable GetDataApoteker(string id)
         {
-            DataTable dt = new DataTable();
+            var dt = new DataTable();
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("[GetDataApoteker]", conn);
+                var cmd = new SqlCommand("[GetDataApoteker]", conn);
                 cmd.Parameters.AddWithValue("id", id);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                var da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+
+                CloseConnection();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return dt;
+        }
+
+        public DataTable GetDatakeuangan(string id)
+        {
+            var dt = new DataTable();
+            try
+            {
+                OpenConnection();
+                var cmd = new SqlCommand("select * from tb_keuangan where id=@id", conn);
+                cmd.Parameters.AddWithValue("id", id);
+
+                var da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
 
                 CloseConnection();
@@ -211,15 +225,15 @@ namespace admin.DBAccess
 
         public DataTable GetDataDokter(string id)
         {
-            DataTable dt = new DataTable();
+            var dt = new DataTable();
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("[GetDataDokter]", conn);
+                var cmd = new SqlCommand("[GetDataDokter]", conn);
                 cmd.Parameters.AddWithValue("id", id);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                var da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
 
                 CloseConnection();
@@ -234,15 +248,15 @@ namespace admin.DBAccess
 
         public DataTable GetDataStaffPendaftaran(string id)
         {
-            DataTable dt = new DataTable();
+            var dt = new DataTable();
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("[GetDataStaffDaftar]", conn);
+                var cmd = new SqlCommand("[GetDataStaffDaftar]", conn);
                 cmd.Parameters.AddWithValue("id", id);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                var da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
 
                 CloseConnection();
@@ -262,14 +276,11 @@ namespace admin.DBAccess
             {
                 OpenConnection();
 
-                SqlCommand cmd = new SqlCommand("select count(*) from tb_keuangan where id=@id and password=@pass", conn);
+                var cmd = new SqlCommand("select count(*) from tb_keuangan where id=@id and password=@pass", conn);
                 cmd.Parameters.AddWithValue("id", id);
                 cmd.Parameters.AddWithValue("pass", pass);
 
-                if (int.Parse(cmd.ExecuteScalar().ToString()) > 0)
-                {
-                    return true;
-                }
+                if (int.Parse(cmd.ExecuteScalar().ToString()) > 0) return true;
 
                 CloseConnection();
             }
@@ -287,14 +298,11 @@ namespace admin.DBAccess
             try
             {
                 OpenConnection();
-                SqlCommand cmd = new SqlCommand("select count(*) from tb_admin where id=@id and password=@pass", conn);
+                var cmd = new SqlCommand("select count(*) from tb_admin where id=@id and password=@pass", conn);
                 cmd.Parameters.AddWithValue("id", id);
                 cmd.Parameters.AddWithValue("pass", pass);
 
-                if (int.Parse(cmd.ExecuteScalar().ToString()) > 0)
-                {
-                    return true;
-                }
+                if (int.Parse(cmd.ExecuteScalar().ToString()) > 0) return true;
 
                 CloseConnection();
             }
@@ -310,7 +318,7 @@ namespace admin.DBAccess
 
         public List<MPendaftaran> GetDataPendaftaran()
         {
-            List<MPendaftaran> pendaftaran = new List<MPendaftaran>();
+            var pendaftaran = new List<MPendaftaran>();
 
             try
             {
@@ -318,15 +326,13 @@ namespace admin.DBAccess
                 cmd = new SqlCommand("SELECT * FROM tb_pendaftaran", conn);
 
 
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
-                    {
                         pendaftaran.Add(new MPendaftaran(reader["id"].ToString(), reader["nama"].ToString(),
                             reader["alamat"].ToString(),
                             reader["telp"].ToString(), reader["password"].ToString(),
                             reader["jenis_kelamin"].ToString()));
-                    }
                 }
 
                 CloseConnection();
@@ -341,22 +347,21 @@ namespace admin.DBAccess
 
         public List<MApoteker> GetDataApoteker()
         {
-            List<MApoteker> apoteker = new List<MApoteker>();
+            var apoteker = new List<MApoteker>();
+            apoteker.Add(new MApoteker("pilih", "Pilih", "pilih", "pilih", "pilih"));
 
             try
             {
                 OpenConnection();
                 cmd = new SqlCommand("SELECT * FROM tb_apoteker", conn);
 
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
-                    {
                         apoteker.Add(new MApoteker(reader["id"].ToString(), reader["nama"].ToString(),
                             reader["telp"].ToString(),
                             reader["alamat"].ToString(), reader["password"].ToString(),
                             reader["jenis_kelamin"].ToString()));
-                    }
                 }
 
                 CloseConnection();
@@ -371,7 +376,7 @@ namespace admin.DBAccess
 
         public List<MDokter> GetDataDokter()
         {
-            List<MDokter> dokter = new List<MDokter>();
+            var dokter = new List<MDokter>();
 
             try
             {
@@ -380,16 +385,14 @@ namespace admin.DBAccess
                     "select  tb_dokter.*, tb_poliklinik.nama_poli as nama_poli from tb_dokter left join tb_poliklinik on tb_dokter.tugas = tb_poliklinik.kode_poli",
                     conn);
 
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
-                    {
                         dokter.Add(new MDokter(reader["id"].ToString(), reader["nama"].ToString(),
                             reader["telp"].ToString(),
                             reader["spesialisasi"].ToString(), reader["alamat"].ToString(),
                             reader["password"].ToString(), reader["nama_poli"].ToString(),
                             reader["jenis_kelamin"].ToString()));
-                    }
                 }
 
                 CloseConnection();
@@ -404,7 +407,7 @@ namespace admin.DBAccess
 
         public List<ComboboxPairs> GetDataPoliklinik()
         {
-            List<ComboboxPairs> cp = new List<ComboboxPairs>
+            var cp = new List<ComboboxPairs>
             {
                 new ComboboxPairs("000", "Pilih")
             };
@@ -414,12 +417,10 @@ namespace admin.DBAccess
                 OpenConnection();
                 cmd = new SqlCommand("select * from tb_poliklinik", conn);
 
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
-                    {
                         cp.Add(new ComboboxPairs(reader["kode_poli"].ToString(), reader["nama_poli"].ToString()));
-                    }
                 }
             }
             catch (SqlException ex)
@@ -432,19 +433,17 @@ namespace admin.DBAccess
 
         public List<MPoliklinik> GetDataPoliKlinik()
         {
-            List<MPoliklinik> cp = new List<MPoliklinik>();
+            var cp = new List<MPoliklinik>();
 
             try
             {
                 OpenConnection();
                 cmd = new SqlCommand("select * from tb_poliklinik", conn);
 
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
-                    {
                         cp.Add(new MPoliklinik(reader["kode_poli"].ToString(), reader["nama_poli"].ToString()));
-                    }
                 }
             }
             catch (SqlException ex)
@@ -469,10 +468,7 @@ namespace admin.DBAccess
                 cmd.Parameters.AddWithValue("kode_poli", kode_poli);
                 cmd.Parameters.AddWithValue("nama_poli", nama_poli);
 
-                if (cmd.ExecuteNonQuery() == 1)
-                {
-                    return true;
-                }
+                if (cmd.ExecuteNonQuery() == 1) return true;
             }
             catch (SqlException ex)
             {
@@ -485,10 +481,7 @@ namespace admin.DBAccess
         public bool InsertDataDokter(string id, string nama, string telp, string alamat, string spesialisasi,
             string tugas, string jenis_kelamin, string password)
         {
-            if (spesialisasi == "" || string.IsNullOrEmpty(spesialisasi))
-            {
-                spesialisasi = "-";
-            }
+            if (spesialisasi == "" || string.IsNullOrEmpty(spesialisasi)) spesialisasi = "-";
 
             try
             {
@@ -506,10 +499,35 @@ namespace admin.DBAccess
                 cmd.Parameters.AddWithValue("jenis_kelamin", jenis_kelamin);
                 cmd.Parameters.AddWithValue("password", Encryptor.MD5Hash(password));
 
-                if (cmd.ExecuteNonQuery() == 1)
-                {
-                    return true;
-                }
+                if (cmd.ExecuteNonQuery() == 1) return true;
+
+                CloseConnection();
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return false;
+        }
+
+        public bool InsertDataKeuangan(ModelKeuangan ku)
+        {
+            try
+            {
+                OpenConnection();
+                cmd = new SqlCommand(
+                    "insert into tb_keuangan(id, nama, telp, alamat, jenis_kelamin, password) values(@id, @nama, @telp, @alamat, @jenis_kelamin, @password)",
+                    conn);
+                //id, nama, telp, alamat, spesialisai, tugas, jenis_kelamin, password
+                cmd.Parameters.AddWithValue("id", ku.id);
+                cmd.Parameters.AddWithValue("nama", ku.nama);
+                cmd.Parameters.AddWithValue("telp", ku.telp);
+                cmd.Parameters.AddWithValue("alamat", ku.alamat);
+                cmd.Parameters.AddWithValue("jenis_kelamin", ku.jenis_kelamin);
+                cmd.Parameters.AddWithValue("password", Encryptor.MD5Hash(ku.password));
+
+                if (cmd.ExecuteNonQuery() == 1) return true;
 
                 CloseConnection();
             }
@@ -538,10 +556,7 @@ namespace admin.DBAccess
                 cmd.Parameters.AddWithValue("jenis_kelamin", jenis_kelamin);
                 cmd.Parameters.AddWithValue("password", Encryptor.MD5Hash(password));
 
-                if (cmd.ExecuteNonQuery() == 1)
-                {
-                    return true;
-                }
+                if (cmd.ExecuteNonQuery() == 1) return true;
 
                 CloseConnection();
             }
@@ -570,10 +585,7 @@ namespace admin.DBAccess
                 cmd.Parameters.AddWithValue("jenis_kelamin", jenis_kelamin);
                 cmd.Parameters.AddWithValue("password", Encryptor.MD5Hash(password));
 
-                if (cmd.ExecuteNonQuery() == 1)
-                {
-                    return true;
-                }
+                if (cmd.ExecuteNonQuery() == 1) return true;
 
                 CloseConnection();
             }
@@ -603,10 +615,33 @@ namespace admin.DBAccess
                 cmd.Parameters.AddWithValue("jenis_kelamin", jenis_kelamin);
                 cmd.Parameters.AddWithValue("id", id);
 
-                if (cmd.ExecuteNonQuery() == 1)
-                {
-                    return true;
-                }
+                if (cmd.ExecuteNonQuery() == 1) return true;
+
+                CloseConnection();
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return false;
+        }
+
+        public bool UpdateDataKeuangan(ModelKeuangan ku)
+        {
+            try
+            {
+                OpenConnection();
+                cmd = new SqlCommand(
+                    "update tb_keuangan set nama=@nama, alamat=@alamat, telp=@telp, jenis_kelamin=@jenis_kelamin where id=@id",
+                    conn);
+                cmd.Parameters.AddWithValue("nama", ku.nama);
+                cmd.Parameters.AddWithValue("alamat", ku.alamat);
+                cmd.Parameters.AddWithValue("telp", ku.telp);
+                cmd.Parameters.AddWithValue("jenis_kelamin", ku.jenis_kelamin);
+                cmd.Parameters.AddWithValue("id", ku.id);
+
+                if (cmd.ExecuteNonQuery() == 1) return true;
 
                 CloseConnection();
             }
@@ -632,10 +667,7 @@ namespace admin.DBAccess
                 cmd.Parameters.AddWithValue("jenis_kelamin", jenis_kelamin);
                 cmd.Parameters.AddWithValue("id", id);
 
-                if (cmd.ExecuteNonQuery() == 1)
-                {
-                    return true;
-                }
+                if (cmd.ExecuteNonQuery() == 1) return true;
 
                 CloseConnection();
             }
@@ -664,10 +696,7 @@ namespace admin.DBAccess
                 cmd.Parameters.AddWithValue("tugas", tugas);
                 cmd.Parameters.AddWithValue("id", id);
 
-                if (cmd.ExecuteNonQuery() == 1)
-                {
-                    return true;
-                }
+                if (cmd.ExecuteNonQuery() == 1) return true;
 
                 CloseConnection();
             }
@@ -691,10 +720,7 @@ namespace admin.DBAccess
                 cmd = new SqlCommand("delete from tb_poliklinik where kode_poli=@kode_poli", conn);
                 cmd.Parameters.AddWithValue("kode_poli", id);
 
-                if (cmd.ExecuteNonQuery() == 1)
-                {
-                    return true;
-                }
+                if (cmd.ExecuteNonQuery() == 1) return true;
 
                 CloseConnection();
             }
@@ -714,10 +740,27 @@ namespace admin.DBAccess
                 cmd = new SqlCommand("delete from tb_dokter where id=@id", conn);
                 cmd.Parameters.AddWithValue("id", id);
 
-                if (cmd.ExecuteNonQuery() == 1)
-                {
-                    return true;
-                }
+                if (cmd.ExecuteNonQuery() == 1) return true;
+
+                CloseConnection();
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return false;
+        }
+
+        public bool DeleteDatakeuangan(string id)
+        {
+            try
+            {
+                OpenConnection();
+                cmd = new SqlCommand("delete from tb_keuangan where id=@id", conn);
+                cmd.Parameters.AddWithValue("id", id);
+
+                if (cmd.ExecuteNonQuery() == 1) return true;
 
                 CloseConnection();
             }
@@ -737,10 +780,7 @@ namespace admin.DBAccess
                 cmd = new SqlCommand("delete from tb_apoteker where id=@id", conn);
                 cmd.Parameters.AddWithValue("id", id);
 
-                if (cmd.ExecuteNonQuery() == 1)
-                {
-                    return true;
-                }
+                if (cmd.ExecuteNonQuery() == 1) return true;
 
                 CloseConnection();
             }
@@ -760,10 +800,7 @@ namespace admin.DBAccess
                 cmd = new SqlCommand("delete from tb_pendaftaran where id=@id", conn);
                 cmd.Parameters.AddWithValue("id", id);
 
-                if (cmd.ExecuteNonQuery() == 1)
-                {
-                    return true;
-                }
+                if (cmd.ExecuteNonQuery() == 1) return true;
 
                 CloseConnection();
             }
@@ -781,7 +818,7 @@ namespace admin.DBAccess
 
         public int CheckApotekerExsist(string id)
         {
-            int res = 0;
+            var res = 0;
 
             try
             {
@@ -789,12 +826,9 @@ namespace admin.DBAccess
                 cmd = new SqlCommand("select count(id) from tb_apoteker where id=@id", conn);
                 cmd.Parameters.AddWithValue("id", id);
 
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                using (var reader = cmd.ExecuteReader())
                 {
-                    while (reader.Read())
-                    {
-                        res = reader.GetInt32(0);
-                    }
+                    while (reader.Read()) res = reader.GetInt32(0);
                 }
 
                 CloseConnection();
@@ -809,7 +843,7 @@ namespace admin.DBAccess
 
         public int CheckDokterExsist(string id)
         {
-            int res = 0;
+            var res = 0;
 
             try
             {
@@ -817,12 +851,9 @@ namespace admin.DBAccess
                 cmd = new SqlCommand("select count(id) from tb_dokter where id=@id", conn);
                 cmd.Parameters.AddWithValue("id", id);
 
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                using (var reader = cmd.ExecuteReader())
                 {
-                    while (reader.Read())
-                    {
-                        res = reader.GetInt32(0);
-                    }
+                    while (reader.Read()) res = reader.GetInt32(0);
                 }
 
                 CloseConnection();
@@ -837,7 +868,7 @@ namespace admin.DBAccess
 
         public int CheckStaffExsist(string id)
         {
-            int res = 0;
+            var res = 0;
 
             try
             {
@@ -845,12 +876,9 @@ namespace admin.DBAccess
                 cmd = new SqlCommand("select count(id) from tb_pendaftaran where id=@id", conn);
                 cmd.Parameters.AddWithValue("id", id);
 
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                using (var reader = cmd.ExecuteReader())
                 {
-                    while (reader.Read())
-                    {
-                        res = reader.GetInt32(0);
-                    }
+                    while (reader.Read()) res = reader.GetInt32(0);
                 }
 
                 CloseConnection();
@@ -865,7 +893,7 @@ namespace admin.DBAccess
 
         public int CheckPoliExsist(string id)
         {
-            int res = 0;
+            var res = 0;
 
             try
             {
@@ -873,12 +901,9 @@ namespace admin.DBAccess
                 cmd = new SqlCommand("select count(kode_poli) from tb_poliklinik where kode_poli=@id", conn);
                 cmd.Parameters.AddWithValue("id", id);
 
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                using (var reader = cmd.ExecuteReader())
                 {
-                    while (reader.Read())
-                    {
-                        res = reader.GetInt32(0);
-                    }
+                    while (reader.Read()) res = reader.GetInt32(0);
                 }
 
                 CloseConnection();

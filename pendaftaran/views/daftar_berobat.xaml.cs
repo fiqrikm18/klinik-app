@@ -7,8 +7,8 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using pendaftaran.DBAccess;
-using pendaftaran.models;
 using pendaftaran.Mifare;
+using pendaftaran.models;
 using pendaftaran.Properties;
 using pendaftaran.Utils;
 using FontStyle = System.Drawing.FontStyle;
@@ -24,13 +24,13 @@ namespace pendaftaran.views
         private readonly byte blockNoRekamMedis = 2;
 
         private readonly SqlConnection conn;
+        private readonly Socket sck;
 
         private readonly SmartCardOperation sp;
 
         private int no_urut;
         private string poli = "";
-        private readonly Socket sck;
-        private Socket sck2;
+        //private Socket sck2;
 
         #region constructor
 
@@ -46,7 +46,7 @@ namespace pendaftaran.views
                 sck.Connect(Settings.Default.SocketServerAntrianPoli,
                     Settings.Default.SocketPortAntriaPoli);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //MessageBox.Show("Apliasi antrian tidak aktif, pastikan aplikasi antrian aktif.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
             }

@@ -50,8 +50,7 @@ namespace admin.views
         {
             var nama = sender as TextBox;
 
-            if (nama.Text != "Poliklinik")
-                displayDataPoliklinik(nama.Text);
+            if (nama.Text != "Poliklinik") displayDataPoliklinik(nama.Text);
         }
 
         private void BtnTambahPoli_OnClick(object sender, RoutedEventArgs e)
@@ -68,22 +67,27 @@ namespace admin.views
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Warning);
 
+                var res = false;
+
                 if (a == MessageBoxResult.Yes)
                     for (var i = 0; i < dtgDataPoliklinik.SelectedItems.Count; i++)
                         if (cmd.DeleteDataPoliklinik((dtgDataPoliklinik.SelectedCells[0].Column
                             .GetCellContent(dtgDataPoliklinik.SelectedItems[i]) as TextBlock)?.Text))
-                            MessageBox.Show("Data poliklinik berhasil dihapus.", "Informasi", MessageBoxButton.OK,
-                                MessageBoxImage.Information);
-                        else
-                            MessageBox.Show("Data poliklinik gagal dihapus.", "Error", MessageBoxButton.OK,
-                                MessageBoxImage.Error);
+                            res = true;
+
+                if (res)
+                    MessageBox.Show("Data poliklinik berhasil dihapus.", "Info", MessageBoxButton.OK,
+                        MessageBoxImage.Information);
+                else
+                    MessageBox.Show("Data poliklinik gagal dihapus.", "Error", MessageBoxButton.OK,
+                        MessageBoxImage.Error);
 
                 displayDataPoliklinik();
                 DBConnection.dbConnection().Close();
             }
             else
             {
-                MessageBox.Show("Pilih data poliklinik yang akan dihapus.", "Informasi", MessageBoxButton.OK,
+                MessageBox.Show("Pilih data poliklinik yang akan dihapus.", "Info", MessageBoxButton.OK,
                     MessageBoxImage.Error);
             }
         }

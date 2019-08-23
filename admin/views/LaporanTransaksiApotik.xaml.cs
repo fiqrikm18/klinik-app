@@ -16,9 +16,9 @@ namespace admin.views
     /// </summary>
     public partial class LaporanTransaksiApotik : Page
     {
-        private string apoteker;
         private readonly DBCommand cmd;
         private readonly SqlConnection conn;
+        private string apoteker;
         private string tgl;
 
         public LaporanTransaksiApotik()
@@ -29,7 +29,7 @@ namespace admin.views
 
             var ap = cmd.GetDataApoteker();
 
-
+            cbPoliklinik.SelectedIndex = 0;
             cbPoliklinik.DisplayMemberPath = "nama_apoteker";
             cbPoliklinik.SelectedValuePath = "id_apoteker";
             cbPoliklinik.ItemsSource = ap;

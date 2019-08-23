@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Data.SqlClient;
-using System.Diagnostics;
 using System.IO.Ports;
 using System.Windows;
 using Apotik.DBAccess;
@@ -74,23 +73,19 @@ namespace Apotik
             var a = e.MessageString.Replace("\u0013", "");
             if (a == "Connected")
             {
-                Debug.WriteLine(a);
+                //Debug.WriteLine(a);
                 Settings.Default.IsRemoteConnected = true;
                 if (Settings.Default.IsRemoteConnected)
-                {
                     MessageBox.Show("Connection Successful");
-                    Debug.WriteLine(Settings.Default.IsRemoteConnected);
-                }
+                //Debug.WriteLine(Settings.Default.IsRemoteConnected);
             }
             else if (a == "Disconnected")
             {
-                Debug.WriteLine(a);
+                //Debug.WriteLine(a);
                 Settings.Default.IsRemoteConnected = false;
                 if (!Settings.Default.IsRemoteConnected)
-                {
                     MessageBox.Show("Disconnecting Successful");
-                    Debug.WriteLine(Settings.Default.IsRemoteConnected);
-                }
+                //Debug.WriteLine(Settings.Default.IsRemoteConnected);
             }
         }
 

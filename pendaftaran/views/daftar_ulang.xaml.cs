@@ -8,8 +8,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using pendaftaran.DBAccess;
 using pendaftaran.forms;
-using pendaftaran.models;
 using pendaftaran.Mifare;
+using pendaftaran.models;
 using pendaftaran.Utils;
 
 namespace pendaftaran.views
@@ -37,6 +37,7 @@ namespace pendaftaran.views
 
         public string alamat;
         public string golDarah;
+        public string jenisId;
         public string jenisK;
         public string namaP;
         public string noidP;
@@ -98,40 +99,53 @@ namespace pendaftaran.views
             //(dtgDataPasien.SelectedCells[0].Column.GetCellContent(this.dtgDataPasien.SelectedItems[i]) as TextBlock).Text
             if (dtgDataPasien.SelectedItems.Count > 0)
             {
-                for (var i = 0; i < dtgDataPasien.SelectedItems.Count; i++)
+                //for (var i = 0; i < dtgDataPasien.SelectedItems.Count; i++)
+                //{
+                //    normP =
+                //        (dtgDataPasien.SelectedCells[1].Column
+                //            .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
+                //        .Text;
+                //    noidP =
+                //        (dtgDataPasien.SelectedCells[0].Column
+                //            .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
+                //        .Text;
+                //    namaP =
+                //        (dtgDataPasien.SelectedCells[2].Column
+                //            .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
+                //        .Text;
+                //    golDarah =
+                //        (dtgDataPasien.SelectedCells[3].Column
+                //            .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
+                //        .Text;
+                //    jenisK =
+                //        (dtgDataPasien.SelectedCells[4].Column
+                //            .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
+                //        .Text;
+                //    noTelp =
+                //        (dtgDataPasien.SelectedCells[5].Column
+                //            .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
+                //        .Text;
+                //    alamat =
+                //        (dtgDataPasien.SelectedCells[6].Column
+                //            .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
+                //        .Text;
+                //    tglLahir =
+                //        (dtgDataPasien.SelectedCells[7].Column
+                //            .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
+                //        .Text;
+                //}
+
+                foreach (ModelPasien data in dtgDataPasien.SelectedItems)
                 {
-                    normP =
-                        (dtgDataPasien.SelectedCells[1].Column
-                            .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
-                        .Text;
-                    noidP =
-                        (dtgDataPasien.SelectedCells[0].Column
-                            .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
-                        .Text;
-                    namaP =
-                        (dtgDataPasien.SelectedCells[2].Column
-                            .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
-                        .Text;
-                    golDarah =
-                        (dtgDataPasien.SelectedCells[3].Column
-                            .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
-                        .Text;
-                    jenisK =
-                        (dtgDataPasien.SelectedCells[4].Column
-                            .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
-                        .Text;
-                    noTelp =
-                        (dtgDataPasien.SelectedCells[5].Column
-                            .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
-                        .Text;
-                    alamat =
-                        (dtgDataPasien.SelectedCells[6].Column
-                            .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
-                        .Text;
-                    tglLahir =
-                        (dtgDataPasien.SelectedCells[7].Column
-                            .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
-                        .Text;
+                    normP = data.no_rekam_medis;
+                    noidP = data.no_identitas;
+                    namaP = data.nama;
+                    golDarah = data.golongan_darah;
+                    jenisK = data.jenis_kelamin;
+                    noTelp = data.no_telp;
+                    alamat = data.alamat;
+                    tglLahir = data.tanggal_lahir;
+                    jenisId = data.jenis_id;
                 }
 
                 var ud = new ubah_dataPasien(normP, noidP, namaP, jenisK, noTelp, alamat, golDarah, this);
@@ -208,40 +222,53 @@ namespace pendaftaran.views
 
                 if (dtgDataPasien.SelectedItems.Count > 0)
                 {
-                    for (var i = 0; i < dtgDataPasien.SelectedItems.Count; i++)
+                    //for (var i = 0; i < dtgDataPasien.SelectedItems.Count; i++)
+                    //{
+                    //    normP =
+                    //        (dtgDataPasien.SelectedCells[1].Column
+                    //            .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
+                    //        .Text;
+                    //    noidP =
+                    //        (dtgDataPasien.SelectedCells[0].Column
+                    //            .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
+                    //        .Text;
+                    //    namaP =
+                    //        (dtgDataPasien.SelectedCells[2].Column
+                    //            .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
+                    //        .Text;
+                    //    golDarah =
+                    //        (dtgDataPasien.SelectedCells[3].Column
+                    //            .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
+                    //        .Text;
+                    //    jenisK =
+                    //        (dtgDataPasien.SelectedCells[4].Column
+                    //            .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
+                    //        .Text;
+                    //    noTelp =
+                    //        (dtgDataPasien.SelectedCells[5].Column
+                    //            .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
+                    //        .Text;
+                    //    alamat =
+                    //        (dtgDataPasien.SelectedCells[6].Column
+                    //            .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
+                    //        .Text;
+                    //    tglLahir =
+                    //        (dtgDataPasien.SelectedCells[7].Column
+                    //            .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
+                    //        .Text;
+                    //}
+
+                    foreach (ModelPasien data in dtgDataPasien.SelectedItems)
                     {
-                        normP =
-                            (dtgDataPasien.SelectedCells[1].Column
-                                .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
-                            .Text;
-                        noidP =
-                            (dtgDataPasien.SelectedCells[0].Column
-                                .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
-                            .Text;
-                        namaP =
-                            (dtgDataPasien.SelectedCells[2].Column
-                                .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
-                            .Text;
-                        golDarah =
-                            (dtgDataPasien.SelectedCells[3].Column
-                                .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
-                            .Text;
-                        jenisK =
-                            (dtgDataPasien.SelectedCells[4].Column
-                                .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
-                            .Text;
-                        noTelp =
-                            (dtgDataPasien.SelectedCells[5].Column
-                                .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
-                            .Text;
-                        alamat =
-                            (dtgDataPasien.SelectedCells[6].Column
-                                .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
-                            .Text;
-                        tglLahir =
-                            (dtgDataPasien.SelectedCells[7].Column
-                                .GetCellContent(dtgDataPasien.SelectedItems[i]) as TextBlock)
-                            .Text;
+                        normP = data.no_rekam_medis;
+                        noidP = data.no_identitas;
+                        namaP = data.nama;
+                        golDarah = data.golongan_darah;
+                        jenisK = data.jenis_kelamin;
+                        noTelp = data.no_telp;
+                        alamat = data.alamat;
+                        tglLahir = data.tanggal_lahir;
+                        jenisId = data.jenis_id;
                     }
 
                     if (!string.IsNullOrEmpty(golDarah))
@@ -263,6 +290,17 @@ namespace pendaftaran.views
                         else
                         {
                             MessageBox.Show("ID pasien gagal ditulis");
+                        }
+                    }
+
+                    if (!string.IsNullOrEmpty(jenisId))
+                    {
+                        if (sp.WriteBlock(Msb, blockJenisId, Util.ToArrayByte16(jenisId)))
+                        {
+                        }
+                        else
+                        {
+                            MessageBox.Show("Jenis Identitas pasien gagal ditulis");
                         }
                     }
 

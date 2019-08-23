@@ -6,8 +6,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using admin.DBAccess;
 using admin.forms;
-using admin.models;
 using admin.Mifare;
+using admin.models;
 using admin.Utils;
 
 namespace admin.views
@@ -46,14 +46,14 @@ namespace admin.views
 
             displayDataDokter();
 
-            if (sp.IsReaderAvailable())
-            {
-            }
-            else
-            {
-                MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+//            if (sp.IsReaderAvailable())
+//            {
+//            }
+//            else
+//            {
+//                MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error",
+//                    MessageBoxButton.OK, MessageBoxImage.Error);
+//            }
         }
 
         public void displayDataDokter(string nama = null)
@@ -103,30 +103,41 @@ namespace admin.views
 
             if (dtgDataDokter.SelectedItems.Count > 0)
             {
-                for (var i = 0; i < dtgDataDokter.SelectedItems.Count; i++)
+                foreach (MDokter data in dtgDataDokter.SelectedItems)
                 {
-                    id = (dtgDataDokter.SelectedCells[0].Column
-                        .GetCellContent(dtgDataDokter.SelectedItems[i]) as TextBlock).Text;
-                    nama = (dtgDataDokter.SelectedCells[1].Column
-                        .GetCellContent(dtgDataDokter.SelectedItems[i]) as TextBlock).Text;
-                    jenisK = (dtgDataDokter.SelectedCells[2].Column
-                        .GetCellContent(dtgDataDokter.SelectedItems[i]) as TextBlock).Text;
-                    telp = (dtgDataDokter.SelectedCells[3].Column
-                        .GetCellContent(dtgDataDokter.SelectedItems[i]) as TextBlock).Text;
-                    alamat = (dtgDataDokter.SelectedCells[4].Column
-                        .GetCellContent(dtgDataDokter.SelectedItems[i]) as TextBlock).Text;
-                    spesialis = (dtgDataDokter.SelectedCells[5].Column
-                        .GetCellContent(dtgDataDokter.SelectedItems[i]) as TextBlock).Text;
-                    tugas = (dtgDataDokter.SelectedCells[6].Column
-                        .GetCellContent(dtgDataDokter.SelectedItems[i]) as TextBlock).Text;
+                    id = data.id;
+                    nama = data.nama;
+                    jenisK = data.jenis_kelamin;
+                    telp = data.telp;
+                    alamat = data.alamat;
+                    spesialis = data.spesialisasi;
+                    tugas = data.tugas;
                 }
+                
+//                for (var i = 0; i < dtgDataDokter.SelectedItems.Count; i++)
+//                {
+//                    id = (dtgDataDokter.SelectedCells[0].Column
+//                        .GetCellContent(dtgDataDokter.SelectedItems[i]) as TextBlock).Text;
+//                    nama = (dtgDataDokter.SelectedCells[1].Column
+//                        .GetCellContent(dtgDataDokter.SelectedItems[i]) as TextBlock).Text;
+//                    jenisK = (dtgDataDokter.SelectedCells[2].Column
+//                        .GetCellContent(dtgDataDokter.SelectedItems[i]) as TextBlock).Text;
+//                    telp = (dtgDataDokter.SelectedCells[3].Column
+//                        .GetCellContent(dtgDataDokter.SelectedItems[i]) as TextBlock).Text;
+//                    alamat = (dtgDataDokter.SelectedCells[4].Column
+//                        .GetCellContent(dtgDataDokter.SelectedItems[i]) as TextBlock).Text;
+//                    spesialis = (dtgDataDokter.SelectedCells[5].Column
+//                        .GetCellContent(dtgDataDokter.SelectedItems[i]) as TextBlock).Text;
+//                    tugas = (dtgDataDokter.SelectedCells[6].Column
+//                        .GetCellContent(dtgDataDokter.SelectedItems[i]) as TextBlock).Text;
+//                }
 
                 var ud = new UbahDokter(id, nama, telp, alamat, spesialis, jenisK, tugas, this);
                 ud.Show();
             }
             else
             {
-                MessageBox.Show("Pilih data yang ingin di ubah terlebih dahulu.", "Perhatian", MessageBoxButton.OK,
+                MessageBox.Show("Pilih data yang ingin di ubah terlebih dahulu.", "Warning", MessageBoxButton.OK,
                     MessageBoxImage.Warning);
             }
         }
@@ -143,17 +154,16 @@ namespace admin.views
                     var res = false;
 
                     for (var i = 0; i < dtgDataDokter.SelectedItems.Count; i++)
-                    {
                         if (cmd.DeleteDataDokter((dtgDataDokter.SelectedCells[0].Column
-                            .GetCellContent(dtgDataDokter.SelectedItems[i]) as TextBlock)?.Text)) res = true;
+                            .GetCellContent(dtgDataDokter.SelectedItems[i]) as TextBlock)?.Text))
+                            res = true;
 
-                        if (res)
-                            MessageBox.Show("Data dokter berhasil dihapus.", "Informasi", MessageBoxButton.OK,
-                                MessageBoxImage.Information);
-                        else
-                            MessageBox.Show("Data dokter gagal dihapus.", "Error", MessageBoxButton.OK,
-                                MessageBoxImage.Error);
-                    }
+                    if (res)
+                        MessageBox.Show("Data dokter berhasil dihapus.", "Info", MessageBoxButton.OK,
+                            MessageBoxImage.Information);
+                    else
+                        MessageBox.Show("Data dokter gagal dihapus.", "Error", MessageBoxButton.OK,
+                            MessageBoxImage.Error);
                 }
 
                 displayDataDokter();
@@ -161,7 +171,7 @@ namespace admin.views
             }
             else
             {
-                MessageBox.Show("Pilih data dokter yang akan dihapus.", "Informasi", MessageBoxButton.OK,
+                MessageBox.Show("Pilih data dokter yang akan dihapus.", "Info", MessageBoxButton.OK,
                     MessageBoxImage.Error);
             }
         }
@@ -183,37 +193,48 @@ namespace admin.views
 
                 if (dtgDataDokter.SelectedItems.Count > 0)
                 {
-                    for (var i = 0; i < dtgDataDokter.SelectedItems.Count; i++)
+                    foreach (MDokter data in dtgDataDokter.SelectedItems)
                     {
-                        id =
-                            (dtgDataDokter.SelectedCells[0].Column
-                                .GetCellContent(dtgDataDokter.SelectedItems[i]) as TextBlock)
-                            .Text;
-                        nama =
-                            (dtgDataDokter.SelectedCells[1].Column
-                                .GetCellContent(dtgDataDokter.SelectedItems[i]) as TextBlock)
-                            .Text;
-                        jenisK =
-                            (dtgDataDokter.SelectedCells[2].Column
-                                .GetCellContent(dtgDataDokter.SelectedItems[i]) as TextBlock)
-                            .Text;
-                        telp =
-                            (dtgDataDokter.SelectedCells[3].Column
-                                .GetCellContent(dtgDataDokter.SelectedItems[i]) as TextBlock)
-                            .Text;
-                        alamat =
-                            (dtgDataDokter.SelectedCells[4].Column
-                                .GetCellContent(dtgDataDokter.SelectedItems[i]) as TextBlock)
-                            .Text;
-                        spesialis =
-                            (dtgDataDokter.SelectedCells[5].Column
-                                .GetCellContent(dtgDataDokter.SelectedItems[i]) as TextBlock)
-                            .Text;
-                        tugas =
-                            (dtgDataDokter.SelectedCells[6].Column
-                                .GetCellContent(dtgDataDokter.SelectedItems[i]) as TextBlock)
-                            .Text;
+                        id = data.id;
+                        nama = data.nama;
+                        jenisK = data.jenis_kelamin;
+                        telp = data.telp;
+                        alamat = data.alamat;
+                        spesialis = data.spesialisasi;
+                        tugas = data.tugas;
                     }
+                    
+//                    for (var i = 0; i < dtgDataDokter.SelectedItems.Count; i++)
+//                    {
+//                        id =
+//                            (dtgDataDokter.SelectedCells[0].Column
+//                                .GetCellContent(dtgDataDokter.SelectedItems[i]) as TextBlock)
+//                            .Text;
+//                        nama =
+//                            (dtgDataDokter.SelectedCells[1].Column
+//                                .GetCellContent(dtgDataDokter.SelectedItems[i]) as TextBlock)
+//                            .Text;
+//                        jenisK =
+//                            (dtgDataDokter.SelectedCells[2].Column
+//                                .GetCellContent(dtgDataDokter.SelectedItems[i]) as TextBlock)
+//                            .Text;
+//                        telp =
+//                            (dtgDataDokter.SelectedCells[3].Column
+//                                .GetCellContent(dtgDataDokter.SelectedItems[i]) as TextBlock)
+//                            .Text;
+//                        alamat =
+//                            (dtgDataDokter.SelectedCells[4].Column
+//                                .GetCellContent(dtgDataDokter.SelectedItems[i]) as TextBlock)
+//                            .Text;
+//                        spesialis =
+//                            (dtgDataDokter.SelectedCells[5].Column
+//                                .GetCellContent(dtgDataDokter.SelectedItems[i]) as TextBlock)
+//                            .Text;
+//                        tugas =
+//                            (dtgDataDokter.SelectedCells[6].Column
+//                                .GetCellContent(dtgDataDokter.SelectedItems[i]) as TextBlock)
+//                            .Text;
+//                    }
 
                     if (!string.IsNullOrEmpty(id))
                     {
@@ -310,7 +331,7 @@ namespace admin.views
                         }
                     }
 
-                    MessageBox.Show("Kartu staff berhasil ditulis.", "Informasi", MessageBoxButton.OK,
+                    MessageBox.Show("Kartu staff berhasil ditulis.", "Info", MessageBoxButton.OK,
                         MessageBoxImage.Information);
                 }
                 else

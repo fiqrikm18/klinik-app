@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -18,7 +19,7 @@ namespace admin.models
         public MApoteker(string id, string nama, string no_telp, string alamat, string password, string jenis_kelamin)
         {
             id_apoteker = id;
-            nama_apoteker = nama;
+            nama_apoteker = new CultureInfo("en-US", false).TextInfo.ToTitleCase(nama);
             this.alamat = alamat;
             this.no_telp = no_telp;
             this.password = password;

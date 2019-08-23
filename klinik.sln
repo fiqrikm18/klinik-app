@@ -18,7 +18,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "admin", "admin\admin.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dokter", "dokter\dokter.csproj", "{CB9532CA-5CB3-40AD-9ED2-DD138129FE5C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Antrian", "Antrian\Antrian.csproj", "{14B87D15-D2AF-47ED-B2B9-9BCF195769AA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "antrian", "Antrian\antrian.csproj", "{14B87D15-D2AF-47ED-B2B9-9BCF195769AA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

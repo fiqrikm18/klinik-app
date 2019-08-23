@@ -14,7 +14,7 @@ namespace Apotik.views
     {
         private readonly DBCommand cmd;
         private readonly SqlConnection conn;
-        private Listener listener;
+        //private Listener listener;
 
         public DaftarResep()
         {

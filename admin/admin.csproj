@@ -118,6 +118,11 @@
     </Compile>
     <Compile Include="DBAccess\DBCommand.cs" />
     <Compile Include="DBAccess\DBConnection.cs" />
+    <Compile Include="DBAccess\Keuangan.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Keuangan.xsd</DependentUpon>
+    </Compile>
     <Compile Include="DBAccess\Transaksi.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -125,6 +130,9 @@
     </Compile>
     <Compile Include="forms\PVApoteker.xaml.cs">
       <DependentUpon>PVApoteker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="forms\PVKeuangan.xaml.cs">
+      <DependentUpon>PVKeuangan.xaml</DependentUpon>
     </Compile>
     <Compile Include="forms\PVLaporanTransaksi.xaml.cs">
       <DependentUpon>PVLaporanTransaksi.xaml</DependentUpon>
@@ -171,7 +179,7 @@
     <Compile Include="Mifare\MifareCard.cs" />
     <Compile Include="Mifare\SmartCardOperation.cs" />
     <Compile Include="models\ComboboxPairs.cs" />
-    <Compile Include="models\Keuangan.cs" />
+    <Compile Include="models\ModelKeuangan.cs" />
     <Compile Include="models\MApoteker.cs" />
     <Compile Include="models\MDokter.cs" />
     <Compile Include="models\ModelApoteker.cs" />
@@ -200,6 +208,10 @@
       <DependentUpon>LaporanTransaksiApotik.xaml</DependentUpon>
     </Compile>
     <Page Include="forms\PVApoteker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="forms\PVKeuangan.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -316,6 +328,9 @@
     <EmbeddedResource Include="report\LabelDokter.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="report\LabelKeuangan.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="report\LabelPendaftaran.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -335,6 +350,17 @@
     </None>
     <None Include="DBAccess\DataStaff.xss">
       <DependentUpon>DataStaff.xsd</DependentUpon>
+    </None>
+    <None Include="DBAccess\Keuangan.xsc">
+      <DependentUpon>Keuangan.xsd</DependentUpon>
+    </None>
+    <None Include="DBAccess\Keuangan.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Keuangan.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="DBAccess\Keuangan.xss">
+      <DependentUpon>Keuangan.xsd</DependentUpon>
     </None>
     <None Include="DBAccess\Transaksi.xsc">
       <DependentUpon>Transaksi.xsd</DependentUpon>

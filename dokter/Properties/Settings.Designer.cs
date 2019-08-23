@@ -25,18 +25,6 @@ namespace dokter.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Gigi")]
-        public string Role {
-            get {
-                return ((string)(this["Role"]));
-            }
-            set {
-                this["Role"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Normal")]
         public global::System.Windows.WindowState WindowState {
             get {
@@ -166,16 +154,6 @@ namespace dokter.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.;Initial Catalog=db_klinik;Integrated Security=True")]
-        public string db_klinikConnectionString1 {
-            get {
-                return ((string)(this["db_klinikConnectionString1"]));
-            }
-        }
-        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("COM3")]
@@ -202,13 +180,36 @@ namespace dokter.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("3o1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1o1")]
         public string setupAnrian {
             get {
                 return ((string)(this["setupAnrian"]));
             }
             set {
                 this["setupAnrian"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=192.168.1.105,1433\\SQLEXPRESS;Initial Catalog=db_klinik;User ID=admin" +
+            ";Password=fkm1396")]
+        public string db_klinikConnectionString1 {
+            get {
+                return ((string)(this["db_klinikConnectionString1"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Umum")]
+        public string Role {
+            get {
+                return ((string)(this["Role"]));
+            }
+            set {
+                this["Role"] = value;
             }
         }
     }

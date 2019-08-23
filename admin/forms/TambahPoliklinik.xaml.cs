@@ -1,4 +1,5 @@
 ﻿using System.Data.SqlClient;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -65,28 +66,37 @@ namespace admin.forms
 
             if (checkTextBoxValue())
             {
-                var nama = txtNamaDokter.Text;
-                var id = txtidDokter.Text.ToUpper();
-
-                if (cmd.CheckPoliExsist(id) == 1)
+                if (Regex.IsMatch(txtNamaDokter.Text, @"^[a-zA-Z\s]*$"))
                 {
-                    MessageBox.Show("Kode poliklinik sudah terdaftar.", "Error", MessageBoxButton.OK,
-                        MessageBoxImage.Error);
+                    var nama = txtNamaDokter.Text;
+                    var id = txtidDokter.Text.ToUpper();
+
+                    if (cmd.CheckPoliExsist(id) == 1)
+                    {
+                        MessageBox.Show("Kode poliklinik sudah terdaftar.", "Error", MessageBoxButton.OK,
+                            MessageBoxImage.Error);
+                    }
+
+                    else
+                    {
+                        if (cmd.InsertDataPoliklinik(id, nama))
+                        {
+                            MessageBox.Show("Data poliklinik berhasil disimpan.", "Informasi", MessageBoxButton.OK,
+                                MessageBoxImage.Information);
+                            dp.displayDataPoliklinik();
+                            Close();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Data poliklinik gagal disimpan.", "Error", MessageBoxButton.OK,
+                                MessageBoxImage.Error);
+                        }
+                    }
                 }
                 else
                 {
-                    if (cmd.InsertDataPoliklinik(id, nama))
-                    {
-                        MessageBox.Show("Data poliklinik berhasil disimpan.", "Informasi", MessageBoxButton.OK,
-                            MessageBoxImage.Information);
-                        dp.displayDataPoliklinik();
-                        Close();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Data poliklinik gagal disimpan.", "Error", MessageBoxButton.OK,
-                            MessageBoxImage.Error);
-                    }
+                    MessageBox.Show("Periksa kembali data yang akan di inputkan.", "Informasi", MessageBoxButton.OK,
+                        MessageBoxImage.Warning);
                 }
             }
             else

@@ -50,7 +50,7 @@
 
                 <StackPanel Grid.Column="1" Grid.Row="0">
                     <Label Content="Nama Pasien" />
-                    <TextBox x:Name="TxtNamaPasien"
+                    <TextBox x:Name="TxtNamaPasien" MaxLength="50"
                              Text="{Binding UpdateSourceTrigger=LostFocus,
                         Path=NamaPasien, NotifyOnSourceUpdated=True,
                         ValidatesOnDataErrors=True}" />
@@ -66,7 +66,7 @@
 
                 <StackPanel Grid.Column="0" Grid.Row="2">
                     <Label Content="Alamat" />
-                    <TextBox x:Name="TextAlamat" Height="100" AcceptsReturn="True" TextWrapping="Wrap"
+                    <TextBox x:Name="TextAlamat" Height="100" AcceptsReturn="True" TextWrapping="Wrap" MaxLength="150"
                              Text="{Binding UpdateSourceTrigger=LostFocus,
                         Path=Alamat, NotifyOnSourceUpdated=True,
                         ValidatesOnDataErrors=True}" />

@@ -6,8 +6,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using admin.DBAccess;
 using admin.forms;
-using admin.models;
 using admin.Mifare;
+using admin.models;
 using admin.Utils;
 
 namespace admin.views
@@ -42,14 +42,14 @@ namespace admin.views
             conn = DBConnection.dbConnection();
             cmd = new DBCommand(conn);
 
-            if (sp.IsReaderAvailable())
-            {
-            }
-            else
-            {
-                MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+//            if (sp.IsReaderAvailable())
+//            {
+//            }
+//            else
+//            {
+//                MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error",
+//                    MessageBoxButton.OK, MessageBoxImage.Error);
+//            }
 
             displayDataApoteker();
         }
@@ -99,19 +99,28 @@ namespace admin.views
 
             if (dtgDataApoteker.SelectedItems.Count > 0)
             {
-                for (var i = 0; i < dtgDataApoteker.SelectedItems.Count; i++)
+                foreach (MApoteker data in dtgDataApoteker.SelectedItems)
                 {
-                    id = (dtgDataApoteker.SelectedCells[0].Column
-                        .GetCellContent(dtgDataApoteker.SelectedItems[i]) as TextBlock).Text;
-                    nama = (dtgDataApoteker.SelectedCells[1].Column
-                        .GetCellContent(dtgDataApoteker.SelectedItems[i]) as TextBlock).Text;
-                    jenisK = (dtgDataApoteker.SelectedCells[2].Column
-                        .GetCellContent(dtgDataApoteker.SelectedItems[i]) as TextBlock).Text;
-                    telp = (dtgDataApoteker.SelectedCells[3].Column
-                        .GetCellContent(dtgDataApoteker.SelectedItems[i]) as TextBlock).Text;
-                    alamat = (dtgDataApoteker.SelectedCells[4].Column
-                        .GetCellContent(dtgDataApoteker.SelectedItems[i]) as TextBlock).Text;
+                    id = data.id_apoteker;
+                    nama = data.nama_apoteker;
+                    jenisK = data.jenis_kelamin;
+                    telp = data.no_telp;
+                    alamat = data.alamat;
                 }
+                
+//                for (var i = 0; i < dtgDataApoteker.SelectedItems.Count; i++)
+//                {
+//                    id = (dtgDataApoteker.SelectedCells[0].Column
+//                        .GetCellContent(dtgDataApoteker.SelectedItems[i]) as TextBlock).Text;
+//                    nama = (dtgDataApoteker.SelectedCells[1].Column
+//                        .GetCellContent(dtgDataApoteker.SelectedItems[i]) as TextBlock).Text;
+//                    jenisK = (dtgDataApoteker.SelectedCells[2].Column
+//                        .GetCellContent(dtgDataApoteker.SelectedItems[i]) as TextBlock).Text;
+//                    telp = (dtgDataApoteker.SelectedCells[3].Column
+//                        .GetCellContent(dtgDataApoteker.SelectedItems[i]) as TextBlock).Text;
+//                    alamat = (dtgDataApoteker.SelectedCells[4].Column
+//                        .GetCellContent(dtgDataApoteker.SelectedItems[i]) as TextBlock).Text;
+//                }
 
                 var ua = new UbahApoteker(id, nama, alamat, telp, jenisK, this);
                 ua.Show();
@@ -172,29 +181,37 @@ namespace admin.views
 
                 if (dtgDataApoteker.SelectedItems.Count > 0)
                 {
-                    for (var i = 0; i < dtgDataApoteker.SelectedItems.Count; i++)
+                    foreach (MApoteker data in dtgDataApoteker.SelectedItems)
                     {
-                        id =
-                            (dtgDataApoteker.SelectedCells[0].Column
-                                .GetCellContent(dtgDataApoteker.SelectedItems[i]) as TextBlock)
-                            .Text;
-                        nama =
-                            (dtgDataApoteker.SelectedCells[1].Column
-                                .GetCellContent(dtgDataApoteker.SelectedItems[i]) as TextBlock)
-                            .Text;
-                        jenisK =
-                            (dtgDataApoteker.SelectedCells[2].Column
-                                .GetCellContent(dtgDataApoteker.SelectedItems[i]) as TextBlock)
-                            .Text;
-                        telp =
-                            (dtgDataApoteker.SelectedCells[3].Column
-                                .GetCellContent(dtgDataApoteker.SelectedItems[i]) as TextBlock)
-                            .Text;
-                        alamat =
-                            (dtgDataApoteker.SelectedCells[4].Column
-                                .GetCellContent(dtgDataApoteker.SelectedItems[i]) as TextBlock)
-                            .Text;
+                        id = data.id_apoteker;
+                        nama = data.nama_apoteker;
+                        jenisK = data.jenis_kelamin;
+                        telp = data.no_telp;
+                        alamat = data.alamat;
                     }
+//                    for (var i = 0; i < dtgDataApoteker.SelectedItems.Count; i++)
+//                    {
+//                        id =
+//                            (dtgDataApoteker.SelectedCells[0].Column
+//                                .GetCellContent(dtgDataApoteker.SelectedItems[i]) as TextBlock)
+//                            .Text;
+//                        nama =
+//                            (dtgDataApoteker.SelectedCells[1].Column
+//                                .GetCellContent(dtgDataApoteker.SelectedItems[i]) as TextBlock)
+//                            .Text;
+//                        jenisK =
+//                            (dtgDataApoteker.SelectedCells[2].Column
+//                                .GetCellContent(dtgDataApoteker.SelectedItems[i]) as TextBlock)
+//                            .Text;
+//                        telp =
+//                            (dtgDataApoteker.SelectedCells[3].Column
+//                                .GetCellContent(dtgDataApoteker.SelectedItems[i]) as TextBlock)
+//                            .Text;
+//                        alamat =
+//                            (dtgDataApoteker.SelectedCells[4].Column
+//                                .GetCellContent(dtgDataApoteker.SelectedItems[i]) as TextBlock)
+//                            .Text;
+//                    }
 
                     if (!string.IsNullOrEmpty(id))
                     {

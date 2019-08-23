@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO.Ports;
 using System.Text;
 using System.Windows;
@@ -71,7 +70,7 @@ namespace dokter
             Dispatcher.Invoke(() =>
             {
                 var a = e.MessageString.Replace("\u0013", "");
-                Debug.WriteLine(a);
+                //Debug.WriteLine(a);
                 if (a == "Connected")
                 {
                     Settings.Default.IsRemoteConnected = true;
@@ -106,21 +105,19 @@ namespace dokter
             {
                 var a = sp.ReadLine().Replace("\r", "");
                 //sck.Send(Encoding.ASCII.GetBytes(a));
-                Debug.WriteLine(a);
+                //Debug.WriteLine(a);
                 if (Settings.Default.IsRemoteConnected)
                 {
                     if (int.TryParse(a, out var v))
-                    {
-                        Debug.WriteLine(a);
+                        //Debug.WriteLine(a);
                         clientAntrianPoli.WriteLineAndGetReply(a, TimeSpan.FromSeconds(0));
-                    }
 
                     if (a == ">>|")
                     {
                         if (cmd.UpdateAntrian())
                             try
                             {
-                                Debug.WriteLine(a);
+                                //Debug.WriteLine(a);
                                 clientAntrianPoli.WriteLine("Update");
                             }
                             catch (Exception)
@@ -134,7 +131,7 @@ namespace dokter
                         if (cmd.UpdateAntrianPrev())
                             try
                             {
-                                Debug.WriteLine(a);
+                                //Debug.WriteLine(a);
                                 clientAntrianPoli.WriteLine("Update");
                             }
                             catch (Exception)
@@ -148,8 +145,7 @@ namespace dokter
                     int v;
                     if (int.TryParse(a, out v))
                         if (v == int.Parse(cmd.GetKodePoli()))
-                        {
-                            Debug.WriteLine(v);
+                            //Debug.WriteLine(v);
                             //sck.Send(Encoding.ASCII.GetBytes(a));
                             try
                             {
@@ -159,7 +155,6 @@ namespace dokter
                             {
                                 // ignored
                             }
-                        }
                 }
             });
         }

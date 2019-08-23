@@ -5,8 +5,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using admin.DBAccess;
-using admin.models;
 using admin.Mifare;
+using admin.models;
 using admin.Utils;
 using admin.views;
 
@@ -66,6 +66,11 @@ namespace admin.forms
             Close();
         }
 
+        private void BtnBatal_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
         #region members UI Control & CRUD Operations
 
         private void Validation_Error(object sender, ValidationErrorEventArgs e)
@@ -100,7 +105,7 @@ namespace admin.forms
                 var alamat = TextAlamat.Text;
                 var jenisK = cbJenisKelamin.Text;
 
-                if (!Regex.IsMatch(telp, "^[A-Za-z]+$"))
+                if (!Regex.IsMatch(telp, "^[A-Za-z]+$") && Regex.IsMatch(nama, @"^[a-zA-Z\s]*$"))
                 {
                     if (cmd.UpdateDataApoteker(id, nama, jenisK, telp, alamat))
                     {
@@ -224,7 +229,7 @@ namespace admin.forms
                     MessageBoxImage.Warning);
             }
 
-            DataContext = _mDaftarBaru;
+            //DataContext = _mDaftarBaru;
             e.Handled = true;
         }
 

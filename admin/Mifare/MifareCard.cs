@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using PCSC;
+﻿using PCSC;
 using PCSC.Iso7816;
 
 namespace admin.Mifare

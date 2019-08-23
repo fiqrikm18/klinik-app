@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
 using admin.Mifare;
+using admin.Properties;
 using admin.views;
 
 namespace admin
@@ -14,7 +14,7 @@ namespace admin
     public partial class MainWindow : Window
     {
         private readonly SmartCardOperation sp;
-        string role = Properties.Settings.Default.role;
+        private readonly string role = Settings.Default.role;
 
         public MainWindow()
         {
@@ -51,7 +51,7 @@ namespace admin
             };
 
             userPrefs.Save();
-            Properties.Settings.Default.role = "";
+            Settings.Default.role = "";
         }
 
         private bool NoReaderAvailable(ICollection<string> readerNames)
@@ -61,19 +61,15 @@ namespace admin
 
         private void BtnDaftarDokter_OnClick(object sender, RoutedEventArgs e)
         {
-            if(role != "keuangan")
-            {
+            if (role != "keuangan")
                 MainFrame.Content = new DaftarDokter();
-            }
             else
-            {
                 MessageBox.Show("Anda tidak memiliki akses.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
         }
 
         private void BtnStaffPendaftaran_OnClick(object sender, RoutedEventArgs e)
         {
-            if(role != "keuangan")
+            if (role != "keuangan")
                 MainFrame.Content = new DaftarPendaftaran();
             else
                 MessageBox.Show("Anda tidak memiliki akses.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -99,7 +95,7 @@ namespace admin
         {
             Dispatcher.Invoke(() =>
             {
-                Properties.Settings.Default.role = null;
+                Settings.Default.role = null;
                 var lg = new Login();
                 lg.Show();
                 Close();
@@ -118,13 +114,9 @@ namespace admin
         private void BtnDaftarKeuangan_Click(object sender, RoutedEventArgs e)
         {
             if (role != "keuangan")
-            {
                 MainFrame.Content = new DaftarKeuangan();
-            }
             else
-            {
                 MessageBox.Show("Anda tidak memiliki akses.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
         }
     }
 }

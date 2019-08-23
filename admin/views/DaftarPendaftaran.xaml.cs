@@ -6,8 +6,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using admin.DBAccess;
 using admin.forms;
-using admin.models;
 using admin.Mifare;
+using admin.models;
 using admin.Utils;
 
 namespace admin.views
@@ -78,8 +78,7 @@ namespace admin.views
         {
             var nama = sender as TextBox;
 
-            if (nama.Text != "Nama Staff Pendaftaran")
-                displayDataPendaftar(nama.Text);
+            if (nama.Text != "Nama Staff Pendaftaran") displayDataPendaftar(nama.Text);
         }
 
         private void BtnTambahStaff_OnClick(object sender, RoutedEventArgs e)
@@ -98,26 +97,35 @@ namespace admin.views
 
             if (dtgDataPendaftar.SelectedItems.Count > 0)
             {
-                for (var i = 0; i < dtgDataPendaftar.SelectedItems.Count; i++)
+                foreach(MPendaftaran data in dtgDataPendaftar.SelectedItems)
                 {
-                    id = (dtgDataPendaftar.SelectedCells[0].Column
-                        .GetCellContent(dtgDataPendaftar.SelectedItems[i]) as TextBlock).Text;
-                    nama = (dtgDataPendaftar.SelectedCells[1].Column
-                        .GetCellContent(dtgDataPendaftar.SelectedItems[i]) as TextBlock).Text;
-                    jenisK = (dtgDataPendaftar.SelectedCells[2].Column
-                        .GetCellContent(dtgDataPendaftar.SelectedItems[i]) as TextBlock).Text;
-                    telp = (dtgDataPendaftar.SelectedCells[3].Column
-                        .GetCellContent(dtgDataPendaftar.SelectedItems[i]) as TextBlock).Text;
-                    alamat = (dtgDataPendaftar.SelectedCells[4].Column
-                        .GetCellContent(dtgDataPendaftar.SelectedItems[i]) as TextBlock).Text;
+                    id = data.id;
+                    nama = data.nama;
+                    jenisK = data.jenis_kelamin;
+                    telp = data.telp;
+                    alamat = data.alamat;
                 }
+                
+//                for (var i = 0; i < dtgDataPendaftar.SelectedItems.Count; i++)
+//                {
+//                    id = (dtgDataPendaftar.SelectedCells[0].Column
+//                        .GetCellContent(dtgDataPendaftar.SelectedItems[i]) as TextBlock).Text;
+//                    nama = (dtgDataPendaftar.SelectedCells[1].Column
+//                        .GetCellContent(dtgDataPendaftar.SelectedItems[i]) as TextBlock).Text;
+//                    jenisK = (dtgDataPendaftar.SelectedCells[2].Column
+//                        .GetCellContent(dtgDataPendaftar.SelectedItems[i]) as TextBlock).Text;
+//                    telp = (dtgDataPendaftar.SelectedCells[3].Column
+//                        .GetCellContent(dtgDataPendaftar.SelectedItems[i]) as TextBlock).Text;
+//                    alamat = (dtgDataPendaftar.SelectedCells[4].Column
+//                        .GetCellContent(dtgDataPendaftar.SelectedItems[i]) as TextBlock).Text;
+//                }
 
                 var ud = new UbahStaffPendaftaran(id, nama, alamat, telp, jenisK, this);
                 ud.Show();
             }
             else
             {
-                MessageBox.Show("Pilih data yang ingin di ubah terlebih dahulu.", "Perhatian", MessageBoxButton.OK,
+                MessageBox.Show("Pilih data yang ingin di ubah terlebih dahulu.", "Warning", MessageBoxButton.OK,
                     MessageBoxImage.Warning);
             }
         }
@@ -126,7 +134,7 @@ namespace admin.views
         {
             if (dtgDataPendaftar.SelectedItems.Count > 0)
             {
-                var a = MessageBox.Show("Anda yakin ingin menghapus data staff?", "Konfirmasi", MessageBoxButton.YesNo,
+                var a = MessageBox.Show("Anda yakin ingin menghapus data staff?", "Confirmation", MessageBoxButton.YesNo,
                     MessageBoxImage.Warning);
 
                 if (a == MessageBoxResult.Yes)
@@ -139,7 +147,7 @@ namespace admin.views
                             res = true;
 
                     if (res)
-                        MessageBox.Show("Data staff berhasil dihapus.", "Informasi", MessageBoxButton.OK,
+                        MessageBox.Show("Data staff berhasil dihapus.", "Info", MessageBoxButton.OK,
                             MessageBoxImage.Information);
                     else
                         MessageBox.Show("Data staff gagal dihapus.", "Error", MessageBoxButton.OK,
@@ -151,7 +159,7 @@ namespace admin.views
             }
             else
             {
-                MessageBox.Show("Pilih data dokter yang akan dihapus.", "Informasi", MessageBoxButton.OK,
+                MessageBox.Show("Pilih data dokter yang akan dihapus.", "Info", MessageBoxButton.OK,
                     MessageBoxImage.Error);
             }
         }
@@ -171,29 +179,38 @@ namespace admin.views
 
                 if (dtgDataPendaftar.SelectedItems.Count > 0)
                 {
-                    for (var i = 0; i < dtgDataPendaftar.SelectedItems.Count; i++)
+                    foreach(MPendaftaran data in dtgDataPendaftar.SelectedItems)
                     {
-                        id =
-                            (dtgDataPendaftar.SelectedCells[0].Column
-                                .GetCellContent(dtgDataPendaftar.SelectedItems[i]) as TextBlock)
-                            .Text;
-                        nama =
-                            (dtgDataPendaftar.SelectedCells[1].Column
-                                .GetCellContent(dtgDataPendaftar.SelectedItems[i]) as TextBlock)
-                            .Text;
-                        jenisK =
-                            (dtgDataPendaftar.SelectedCells[2].Column
-                                .GetCellContent(dtgDataPendaftar.SelectedItems[i]) as TextBlock)
-                            .Text;
-                        telp =
-                            (dtgDataPendaftar.SelectedCells[3].Column
-                                .GetCellContent(dtgDataPendaftar.SelectedItems[i]) as TextBlock)
-                            .Text;
-                        alamat =
-                            (dtgDataPendaftar.SelectedCells[4].Column
-                                .GetCellContent(dtgDataPendaftar.SelectedItems[i]) as TextBlock)
-                            .Text;
+                        id = data.id;
+                        nama = data.nama;
+                        jenisK = data.jenis_kelamin;
+                        telp = data.telp;
+                        alamat = data.alamat;
                     }
+                    
+//                    for (var i = 0; i < dtgDataPendaftar.SelectedItems.Count; i++)
+//                    {
+//                        id =
+//                            (dtgDataPendaftar.SelectedCells[0].Column
+//                                .GetCellContent(dtgDataPendaftar.SelectedItems[i]) as TextBlock)
+//                            .Text;
+//                        nama =
+//                            (dtgDataPendaftar.SelectedCells[1].Column
+//                                .GetCellContent(dtgDataPendaftar.SelectedItems[i]) as TextBlock)
+//                            .Text;
+//                        jenisK =
+//                            (dtgDataPendaftar.SelectedCells[2].Column
+//                                .GetCellContent(dtgDataPendaftar.SelectedItems[i]) as TextBlock)
+//                            .Text;
+//                        telp =
+//                            (dtgDataPendaftar.SelectedCells[3].Column
+//                                .GetCellContent(dtgDataPendaftar.SelectedItems[i]) as TextBlock)
+//                            .Text;
+//                        alamat =
+//                            (dtgDataPendaftar.SelectedCells[4].Column
+//                                .GetCellContent(dtgDataPendaftar.SelectedItems[i]) as TextBlock)
+//                            .Text;
+//                    }
 
                     if (!string.IsNullOrEmpty(id))
                     {
@@ -206,8 +223,7 @@ namespace admin.views
                         }
                     }
 
-                    if (nama.Length > 48)
-                        nama = nama.Substring(0, 47);
+                    if (nama.Length > 48) nama = nama.Substring(0, 47);
 
                     if (!string.IsNullOrEmpty(nama))
                     {
@@ -231,8 +247,7 @@ namespace admin.views
                         }
                     }
 
-                    if (alamat.Length > 64)
-                        alamat = alamat.Substring(0, 67);
+                    if (alamat.Length > 64) alamat = alamat.Substring(0, 67);
 
                     if (!string.IsNullOrEmpty(alamat))
                     {

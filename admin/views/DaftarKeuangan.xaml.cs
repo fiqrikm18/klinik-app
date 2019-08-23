@@ -1,35 +1,22 @@
-﻿using admin.DBAccess;
+﻿using System;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using admin.DBAccess;
+using admin.forms;
 using admin.Mifare;
 using admin.models;
 using admin.Utils;
-using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace admin.views
 {
     /// <summary>
-    /// Interaction logic for DaftarKeuangan.xaml
+    ///     Interaction logic for DaftarKeuangan.xaml
     /// </summary>
     public partial class DaftarKeuangan : Page
     {
-        SqlConnection conn;
-        DBCommand cmd;
-
-        SmartCardOperation sp;
-
         private const byte Msb = 0x00;
         private readonly byte BlockAlamatFrom = 18;
         private readonly byte BlockAlamatTo = 22;
@@ -41,62 +28,122 @@ namespace admin.views
         private readonly byte BlockPasswordFrom = 25;
         private readonly byte BlockPasswordTo = 26;
         private readonly byte BlockTelp = 17;
+        private DBCommand cmd;
+        private SqlConnection conn;
+        private readonly SmartCardOperation sp;
 
         public DaftarKeuangan()
         {
             InitializeComponent();
-            conn = DBConnection.dbConnection();
-            cmd = new DBCommand(conn);
+
 
             sp = new SmartCardOperation();
 
             LoadData();
 
             if (!sp.IsReaderAvailable())
-            {
                 MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error",
                     MessageBoxButton.OK, MessageBoxImage.Error);
-            }
         }
 
         public void LoadData(string nama = null)
         {
-            List<Keuangan> ku = cmd.GetDataKeuangan();
+            conn = DBConnection.dbConnection();
+            cmd = new DBCommand(conn);
 
-            if (String.IsNullOrEmpty(nama))
+            var ku = cmd.GetDataKeuangan();
+
+            if (string.IsNullOrEmpty(nama))
             {
                 dtgDataKeuangan.ItemsSource = ku;
+            }
+            else
+            {
+                var fill = ku.Where(x => x.nama.ToLower().Contains(nama.ToLower()));
+                dtgDataKeuangan.ItemsSource = fill;
             }
         }
 
         private void TxtSearchPasien_TextChanged(object sender, TextChangedEventArgs e)
         {
-
+            var source = sender as TextBox;
+            if (source.Text != "Nama") LoadData(source.Text);
         }
 
         private void TxtSearchPasien_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-
+            var source = e.Source as TextBox;
+            source.Clear();
         }
 
         private void BtnTambahApoteker_Click(object sender, RoutedEventArgs e)
         {
-
+            var tk = new TambahKeuangan(this);
+            tk.Show();
         }
 
         private void BtnUbahApoteker_Click(object sender, RoutedEventArgs e)
         {
+            var ku = new ModelKeuangan();
+            if (dtgDataKeuangan.SelectedItems.Count > 0)
+            {
+                foreach (ModelKeuangan k in dtgDataKeuangan.SelectedItems)
+                {
+                    ku.id = k.id;
+                    ku.nama = k.nama;
+                    ku.alamat = k.alamat;
+                    ku.telp = k.telp;
+                    ku.jenis_kelamin = k.jenis_kelamin;
+                    ku.password = k.password;
+                }
 
+                var uk = new UpdateKeuangan(this, ku);
+                uk.Show();
+            }
+            else
+            {
+                MessageBox.Show("Pilih data yang ingin diubah.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void BtnHapusApoteker_Click(object sender, RoutedEventArgs e)
         {
+            var res = false;
+            if (dtgDataKeuangan.SelectedItems.Count > 0)
+            {
+                foreach (ModelKeuangan k in dtgDataKeuangan.SelectedItems)
+                {
+                    if (cmd.DeleteDatakeuangan(k.id)) res = true;
 
+                    if (!res) break;
+                }
+
+                if (res)
+                {
+                    MessageBox.Show("Data berhasil dihapus.", "Informasi", MessageBoxButton.OK,
+                        MessageBoxImage.Information);
+                    LoadData();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Pilih data yang ingin dihapus.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void BtnPrint_Click(object sender, RoutedEventArgs e)
         {
-
+            if (dtgDataKeuangan.SelectedItems.Count > 0)
+            {
+                var id = "";
+                foreach (ModelKeuangan k in dtgDataKeuangan.SelectedItems) id = k.id;
+                var pv = new PVKeuangan(id);
+                pv.Show();
+            }
+            else
+            {
+                MessageBox.Show("Pilih data yang ingin dicetak.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void BtnCetakKartu_Click(object sender, RoutedEventArgs e)
@@ -111,9 +158,9 @@ namespace admin.views
                 var jenis_kelamin = "";
                 var password = "";
 
-                if(dtgDataKeuangan.SelectedItems.Count == 1)
+                if (dtgDataKeuangan.SelectedItems.Count == 1)
                 {
-                    foreach(Keuangan ku in dtgDataKeuangan.SelectedItems)
+                    foreach (ModelKeuangan ku in dtgDataKeuangan.SelectedItems)
                     {
                         id = ku.id;
                         nama = ku.nama;
@@ -125,41 +172,70 @@ namespace admin.views
 
                     if (!string.IsNullOrEmpty(id))
                     {
-                        if (sp.WriteBlock(Msb, BlockId, Util.ToArrayByte16(id))) { }
-                        else MessageBox.Show("Id gagal ditulis.");
+                        if (sp.WriteBlock(Msb, BlockId, Util.ToArrayByte16(id)))
+                        {
+                        }
+                        else
+                        {
+                            MessageBox.Show("Id gagal ditulis.");
+                        }
                     }
 
                     if (!string.IsNullOrEmpty(nama))
                     {
-                        if (sp.WriteBlockRange(Msb, BlockNamaFrom, BlockNamaTo, Util.ToArrayByte48(nama))) { }
-                        else MessageBox.Show("Nama gagal ditulis.");
+                        if (sp.WriteBlockRange(Msb, BlockNamaFrom, BlockNamaTo, Util.ToArrayByte48(nama)))
+                        {
+                        }
+                        else
+                        {
+                            MessageBox.Show("Nama gagal ditulis.");
+                        }
                     }
 
-                    if (alamat.Length > 64)
-                        alamat = alamat.Substring(0, 67);
+                    if (alamat.Length > 64) alamat = alamat.Substring(0, 67);
 
                     if (!string.IsNullOrEmpty(alamat))
                     {
-                        if (sp.WriteBlockRange(Msb, BlockAlamatFrom, BlockAlamatTo, Util.ToArrayByte64(alamat))) { }
-                        else MessageBox.Show("Alamat gagal ditulis.");
+                        if (sp.WriteBlockRange(Msb, BlockAlamatFrom, BlockAlamatTo, Util.ToArrayByte64(alamat)))
+                        {
+                        }
+                        else
+                        {
+                            MessageBox.Show("Alamat gagal ditulis.");
+                        }
                     }
 
                     if (!string.IsNullOrEmpty(telp))
                     {
-                        if (sp.WriteBlock(Msb, BlockTelp, Util.ToArrayByte16(telp))) { }
-                        else MessageBox.Show("Telp gagal ditulis.");
+                        if (sp.WriteBlock(Msb, BlockTelp, Util.ToArrayByte16(telp)))
+                        {
+                        }
+                        else
+                        {
+                            MessageBox.Show("Telp gagal ditulis.");
+                        }
                     }
 
                     if (!string.IsNullOrEmpty(jenis_kelamin))
                     {
-                        if (sp.WriteBlock(Msb, BlockJenisKelamin, Util.ToArrayByte16(jenis_kelamin))) { }
-                        else MessageBox.Show("Jenis kelamin gagal ditulis.");
+                        if (sp.WriteBlock(Msb, BlockJenisKelamin, Util.ToArrayByte16(jenis_kelamin)))
+                        {
+                        }
+                        else
+                        {
+                            MessageBox.Show("Jenis kelamin gagal ditulis.");
+                        }
                     }
 
                     if (!string.IsNullOrEmpty(password))
                     {
-                        if (sp.WriteBlockRange(Msb, BlockPasswordFrom, BlockPasswordTo, Util.ToArrayByte32(password))) { }
-                        else MessageBox.Show("Password gagal ditulis.");
+                        if (sp.WriteBlockRange(Msb, BlockPasswordFrom, BlockPasswordTo, Util.ToArrayByte32(password)))
+                        {
+                        }
+                        else
+                        {
+                            MessageBox.Show("Password gagal ditulis.");
+                        }
                     }
 
                     MessageBox.Show("Kartu staff berhasil ditulis.", "Informasi", MessageBoxButton.OK,

@@ -16,9 +16,9 @@ namespace dokter.forms
         private readonly DBCommand cmd;
 
         private readonly SqlConnection conn;
+        private readonly InputRekamMedis mw;
         private string desk;
         private string kode;
-        private readonly InputRekamMedis mw;
 
         public PopupTindakan(InputRekamMedis mw)
         {
