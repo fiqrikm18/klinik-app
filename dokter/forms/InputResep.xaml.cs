@@ -254,8 +254,6 @@ namespace dokter.forms
 
             if (CheckTextBoxEmpty())
             {
-                //var mdr = new ModelDetailResep(txtKodeResep.Text, kode_obat, txtObat.Text, txtPemakaian.Text, txtKeterangan.Text, txtJumlah.Text);
-
                 if (cbWaktuPemakaian.SelectedIndex == 0)
                 {
                     cbWaktuPemakaian.Text = "";
