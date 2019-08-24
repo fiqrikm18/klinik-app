@@ -64,11 +64,17 @@ namespace Apotik.views
                             harga_resep);
 
                         if (res)
+                        {
                             MessageBox.Show("Data obat berhasil disimpan.", "Informasi", MessageBoxButton.OK,
                                 MessageBoxImage.Information);
+                            _mObat = new ModelObat(" ", " ", " ", " ", " ", " ", " ");
+                            DataContext = _mObat;
+                        }
                         else
+                        {
                             MessageBox.Show("Data obat gagal disimpan.", "Error", MessageBoxButton.OK,
                                 MessageBoxImage.Error);
+                        }
                     }
                 }
                 else
@@ -83,8 +89,6 @@ namespace Apotik.views
                     MessageBoxImage.Error);
             }
 
-            _mObat = new ModelObat(" ", " ", " ", " ", " ", " ", " ");
-            DataContext = _mObat;
             e.Handled = true;
         }
 

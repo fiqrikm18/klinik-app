@@ -201,7 +201,8 @@
                         <ComboBoxItem Content="pulv." />
                         <ComboBoxItem Content="pulv.adsp." />
                         <ComboBoxItem Content="sol." />
-                        <ComboBoxItem Content="tab" />
+                        <ComboBoxItem Content="tab." />
+                        <ComboBoxItem Content="puff." />
                         <ComboBoxItem Content="tinc." />
                     </ComboBox>
 
@@ -211,13 +212,15 @@
                         <ComboBoxItem Content="a merid" />
                         <ComboBoxItem Content="an" />
                         <ComboBoxItem Content="a.c" />
+                        <ComboBoxItem Content="d.c" />
                         <ComboBoxItem Content="p.c" />
                         <ComboBoxItem Content="i.s." />
+                        <ComboBoxItem Content="p.r.n" />
                         <ComboBoxItem Content="hd" />
                         <ComboBoxItem Content="h xa mat" />
                         <ComboBoxItem Content="h.m." />
-                        <ComboBoxItem Content="hs" />
-                        <ComboBoxItem Content="hv" />
+                        <ComboBoxItem Content="h.s." />
+                        <ComboBoxItem Content="h.v." />
                         <ComboBoxItem Content="m et v" />
                         <ComboBoxItem Content="om" />
                         <ComboBoxItem Content="on" />
@@ -229,7 +232,7 @@
 
                 <StackPanel Grid.Column="0" Grid.Row="1">
                     <StackPanel Margin="20,8,1,8">
-                        <Label Content="Keterangan:" />
+                        <Label Content="Tempat Pemakaian:" />
                     </StackPanel>
                 </StackPanel>
 
@@ -299,7 +302,7 @@
                             Header="Aturan Pakai" Width="150" />
                         <DataGridTextColumn
                             Binding="{Binding ket, NotifyOnTargetUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            Header="Keterangan" Width="150" />
+                            Header="Tempat Pemakaian" Width="150" />
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>

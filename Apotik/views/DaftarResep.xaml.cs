@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using Apotik.DBAccess;
-using Apotik.SckServer;
 
 namespace Apotik.views
 {
@@ -13,6 +12,7 @@ namespace Apotik.views
     public partial class DaftarResep : Page
     {
         private readonly DBCommand cmd;
+
         private readonly SqlConnection conn;
         //private Listener listener;
 

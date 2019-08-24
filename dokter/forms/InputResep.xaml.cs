@@ -122,6 +122,7 @@ namespace dokter.forms
 
         private void btnAddToList_Click(object sender, RoutedEventArgs e)
         {
+            
             var dosis = txtDosis + " " + cbSatuanDosis.Text;
             var pemakaian = cbAturanPakai.Text + " " + cbSediaanObat.Text + " " + txtJumPemakaian + " " +
                             cbWaktuPemakaian.Text;
@@ -255,6 +256,11 @@ namespace dokter.forms
             {
                 //var mdr = new ModelDetailResep(txtKodeResep.Text, kode_obat, txtObat.Text, txtPemakaian.Text, txtKeterangan.Text, txtJumlah.Text);
 
+                if (cbWaktuPemakaian.SelectedIndex == 0)
+                {
+                    cbWaktuPemakaian.Text = "";
+                }
+                
                 var dosis = txtDosis.Text + " " + cbSatuanDosis.Text;
                 var pemakaian = cbAturanPakai.Text + " " + cbSediaanObat.Text + " " + txtJumPemakaian.Text + " " +
                                 cbWaktuPemakaian.Text;
@@ -288,7 +294,7 @@ namespace dokter.forms
                 !string.IsNullOrEmpty(txtJumlah.Text)
                 && !string.IsNullOrEmpty(txtDosis.Text) && !string.IsNullOrEmpty(txtJumPemakaian.Text)
                 && cbSatuanDosis.SelectedIndex != 0 && cbAturanPakai.SelectedIndex != 0
-                && cbSediaanObat.SelectedIndex != 0 && cbWaktuPemakaian.SelectedIndex != 0)
+                && cbSediaanObat.SelectedIndex != 0)
                 return true;
 
             return false;

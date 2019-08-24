@@ -13,8 +13,8 @@ namespace admin
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly SmartCardOperation sp;
         private readonly string role = Settings.Default.role;
+        private readonly SmartCardOperation sp;
 
         public MainWindow()
         {

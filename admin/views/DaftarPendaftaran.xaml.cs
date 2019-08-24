@@ -97,7 +97,7 @@ namespace admin.views
 
             if (dtgDataPendaftar.SelectedItems.Count > 0)
             {
-                foreach(MPendaftaran data in dtgDataPendaftar.SelectedItems)
+                foreach (MPendaftaran data in dtgDataPendaftar.SelectedItems)
                 {
                     id = data.id;
                     nama = data.nama;
@@ -105,7 +105,7 @@ namespace admin.views
                     telp = data.telp;
                     alamat = data.alamat;
                 }
-                
+
 //                for (var i = 0; i < dtgDataPendaftar.SelectedItems.Count; i++)
 //                {
 //                    id = (dtgDataPendaftar.SelectedCells[0].Column
@@ -134,7 +134,8 @@ namespace admin.views
         {
             if (dtgDataPendaftar.SelectedItems.Count > 0)
             {
-                var a = MessageBox.Show("Anda yakin ingin menghapus data staff?", "Confirmation", MessageBoxButton.YesNo,
+                var a = MessageBox.Show("Anda yakin ingin menghapus data staff?", "Confirmation",
+                    MessageBoxButton.YesNo,
                     MessageBoxImage.Warning);
 
                 if (a == MessageBoxResult.Yes)
@@ -179,7 +180,7 @@ namespace admin.views
 
                 if (dtgDataPendaftar.SelectedItems.Count > 0)
                 {
-                    foreach(MPendaftaran data in dtgDataPendaftar.SelectedItems)
+                    foreach (MPendaftaran data in dtgDataPendaftar.SelectedItems)
                     {
                         id = data.id;
                         nama = data.nama;
@@ -187,7 +188,7 @@ namespace admin.views
                         telp = data.telp;
                         alamat = data.alamat;
                     }
-                    
+
 //                    for (var i = 0; i < dtgDataPendaftar.SelectedItems.Count; i++)
 //                    {
 //                        id =

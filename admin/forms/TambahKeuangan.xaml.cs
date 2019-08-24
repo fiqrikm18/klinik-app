@@ -30,11 +30,11 @@ namespace admin.forms
         private readonly DBCommand cmd;
 
         private readonly SqlConnection conn;
-        private ModelKeuangan _mDaftarBaru = new ModelKeuangan(" ", " ", " ", " ", " ", " ");
-        private int _noOfErrorsOnScreen;
         private readonly DaftarKeuangan dk;
 
         private readonly SmartCardOperation sp;
+        private ModelKeuangan _mDaftarBaru = new ModelKeuangan(" ", " ", " ", " ", " ", " ");
+        private int _noOfErrorsOnScreen;
 
         public TambahKeuangan(DaftarKeuangan dk)
         {

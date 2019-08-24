@@ -29,6 +29,7 @@ namespace pendaftaran.views
         private readonly SmartCardOperation sp;
 
         private int no_urut;
+
         private string poli = "";
         //private Socket sck2;
 

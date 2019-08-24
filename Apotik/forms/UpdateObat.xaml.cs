@@ -14,8 +14,8 @@ namespace Apotik.forms
     public partial class UpdateObat : Window
     {
         private readonly DaftarObat daftarObat = new DaftarObat();
-        private int _noOfErrorsOnScreen;
         private readonly ModelObat mo = new ModelObat(" ", " ", " ", " ", " ", " ", " ");
+        private int _noOfErrorsOnScreen;
 
         public UpdateObat(string kode_obat, string nama_obat, string stok, string satuan, string harga_jual,
             string harga_beli, string harga_resep, DaftarObat d)

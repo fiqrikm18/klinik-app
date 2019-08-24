@@ -28,9 +28,9 @@ namespace admin.views
         private readonly byte BlockPasswordFrom = 25;
         private readonly byte BlockPasswordTo = 26;
         private readonly byte BlockTelp = 17;
+        private readonly SmartCardOperation sp;
         private DBCommand cmd;
         private SqlConnection conn;
-        private readonly SmartCardOperation sp;
 
         public DaftarKeuangan()
         {

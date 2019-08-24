@@ -24,13 +24,17 @@ namespace pendaftaran.forms
     {
         private const byte Msb = 0x00;
         private readonly byte blockAlamatForm = 8;
+
         private readonly byte blockAlamatTo = 12;
+
         //private readonly byte blockGolDarah = 13;
         //private readonly byte blockIdPasien = 1;
         //private readonly byte blockJenisId = 18;
         private readonly byte blockJenisKelamin = 17;
         private readonly byte blockNamaFrom = 4;
+
         private readonly byte blockNamaTo = 6;
+
         //private readonly byte blockNoRekamMedis = 2;
         private readonly byte blockNoTelp = 14;
         //private readonly byte blockTglLahir = 16;

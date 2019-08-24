@@ -28,6 +28,7 @@ namespace admin.views
             cmd = new DBCommand(conn);
 
             var ap = cmd.GetDataApoteker();
+            ap.Insert(0, new MApoteker("Pilih", "Pilih", "Pilih", "Pilih", "Pilih"));
 
             cbPoliklinik.SelectedIndex = 0;
             cbPoliklinik.DisplayMemberPath = "nama_apoteker";
@@ -44,6 +45,10 @@ namespace admin.views
             var data = cmd.GetDataTransaksi();
 
             if (apoteker == null && tgl == null)
+            {
+                dtgAntrian.ItemsSource = data;
+            }
+            else if(apoteker == "Pilih" && tgl == DateTime.Now.ToShortDateString())
             {
                 dtgAntrian.ItemsSource = data;
             }

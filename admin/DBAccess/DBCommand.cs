@@ -348,7 +348,7 @@ namespace admin.DBAccess
         public List<MApoteker> GetDataApoteker()
         {
             var apoteker = new List<MApoteker>();
-            apoteker.Add(new MApoteker("pilih", "Pilih", "pilih", "pilih", "pilih"));
+            //apoteker.Add(new MApoteker("pilih", "Pilih", "pilih", "pilih", "pilih"));
 
             try
             {

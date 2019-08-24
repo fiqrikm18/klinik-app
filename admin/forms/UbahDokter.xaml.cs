@@ -28,8 +28,8 @@ namespace admin.forms
         private readonly byte BlockPasswordFrom = 28;
         private readonly byte BlockPasswordTo = 29;
         private readonly byte BlockSpesialisasi = 24;
-
         private readonly byte BlockTelp = 17;
+        private readonly byte BlockTugas = 25;
         private readonly DBCommand cmd;
 
         private readonly SqlConnection conn;

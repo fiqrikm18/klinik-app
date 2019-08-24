@@ -42,14 +42,14 @@ namespace admin.views
             conn = DBConnection.dbConnection();
             cmd = new DBCommand(conn);
 
-//            if (sp.IsReaderAvailable())
-//            {
-//            }
-//            else
-//            {
-//                MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error",
-//                    MessageBoxButton.OK, MessageBoxImage.Error);
-//            }
+            if (sp.IsReaderAvailable())
+            {
+            }
+            else
+            {
+                MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
 
             displayDataApoteker();
         }
@@ -107,7 +107,7 @@ namespace admin.views
                     telp = data.no_telp;
                     alamat = data.alamat;
                 }
-                
+
 //                for (var i = 0; i < dtgDataApoteker.SelectedItems.Count; i++)
 //                {
 //                    id = (dtgDataApoteker.SelectedCells[0].Column

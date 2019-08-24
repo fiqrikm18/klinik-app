@@ -46,14 +46,14 @@ namespace admin.views
 
             displayDataDokter();
 
-//            if (sp.IsReaderAvailable())
-//            {
-//            }
-//            else
-//            {
-//                MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error",
-//                    MessageBoxButton.OK, MessageBoxImage.Error);
-//            }
+            if (sp.IsReaderAvailable())
+            {
+            }
+            else
+            {
+                MessageBox.Show("Tidak ada reader tersedia, pastikan reader sudah terhubung dengan komputer.", "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         public void displayDataDokter(string nama = null)
@@ -113,7 +113,7 @@ namespace admin.views
                     spesialis = data.spesialisasi;
                     tugas = data.tugas;
                 }
-                
+
 //                for (var i = 0; i < dtgDataDokter.SelectedItems.Count; i++)
 //                {
 //                    id = (dtgDataDokter.SelectedCells[0].Column
@@ -203,7 +203,7 @@ namespace admin.views
                         spesialis = data.spesialisasi;
                         tugas = data.tugas;
                     }
-                    
+
 //                    for (var i = 0; i < dtgDataDokter.SelectedItems.Count; i++)
 //                    {
 //                        id =
@@ -382,9 +382,11 @@ namespace admin.views
 
                 MessageBox.Show(msg, "Informasi Kartu", MessageBoxButton.OK, MessageBoxImage.Information);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                MessageBox.Show("Terjadi kesalahan, pastikan kartu sudah berada pada jangkauan reader.", "Error",
+                //MessageBox.Show("Terjadi kesalahan, pastikan kartu sudah berada pada jangkauan reader.", "Error",
+                //    MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, "Error",
                     MessageBoxButton.OK, MessageBoxImage.Error);
                 sp.isoReaderInit();
             }
